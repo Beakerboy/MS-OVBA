@@ -13,6 +13,9 @@ from vbaproject_compiler.Models.Entities.reference_record import (
 
 
 def test_dirstream() -> None:
+    '''
+    The cache is not yet tested.
+    '''
     module_cache = ModuleCache(0xB5, 0x08F3)
     # Read the data from the demo file and decompress it.
     f = open('tests/blank/vbaProject.bin', 'rb')
