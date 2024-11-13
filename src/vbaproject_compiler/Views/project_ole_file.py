@@ -59,9 +59,9 @@ class ProjectOleFile:
         directory.add_directory(stream)
         return directory
 
-    def _write_ole_file(self: T, root: str) -> None:
+    def _write_ole_file(self: T, root: RootDirectory) -> None:
         ole_file = OleFile()
-        ole_file.set_root_directory(root)
+        ole_file.root_directory = root
         ole_file.create_file("vbaProject.bin")
 
     def write_file(self: T) -> None:
