@@ -29,6 +29,7 @@ class ProjectOleFile:
         Organize the modules and views into the correct storage directories
         """
         directory = RootDirectory()
+        directory.set_modified(self.project.default_date)
         storage = StorageDirectory("VBA")
         for module in self._project.get_modules():
             module.write_file()
