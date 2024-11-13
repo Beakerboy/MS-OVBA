@@ -9,7 +9,7 @@ def test_normalize() -> None:
     cache = ModuleCache(0xB5, 0x08F3)
     cache.module_cookie = 0xB81C
     cache.misc = [[0x0316, 0, 0x0123, 0x88],
-                  0x18, 0xFFFF, "00000000", 1, -1, 0]
+                  8, 0xFFFF, "00000000", 1, -1, 0]
     guid = uuid.UUID('0002081900000000C000000000000046')
     cache.guid = [guid]
 
