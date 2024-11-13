@@ -17,8 +17,20 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("directory",
                         help="The directory that contains your files.")
+    parser.add_argument("-c", "--create", action="store_true",
+                        help="Create an vbaProject.bin from a directory.")
+    help_string = ("Display metadata on the project and list the modules that "
+                   "it contains.")
+    parser.add_argument("-l", "--list", action="store_true",
+                        help=help_string)
+    parser.add_argument("-x", "--extract", action="store_true",
+                        help="Extract files from an OLE file to a directory.")
     args = parser.parse_args()
-    # cd args.output
+    if args.create:
+        main_create(args)
+
+
+def main_create(args: argparse.Namespace) -> None:
     # build a list of all bas, cls, frm, and frx files
     bas_files = glob.glob(args.directory + '/**/*.bas', recursive=True)
     # cls_files = glob.glob('*.cls')
