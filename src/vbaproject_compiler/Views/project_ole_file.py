@@ -31,6 +31,8 @@ class ProjectOleFile:
         directory = RootDirectory()
         directory.set_modified(self._project.default_date)
         storage = StorageDirectory("VBA")
+        storage.set_created(self._project.default_date)
+        storage.set_modified(self._project.default_date)
         for module in self._project.get_modules():
             module.write_file()
             dir = StreamDirectory(module.get_name(), module.get_bin_path())
