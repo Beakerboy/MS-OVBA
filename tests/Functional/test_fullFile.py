@@ -163,7 +163,7 @@ def test_full_file() -> None:
     std_flat = ole_standard.root_directory.flatten()
     new_flat = ole_new.root_directory.flatten()
     assert (len(std_flat) == len(new_flat))
-    
+
     assert str(std_flat[1]) == str(new_flat[1])
 
     # assert new.read(512) == expected.read(512)
