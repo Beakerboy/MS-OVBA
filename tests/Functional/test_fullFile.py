@@ -117,7 +117,7 @@ def test_full_file() -> None:
     module1.set_cookie(cookie)
     module_cache = ModuleCache(0xB5, proj_cookie)
     module_cache.clear_variables()
-    module_cache.misc = [[0x0316, 3, 0, 2], 
+    module_cache.misc = [[0x0316, 3, 0, 2],
                          0, 0xFFFF, "FFFFFFFF", 0, -1, 0]
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
     module_cache.module_cookie = cookie
