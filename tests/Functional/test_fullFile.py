@@ -118,7 +118,7 @@ def test_full_file() -> None:
     module_cache = ModuleCache(0xB5, proj_cookie)
     module_cache.clear_variables()
     module_cache.misc = [[0x0316, 3, 0, 2],
-                         [-1, 0], 0xFFFF, "FFFFFFFF", 0, 0]
+                         [-1, 0], 0xFFFF, 0, [0, "FFFFFFFF"]]
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
     module_cache.module_cookie = cookie
     module1.add_workspace(26, 26, 1349, 522, 'Z')
@@ -254,8 +254,7 @@ def create_doc_module(project: VbaProject, name: str,
     proj_cookie = project.get_project_cookie()
     module_cache = ModuleCache(cache_ver, proj_cookie)
     module_cache.misc = [[0x0316, 0x0100, 0x88, 8],
-                         [-1, 0x18], 0xFFFF, "00000000",
-                         1, 0]
+                         [-1, 0x18], 0xFFFF, 0, [1, "00000000"]]
     indirect_table = ("02 80 FE FF FF FF FF FF 20 00 00 00 FF FF FF FF",
                       "30 00 00 00 02 01 FF FF 00 00 00 00 00 00 00 00",
                       "FF FF FF FF FF FF FF FF 00 00 00 00 2E 00 43 00",
