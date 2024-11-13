@@ -4,7 +4,7 @@ import struct
 import unittest.mock
 import uuid
 from ms_cfb.ole_file import OleFile
-from ms_dtyp.filetime import Filetime
+# from ms_dtyp.filetime import Filetime
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_pcode_assembler.module_cache import ModuleCache
 from vbaproject_compiler.vbaProject import VbaProject
@@ -132,10 +132,10 @@ def test_full_file() -> None:
     project.add_module(sheet1)
     project.add_module(this_workbook)
 
-    time = Filetime.from_msfiletime(0x01D92433C2B823C0)
+    # time = Filetime.from_msfiletime(0x01D92433C2B823C0)
 
     ole_file = ProjectOleFile(project)
-    ole_file.root_directory.set_modified(time)
+    # ole_file.root_directory.set_modified(time)
     ole_file.write_file()
 
     # storage.set_modified(time)
