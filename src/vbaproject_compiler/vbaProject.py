@@ -42,7 +42,7 @@ class VbaProject:
     @default_date.setter
     def default_date(self: T, date: Filetime) -> None:
         self._default_date = date
-        
+
     def set_project_id(self: T, id: str) -> None:
         self._project_id = id
 
