@@ -135,7 +135,7 @@ def test_full_file() -> None:
     time = Filetime.from_msfiletime(0x01D92433C2B823C0)
 
     ole_file = ProjectOleFile(project)
-    olefile.root_directory.set_modified(time)
+    ole_file.root_directory.set_modified(time)
     ole_file.write_file()
 
     # storage.set_modified(time)
