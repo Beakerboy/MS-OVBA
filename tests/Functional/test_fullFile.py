@@ -166,9 +166,9 @@ def test_full_file() -> None:
     std_str = ""
     new_str = ""
     for dir in std_flat:
-        std_str += str(dir)
+        std_str += "\n" + str(dir)
     for dir in new_flat:
-        new_str += str(dir)
+        new_str += "\n" + str(dir)
     assert std_str == new_str
 
     # assert new.read(512) == expected.read(512)
