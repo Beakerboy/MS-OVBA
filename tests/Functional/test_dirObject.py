@@ -83,7 +83,7 @@ def test_dirstream() -> None:
     module1.set_cookie(0xB241)
     module_cache.clear_variables()
     module_cache.cookie = 0xB241
-    module_cache.misc = [[0x0316, 3, 0, 8],
+    module_cache.misc = [[0x0316, 3, 0, 7],
                          2, 0xFFFF, "FFFFFFFF", 0, -1, 0]
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
     module1.set_cache(module_cache.to_bytes())
@@ -94,6 +94,7 @@ def test_dirstream() -> None:
 
     assert stream.to_bytes() == decompressed_stream
 
-    # The compression results are not the same.
+    # The OEM and 3rd party compression results are not the same,
+    # so we compare the uncompressed streams.
     compressed = ms_ovba.compress(stream.to_bytes())
     assert ms_ovba.decompress(compressed) == decompressed_stream
