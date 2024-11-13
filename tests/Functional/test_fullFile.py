@@ -76,7 +76,7 @@ def test_full_file() -> None:
     rand = [0x41, 0xBC, 0x7B, 0x7B, 0x37, 0x7B, 0x7B, 0x7B]
     NotSoRandom.set_seed(rand)
     project = VbaProject()
-    project.default_date(Filetime.from_msfiletime(0x01D92433C2B823C0))
+    project.default_date = Filetime.from_msfiletime(0x01D92433C2B823C0)
     project.set_include_projectwm(True)
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
