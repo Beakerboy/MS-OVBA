@@ -2,6 +2,7 @@ from vbaproject_compiler.Models.Entities.module_base import ModuleBase
 from vbaproject_compiler.Models.Entities.reference_record import (
     ReferenceRecord
 )
+from ms_dtyp.filetime import Filetime
 from typing import TypeVar
 
 
@@ -33,6 +34,15 @@ class VbaProject:
         self._project_wm = False
 
     # Getters and Setters
+
+    @property
+    def default_date(self: T) -> FileTime:
+        return self._default_date
+
+    @default_date.setter
+    def default_date(self: T, date: FileTime) -> None:
+        self._default_date = date
+        
     def set_project_id(self: T, id: str) -> None:
         self._project_id = id
 
