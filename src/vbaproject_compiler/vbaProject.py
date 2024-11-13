@@ -36,11 +36,11 @@ class VbaProject:
     # Getters and Setters
 
     @property
-    def default_date(self: T) -> FileTime:
+    def default_date(self: T) -> Filetime:
         return self._default_date
 
     @default_date.setter
-    def default_date(self: T, date: FileTime) -> None:
+    def default_date(self: T, date: Filetime) -> None:
         self._default_date = date
         
     def set_project_id(self: T, id: str) -> None:
