@@ -64,7 +64,7 @@ def test_dirstream() -> None:
                     "02 3C FF FF FF FF 00 00")
     module_cache.object_table = bytes.fromhex(" ".join(object_table))
     module_cache.misc = [[0x0316, 0x0123, 0x88, 8],
-                         0x18, 0xFF, "00000000", 1, -1, 0]
+                         [-1, 0x18], 0xFF, "00000000", 1, 0]
 
     this_workbook = DocModule("ThisWorkbook")
     this_workbook.set_cookie(0xB81C)
@@ -87,7 +87,7 @@ def test_dirstream() -> None:
     module_cache.clear_variables()
     module_cache.cookie = 0xB241
     module_cache.misc = [[0x0316, 3, 0, 7],
-                         2, 0xFFFF, "FFFFFFFF", 0, -1, 0]
+                         [-1, 2], 0xFFFF, "FFFFFFFF", 0, 0]
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
     module1.set_cache(module_cache.to_bytes())
 
