@@ -32,7 +32,7 @@ class VbaProject:
         self._project_cookie = 0xFFFF
 
         self._project_wm = False
-
+        self._default_date = Filetime.from_msfiletime(0x0000000000000000)
     # Getters and Setters
 
     @property
