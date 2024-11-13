@@ -4,6 +4,7 @@ import struct
 import unittest.mock
 import uuid
 from ms_cfb.ole_file import OleFile
+from ms_dtyp.filetime import Filetime
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_pcode_assembler.module_cache import ModuleCache
 from vbaproject_compiler.vbaProject import VbaProject
