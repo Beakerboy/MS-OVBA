@@ -262,18 +262,22 @@ def create_doc_module(project: VbaProject, name: str,
 
     cache_ver = project.get_performance_cache_version()
     proj_cookie = project.get_project_cookie()
-    module_cache = ModuleCache(cache_ver, proj_cookie)
-    module_cache.misc = [[0x0316, 0x0100, 0x88, 8],
-                         [-1, 0x18], 0xFFFF, 0, [1, "00000000"]]
+    module_cache = ModuleCache(cache_ver, proj_cookie, signature=3)
+    cache.header.data3 = 0x88
+    cache.header.data4 = 8
+    module_cache.misc = [[-1, 0x18], 0xFFFF, 0, [1, "00000000"]]
     indirect_table = ("02 80 FE FF FF FF FF FF 20 00 00 00 FF FF FF FF",
                       "30 00 00 00 02 01 FF FF 00 00 00 00 00 00 00 00",
                       "FF FF FF FF FF FF FF FF 00 00 00 00 2E 00 43 00",
                       "1D 00 00 00 25 00 00 00 FF FF FF FF 40 00 00 00")
     module_cache.indirect_table = bytes.fromhex(" ".join(indirect_table))
-    object_table = ("02 00 53 4C FF FF FF FF 00 00 01 00 53 10 FF FF",
-                    "FF FF 00 00 01 00 53 94 FF FF FF FF 00 00 00 00",
-                    "02 3C FF FF FF FF 00 00")
-    module_cache.object_table = bytes.fromhex(" ".join(object_table))
+
+    object_table = [[2, 0x4C53], [1, 0x1053], [1, 0x9453], [0, 0x3C02]]
+    object_table_bytes = b''
+    for entry in object_table:
+        object_table_bytes += struct.pack("<HHiH", *entry, -1, 0)
+    module_cache.object_table = object_table_bytes
+
     module_cache.guid = [guid]
     module_cache.module_cookie = cookie
 
