@@ -6,10 +6,11 @@ from vbaproject_compiler.Models.Entities.doc_module import DocModule
 
 def test_normalize() -> None:
 
-    cache = ModuleCache(0xB5, 0x08F3)
+    cache = ModuleCache(0xB5, 0x08F3, signature=3)
     cache.module_cookie = 0xB81C
-    cache.misc = [[0x0316, 0, 0x0123, 0x88],
-                  [-1, 8], 24, 0, [1, "00000000"]]
+    cache.header.data3 = 0x0123
+    cache.header.data4 = 0x88
+    cache.misc = [[-1, 8], 24, 0, [1, "00000000"]]
     guid = uuid.UUID('0002081900000000C000000000000046')
     cache.guid = [guid]
 
