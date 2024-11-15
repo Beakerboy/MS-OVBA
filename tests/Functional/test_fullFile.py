@@ -263,8 +263,8 @@ def create_doc_module(project: VbaProject, name: str,
     cache_ver = project.get_performance_cache_version()
     proj_cookie = project.get_project_cookie()
     module_cache = ModuleCache(cache_ver, proj_cookie, signature=3)
-    cache.header.data3 = 0x88
-    cache.header.data4 = 8
+    module_cache.header.data3 = 0x88
+    module_cache.header.data4 = 8
     module_cache.misc = [[-1, 0x18], 0xFFFF, 0, [1, "00000000"]]
     indirect_table = ("02 80 FE FF FF FF FF FF 20 00 00 00 FF FF FF FF",
                       "30 00 00 00 02 01 FF FF 00 00 00 00 00 00 00 00",
