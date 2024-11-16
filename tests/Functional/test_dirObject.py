@@ -16,7 +16,7 @@ def test_dirstream() -> None:
     '''
     The cache is not yet tested.
     '''
-    module_cache = ModuleCache(0xB5, 0x08F3)
+    module_cache = ModuleCache(0xB5, 0x08F3, signature=3)
     # Read the data from the demo file and decompress it.
     f = open('tests/blank/vbaProject.bin', 'rb')
     offset = 0x1EC0
@@ -63,9 +63,10 @@ def test_dirstream() -> None:
                     "FF FF 00 00 01 00 53 94 FF FF FF FF 00 00 00 00",
                     "02 3C FF FF FF FF 00 00")
     module_cache.object_table = bytes.fromhex(" ".join(object_table))
-    module_cache.misc = [[0x0316, 0x0123, 0x88, 8],
-                         [-1, 0x18], 0xFF, 0, [1, "00000000"]]
-
+    module_cache.misc = [[-1, 0x18], 0xFF, 0, [1, "00000000"]]
+    module_cache.header.data2 = 0x0123
+    module_cache.header.data3 = 0x88
+    module_cache.header.sata4 = 8
     this_workbook = DocModule("ThisWorkbook")
     this_workbook.set_cookie(0xB81C)
     module_cache.cookie = 0xB81C
@@ -86,8 +87,10 @@ def test_dirstream() -> None:
     module1.set_cookie(0xB241)
     module_cache.clear_variables()
     module_cache.cookie = 0xB241
-    module_cache.misc = [[0x0316, 3, 0, 7],
-                         [-1, 2], 0xFFFF, 0, [0, "FFFFFFFF"]]
+    module_cache.misc = [[-1, 2], 0xFFFF, 0, [0, "FFFFFFFF"]]
+    module_cache.header.data2 = 3
+    module_cache.header.data3 = 0
+    module_cache.header.sata4 = 7
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
     module1.set_cache(module_cache.to_bytes())
 
