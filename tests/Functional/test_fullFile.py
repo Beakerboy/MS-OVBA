@@ -117,10 +117,10 @@ def test_full_file() -> None:
     module1 = StdModule("Module1")
     cookie = 0xB241
     module1.set_cookie(cookie)
-    module_cache = ModuleCache(0xB5, proj_cookie)
-    module_cache.clear_variables()
-    module_cache.misc = [[0x0316, 3, 0, 2],
-                         [-1, 0], 0xFFFF, 0, [0, "FFFFFFFF"]]
+    module_cache = ModuleCache(0xB5, proj_cookie, signature=3)
+    module_cache.header.data2 = 3
+    module_cache.header.data4 = 2
+    module_cache.misc = [[-1, 0], 0xFFFF, 0, [0, "FFFFFFFF"]]
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
     module_cache.module_cookie = cookie
     module1.add_workspace(26, 26, 1349, 522, 'Z')
