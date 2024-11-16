@@ -226,7 +226,7 @@ def create_cache() -> bytes:
     for lib in libraries:
         lib_str = bytearray(str(lib), "utf_16_le")
         ca += struct.pack("<H", len(lib_str))
-        ca += bytearray(lib_str, "utf_16_le")
+        ca += lib_str
         ca += struct.pack("<IIIH", 0, 0, 0)
         i += 1
     ca += struct.pack("<17H", 2, 2, 1, 6, 0x0212, 0, 0x0214, 1, 0x0216, 1,
