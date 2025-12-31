@@ -10,7 +10,7 @@ Eventually it will be possible to use the CLI to create a vbaProject.bin file fr
 The vbaProject class contains all the data and metadata that is used to create the OLE container.
 
 ```python
-from vbaProjectCompiler.vbaProject import VbaProject
+from ms_ovba.vbaProject import VbaProject
 from ms_cfb.ole_file import OleFile
 
 
