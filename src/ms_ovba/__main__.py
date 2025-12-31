@@ -2,14 +2,14 @@ import argparse
 import glob
 import os
 import uuid
-from vbaproject_compiler.vbaProject import VbaProject
-from vbaproject_compiler.Models.Entities.doc_module import DocModule
-from vbaproject_compiler.Models.Entities.std_module import StdModule
-from vbaproject_compiler.Views.project_ole_file import ProjectOleFile
-from vbaproject_compiler.Models.Entities.reference_record import (
+from ms_ovba.vbaProject import VbaProject
+from ms_ovba.Models.Entities.doc_module import DocModule
+from ms_ovba.Models.Entities.std_module import StdModule
+from ms_ovba.Views.project_ole_file import ProjectOleFile
+from ms_ovba.Models.Entities.reference_record import (
     ReferenceRecord
 )
-from vbaproject_compiler.Models.Fields.libid_reference import LibidReference
+from ms_ovba.Models.Fields.libid_reference import LibidReference
 
 
 def main() -> None:
