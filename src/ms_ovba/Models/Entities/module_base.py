@@ -1,9 +1,9 @@
 from ms_ovba_compression.ms_ovba import MsOvba
-from vbaproject_compiler.Models.Fields.doubleEncodedString import (
+from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
 )
-from vbaproject_compiler.Models.Fields.packed_data import PackedData
-from vbaproject_compiler.Models.Fields.idSizeField import IdSizeField
+from ms_ovba.Models.Fields.packed_data import PackedData
+from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from typing import TypeVar
 
 
