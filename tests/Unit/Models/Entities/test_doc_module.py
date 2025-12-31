@@ -1,7 +1,7 @@
 import uuid
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_pcode_assembler.module_cache import ModuleCache
-from vbaproject_compiler.Models.Entities.doc_module import DocModule
+from ms_ovba.Models.Entities.doc_module import DocModule
 
 
 def test_normalize() -> None:
