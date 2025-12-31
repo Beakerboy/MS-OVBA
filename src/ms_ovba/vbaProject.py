@@ -1,5 +1,5 @@
-from vbaproject_compiler.Models.Entities.module_base import ModuleBase
-from vbaproject_compiler.Models.Entities.reference_record import (
+from ms_ovba.Models.Entities.module_base import ModuleBase
+from ms_ovba.Models.Entities.reference_record import (
     ReferenceRecord
 )
 from ms_dtyp.filetime import Filetime
