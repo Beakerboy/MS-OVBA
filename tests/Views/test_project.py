@@ -1,9 +1,9 @@
 import unittest.mock
 
-from vbaproject_compiler.vbaProject import VbaProject
-from vbaproject_compiler.Models.Entities.doc_module import DocModule
-from vbaproject_compiler.Models.Entities.std_module import StdModule
-from vbaproject_compiler.Views.project import Project
+from ms_ovba.vbaProject import VbaProject
+from ms_ovba.Models.Entities.doc_module import DocModule
+from ms_ovba.Models.Entities.std_module import StdModule
+from ms_ovba.Views.project import Project
 from typing import Type, TypeVar
 
 
