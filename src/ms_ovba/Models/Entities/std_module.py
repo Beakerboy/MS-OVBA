@@ -1,4 +1,4 @@
-from vbaproject_compiler.Models.Entities.module_base import ModuleBase
+from ms_ovba.Models.Entities.module_base import ModuleBase
 from typing import TypeVar
 
 
