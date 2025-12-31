@@ -1,4 +1,4 @@
-from vbaproject_compiler.Models.Entities.std_module import StdModule
+from ms_ovba.Models.Entities.std_module import StdModule
 
 
 def test_set_get_cache() -> None:
