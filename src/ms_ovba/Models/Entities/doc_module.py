@@ -1,5 +1,5 @@
 from ms_ovba_compression.ms_ovba import MsOvba
-from vbaproject_compiler.Models.Entities.module_base import ModuleBase
+from ms_ovba.Models.Entities.module_base import ModuleBase
 from typing import TypeVar
 
 
