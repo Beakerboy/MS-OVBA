@@ -1,11 +1,11 @@
 import struct
 from ms_ovba_compression.ms_ovba import MsOvba
-from vbaproject_compiler.vbaProject import VbaProject
-from vbaproject_compiler.Models.Fields.idSizeField import IdSizeField
-from vbaproject_compiler.Models.Fields.doubleEncodedString import (
+from ms_ovba.vbaProject import VbaProject
+from ms_ovba.Models.Fields.idSizeField import IdSizeField
+from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
 )
-from vbaproject_compiler.Models.Fields.packed_data import PackedData
+from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import TypeVar
 
 
