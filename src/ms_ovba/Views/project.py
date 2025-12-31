@@ -1,6 +1,6 @@
 import binascii
 import ms_ovba_crypto
-from vbaproject_compiler.vbaProject import VbaProject
+from ms_ovba.vbaProject import VbaProject
 from typing import TypeVar
 
 
