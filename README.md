@@ -4,7 +4,7 @@ Create a vbaProject.bin file from VBA source files.
 
 
 ## Command Line Interface
-Eventually it will ne possible to use the CLI to creatr a vbaProject.bin file from source files and an optional configuration file.
+Eventually it will ne possible to use the CLI to create a vbaProject.bin file from source files and an optional configuration file.
 
 ## VBAProject Class
 The vbaProject class contains all the data and metadata that is used to create the OLE container.
