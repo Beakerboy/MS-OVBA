@@ -40,7 +40,7 @@ def run_around_tests() -> None:
     # A test function will be run at this point
     yield
     # Code that will run after your test
-    root = "src/vbaproject_compiler/blank_files/"
+    root = "src/ms_ovba/blank_files/"
     root2 = "tests/blank/"
     names = [root + "ThisWorkbook.cls", root + "Sheet1.cls",
              root2 + "Module1.bas"]
@@ -104,7 +104,7 @@ def test_full_file() -> None:
     project.set_performance_cache(create_cache())
     project.set_performance_cache_version(0x00B5)
 
-    base_path = "src/vbaproject_compiler/blank_files/"
+    base_path = "src/ms_ovba/blank_files/"
     # Add Modules
     this_workbook = create_doc_module(project, "ThisWorkbook", 0xB81C,
                                       "0002081900000000C000000000000046",
