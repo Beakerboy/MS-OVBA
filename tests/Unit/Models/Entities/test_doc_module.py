@@ -25,7 +25,7 @@ def test_normalize() -> None:
     cache.object_table = bytes.fromhex(" ".join(object_table))
 
     module = DocModule("foo")
-    path1 = "src/vbaproject_compiler/blank_files/ThisWorkbook.cls"
+    path1 = "src/ms_ovba/blank_files/ThisWorkbook.cls"
     module.add_file(path1)
     module.cookie.value = 0xB81C
     guid = uuid.UUID('0002081900000000C000000000000046')
