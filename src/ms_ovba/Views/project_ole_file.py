@@ -2,11 +2,11 @@ from ms_cfb.ole_file import OleFile
 from ms_cfb.Models.Directories.root_directory import RootDirectory
 from ms_cfb.Models.Directories.storage_directory import StorageDirectory
 from ms_cfb.Models.Directories.stream_directory import StreamDirectory
-from vbaproject_compiler.vbaProject import VbaProject
-from vbaproject_compiler.Views.dirStream import DirStream
-from vbaproject_compiler.Views.project_view import ProjectView
-from vbaproject_compiler.Views.project import Project
-from vbaproject_compiler.Views.projectWm import ProjectWm
+from ms_ovba.vbaProject import VbaProject
+from ms_ovba.Views.dirStream import DirStream
+from ms_ovba.Views.project_view import ProjectView
+from ms_ovba.Views.project import Project
+from ms_ovba.Views.projectWm import ProjectWm
 from typing import TypeVar
 
 
