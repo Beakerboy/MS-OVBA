@@ -23,7 +23,7 @@ ole_file = OleFile(project)
 ole_file.create_file(".")
 ```
 
-The VbaProject class has many layers of customization available. For example a library referenece can be added to the project.
+The VbaProject class has many layers of customization available. For example a library reference can be added to the project.
 
 ```python
 codePage = 0x04E4
