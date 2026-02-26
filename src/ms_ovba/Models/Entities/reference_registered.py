@@ -6,10 +6,10 @@ from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import TypeVar
 
 
-T = TypeVar('T', bound='ReferenceRecord')
+T = TypeVar('T', bound='ReferenceRegistered')
 
 
-class ReferenceRecord():
+class ReferenceRegistered():
 
     def __init__(self: T, codepage_name: str,
                  name: str, libid_ref: LibidReference) -> None:
