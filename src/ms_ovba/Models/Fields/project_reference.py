@@ -19,7 +19,7 @@ class ProjectReference():
     def __len__(self):
         return len(str(self))
 
-    def _header(self: T): str
+    def _header(self: T):
         project_kind = 0x41
         if not(self._is_windows_path(project_path)):
             project_kind += 2
