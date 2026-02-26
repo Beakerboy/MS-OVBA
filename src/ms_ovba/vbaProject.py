@@ -1,6 +1,6 @@
 from ms_ovba.Models.Entities.module_base import ModuleBase
-from ms_ovba.Models.Entities.reference_record import (
-    ReferenceRecord
+from ms_ovba.Models.Entities.reference_registered import (
+    ReferenceRegistered
 )
 from ms_dtyp.filetime import Filetime
 from typing import TypeVar
@@ -107,5 +107,5 @@ class VbaProject:
     def add_module(self: T, mod: ModuleBase) -> None:
         self.modules.append(mod)
 
-    def add_reference(self: T, ref: ReferenceRecord) -> None:
+    def add_reference(self: T, ref: ReferenceRegistered) -> None:
         self.references.append(ref)
