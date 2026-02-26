@@ -16,7 +16,7 @@ class ProjectReference():
         return self._header() + \
             str(self.project_path)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(str(self))
 
     def _header(self: T) -> str:
