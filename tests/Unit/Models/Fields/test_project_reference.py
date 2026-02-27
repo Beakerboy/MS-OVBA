@@ -3,7 +3,7 @@ from ms_ovba.Models.Fields.project_reference import ProjectReference
 
 def test_constructor() -> None:
     ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
-    assert isinstance(module, ReferenceProject)
+    assert isinstance(ref, ReferenceProject)
 
 
 def test_constructor() -> None:
