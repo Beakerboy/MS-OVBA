@@ -23,7 +23,7 @@ class Reference():
     def pack(self: T, cp_name: str, endien: str) -> bytes:
         name_pack = b''
         if self._refname is not None:
-            name_de = DoubleEncodedString([0x0016, 0x003E], name)
-            name_pack = name_de.pack(codepage_name, endien)
+            name_de = DoubleEncodedString([0x0016, 0x003E], self._refname)
+            name_pack = name_de.pack(cp_name, endien)
 
         return name_pack + self._ref.pack(cp_name, endien)
