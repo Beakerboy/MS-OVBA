@@ -19,5 +19,5 @@ class Reference():
 
     def pack(self: T, cp_name: str, endien: str) -> bytes:
         name = self._name
-        pack_name = name.pack(cp_name, endien) if is not name is None else ""
+        pack_name = name.pack(cp_name, endien) if name is not None else ""
         return pack_name + self._ref.pack(cp_name, endien)
