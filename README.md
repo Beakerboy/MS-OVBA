@@ -28,13 +28,13 @@ The VbaProject class has many layers of customization available. For example a l
 ```python
 codePage = 0x04E4
 codePageName = "cp" + str(codePage)
-libidRef = LibidReference(
+libidRef = ReferenceRecord(codePageName, LibidReference(
     "{00020430-0000-0000-C000-000000000046}",
     "2.0",
     "0",
     "C:\\Windows\\System32\\stdole2.tlb",
     "OLE Automation"
-)
-oleReference = ReferenceRecord(codePageName, "stdole", libidRef)
+))
+oleReference = Reference(codePageName, libidRef, "stdole")
 project.addReference(oleReference)
 ```
