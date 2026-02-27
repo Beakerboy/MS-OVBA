@@ -22,6 +22,6 @@ def test_pack() -> None:
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
-    module = ReferenceProject(codepage_name, ref)
-    results = module.pack(codepage_name, 'little')
+    ref_proj = ReferenceProject(codepage_name, ref)
+    results = ref_proj.pack(codepage_name, 'little')
     assert results == expected
