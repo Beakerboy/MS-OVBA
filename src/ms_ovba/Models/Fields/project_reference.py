@@ -25,12 +25,12 @@ class ProjectReference():
     def __len__(self) -> int:
         return len(str(self))
 
-    def relative_to(self: T, path: str) -> str:
+    def relative(self: T) -> T:
         """
-        Return the path relative to another path.
+        Strip off the path and just return the file.
         """
-        return self._header() + \
-            str(self._project_path)
+        rel_path = self._project_path
+        return ProjectReference(rel_path, self._embedded)
 
     def _header(self: T) -> str:
         project_kind = 0x41
