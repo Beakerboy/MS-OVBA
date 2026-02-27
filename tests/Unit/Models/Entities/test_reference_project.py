@@ -3,15 +3,15 @@ from ms_ovba.Models.Fields.project_reference import ProjectReference
 
 
 def test_constructor() -> None:
-    ref = ProjectReference("C:/")
+    ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
     module = ReferenceProject("cp1", ref)
 
     assert isinstance(module, ReferenceProject)
 
-def test_pack() -> None:
-    ref = ProjectReference("")
 
-    module_cache.indirect_table = bytes.fromhex(" ".join(indirect_table))
+def test_pack() -> None:
+    ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
+
     expected_hex = ("00 0E 00 00 00 5E 00 00 00 30 2A 5C 43 43 3A 5C",
                     "45 78 61 6D 70 6C 65 20 50 61 74 68 5C 45 78 61",
                     "6D 70 6C 65 2D 52 65 66 65 72 65 6E 63 65 64 50",
