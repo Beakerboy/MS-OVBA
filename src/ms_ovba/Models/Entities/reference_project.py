@@ -19,7 +19,7 @@ class ReferenceProject():
 
     def pack(self: T, codepage_name: str, endien: str) -> bytes:
         size_of_libid_absolute = len(self._ref)
-        size_of_libid_relative = = len(self._ref.relative_to(""))
+        size_of_libid_relative = len(self._ref.relative_to(""))
         format = "HII" + str(size_of_libid_absolute) + "sI" + str(size_of_libid_relative) + "sIH"
         ref_str = str(self._ref).encode(self._codepage_name)
         ref_str_rel = str(self._ref.relative_to("")).encode(self._codepage_name)
