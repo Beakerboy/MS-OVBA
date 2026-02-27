@@ -9,7 +9,7 @@ def test_constructor() -> None:
         guid,
         "2.0",
         "0",
-        "C:\\Windows\\System32\\stdole2.tlb",
+        "C:\\Windows\\system32\\stdole2.tlb",
         "OLE Automation"
     )
     module = ReferenceRegistered("cp1", ref)
@@ -22,7 +22,7 @@ def test_pack() -> None:
         guid,
         "2.0",
         "0",
-        "C:\\Windows\\System32\\stdole2.tlb",
+        "C:\\Windows\\system32\\stdole2.tlb",
         "OLE Automation"
     )
 
