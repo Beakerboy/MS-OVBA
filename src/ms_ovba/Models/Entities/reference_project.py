@@ -24,7 +24,7 @@ class ReferenceProject(ReferenceType):
         ref_str = str(self._ref).encode(cp_name)
         ref_str_rel = str(lib_rel).encode(cp_name)
         ref_project = PackedData(format, 0x000E,
-                                 libid_abs_size + libid_rel_size + 20,
+                                 libid_abs_size + libid_rel_size + 14,
                                  libid_abs_size, ref_str, libid_rel_size,
                                  ref_str_rel, 0x65BE0257, 0x0017)
 
