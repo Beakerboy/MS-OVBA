@@ -36,7 +36,7 @@ class ReferenceRegistered(ReferenceType):
         start = 0
         end = 2
         id = bytes[start:end]
-        if id !== 0x000D:
+        if id != 0x000D:
             raise ValueError("Incorrect id in data.")
 
         start = end
