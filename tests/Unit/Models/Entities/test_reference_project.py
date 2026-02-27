@@ -12,7 +12,7 @@ def test_constructor() -> None:
 def test_pack() -> None:
     ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
 
-    expected_hex = ("00 0E 00 00 00 5E 00 00 00 30 2A 5C 43 43 3A 5C",
+    expected_hex = ("0E 00 5E 00 00 00 30 00 00 00 2A 5C 43 43 3A 5C",
                     "45 78 61 6D 70 6C 65 20 50 61 74 68 5C 45 78 61",
                     "6D 70 6C 65 2D 52 65 66 65 72 65 6E 63 65 64 50",
                     "72 6F 6A 65 63 74 2E 78 6C 73 00 00 00 20 2A 5C",
