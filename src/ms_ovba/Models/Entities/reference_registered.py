@@ -42,7 +42,7 @@ class ReferenceRegistered(ReferenceType):
         start = end
         end = end + 4
         recordsize = bytes[start:end]
-        if len(data) !== recordsize + 6:
+        if len(data) != recordsize + 6:
             # raise a warning
 
         start = end
@@ -54,13 +54,13 @@ class ReferenceRegistered(ReferenceType):
         start = end
         end = end + 4
         reserved1 = bytes[start:end]
-        if reserved1 !== 0:
+        if reserved1 != 0:
             # raise a warning
 
         start = end
         end = end + 2
         reserved2 = bytes[start:end]
-        if reserved2 !== 0:
+        if reserved2 != 0:
             # raise a warning
         
         libid_ref = LibidReference.create(libid_ref_bytes)
