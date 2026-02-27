@@ -7,7 +7,7 @@ Create a vbaProject.bin file from VBA source files.
 Eventually it will be possible to use the CLI to create a vbaProject.bin file from source files and an optional configuration file.
 
 ## VBAProject Class
-The vbaProject class contains all the data and metadata that is used to create the OLE container.
+The vbaProject class contains all the data and metadata that is used to create the OLE container. It can use this data to create several files, then compress and combine them into an OLE container
 
 ```python
 from ms_ovba.vbaProject import VbaProject
@@ -19,8 +19,7 @@ thisWorkbook = DocModule("ThisWorkbook")
 thisWorkbook.addFile(path)
 project.addModule(thisWorkbook)
 
-ole_file = OleFile(project)
-ole_file.create_file(".")
+ProjectOleFile.write_file(project)
 ```
 
 The VbaProject class has many layers of customization available. For example a library reference can be added to the project.
