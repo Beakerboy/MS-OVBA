@@ -4,21 +4,24 @@ from ms_ovba.Models.Fields.project_reference import ProjectReference
 
 
 def test_constructor1() -> None:
-    proj_ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
+    path = "C:\\Example Path\\Example-ReferencedProject.xls"
+    proj_ref = ProjectReference(path)
     ref_proj = ReferenceProject("cp1", proj_ref)
     ref = Reference("cp1", ref_proj)
     assert isinstance(ref, Reference)
 
 
 def test_constructor2() -> None:
-    proj_ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
+    path = "C:\\Example Path\\Example-ReferencedProject.xls"
+    proj_ref = ProjectReference(path)
     ref_proj = ReferenceProject("cp1", proj_ref)
     ref = Reference("cp1", ref_proj, "VBAProject1")
     assert isinstance(ref, Reference)
 
 
 def test_pack() -> None:
-    proj_ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
+    path = "C:\\Example Path\\Example-ReferencedProject.xls"
+    proj_ref = ProjectReference(path)
     ref_proj = ReferenceProject("cp1", proj_ref)
     ref = Reference("cp1", ref_proj, "VBAProject1")
 
