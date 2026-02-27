@@ -41,25 +41,27 @@ class ReferenceRegistered(ReferenceType):
 
         start = end
         end = end + 4
-        recordsize = bytes[start:end]
+        # recordsize = bytes[start:end]
         # if len(data) != recordsize + 6:
         # raise a warning
 
         start = end
         end = end + 4
         libidsize = bytes[start:end]
+
         start = end
         end = end + libidsize
         libid_ref_bytes = bytes[start:end]
+
         start = end
         end = end + 4
-        reserved1 = bytes[start:end]
+        # reserved1 = bytes[start:end]
         # if reserved1 != 0:
         # raise a warning
 
         start = end
         end = end + 2
-        reserved2 = bytes[start:end]
+        # reserved2 = bytes[start:end]
         # if reserved2 != 0:
         # raise a warning
         
