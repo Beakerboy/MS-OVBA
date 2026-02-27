@@ -26,7 +26,7 @@ class ProjectReference():
 
     def _header(self: T) -> str:
         project_kind = 0x41
-        if not(self._is_windows_path(project_path)):
+        if not self._is_windows_path(self.project_path):
             project_kind += 2
         if self.embedded:
             project_kind += 1
