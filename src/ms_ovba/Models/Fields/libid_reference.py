@@ -8,17 +8,17 @@ T = TypeVar('T', bound='LibidReference')
 class LibidReference():
     """
     2.1.1.8
-    
-    LibidReference = "*\" LibidReferenceKind LibidGuid 
-    "#" LibidMajorVersion "." LibidMinorVersion 
-    "#" LibidLcid 
-    "#" LibidPath 
+
+    LibidReference = "*\" LibidReferenceKind LibidGuid
+    "#" LibidMajorVersion "." LibidMinorVersion
+    "#" LibidLcid
+    "#" LibidPath
     "#" LibidRegName
     LibidReferenceKind = %x47 / %x48
     LibidGuid = GUID
     LibidMajorVersion = 1*4HEXDIG
     LibidMinorVersion = 1*4HEXDIG
-    LibidLcid = 1*8HEXDIG 
+    LibidLcid = 1*8HEXDIG
     LibidPath = *(%x01-22 / %x24-FF)
     LibidRegName = *255(%x01-FF)
     """
