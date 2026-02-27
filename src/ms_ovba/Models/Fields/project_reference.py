@@ -31,7 +31,7 @@ class ProjectReference():
         """
         # Find last '\'
         pos = self._project_path.rfind('\\')
-        
+
         rel_path = self._project_path[pos + 1:]
         return ProjectReference(rel_path, self._embedded)
 
@@ -43,6 +43,6 @@ class ProjectReference():
             project_kind += 2
         return "*\\" + \
             chr(project_kind)
-    
+
     def _is_windows_path(self: T, path: str) -> bool:
         return path[0] != '/'
