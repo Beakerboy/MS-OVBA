@@ -13,13 +13,17 @@ class Reference():
     2.3.4.2.2.1 REFERENCE Record
     """
     def __init__(self: T, codepage_name: str,
-                 ref: ReferenceType, name: DoubleEncodedString = None) -> None:
+                 ref: ReferenceType,
+                 name: str = None) -> None:
         # is self._codepage_name even needed?
         self._codepage_name = codepage_name
         self._ref = ref
-        self._name = name
+        self._refname = name
 
     def pack(self: T, cp_name: str, endien: str) -> bytes:
-        name = self._name
-        pack_name = name.pack(cp_name, endien) if name is not None else ""
-        return pack_name + self._ref.pack(cp_name, endien)
+        name_pack = b''
+        if self._refname is not None:
+            name_de = DoubleEncodedString([0x0016, 0x003E], name)
+            name_pack = name_de.pack(codepage_name, endien)
+
+        return name_pack + self._ref.pack(cp_name, endien)
