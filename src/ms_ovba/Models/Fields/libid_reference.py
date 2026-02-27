@@ -6,6 +6,22 @@ T = TypeVar('T', bound='LibidReference')
 
 
 class LibidReference():
+    """
+    2.1.1.8
+    
+    LibidReference = "*\" LibidReferenceKind LibidGuid 
+    "#" LibidMajorVersion "." LibidMinorVersion 
+    "#" LibidLcid 
+    "#" LibidPath 
+    "#" LibidRegName
+    LibidReferenceKind = %x47 / %x48
+    LibidGuid = GUID
+    LibidMajorVersion = 1*4HEXDIG
+    LibidMinorVersion = 1*4HEXDIG
+    LibidLcid = 1*8HEXDIG 
+    LibidPath = *(%x01-22 / %x24-FF)
+    LibidRegName = *255(%x01-FF)
+    """
     def __init__(self: T, libid_guid: uuid.UUID, version: str,
                  libid_lcid: str, libid_path: str,
                  libid_reg_name: str) -> None:
