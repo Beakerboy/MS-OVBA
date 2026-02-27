@@ -5,7 +5,7 @@ from ms_ovba.Models.Fields.libid_reference import LibidReference
 
 def test_constructor() -> None:
     guid = uuid.UUID('0002043000000000C000000000000046')
-    ref = ref = LibidReference(
+    ref = LibidReference(
         guid,
         "2.0",
         "0",
@@ -18,7 +18,7 @@ def test_constructor() -> None:
 
 def test_pack() -> None:
     guid = uuid.UUID('0002043000000000C000000000000046')
-    ref = ref = LibidReference(
+    ref = LibidReference(
         guid,
         "2.0",
         "0",
