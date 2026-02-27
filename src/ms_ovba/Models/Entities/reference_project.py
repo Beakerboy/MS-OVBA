@@ -15,14 +15,14 @@ class ReferenceProject(ReferenceType):
         self._codepage_name = codepage_name
         self._ref = ref
 
-    def pack(self: T, codepage_name: str, endien: str) -> bytes:
-        cp_name = self._codepage_name
+    def pack(self: T, cp_name: str, endien: str) -> bytes:
+        lib_rel = self._ref.relative()
         libid_abs_size = len(self._ref)
-        libid_rel_size = len(self._ref.relative_to(""))
+        libid_rel_size = len(lib_rel)
         format = ("HII" + str(libid_abs_size) + "sI" +
                   str(libid_rel_size) + "sIH")
         ref_str = str(self._ref).encode(cp_name)
-        ref_str_rel = str(self._ref.relative_to("")).encode(cp_name)
+        ref_str_rel = str(lib_rel).encode(cp_name)
         ref_project = PackedData(format, 0x000E,
                                  libid_abs_size + libid_rel_size + 20,
                                  libid_abs_size, ref_str, libid_rel_size,
