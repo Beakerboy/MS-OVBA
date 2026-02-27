@@ -64,7 +64,6 @@ class ReferenceRegistered(ReferenceType):
         # reserved2 = bytes[start:end]
         # if reserved2 != 0:
         # raise a warning
-        
+
         libid_ref = LibidReference.create(libid_ref_bytes)
         return ReferenceRegistered("", libid_ref)
-        
