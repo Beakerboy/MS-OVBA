@@ -17,12 +17,20 @@ class ProjectReference():
         self._project_path = project_path
         self._embedded = embedded
 
+    # Dunder Methods
     def __str__(self) -> str:
         return self._header() + \
             str(self._project_path)
 
     def __len__(self) -> int:
         return len(str(self))
+
+    def relative_to(self: T, path: str) -> str:
+        """
+        Return the path relative to another path.
+        """
+        return self._header() + \
+            str(self._project_path)
 
     def _header(self: T) -> str:
         project_kind = 0x41
@@ -32,10 +40,6 @@ class ProjectReference():
             project_kind += 2
         return "*\\" + \
             chr(project_kind)
-
-    def relative_to(self: T, path: str) -> str:
-        """
-        Return the path relative to another path.
-        """
-        return self._header() + \
-            str(self._project_path)
+    
+    def _is_windows_path(self: T, path: str) -> bool:
+        return path[0] != '/'
