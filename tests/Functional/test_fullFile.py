@@ -10,8 +10,11 @@ from ms_pcode_assembler.module_cache import ModuleCache
 from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Models.Entities.doc_module import DocModule
 from ms_ovba.Models.Entities.std_module import StdModule
-from ms_ovba.Models.Entities.reference_record import (
-    ReferenceRecord
+from ms_ovba.Models.Entities.reference import (
+    Reference
+)
+from ms_ovba.Models.Entities.reference_registered import (
+    ReferenceRegistered
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Views.project_ole_file import ProjectOleFile
@@ -80,22 +83,22 @@ def test_full_file() -> None:
     project.set_include_projectwm(True)
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
-    libid_ref = LibidReference(
+    libid_ref = ReferenceRegistered(LibidReference(
         uuid.UUID("0002043000000000C000000000000046"),
         "2.0",
         "0",
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
-    )
-    ole_reference = ReferenceRecord(codepage_name, "stdole", libid_ref)
-    libid_ref2 = LibidReference(
+    ))
+    ole_reference = Reference(codepage_name, libid_refm, "stdole")
+    libid_ref2 = ReferenceRegistered(LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
         "0",
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
-    )
-    office_reference = ReferenceRecord(codepage_name, "Office", libid_ref2)
+    ))
+    office_reference = Reference(codepage_name, libid_ref2, "Office")
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
     proj_cookie = 0x08F3
