@@ -10,12 +10,10 @@ from ms_ovba.Models.Entities.std_module import StdModule
 from ms_ovba.Models.Entities.reference import (
     Reference
 )
-from ms_ovba.Models.Entities.reference import (
-    Reference
-)
 from ms_ovba.Models.Entities.reference_registered import (
     ReferenceRegistered
 )
+
 
 def test_dirstream() -> None:
     '''
