@@ -33,16 +33,36 @@ class ReferenceRegistered(ReferenceType):
 
     @staticmethod
     def unpack(data: bytes) -> T:
-        # Read two bytes into ID
-        # if id !== 0x000D throw exception
-        # Read 4 bytes into recordsize
-        # If size(data) !== recordsize + 6 throw notice
-        # Read 4 bytes into libidsize
-        # Read libidsize bytes into libid_ref_bytes
-        # Read 4 bytes into reserved1
-        # If reserved1 !== 0 throw notice
-        # Read 2 bytes into reserved2
-        # If reserved2 !== 0 throw notice
-        # libid_ref = LibidReference.create(libid_ref_bytes)
-        # return ReferenceRegistered("", libid_ref)
+        start = 0
+        end = 2
+        id = bytes[start:end]
+        if id !== 0x000D:
+            raise ValueError("Incorrect id in data.")
+
+        start = end
+        end = end + 4
+        recordsize = bytes[start:end]
+        if len(data) !== recordsize + 6:
+            # raise a warning
+
+        start = end
+        end = end + 4
+        libidsize = bytes[start:end]
+        start = end
+        end = end + libidsize
+        libid_ref_bytes = bytes[start:end]
+        start = end
+        end = end + 4
+        reserved1 = bytes[start:end]
+        if reserved1 !== 0:
+            # raise a warning
+
+        start = end
+        end = end + 2
+        reserved2 = bytes[start:end]
+        if reserved2 !== 0:
+            # raise a warning
+        
+        libid_ref = LibidReference.create(libid_ref_bytes)
+        return ReferenceRegistered("", libid_ref)
         
