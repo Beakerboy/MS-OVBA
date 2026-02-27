@@ -1,5 +1,5 @@
-from ms_ovba.Models.Fields.project_reference import ProjectReference
-from ms_ovba.Models.Fields.packed_data import PackedData
+from ms_ovba.Models.Entities.reference_name import ReferenceName
+from ms_ovba.Models.Entities.reference_type import ReferenceType
 from typing import TypeVar
 
 
