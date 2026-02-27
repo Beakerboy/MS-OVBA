@@ -14,28 +14,28 @@ class ProjectReference():
     ProjectPath = *(%x01-FF}
     """
     def __init__(self: T, project_path: str, embedded: bool = True) -> None:
-        self.project_path = project_path
-        self.embedded = embedded
+        self._project_path = project_path
+        self._embedded = embedded
 
     def __str__(self) -> str:
         return self._header() + \
-            str(self.project_path)
+            str(self._project_path)
 
     def __len__(self) -> int:
         return len(str(self))
 
     def _header(self: T) -> str:
         project_kind = 0x41
-        if not self._is_windows_path(self.project_path):
+        if not self._is_windows_path(self._project_path):
             project_kind += 2
-        if self.embedded:
+        if self._embedded:
             project_kind += 1
         return "*\\" + \
-            chr(self.project_kind)
+            chr(project_kind)
 
     def relative_to(self: T, path: str) -> str:
         """
         Return the path relative to another path.
         """
         return self._header() + \
-            str(self.project_path)
+            str(self._project_path)
