@@ -6,9 +6,14 @@ T = TypeVar('T', bound='ProjectReference')
 
 class ProjectReference():
     """
+    2.1.1.12
     Specifies the identifier of a VBA project.
+    
+    ProjectReference = "*\" ProjectKind ProjectPath
+    ProjectKind = %x41-44
+    ProjectPath = *(%x01-FF}
     """
-    def __init__(self: T, project_path: str, embedded: bool = true) -> None:
+    def __init__(self: T, project_path: str, embedded: bool = True) -> None:
         self.project_path = project_path
         self.embedded = embedded
 
