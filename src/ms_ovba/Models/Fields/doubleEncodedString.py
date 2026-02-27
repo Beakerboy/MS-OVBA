@@ -7,7 +7,8 @@ T = TypeVar('T', bound='DoubleEncodedString')
 
 class DoubleEncodedString():
     """
-    Encode text data twice with different ids and lengths
+    A union of two IdSizeFields
+    The strings are encoded differently in each.
     """
     def __init__(self: T, ids: list, text: str) -> None:
         self.ids = ids
