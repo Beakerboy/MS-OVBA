@@ -10,7 +10,10 @@ T = TypeVar('T', bound='ReferenceRegistered')
 
 
 class ReferenceRegistered():
-
+    """
+    2.3.4.2.2.5
+    Specifies a reference to an Automation type library.
+    """
     def __init__(self: T, codepage_name: str,
                  name: str, libid_ref: LibidReference) -> None:
         # is self._codepage_name even needed?
