@@ -19,7 +19,7 @@ class ReferenceRegistered(ReferenceType):
         self._libid_ref = libid_ref
 
     @property
-    def libid(self: T): LibidReference
+    def libid(self: T) -> LibidReference:
         return self._libid_ref
 
     def pack(self: T, cp_name: str, endien: str) -> bytes:
