@@ -7,10 +7,15 @@ from ms_ovba.Views.dirStream import DirStream
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Models.Entities.doc_module import DocModule
 from ms_ovba.Models.Entities.std_module import StdModule
-from ms_ovba.Models.Entities.reference_record import (
-    ReferenceRecord
+from ms_ovba.Models.Entities.reference import (
+    Reference
 )
-
+from ms_ovba.Models.Entities.reference import (
+    Reference
+)
+from ms_ovba.Models.Entities.reference_registered import (
+    ReferenceRegistered
+)
 
 def test_dirstream() -> None:
     '''
@@ -33,23 +38,23 @@ def test_dirstream() -> None:
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
     guid = uuid.UUID('0002043000000000C000000000000046')
-    libid_ref = LibidReference(
+    libid_ref = ReferenceRegistered(LibidReference(
         guid,
         "2.0",
         "0",
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
-    )
-    ole_reference = ReferenceRecord(codepage_name, "stdole", libid_ref)
+    ))
+    ole_reference = Reference(codepage_name, libid_ref, "stdole")
     guid = uuid.UUID('2DF8D04C5BFA101BBDE500AA0044DE52')
-    libid_ref2 = LibidReference(
+    libid_ref2 = ReferenceRegistered(LibidReference(
         guid,
         "2.0",
         "0",
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
-    )
-    office_reference = ReferenceRecord(codepage_name, "Office", libid_ref2)
+    ))
+    office_reference = Reference(codepage_name, libid_ref2, "Office")
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
     project.set_project_cookie(0x08F3)
