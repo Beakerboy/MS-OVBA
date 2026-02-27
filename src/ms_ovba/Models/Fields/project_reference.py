@@ -29,7 +29,10 @@ class ProjectReference():
         """
         Strip off the path and just return the file.
         """
-        rel_path = self._project_path
+        # Find last '\'
+        pos = self._project_path.rfind('\')
+        
+        rel_path = self._project_path[pos + 1:]
         return ProjectReference(rel_path, self._embedded)
 
     def _header(self: T) -> str:
