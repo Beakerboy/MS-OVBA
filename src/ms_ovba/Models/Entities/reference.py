@@ -1,5 +1,7 @@
-from ms_ovba.Models.Entities.reference_name import ReferenceName
 from ms_ovba.Models.Entities.reference_type import ReferenceType
+from ms_ovba.Models.Fields.doubleEncodedString import (
+    DoubleEncodedString
+)
 from typing import TypeVar
 
 
@@ -11,7 +13,7 @@ class Reference():
     2.3.4.2.2.1 REFERENCE Record
     """
     def __init__(self: T, codepage_name: str,
-                 ref: ReferenceType, name: ReferenceName = None) -> None:
+                 ref: ReferenceType, name: DoubleEncodedString = None) -> None:
         # is self._codepage_name even needed?
         self._codepage_name = codepage_name
         self._ref = ref
