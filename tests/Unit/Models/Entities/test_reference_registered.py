@@ -12,7 +12,7 @@ def test_constructor() -> None:
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     )
-    module = ReferenceProject("cp1", ref)
+    module = ReferenceRegistered("cp1", ref)
     assert isinstance(module, ReferenceRegistered)
 
 
@@ -32,8 +32,7 @@ def test_pack() -> None:
                     "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
                     "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
                     "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
-                    "00 00 00 00 00 00 00 00 00 00 00 00 00 00",
-                   )
+                    "00 00 00 00 00 00 00 00 00 00 00 00 00 00")
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
