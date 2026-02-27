@@ -7,7 +7,7 @@ def test_constructor() -> None:
 
 
 def test_constructor() -> None:
-    ref = ProjectReference("C:\\", False)
+    ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls", False)
     assert isinstance(module, ReferenceProject)
 
 
