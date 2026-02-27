@@ -83,7 +83,7 @@ def test_full_file() -> None:
     project.set_include_projectwm(True)
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
-    libid_ref = ReferenceRegistered(LibidReference(
+    libid_ref = ReferenceRegistered(codepage_name, LibidReference(
         uuid.UUID("0002043000000000C000000000000046"),
         "2.0",
         "0",
@@ -91,7 +91,7 @@ def test_full_file() -> None:
         "OLE Automation"
     ))
     ole_reference = Reference(codepage_name, libid_ref, "stdole")
-    libid_ref2 = ReferenceRegistered(LibidReference(
+    libid_ref2 = ReferenceRegistered(codepage_name, LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
         "0",
