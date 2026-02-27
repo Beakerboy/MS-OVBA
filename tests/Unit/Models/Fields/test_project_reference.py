@@ -1,14 +1,15 @@
 from ms_ovba.Models.Fields.project_reference import ProjectReference
 
 
-def test_constructor() -> None:
+def test_constructor1() -> None:
     ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
-    assert isinstance(ref, ReferenceProject)
+    assert isinstance(ref, ProjectReference)
 
 
-def test_constructor() -> None:
-    ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls", False)
-    assert isinstance(module, ReferenceProject)
+def test_constructor2() -> None:
+    path = "C:\\Example Path\\Example-ReferencedProject.xls"
+    ref = ProjectReference(path, False)
+    assert isinstance(ref, ProjectReference)
 
 
 def test_len() -> None:
