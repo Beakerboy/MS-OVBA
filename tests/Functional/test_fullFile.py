@@ -90,7 +90,7 @@ def test_full_file() -> None:
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     ))
-    ole_reference = Reference(codepage_name, libid_refm, "stdole")
+    ole_reference = Reference(codepage_name, libid_ref, "stdole")
     libid_ref2 = ReferenceRegistered(LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
