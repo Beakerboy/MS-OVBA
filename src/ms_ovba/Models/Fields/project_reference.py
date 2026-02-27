@@ -8,7 +8,7 @@ class ProjectReference():
     """
     2.1.1.12
     Specifies the identifier of a VBA project.
-    
+
     ProjectReference = "*\" ProjectKind ProjectPath
     ProjectKind = %x41-44
     ProjectPath = *(%x01-FF}
