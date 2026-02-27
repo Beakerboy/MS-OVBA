@@ -41,9 +41,10 @@ class ReferenceRegistered(ReferenceType):
 
         start = end
         end = end + 4
-        # recordsize = bytes[start:end]
-        # if len(data) != recordsize + 6:
-        # raise a warning
+        recordsize = bytes[start:end]
+        if len(data) != recordsize + 6:
+            # raise a warning
+            pass
 
         start = end
         end = end + 4
@@ -55,15 +56,17 @@ class ReferenceRegistered(ReferenceType):
 
         start = end
         end = end + 4
-        # reserved1 = bytes[start:end]
-        # if reserved1 != 0:
-        # raise a warning
+        reserved1 = bytes[start:end]
+        if reserved1 != 0:
+            # raise a warning
+            pass
 
         start = end
         end = end + 2
-        # reserved2 = bytes[start:end]
-        # if reserved2 != 0:
-        # raise a warning
+        reserved2 = bytes[start:end]
+        if reserved2 != 0:
+            # raise a warning
+            pass
 
         libid_ref = LibidReference.create(libid_ref_bytes)
         return ReferenceRegistered("", libid_ref)
