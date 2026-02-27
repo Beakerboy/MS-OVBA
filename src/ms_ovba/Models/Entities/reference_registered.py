@@ -1,7 +1,4 @@
 from ms_ovba.Models.Entities.reference_type import ReferenceType
-from ms_ovba.Models.Fields.doubleEncodedString import (
-    DoubleEncodedString
-)
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import TypeVar
