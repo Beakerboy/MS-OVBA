@@ -18,6 +18,10 @@ class ReferenceRegistered(ReferenceType):
         self._codepage_name = codepage_name
         self._libid_ref = libid_ref
 
+    @property
+    def libid(self: T): LibidReference
+        return self._libid_ref
+
     def pack(self: T, cp_name: str, endien: str) -> bytes:
         strlen = len(self._libid_ref)
         format = "HII" + str(strlen) + "sIH"
@@ -26,3 +30,19 @@ class ReferenceRegistered(ReferenceType):
                                     strlen, lib_str, 0, 0)
 
         return ref_registered.pack(cp_name, endien)
+
+    @staticmethod
+    def unpack(data: bytes) -> T:
+        # Read two bytes into ID
+        # if id !== 0x000D throw exception
+        # Read 4 bytes into recordsize
+        # If size(data) !== recordsize + 6 throw notice
+        # Read 4 bytes into libidsize
+        # Read libidsize bytes into libid_ref_bytes
+        # Read 4 bytes into reserved1
+        # If reserved1 !== 0 throw notice
+        # Read 2 bytes into reserved2
+        # If reserved2 !== 0 throw notice
+        # libid_ref = LibidReference.create(libid_ref_bytes)
+        # return ReferenceRegistered("", libid_ref)
+        
