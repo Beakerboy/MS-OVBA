@@ -1,6 +1,3 @@
-from ms_ovba.Models.Fields.doubleEncodedString import (
-    DoubleEncodedString
-)
 from ms_ovba.Models.Fields.project_reference import ProjectReference
 from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import TypeVar
