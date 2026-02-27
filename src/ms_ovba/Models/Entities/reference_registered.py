@@ -1,3 +1,4 @@
+from ms_ovba.Models.Entities.reference_type import ReferenceType
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
 )
@@ -9,7 +10,7 @@ from typing import TypeVar
 T = TypeVar('T', bound='ReferenceRegistered')
 
 
-class ReferenceRegistered():
+class ReferenceRegistered(ReferenceType):
     """
     2.3.4.2.2.5
     Specifies a reference to an Automation type library.
