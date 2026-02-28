@@ -13,11 +13,11 @@ class ReferenceRecord:
         id = struct.unpack(endien_symbol + "H", bytestring)
         if id == 0x000D:
             ref = ReferenceRegistered.unpack(bytestring, endien)
-        else if id == 0x000E:
+        elif id == 0x000E:
             ref = ReferenceProject.unpack(bytestring, endien)
-        else if id == 0x002F:
+        elif id == 0x002F:
             ref = ReferenceControl.unpack(bytestring, endien)
-        else if id == 0x0033:
+        elif id == 0x0033:
             ref = ReferenceOriginal.unpack(bytestring, endien)
         else:
             # raise warning
