@@ -30,6 +30,7 @@ class Reference():
 
     @staticmethod
     def unpack(data: bytes) -> T:
+        # name = None
         # Read 2 bytes into id
         # if id == 0x0016:
         #     Read 4 bytes into size1
@@ -43,14 +44,15 @@ class Reference():
         #     read 2 bytes into id
         #
         # if id == 0x0000D:
-        #     return ReferenceRegistered.unpack(bytestring)
+        #     ref = ReferenceRegistered.unpack(bytestring)
         # else if id == 0x0000E:
-        #     return ReferenceProject.unpack(bytestring)
+        #     ref = ReferenceProject.unpack(bytestring)
         # else if id == 0x0002F:
-        #     return ReferenceControl.unpack(bytestring)
+        #     ref = ReferenceControl.unpack(bytestring)
         # else if id == 0x00033:
-        #     return ReferenceOriginal.unpack(bytestring)
+        #     ref = ReferenceOriginal.unpack(bytestring)
         # else raise warning
+        # return Record("cp", ref, name)
         
         
         
