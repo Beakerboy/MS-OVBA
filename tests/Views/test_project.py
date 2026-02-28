@@ -38,6 +38,9 @@ class MockVbaProject:
     def get_codepage_name(self):
         return 'cp1252'
 
+    def get_project_id(self):
+        return self.project_id
+
 
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
 def test_blank() -> None:
