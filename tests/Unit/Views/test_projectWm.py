@@ -3,7 +3,7 @@ from ms_ovba.Views.projectWm import ProjectWm
 
 class Obj:
     def __init__(self, name) -> None:
-        self.name = name
+        self.value = name
 
 
 class Mod:
