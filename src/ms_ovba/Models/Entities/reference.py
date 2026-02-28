@@ -49,7 +49,7 @@ class Reference():
             # name2 = struct.unpack_from(endien_symbol + size2 + "s", data, offset)
             offset += size2
             # if name2 != unicode version on name1:
-                # raise warning
+            #     raise warning
 
         bytestring = data[offset:]
         ref = ReferenceRecord.unpack(bytestring, endien)
