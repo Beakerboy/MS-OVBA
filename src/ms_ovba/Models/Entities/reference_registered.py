@@ -50,7 +50,7 @@ class ReferenceRegistered(ReferenceRecord):
         libidsize = struct.unpack_from(endien_symbol + "I", data, offset)
         offset += 4
         
-        libid_ref_bytes = struct.unpack_from(endien_symbol + libidsize + "s", data, offset)
+        libid_ref_bytes = data[offset:offset + libidsize]
         offset += libidsize
         
         reserved1 = struct.unpack_from(endien_symbol + "I", data, offset)
