@@ -11,7 +11,7 @@ class MockVbaProject():
     def set_performance_cache(self, cache: bytes) -> None:
         self._performance_cache = cache
 
-    def get_performance_cache(self) -> butes:
+    def get_performance_cache(self) -> bytes:
         return self._performance_cache
 
     def get_performance_cache_version(self):
