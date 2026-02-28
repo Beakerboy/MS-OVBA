@@ -46,11 +46,11 @@ class Reference():
             if size2 != size1 * 2:
                 # raise warning
                 pass
-            name2 = struct.unpack_from(endien_symbol + size2 + "s", data, offset)
+            # name2 = struct.unpack_from(endien_symbol + size2 + "s", data, offset)
             offset += size2
             # if name2 != unicode version on name1:
                 # raise warning
-            id = struct.unpack_from(endien_symbol + "H", data, offset)
+
         bytestring = data[offset:]
         ref = ReferenceRecord.unpack(bytestring, endien)
         return Record("cp", ref, name)
