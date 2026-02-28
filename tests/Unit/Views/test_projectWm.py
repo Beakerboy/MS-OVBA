@@ -2,12 +2,12 @@ from ms_ovba.Views.projectWm import ProjectWm
 
 
 class Mod:
-    __init__(self, name):
+    def __init__(self, name) -> None:
         self.modName.value = name
 
 
 class MockVbaProject:
-    __init__(self):
+    def __init__(self) -> None:
         self.modules = [Mod("ThisWorkbook"), Mod("Sheet1"), Mod("Module1")]
 
 
