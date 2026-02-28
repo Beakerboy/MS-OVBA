@@ -18,9 +18,11 @@ class ReferenceRecord:
         elif id == 0x000E:
             ref = ReferenceProject.unpack(bytestring, endien)
         elif id == 0x002F:
-            ref = ReferenceControl.unpack(bytestring, endien)
+            # ref = ReferenceControl.unpack(bytestring, endien)
+            pass
         elif id == 0x0033:
-            ref = ReferenceOriginal.unpack(bytestring, endien)
+            # ref = ReferenceOriginal.unpack(bytestring, endien)
+            pass
         else:
             # raise warning
             return None
