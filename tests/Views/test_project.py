@@ -31,6 +31,7 @@ class Mod:
     def to_project_module_string(self):
         return "Document" + "=" + self.modName.value + "/&H00000000"
 
+
 class Mod1:
     def __init__(self, name) -> None:
         self.modName = Obj(name)
