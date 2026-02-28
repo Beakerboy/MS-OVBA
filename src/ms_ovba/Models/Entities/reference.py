@@ -53,4 +53,4 @@ class Reference():
 
         bytestring = data[offset:]
         ref = ReferenceRecord.unpack(bytestring, endien)
-        return Record("cp", ref, name)
+        return Reference("cp", ref, name)
