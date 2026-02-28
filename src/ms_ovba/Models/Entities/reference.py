@@ -29,7 +29,7 @@ class Reference():
         return name_pack + self._ref.pack(cp_name, endien)
 
     @staticmethod
-    def unpack(data: bytes) -> T:
+    def unpack(data: bytes, endien: str) -> T:
         # name = None
         # Read 2 bytes into id
         # if id == 0x0016:
@@ -44,14 +44,16 @@ class Reference():
         #     read 2 bytes into id
         #
         # if id == 0x0000D:
-        #     ref = ReferenceRegistered.unpack(bytestring)
+        #     ref = ReferenceRegistered.unpack(bytestring, endien)
         # else if id == 0x0000E:
-        #     ref = ReferenceProject.unpack(bytestring)
+        #     ref = ReferenceProject.unpack(bytestring, endien)
         # else if id == 0x0002F:
-        #     ref = ReferenceControl.unpack(bytestring)
+        #     ref = ReferenceControl.unpack(bytestring, endien)
         # else if id == 0x00033:
-        #     ref = ReferenceOriginal.unpack(bytestring)
-        # else raise warning
+        #     ref = ReferenceOriginal.unpack(bytestring, endien)
+        # else:
+        #     raise warning
+        #     return None
         # return Record("cp", ref, name)
         pass
         
