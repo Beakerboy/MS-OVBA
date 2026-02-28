@@ -39,3 +39,16 @@ def test_pack() -> None:
     ref_reg = ReferenceRegistered(codepage_name, ref)
     results = ref_reg.pack(codepage_name, 'little')
     assert results == expected
+
+
+def test_unpack() -> None:
+    hex = ("0D 00 68 00 00 00 5E 00 00 00 2A 5C 47 7B 30 30",
+           "30 32 30 34 33 30 2D 30 30 30 30 2D 30 30 30 30",
+           "2D 43 30 30 30 2D 30 30 30 30 30 30 30 30 30 30",
+           "34 36 7D 23 32 2E 30 23 30 23 43 3A 5C 57 69 6E",
+           "64 6F 77 73 5C 73 79 73 74 65 6D 33 32 5C 73 74",
+           "64 6F 6C 65 32 2E 74 6C 62 23 4F 4C 45 20 41 75",
+           "74 6F 6D 61 74 69 6F 6E 00 00 00 00 00 00")
+    data = bytes.fromhex(" ".join(hex))
+    ref = ReferenceRegistered.unpack(data, "little")
+    assert isinstance(ref.libid, LibidReference)
