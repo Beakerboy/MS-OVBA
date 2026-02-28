@@ -39,7 +39,7 @@ class ReferenceRegistered(ReferenceRecord):
         id = struct.unpack_from(endien_symbol + "H", data, offset)
         offset += 2
         if id != 0x000D:
-            raise ValueError("Incorrect id in data.")
+            raise ValueError("Incorrect id in data. Received " + id + " but expected 0x000D")
 
         recordsize = struct.unpack_from(endien_symbol + "I", data, offset)
         if len(data) != recordsize + 6:
