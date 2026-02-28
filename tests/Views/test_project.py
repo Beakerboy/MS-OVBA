@@ -22,6 +22,9 @@ class Obj:
     def __init__(self, name) -> None:
         self.value = name
 
+    def to_project_module_string():
+        return ""
+
 
 class Mod:
     def __init__(self, name) -> None:
