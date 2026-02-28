@@ -26,6 +26,7 @@ class Obj:
 class Mod:
     def __init__(self, name) -> None:
         self.modName = Obj(name)
+        self.workspace = [0, 0, 0, 0, 'C']
 
     def to_project_module_string(self):
         return ""
