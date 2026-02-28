@@ -1,3 +1,4 @@
+import struct
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Models.Fields.packed_data import PackedData
@@ -32,38 +33,33 @@ class ReferenceRegistered(ReferenceRecord):
         return ref_registered.pack(cp_name, endien)
 
     @staticmethod
-    def unpack(data: bytes) -> T:
-        start = 0
-        end = 2
-        id = bytes[start:end]
+    def unpack(data: bytes, endien: str) -> T:
+        endien_symbol = '<' if endien == 'little' else '>'
+        offset = 0
+        id = struct.unpack_from(endien_symbol + "H", data, offset)
+        offset += 2
         if id != 0x000D:
             raise ValueError("Incorrect id in data.")
 
-        start = end
-        end = end + 4
-        recordsize = bytes[start:end]
+        recordsize = struct.unpack_from(endien_symbol + "I", data, offset)
         if len(data) != recordsize + 6:
             # raise a warning
             pass
 
-        start = end
-        end = end + 4
-        libidsize = bytes[start:end]
-
-        start = end
-        end = end + libidsize
-        libid_ref_bytes = bytes[start:end]
-
-        start = end
-        end = end + 4
-        reserved1 = bytes[start:end]
+        offset += 4
+        libidsize = struct.unpack_from(endien_symbol + "I", data, offset)
+        offset += 4
+        
+        libid_ref_bytes = struct.unpack_from(endien_symbol + libidsize + "s", data, offset)
+        offset += libidsize
+        
+        reserved1 = struct.unpack_from(endien_symbol + "I", data, offset)
+        offset += 4
+        
         if reserved1 != 0:
             # raise a warning
             pass
-
-        start = end
-        end = end + 2
-        reserved2 = bytes[start:end]
+        reserved2 = struct.unpack_from(endien_symbol + "H", data, offset)
         if reserved2 != 0:
             # raise a warning
             pass
