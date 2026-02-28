@@ -49,13 +49,13 @@ class ReferenceRegistered(ReferenceRecord):
         offset += 4
         libidsize = struct.unpack_from(endien_symbol + "I", data, offset)
         offset += 4
-        
+
         libid_ref_bytes = data[offset:offset + libidsize]
         offset += libidsize
-        
+
         reserved1 = struct.unpack_from(endien_symbol + "I", data, offset)
         offset += 4
-        
+
         if reserved1 != 0:
             # raise a warning
             pass
