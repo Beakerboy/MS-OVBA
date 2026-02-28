@@ -5,6 +5,7 @@ class Obj:
     def __init__(self, name) -> None:
         self.name = name
 
+
 class Mod:
     def __init__(self, name) -> None:
         self.modName = Obj(name)
