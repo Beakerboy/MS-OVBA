@@ -24,7 +24,7 @@ class Obj:
 
 
 class Mod:
-    def __init__(self, name, type) -> None:
+    def __init__(self, name) -> None:
         self.modName = Obj(name)
         self.workspace = [0, 0, 0, 0, 'C']
 
@@ -43,7 +43,7 @@ class Mod1:
 
 class MockVbaProject:
     def __init__(self) -> None:
-        mod1 = Mod1("Module1", "Module")
+        mod1 = Mod1("Module1")
         self.modules = [Mod("ThisWorkbook"),
                         Mod("Sheet1"), mod1]
         self.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
