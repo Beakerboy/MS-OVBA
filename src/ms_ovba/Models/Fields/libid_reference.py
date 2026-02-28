@@ -1,4 +1,3 @@
-import struct
 import uuid
 from typing import TypeVar
 
@@ -60,6 +59,6 @@ class LibidReference():
             raise Exception("Unknown Reference Kind")
         return LibidReference(guid, version, lcid,
                               path, name)
-        
+
     def _is_windows_path(self: T, path: str) -> bool:
         return path[0] != '/'
