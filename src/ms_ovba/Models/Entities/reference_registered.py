@@ -42,14 +42,13 @@ class ReferenceRegistered(ReferenceRecord):
             msg = "Incorrect id in data. Received " + id + ", expected 0x000D"
             raise ValueError(msg)
 
-        recordsize, = struct.unpack_from(endien_symbol + "I", data, offset)
+        format = endien_symbol + "II"
+        recordsize, libidsize = struct.unpack_from(format, data, offset)
         if len(data) != recordsize + 6:
             # raise a warning
             pass
 
-        offset += 4
-        libidsize, = struct.unpack_from(endien_symbol + "I", data, offset)
-        offset += 4
+        offset += 8
 
         libid_ref_bytes = data[offset:offset + libidsize]
         offset += libidsize
