@@ -64,5 +64,5 @@ class ReferenceRegistered(ReferenceRecord):
             # raise a warning
             pass
 
-        libid_ref = LibidReference.create(libid_ref_bytes)
+        libid_ref = LibidReference.create(libid_ref_bytes, endien)
         return ReferenceRegistered("", libid_ref)
