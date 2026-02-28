@@ -5,17 +5,14 @@ class MockVbaProject():
 
     def __init__(self) -> None:
         self.endien = 'little'
-        self._performance_cache = b''
-        self._performance_cache_version = 0xFFFF
-
-    def set_performance_cache(self, cache: bytes) -> None:
-        self._performance_cache = cache
+        self.performance_cache = b''
+        self.performance_cache_version = 0xFFFF
 
     def get_performance_cache(self) -> bytes:
-        return self._performance_cache
+        return self.performance_cache
 
     def get_performance_cache_version(self):
-        return self._performance_cache_version
+        return self.performance_cache_version
 
 
 def test_vba_project_default() -> None:
@@ -26,9 +23,13 @@ def test_vba_project_default() -> None:
 
 
 def test_vba_project() -> None:
+    """
+    Demonstrate the effect of performance cache on the project
+    """
     vba_project = MockVbaProject()
+    vba_project.performance_cache = b'\x00\x01\x02\x03'
+    vba_project.performance_cache_version = 0x00B5
+    
     vba_project_view = ProjectView(vba_project)
-    vba_project.set_performance_cache(b'\x00\x01\x02\x03')
-    vba_project.set_performance_cache_version(0x00B5)
     expected = b'\xCC\x61\xB5\x00\x00\x03\x00\x00\x01\x02\x03'
     assert vba_project_view.to_bytes() == expected
