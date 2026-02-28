@@ -1,19 +1,19 @@
-from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Views.project_view import ProjectView
 
 
 class MockVbaProject():
 
-    def __init__(self: T) -> None:
+    def __init__(self) -> None:
         self._performance_cache = b''
         self._performance_cache_version = 0xFFFF
-        
-    def set_performance_cache(self: T, cache: bytes) -> None:
+
+    def set_performance_cache(self, cache: bytes) -> None:
         self._performance_cache = cache
 
-    def get_performance_cache_version():
+    def get_performance_cache_version(self):
         return self._performance_cache_version
-    
+
+
 def test_vba_project() -> None:
     vba_project = MockVbaProject()
     vba_project_view = ProjectView(vba_project)
