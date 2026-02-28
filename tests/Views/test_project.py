@@ -1,8 +1,4 @@
 import unittest.mock
-
-from ms_ovba.vbaProject import VbaProject
-from ms_ovba.Models.Entities.doc_module import DocModule
-from ms_ovba.Models.Entities.std_module import StdModule
 from ms_ovba.Views.project import Project
 from typing import Type, TypeVar
 
@@ -22,12 +18,29 @@ class NotSoRandom():
         return cls._rand.pop(0)
 
 
+class Obj:
+    def __init__(self, name) -> None:
+        self.value = name
+
+
+class Mod:
+    def __init__(self, name) -> None:
+        self.modName = Obj(name)
+
+
+class MockVbaProject:
+    def __init__(self) -> None:
+        mod1 = Mod("Module1")
+        mod1.workspace = [26, 26, 1349, 522, 'Z']
+        self.modules = [Mod("ThisWorkbook"), Mod("Sheet1"), mod1]
+        self.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
+
+
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
 def test_blank() -> None:
     rand = [0x41, 0xBC, 0x7B, 0x7B, 0x37, 0x7B, 0x7B, 0x7B]
     NotSoRandom.set_seed(rand)
-    vba_project = VbaProject()
-    vba_project.set_project_id('{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}')
+    vba_project = MockVbaProject()
     project = Project(vba_project)
     project.add_attribute("HelpContextID", "0")
     project.add_attribute("VersionCompatible32", "393222000")
@@ -35,16 +48,6 @@ def test_blank() -> None:
     project.hostExtenderInfo = ("&H00000001="
                                 + "{3832D640-CF90-11CF-8E43-00A0C911005A};VBE;"
                                 + "&H00000000")
-
-    this_workbook = DocModule("ThisWorkbook")
-    sheet1 = DocModule("Sheet1")
-    module1 = StdModule("Module1")
-    module1.add_workspace(26, 26, 1349, 522, 'Z')
-
-    vba_project.add_module(this_workbook)
-    vba_project.add_module(sheet1)
-    vba_project.add_module(module1)
-
     file = open("tests/blank/vbaProject.bin", "rb")
     file.seek(0x2180)
     expected = file.read(0x0080)
