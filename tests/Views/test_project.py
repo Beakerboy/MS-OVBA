@@ -35,6 +35,9 @@ class MockVbaProject:
         self.modules = [Mod("ThisWorkbook"), Mod("Sheet1"), mod1]
         self.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
 
+    def get_codepage_name(self):
+        return 'cp1252'
+
 
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
 def test_blank() -> None:
