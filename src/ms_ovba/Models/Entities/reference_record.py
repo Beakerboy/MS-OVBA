@@ -10,7 +10,7 @@ class ReferenceRecord:
     @staticmethod
     def unpack(bytestring: bytes, endien: str) -> T:
         endien_symbol = '<' if endien == 'little' else '>'
-        id = struct.unpack(endien_symbol + "H", bytestring)
+        id = struct.unpack(endien_symbol + "I", bytestring)
         if id == 0x0000D:
             ref = ReferenceRegistered.unpack(bytestring, endien)
         else if id == 0x0000E:
