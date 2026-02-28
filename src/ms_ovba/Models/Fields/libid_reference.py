@@ -1,3 +1,4 @@
+import struct
 import uuid
 from typing import TypeVar
 
@@ -47,5 +48,18 @@ class LibidReference():
     def __len__(self: T) -> int:
         return len(str(self))
 
+    @staticmethod
+    def unpack(data: bytes):
+        guid, version, lcid, path, name = data.decode('ascii').split("#")
+        prefix = guid[:3]
+        guid = uuid.UUID(guid[3:])
+        if prefix[:2] != "*\\":
+            raise Exception("Improper prefix")
+        kind = prefix[2:]
+        if kind != "G" and kind != "H":
+            raise Exception("Unknown Reference Kind")
+        return LibidReference(guid, version, lcid,
+                              path, name)
+        
     def _is_windows_path(self: T, path: str) -> bool:
         return path[0] != '/'
