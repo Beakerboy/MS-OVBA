@@ -4,6 +4,7 @@ from ms_ovba.Views.project_view import ProjectView
 class MockVbaProject():
 
     def __init__(self) -> None:
+        self.endien = 'little'
         self._performance_cache = b''
         self._performance_cache_version = 0xFFFF
 
