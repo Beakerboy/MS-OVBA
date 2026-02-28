@@ -1,10 +1,10 @@
 from typing import TypeVar
 
 
-T = TypeVar('T', bound='ReferenceType')
+T = TypeVar('T', bound='ReferenceRecord')
 
 
-class ReferenceType:
+class ReferenceRecord:
 
     def pack(self: T, codepage_name: str, endien: str) -> bytes:
         return b''
