@@ -29,7 +29,7 @@ class Mod:
         self.workspace = [0, 0, 0, 0, 'C']
 
     def to_project_module_string(self):
-        return ""
+        return "=" + self.modName.value
 
 
 class MockVbaProject:
