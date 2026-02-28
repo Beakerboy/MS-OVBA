@@ -27,3 +27,32 @@ class Reference():
             name_pack = name_de.pack(cp_name, endien)
 
         return name_pack + self._ref.pack(cp_name, endien)
+
+    @staticmethod
+    def unpack(data: bytes) -> T:
+        # Read 2 bytes into id
+        # if id == 0x0016:
+        #     Read 4 bytes into size1
+        #     Read size1 bytes into name
+        #     Read 4 bytes into size2
+        #     if size2 != size1 * 2:
+        #         raise warning
+        #     read size2 bytes into name2
+        #     if name2 != unicode version on name1:
+        #         raise warning
+        #     read 2 bytes into id
+        #
+        # if id == 0x0000D:
+        #     return ReferenceRegistered.unpack(bytestring)
+        # else if id == 0x0000E:
+        #     return ReferenceProject.unpack(bytestring)
+        # else if id == 0x0002F:
+        #     return ReferenceControl.unpack(bytestring)
+        # else if id == 0x00033:
+        #     return ReferenceOriginal.unpack(bytestring)
+        # else raise warning
+        
+        
+        
+        
+        
