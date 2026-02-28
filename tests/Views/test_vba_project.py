@@ -2,8 +2,20 @@ from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Views.project_view import ProjectView
 
 
+class MockVbaProject():
+
+    def __init__(self: T) -> None:
+        self._performance_cache = b''
+        self._performance_cache_version = 0xFFFF
+        
+    def set_performance_cache(self: T, cache: bytes) -> None:
+        self._performance_cache = cache
+
+    def get_performance_cache_version():
+        return self._performance_cache_version
+    
 def test_vba_project() -> None:
-    vba_project = VbaProject()
+    vba_project = MockVbaProject()
     vba_project_view = ProjectView(vba_project)
     expected = b'\xCC\x61\xFF\xFF\x00\x03\x00'
     assert vba_project_view.to_bytes() == expected
