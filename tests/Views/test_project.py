@@ -27,18 +27,24 @@ class Mod:
     def __init__(self, name, type) -> None:
         self.modName = Obj(name)
         self.workspace = [0, 0, 0, 0, 'C']
-        self.type = type
 
     def to_project_module_string(self):
-        return self.type + "=" + self.modName.value
+        return "Document" + "=" + self.modName.value + "/&H00000000"
+
+class Mod2:
+    def __init__(self, name) -> None:
+        self.modName = Obj(name)
+        self.workspace = [26, 26, 1349, 522, 'Z']
+
+    def to_project_module_string(self):
+        return "Module=Module1"
 
 
 class MockVbaProject:
     def __init__(self) -> None:
-        mod1 = Mod("Module1", "Module")
-        mod1.workspace = [26, 26, 1349, 522, 'Z']
-        self.modules = [Mod("ThisWorkbook", "Document"),
-                        Mod("Sheet1", "Document"), mod1]
+        mod1 = Mod1("Module1", "Module")
+        self.modules = [Mod("ThisWorkbook"),
+                        Mod("Sheet1"), mod1]
         self.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
 
     def get_codepage_name(self):
