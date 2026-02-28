@@ -1,4 +1,4 @@
-from ms_ovba.Models.Entities.reference_type import ReferenceType
+from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.project_reference import ProjectReference
 from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import TypeVar
@@ -7,7 +7,7 @@ from typing import TypeVar
 T = TypeVar('T', bound='ReferenceProject')
 
 
-class ReferenceProject(ReferenceType):
+class ReferenceProject(ReferenceRecord):
 
     def __init__(self: T, codepage_name: str,
                  ref: ProjectReference) -> None:
