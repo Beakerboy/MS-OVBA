@@ -46,7 +46,8 @@ class Reference():
             if size2 != size1 * 2:
                 # raise warning
                 pass
-            # name2 = struct.unpack_from(endien_symbol + size2 + "s", data, offset)
+            # format = endien_symbol + size2 + "s"
+            # name2 = struct.unpack_from(format, data, offset)
             offset += size2
             # if name2 != unicode version on name1:
             #     raise warning
