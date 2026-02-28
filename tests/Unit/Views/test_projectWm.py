@@ -1,9 +1,13 @@
 from ms_ovba.Views.projectWm import ProjectWm
 
 
+class Obj:
+    def __init__(self, name) -> None:
+        self.name = name
+
 class Mod:
     def __init__(self, name) -> None:
-        self.modName.value = name
+        self.modName = Obj(name)
 
 
 class MockVbaProject:
