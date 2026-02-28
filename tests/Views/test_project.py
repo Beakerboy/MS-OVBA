@@ -50,6 +50,9 @@ class MockVbaProject:
     def get_password(self):
         return b'\x00'
 
+    def get_visibility_state(self):
+        return b'\xFF'
+
 
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
 def test_blank() -> None:
