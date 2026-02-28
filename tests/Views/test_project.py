@@ -27,7 +27,7 @@ class Mod:
     def __init__(self, name) -> None:
         self.modName = Obj(name)
 
-    def to_project_module_string():
+    def to_project_module_string(self):
         return ""
 
 
