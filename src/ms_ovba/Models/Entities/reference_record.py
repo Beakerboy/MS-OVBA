@@ -1,4 +1,6 @@
 import struct
+from ms_ovba.Models.Entities.reference_project import ReferenceProject
+from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 from typing import TypeVar
 
 
