@@ -36,7 +36,7 @@ class ReferenceRegistered(ReferenceRecord):
     def unpack(data: bytes, endien: str) -> T:
         endien_symbol = '<' if endien == 'little' else '>'
         offset = 0
-        id = struct.unpack_from(endien_symbol + "H", data, offset)
+        id, _ = struct.unpack_from(endien_symbol + "H", data, offset)
         offset += 2
         if id != 0x000D:
             raise ValueError("Incorrect id in data. Received " + id + " but expected 0x000D")
