@@ -34,23 +34,23 @@ class Reference():
         endien_symbol = '<' if endien == 'little' else '>'
         name = None
         offset = 0
-        id = struct.unpack_from(endien_stmbol + "H", data, offset)
+        id = struct.unpack_from(endien_symbol + "H", data, offset)
         if id == 0x0016:
             offset += 2
-            size1 = struct.unpack_from(endien_stmbol + "I", data, offset)
+            size1 = struct.unpack_from(endien_symbol + "I", data, offset)
             offset += 4
-            name = struct.unpack_from(endien_stmbol + size1 + "s", data, offset)
+            name = struct.unpack_from(endien_symbol + size1 + "s", data, offset)
             offset += size1
-            size2 = struct.unpack_from(endien_stmbol + "I", data, offset)
+            size2 = struct.unpack_from(endien_symbol + "I", data, offset)
             offset += 4
             if size2 != size1 * 2:
                 # raise warning
                 pass
-            name2 = struct.unpack_from(endien_stmbol + size2 + "s", data, offset)
+            name2 = struct.unpack_from(endien_symbol + size2 + "s", data, offset)
             offset += size2
             # if name2 != unicode version on name1:
                 # raise warning
-            id = struct.unpack_from(endien_stmbol + "H", data, offset)
+            id = struct.unpack_from(endien_symbol + "H", data, offset)
         bytestring = data[offset:]
         ref = ReferenceRecord.unpack(bytestring, endien)
         return Record("cp", ref, name)
