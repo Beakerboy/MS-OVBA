@@ -44,6 +44,8 @@ class MockVbaProject:
     def get_project_id(self):
         return self.project_id
 
+    def get_protection_state(self):
+        return b'\x00\x00\x00\x00'
 
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
 def test_blank() -> None:
