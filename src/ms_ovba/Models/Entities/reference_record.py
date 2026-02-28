@@ -10,7 +10,9 @@ class ReferenceRecord:
     @staticmethod
     def unpack(bytestring: bytes, endien: str) -> T:
         from ms_ovba.Models.Entities.reference_project import ReferenceProject
-        from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
+        from ms_ovba.Models.Entities.reference_registered import (
+            ReferenceRegistered
+        )
         endien_symbol = '<' if endien == 'little' else '>'
         id = struct.unpack(endien_symbol + "H", bytestring)
         if id == 0x000D:
