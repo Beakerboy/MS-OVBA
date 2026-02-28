@@ -1,3 +1,4 @@
+import struct
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
@@ -34,8 +35,8 @@ class Reference():
         name = None
         offset = 0
         id = struct.unpack_from(endien_stmbol + "H", data, offset)
-        offset += 2
         if id == 0x0016:
+            offset += 2
             size1 = struct.unpack_from(endien_stmbol + "I", data, offset)
             offset += 4
             name = struct.unpack_from(endien_stmbol + size1 + "s", data, offset)
@@ -50,18 +51,6 @@ class Reference():
             # if name2 != unicode version on name1:
                 # raise warning
             id = struct.unpack_from(endien_stmbol + "H", data, offset)
-            offset += 2
-
-        
-        if id == 0x0000D:
-            ref = ReferenceRegistered.unpack(bytestring, endien)
-        else if id == 0x0000E:
-            ref = ReferenceProject.unpack(bytestring, endien)
-        else if id == 0x0002F:
-            ref = ReferenceControl.unpack(bytestring, endien)
-        else if id == 0x00033:
-            ref = ReferenceOriginal.unpack(bytestring, endien)
-        else:
-            # raise warning
-            return None
+        bytestring = data[offset:]
+        ref = ReferenceRecord.unpack(bytestring, endien)
         return Record("cp", ref, name)
