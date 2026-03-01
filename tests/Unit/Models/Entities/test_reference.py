@@ -1,11 +1,10 @@
 from ms_ovba.Models.Entities.reference import Reference
-from ms_ovba.Models.Entities.reference_project import ReferenceProject
-from ms_ovba.Models.Fields.project_reference import ProjectReference
 
 
 class MockDEString:
     def pack(self, one, two) -> bytes:
         return b'VBAProjectV\x00B\x00A\x00P\x00r\x00o\x00j\x00e\x00c\x00t\x00'
+
 
 def test_constructor1() -> None:
     path = "C:\\Example Path\\Example-ReferencedProject.xls"
@@ -15,7 +14,7 @@ def test_constructor1() -> None:
 
 
 def test_constructor2() -> None:
-    ref = Reference("cp1", ref_proj, "VBAProject1")
+    ref = Reference("cp1", "", "VBAProject1")
     assert isinstance(ref, Reference)
 
 
