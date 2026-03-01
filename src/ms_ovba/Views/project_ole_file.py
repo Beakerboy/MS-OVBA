@@ -16,7 +16,7 @@ T = TypeVar('T', bound='ProjectOleFile')
 class ProjectOleFile:
 
     @staticmethod
-    def _build_ole_directory(project: VBAProject) -> RootDirectory:
+    def _build_ole_directory(project: VbaProject) -> RootDirectory:
         """
         Create all the custom views for the OLE file:
             dir
@@ -67,6 +67,6 @@ class ProjectOleFile:
         ole_file.create_file("vbaProject.bin")
 
     @staticmethod
-    def write_file(project: VBAProject) -> None:
+    def write_file(project: VbaProject) -> None:
         directory = ProjectOleFile._build_ole_directory(project)
         ProjectOleFile._write_ole_file(directory)
