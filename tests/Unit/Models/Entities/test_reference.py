@@ -14,7 +14,7 @@ class MockDEString:
 
 class MockRefProj:
     def pack(self, foo, bar) -> bytes:
-        return b''
+        return b'\x0e\x00^\x00\x00\x000'
 
 
 def test_constructor1() -> None:
