@@ -7,9 +7,9 @@ class MockDEString:
         pass
 
     def pack(self, one, two) -> bytes:
-        return (b'\x16\x00\x0B\x00\x00\x00VBAProject' +
+        return (b'\x16\x00\x0B\x00\x00\x00VBAProject1' +
                 b'\x3E\x00\x16\x00\x00\x00V\x00B\x00A\x00P\x00r' +
-                b'\x00o\x00j\x00e\x00c\x00t\x00')
+                b'\x00o\x00j\x00e\x00c\x00t\x001\x00')
 
 
 class MockRefProj:
