@@ -30,7 +30,7 @@ def test_pack() -> None:
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
-    ref_reg = ReferenceRegistered(codepage_name, MockLibid())
+    ref_reg = ReferenceRegistered(codepage_name, MockLibid1())
     results = ref_reg.pack(codepage_name, 'little')
     assert results == expected
 
