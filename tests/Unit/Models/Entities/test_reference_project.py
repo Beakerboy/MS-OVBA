@@ -8,7 +8,7 @@ def test_constructor() -> None:
 
 
 class MockProjectReference2:
-    def __len__():
+    def __len__(self):
         return 0x0020
 
     def __str__(self):
@@ -16,7 +16,7 @@ class MockProjectReference2:
 
 
 class MockProjectReference:
-    def __len__():
+    def __len__(self):
         return 0x0030
 
     def __str__(self):
