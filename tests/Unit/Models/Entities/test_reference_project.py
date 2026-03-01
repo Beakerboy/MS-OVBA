@@ -2,9 +2,8 @@ from ms_ovba.Models.Entities.reference_project import ReferenceProject
 
 
 def test_constructor() -> None:
-    ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
+    ref = MockProjectReference()
     module = ReferenceProject("cp1", ref)
-
     assert isinstance(module, ReferenceProject)
 
 
