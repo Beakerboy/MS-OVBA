@@ -3,15 +3,12 @@ from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 
 
+class MockLibid:
+    pass
+
+
 def test_constructor() -> None:
-    guid = uuid.UUID('0002043000000000C000000000000046')
-    ref = LibidReference(
-        guid,
-        "2.0",
-        "0",
-        "C:\\Windows\\system32\\stdole2.tlb",
-        "OLE Automation"
-    )
+    ref = MockLibid()
     module = ReferenceRegistered("cp1", ref)
     assert isinstance(module, ReferenceRegistered)
 
