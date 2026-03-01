@@ -35,4 +35,4 @@ def test_unpack() -> None:
     data = (b'*\\G{00020430-0000-0000-C000-000000000046}'
             b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation')
     lib = LibidReference.unpack(data)
-    assert lib.LibidReference_version == "2.0"
+    assert lib._version == "2.0"
