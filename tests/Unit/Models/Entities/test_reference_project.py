@@ -14,6 +14,9 @@ class MockProjectReference:
     def __str__(self):
         return "*\\CC:\\Example Path\\Example-ReferencedProject.xls"
 
+    def relative(self):
+        return "Example-ReferencedProject.xls"
+
 
 def test_pack() -> None:
     ref = MockProjectReference()
