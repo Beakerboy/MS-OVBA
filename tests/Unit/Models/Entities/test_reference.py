@@ -3,6 +3,9 @@ from unittest import mock
 
 
 class MockDEString:
+    def __init__(self, foo, bar) -> None:
+        pass
+
     def pack(self, one, two) -> bytes:
         return (b'\x0B\x00\x00\x00VBAProject' +
                 b'\x16\x00\x00\x00V\x00B\x00A\x00P\x00r' +
