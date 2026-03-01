@@ -13,7 +13,9 @@ class MockLibid1:
 
 class MockLibid2:
     def unpack(self, data, endien):
-        self.data = data
+        lib = MockLibid2()
+        lib.data = data
+        return lib
 
 
 def test_constructor() -> None:
