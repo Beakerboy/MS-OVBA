@@ -39,8 +39,12 @@ def test_unpack() -> None:
     assert lib._version == "2.0"
 
 
-def test_unpack_exception() -> None:
-    data = (b'*\\A{00020430-0000-0000-C000-000000000046}'
-            b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation')
+@pytest.mark.parametrize("data", [
+    (b'*\\A{00020430-0000-0000-C000-000000000046}'
+     b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation'),
+    (b'+\\G{00020430-0000-0000-C000-000000000046}'
+     b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation'),
+])
+def test_unpack_exception(data) -> None:
     with pytest.raises(Exception):
         LibidReference.unpack(data)
