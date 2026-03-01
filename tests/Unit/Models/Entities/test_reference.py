@@ -16,7 +16,8 @@ class MockRefProj:
     def pack(self, foo, bar) -> bytes:
         return (b'\x0e\x00^\x00\x00\x000\x00\x00\x00' +
                 b'*\\CC:\\Example Path\\Example-ReferencedProject.xls ' +
-                b'\x00\x00\x00*\\CExample-ReferencedProject.xlsW\x02\xbee\x17\x00')
+                b'\x00\x00\x00*\\CExample-ReferencedProject.xls' +
+                b'W\x02\xbee\x17\x00')
 
 
 def test_constructor1() -> None:
