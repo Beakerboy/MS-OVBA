@@ -2,17 +2,19 @@ from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 from unittest.mock import patch
 
 
-class MockLibid:
+class MockLibid1:
     def __str__():
         return ("*{00020430-0000-0000-C000-000000000046}#2.0#0#" +
                 "C:\\Windows\\system32\\stdole2.tlb#OLE Automation")
 
+
+class MockLibid2:
     def unpack(self, data, endien):
         self.data = data
 
 
 def test_constructor() -> None:
-    ref = MockLibid()
+    ref = MockLibid1()
     module = ReferenceRegistered("cp1", ref)
     assert isinstance(module, ReferenceRegistered)
 
@@ -34,7 +36,7 @@ def test_pack() -> None:
 
 
 def test_unpack()
-    with mock.patch('ms_ovba.Models.Entities.reference_registered.LibidReference', MockLibid):
+    with mock.patch('ms_ovba.Models.Entities.reference_registered.LibidReference', MockLibid2):
     hex = ("0D 00 68 00 00 00 5E 00 00 00 2A 5C 47 7B 30 30",
            "30 32 30 34 33 30 2D 30 30 30 30 2D 30 30 30 30",
            "2D 43 30 30 30 2D 30 30 30 30 30 30 30 30 30 30",
