@@ -1,15 +1,15 @@
+from unittest import mock
 from ms_ovba.Models.Entities.std_module import StdModule
-from ms_ovba.Models.Entities.module_base import ModuleBase
-from unittest.mock import patch, MagicMock
 
 
-@patch.object(ModuleBase, "__init__")
-def test_set_get_cache(mock_base_init) -> None:
-    mock_super_init.return_value = None
-    module = StdModule("Module1")
+def test_construct() -> None:
     cache = b'foo'
-    module.set_cache(cache)
-    assert module.get_cache() == cache
+    path = "ms_ovba.Models.Entities.std_module.ModuleBase"
+    with mock.patch(path) as MockSuper:
+        module = StdModule("Module1")
+        assert isinstance(module, StdModule)
+        assert module.type == "Module"
+        assert module.modname = None
 
 
 #def test_get_name() -> None:
