@@ -17,7 +17,7 @@ def test_constructor() -> None:
     assert isinstance(module, ReferenceRegistered)
 
 
-def test_pack() -> None
+def test_pack() -> None:
     expected_hex = ("0D 00 68 00 00 00 5E 00 00 00 2A 5C 47 7B 30 30",
                     "30 32 30 34 33 30 2D 30 30 30 30 2D 30 30 30 30",
                     "2D 43 30 30 30 2D 30 30 30 30 30 30 30 30 30 30",
