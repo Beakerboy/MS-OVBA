@@ -1,4 +1,5 @@
 import uuid
+import pytest
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 
 
@@ -29,3 +30,21 @@ def test_posix() -> None:
     expected = ("*\\H{00020430-0000-0000-C000-000000000046}"
                 "#2.0#0#//usr/bin/stdole2.tlb#OLE Automation")
     assert str(libid_ref) == expected
+
+
+def test_unpack() -> None:
+    data = (b'*\\G{00020430-0000-0000-C000-000000000046}'
+            b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation')
+    lib = LibidReference.unpack(data)
+    assert lib._version == "2.0"
+
+
+@pytest.mark.parametrize("data", [
+    (b'*\\A{00020430-0000-0000-C000-000000000046}'
+     b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation'),
+    (b'+\\G{00020430-0000-0000-C000-000000000046}'
+     b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation'),
+])
+def test_unpack_exception(data) -> None:
+    with pytest.raises(Exception):
+        LibidReference.unpack(data)
