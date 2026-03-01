@@ -39,5 +39,7 @@ def test_pack() -> None:
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
-    results = ref.pack(codepage_name, 'little')
-    assert results == expected
+    path = 'ms_ovba.Models.Entities.reference.DoubleEncodedString'
+    with mock.patch(path, MockDEString):
+        results = ref.pack(codepage_name, 'little')
+        assert results == expected
