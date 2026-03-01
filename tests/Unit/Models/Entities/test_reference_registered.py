@@ -53,7 +53,7 @@ def test_unpack():
     path = 'ms_ovba.Models.Entities.reference_registered.LibidReference'
     with mock.patch(path, MockLibid2):
         ref = ReferenceRegistered.unpack(data, "little")
-        assert ref.libid.data == (b'*\\G{00020430-0000-0000-C000-000000000046}' +
-                                  b'#2.0#0#' +
+        assert ref.libid.data == (b'*\\G{00020430-0000-0000-C000-' +
+                                  b'000000000046}#2.0#0#' +
                                   b'C:\\Windows\\system32\\stdole2.tlb#' +
                                   b'OLE Automation')
