@@ -43,4 +43,4 @@ def test_unpack_exception() -> None:
     data = (b'*\\A{00020430-0000-0000-C000-000000000046}'
             b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation')
     with pytest.raises(Exception):
-        lib = LibidReference.unpack(data)
+        LibidReference.unpack(data)
