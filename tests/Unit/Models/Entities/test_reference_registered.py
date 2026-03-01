@@ -3,29 +3,21 @@ from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 
 
+class MockLibid:
+    def __str__():
+        return ("*{00020430-0000-0000-C000-000000000046}#2.0#0#" +
+               "C:\\Windows\\system32\\stdole2.tlb#OLE Automation")
+    def unpack(data, endien):
+        self.data = data
+
+
 def test_constructor() -> None:
-    guid = uuid.UUID('0002043000000000C000000000000046')
-    ref = LibidReference(
-        guid,
-        "2.0",
-        "0",
-        "C:\\Windows\\system32\\stdole2.tlb",
-        "OLE Automation"
-    )
+    ref = MockLibid()
     module = ReferenceRegistered("cp1", ref)
     assert isinstance(module, ReferenceRegistered)
 
 
-def test_pack() -> None:
-    guid = uuid.UUID('0002043000000000C000000000000046')
-    ref = LibidReference(
-        guid,
-        "2.0",
-        "0",
-        "C:\\Windows\\system32\\stdole2.tlb",
-        "OLE Automation"
-    )
-
+def test_pack() -> None
     expected_hex = ("0D 00 68 00 00 00 5E 00 00 00 2A 5C 47 7B 30 30",
                     "30 32 30 34 33 30 2D 30 30 30 30 2D 30 30 30 30",
                     "2D 43 30 30 30 2D 30 30 30 30 30 30 30 30 30 30",
@@ -36,7 +28,7 @@ def test_pack() -> None:
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
-    ref_reg = ReferenceRegistered(codepage_name, ref)
+    ref_reg = ReferenceRegistered(codepage_name, MockLibid())
     results = ref_reg.pack(codepage_name, 'little')
     assert results == expected
 
