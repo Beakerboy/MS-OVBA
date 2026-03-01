@@ -6,7 +6,9 @@ from ms_ovba.Models.Fields.libid_reference import LibidReference
 class MockLibid:
     def __str__():
         return ("*{00020430-0000-0000-C000-000000000046}#2.0#0#" +
-               "C:\\Windows\\system32\\stdole2.tlb#OLE Automation")
+                "C:\\Windows\\system32\\stdole2.tlb#OLE Automation")
+        
+    @staticmethod
     def unpack(data, endien):
         self.data = data
 
