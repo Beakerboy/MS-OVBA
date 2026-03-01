@@ -44,7 +44,9 @@ def test_unpack():
            "64 6F 6C 65 32 2E 74 6C 62 23 4F 4C 45 20 41 75",
            "74 6F 6D 61 74 69 6F 6E 00 00 00 00 00 00")
     data = bytes.fromhex(" ".join(hex))
-    with mock.patch('ms_ovba.Models.Entities.reference_registered.LibidReference', MockLibid2):
+    path = 'ms_ovba.Models.Entities.reference_registered.LibidReference'
+    with mock.patch(path, MockLibid2):
         ref = ReferenceRegistered.unpack(data, "little")
-        assert ref.libid.data == (b'*{00020430-0000-0000-C000-000000000046}#2.0#0#' +
-                                  b'C:\\Windows\\system32\\stdole2.tlb#OLE Automation')
+        assert ref.libid.data == (b'*{00020430-0000-0000-C000-000000000046}" +
+                                  b'#2.0#0#C:\\Windows\\system32\\stdole2.tlb#' +
+                                  b'OLE Automation')
