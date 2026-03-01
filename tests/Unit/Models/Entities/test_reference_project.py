@@ -1,5 +1,4 @@
 from ms_ovba.Models.Entities.reference_project import ReferenceProject
-from ms_ovba.Models.Fields.project_reference import ProjectReference
 
 
 def test_constructor() -> None:
@@ -9,8 +8,16 @@ def test_constructor() -> None:
     assert isinstance(module, ReferenceProject)
 
 
+class MockProjectReference:
+    def __len__():
+        return 0x0030
+
+    def __str__(self):
+        return "*\\CC:\\Example Path\\Example-ReferencedProject.xls"
+
+
 def test_pack() -> None:
-    ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
+    ref = MockProjectReference()
 
     expected_hex = ("0E 00 5E 00 00 00 30 00 00 00 2A 5C 43 43 3A 5C",
                     "45 78 61 6D 70 6C 65 20 50 61 74 68 5C 45 78 61",
