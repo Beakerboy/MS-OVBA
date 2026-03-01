@@ -14,8 +14,8 @@ class MockDEString:
 
 class MockRefProj:
     def pack(self, foo, bar) -> bytes:
-        return (b'\x0e\x00^\x00\x00\x000' +
-                b'\x00\x00\x00*\\CC:\\Example Path\\Example-ReferencedProject.xls ')
+        return (b'\x0e\x00^\x00\x00\x000\x00\x00\x00' +
+                b'*\\CC:\\Example Path\\Example-ReferencedProject.xls ')
 
 
 def test_constructor1() -> None:
