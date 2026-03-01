@@ -6,6 +6,10 @@ class MockDEString:
         return b'VBAProjectV\x00B\x00A\x00P\x00r\x00o\x00j\x00e\x00c\x00t\x00'
 
 
+class MocRefProj:
+    pass
+
+
 def test_constructor1() -> None:
     path = "C:\\Example Path\\Example-ReferencedProject.xls"
     ref_proj = ""
@@ -19,9 +23,7 @@ def test_constructor2() -> None:
 
 
 def test_pack() -> None:
-    path = "C:\\Example Path\\Example-ReferencedProject.xls"
-    proj_ref = ProjectReference(path)
-    ref_proj = ReferenceProject("cp1", proj_ref)
+    ref_proj = MockRefProj()
     ref = Reference("cp1", ref_proj, "VBAProject1")
 
     expected_hex = ("16 00 0B 00 00 00 56 42 41 50 72 6F 6A 65 63 74",
