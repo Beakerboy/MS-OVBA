@@ -1,4 +1,4 @@
-import unittest.mock
+from unittest import mock
 from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 
 
