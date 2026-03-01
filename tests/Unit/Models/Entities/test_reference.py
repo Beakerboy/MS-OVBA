@@ -6,7 +6,7 @@ class MockDEString:
         return b'VBAProjectV\x00B\x00A\x00P\x00r\x00o\x00j\x00e\x00c\x00t\x00'
 
 
-class MocRefProj:
+class MockRefProj:
     pass
 
 
