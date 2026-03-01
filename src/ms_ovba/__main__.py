@@ -71,8 +71,7 @@ def main() -> None:
     office_reference = ReferenceRecord(codepage_name, "Office", libid_ref2)
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
-    ole_file = ProjectOleFile(project)
-    ole_file.write_file()
+    ProjectOleFile.write_file(project)
     file = glob.glob('vbaProject.bin')
 
 
