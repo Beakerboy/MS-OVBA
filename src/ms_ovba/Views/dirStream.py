@@ -89,3 +89,4 @@ class DirStream():
             minor_version,
             constants
         ])
+        return information
