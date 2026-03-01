@@ -1,6 +1,5 @@
-import uuid
 from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
-from ms_ovba.Models.Fields.libid_reference import LibidReference
+from unittest.mock import patch
 
 
 class MockLibid:
@@ -34,7 +33,8 @@ def test_pack() -> None:
     assert results == expected
 
 
-def test_unpack() -> None:
+def test_unpack()
+    with mock.patch('ms_ovba.Models.Entities.reference_registered.LibidReference', MockLibid):
     hex = ("0D 00 68 00 00 00 5E 00 00 00 2A 5C 47 7B 30 30",
            "30 32 30 34 33 30 2D 30 30 30 30 2D 30 30 30 30",
            "2D 43 30 30 30 2D 30 30 30 30 30 30 30 30 30 30",
@@ -44,4 +44,5 @@ def test_unpack() -> None:
            "74 6F 6D 61 74 69 6F 6E 00 00 00 00 00 00")
     data = bytes.fromhex(" ".join(hex))
     ref = ReferenceRegistered.unpack(data, "little")
-    assert isinstance(ref.libid, LibidReference)
+    assert ref.libid.data == (b'*{00020430-0000-0000-C000-000000000046}#2.0#0#' +
+                b'C:\Windows\system32\stdole2.tlb#OLE Automation')
