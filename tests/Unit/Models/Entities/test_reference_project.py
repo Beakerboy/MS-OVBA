@@ -7,6 +7,14 @@ def test_constructor() -> None:
     assert isinstance(module, ReferenceProject)
 
 
+class MockProjectReference2:
+    def __len__():
+        return 0x0020
+
+    def __str__(self):
+        return "Example-ReferencedProject.xls"
+
+
 class MockProjectReference:
     def __len__():
         return 0x0030
@@ -15,7 +23,7 @@ class MockProjectReference:
         return "*\\CC:\\Example Path\\Example-ReferencedProject.xls"
 
     def relative(self):
-        return "Example-ReferencedProject.xls"
+        return MockProjectReference2()
 
 
 def test_pack() -> None:
