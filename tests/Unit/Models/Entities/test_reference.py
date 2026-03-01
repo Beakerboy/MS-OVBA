@@ -3,7 +3,7 @@ from ms_ovba.Models.Entities.reference import Reference
 
 class MockDEString:
     def pack(self, one, two) -> bytes:
-        return b'VBAProjectV\x00B\x00A\x00P\x00r\x00o\x00j\x00e\x00c\x00t\x00'
+        return b'VBAProject\x16\x00\x00\x00V\x00B\x00A\x00P\x00r\x00o\x00j\x00e\x00c\x00t\x00'
 
 
 class MockRefProj:
