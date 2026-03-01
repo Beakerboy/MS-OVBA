@@ -12,7 +12,9 @@ class MockLibid1:
 
 
 class MockLibid2:
-    def unpack(self, data, endien):
+
+    @staticmethod
+    def unpack(data, endien):
         lib = MockLibid2()
         lib.data = data
         return lib
