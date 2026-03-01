@@ -11,7 +11,6 @@ class MocRefProj:
 
 
 def test_constructor1() -> None:
-    path = "C:\\Example Path\\Example-ReferencedProject.xls"
     ref_proj = ""
     ref = Reference("cp1", ref_proj)
     assert isinstance(ref, Reference)
