@@ -7,7 +7,8 @@ class MockDEString:
 
 
 class MockRefProj:
-    pass
+    def pack(self, foo, bar) -> bytes:
+        return b''
 
 
 def test_constructor1() -> None:
