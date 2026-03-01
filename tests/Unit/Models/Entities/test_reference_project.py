@@ -12,7 +12,7 @@ class MockProjectReference2:
         return 0x0020
 
     def __str__(self):
-        return "Example-ReferencedProject.xls"
+        return "*\\CExample-ReferencedProject.xls"
 
 
 class MockProjectReference:
