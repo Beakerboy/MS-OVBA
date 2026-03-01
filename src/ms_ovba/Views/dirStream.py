@@ -37,7 +37,7 @@ class DirStream():
         for record in references:
             output += record.pack(codepage_name, endien)
 
-        modules_header = IdSizeField(0x000F, 2, len(self.modules))
+        modules_header = IdSizeField(0x000F, 2, len(modules))
 
         output += (modules_header.pack(codepage_name, endien)
                    + self.project_cookie.pack(codepage_name, endien))
