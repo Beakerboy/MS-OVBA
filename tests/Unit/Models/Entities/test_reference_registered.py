@@ -1,5 +1,5 @@
+import unittest.mock
 from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
-from unittest.mock import patch
 
 
 class MockLibid1:
