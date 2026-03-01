@@ -3,6 +3,9 @@ from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 
 
 class MockLibid1:
+    def __len__():
+        return x005E
+
     def __str__():
         return ("*{00020430-0000-0000-C000-000000000046}#2.0#0#" +
                 "C:\\Windows\\system32\\stdole2.tlb#OLE Automation")
