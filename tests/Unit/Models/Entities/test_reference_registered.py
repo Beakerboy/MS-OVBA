@@ -21,7 +21,7 @@ class MockLibid2:
 
 def test_constructor() -> None:
     ref = MockLibid1()
-    module = ReferenceRegistered("cp1", ref)
+    module = ReferenceRegistered(ref)
     assert isinstance(module, ReferenceRegistered)
 
 
@@ -35,9 +35,9 @@ def test_pack() -> None:
                     "74 6F 6D 61 74 69 6F 6E 00 00 00 00 00 00")
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
-    codepage_name = "cp" + str(codepage)
-    ref_reg = ReferenceRegistered(codepage_name, MockLibid1())
-    results = ref_reg.pack(codepage_name, 'little')
+    cp_name = "cp" + str(codepage)
+    ref_reg = ReferenceRegistered(MockLibid1())
+    results = ref_reg.pack('little', cp_name)
     assert results == expected
 
 
