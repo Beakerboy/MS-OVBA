@@ -18,7 +18,7 @@ class Reference():
         self._ref = ref
         self._refname = name
 
-    def pack(self: T, cp_name: str, endien: str) -> bytes:
+    def pack(self: T, endien: str, cp_name: str) -> bytes:
         name_pack = b''
         if self._refname is not None:
             name_de = DoubleEncodedString([0x0016, 0x003E], self._refname)
