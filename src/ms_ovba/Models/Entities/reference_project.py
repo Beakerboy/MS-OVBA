@@ -9,13 +9,10 @@ T = TypeVar('T', bound='ReferenceProject')
 
 class ReferenceProject(ReferenceRecord):
 
-    def __init__(self: T, codepage_name: str,
-                 ref: ProjectReference) -> None:
-        # is self._codepage_name even needed?
-        self._codepage_name = codepage_name
+    def __init__(self: T, ref: ProjectReference) -> None:
         self._ref = ref
 
-    def pack(self: T, cp_name: str, endien: str) -> bytes:
+    def pack(self: T, endien: str, cp_name: str) -> bytes:
         endien_symbol = '<' if endien == 'little' else '>'
         lib_rel = self._ref.relative()
         libid_abs_size = len(self._ref)
