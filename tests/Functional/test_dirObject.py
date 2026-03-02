@@ -36,7 +36,7 @@ def test_dirstream() -> None:
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
     guid = uuid.UUID('0002043000000000C000000000000046')
-    libid_ref = ReferenceRegistered(codepage_name, LibidReference(
+    libid_ref = ReferenceRegistered(LibidReference(
         guid,
         "2.0",
         "0",
@@ -45,7 +45,7 @@ def test_dirstream() -> None:
     ))
     ole_reference = Reference(libid_ref, "stdole")
     guid = uuid.UUID('2DF8D04C5BFA101BBDE500AA0044DE52')
-    libid_ref2 = ReferenceRegistered(codepage_name, LibidReference(
+    libid_ref2 = ReferenceRegistered(LibidReference(
         guid,
         "2.0",
         "0",
