@@ -7,7 +7,7 @@ def test_H():
     assert field.pack == b'\x01\x00\x01\x00\x03\x00'
 
 
-def test_H():
+def test_I():
     field = IdSizeField(1, 4, 3)
     assert field.pack == b'\x01\x00\x01\x00\x03\x00\x00\x00'
 
