@@ -12,13 +12,17 @@ class DoubleEncodedString():
     """
     def __init__(self: T, ids: list, text: str) -> None:
         self.ids = ids
-        self.value = text
+        self._value = text
+
+    @property
+    def value(self) -> str:
+        return self._value
 
     def pack(self: T, endien: str, cp_name: str) -> bytes:
-        encoded = self.value.encode(cp_name)
+        encoded = self._value.encode(cp_name)
         self.mod_name1 = IdSizeField(self.ids[0], len(encoded), encoded)
         format = "utf_16_le" if endien == 'little' else "utf_16_be"
-        encoded = self.value.encode(format)
+        encoded = self._value.encode(format)
         self.mod_name2 = IdSizeField(self.ids[1], len(encoded), encoded)
         return (self.mod_name1.pack(endien)
                 + self.mod_name2.pack(endien))
