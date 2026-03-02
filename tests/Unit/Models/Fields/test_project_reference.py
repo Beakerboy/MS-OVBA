@@ -20,3 +20,9 @@ def test_len() -> None:
 def test_str() -> None:
     ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
     assert str(ref) == "*\\CC:\\Example Path\\Example-ReferencedProject.xls"
+
+
+def test_relative() -> None:
+    ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
+    rel = ref.relative()
+    assert str(rel) == "Example-ReferencedProject.xls"
