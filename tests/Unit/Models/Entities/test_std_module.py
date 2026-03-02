@@ -4,7 +4,7 @@ from ms_ovba.Models.Entities.std_module import StdModule
 
 def test_construct() -> None:
     path = "ms_ovba.Models.Entities.std_module.ModuleBase"
-    with mock.patch(path) as MockSuper:
+    with mock.patch(path):
         module = StdModule("Module1")
         assert isinstance(module, StdModule)
         assert module.type == "Module"
