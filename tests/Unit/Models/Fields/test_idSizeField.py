@@ -6,14 +6,13 @@ def test_string() -> None:
     field = IdSizeField(1, 2, "Hi")
     expected = b'\x01\x00\x02\x00\x00\x00Hi'
     assert field.pack("cp", "little") == expected
-    
+
 
 def test_H():
     field = IdSizeField(1, 2, 3)
     expected = b'\x01\x00\x02\x00\x00\x00\x03\x00'
     assert field.pack("cp", "little") == expected
-    
-    
+
 
 def test_I():
     field = IdSizeField(1, 4, 3)
