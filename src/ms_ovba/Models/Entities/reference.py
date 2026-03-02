@@ -13,11 +13,8 @@ class Reference():
     """
     2.3.4.2.2.1 REFERENCE Record
     """
-    def __init__(self: T, codepage_name: str,
-                 ref: ReferenceRecord,
+    def __init__(self: T, ref: ReferenceRecord,
                  name: str = None) -> None:
-        # is self._codepage_name even needed?
-        self._codepage_name = codepage_name
         self._ref = ref
         self._refname = name
 
