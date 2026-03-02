@@ -9,16 +9,17 @@ class MockBase:
         self.called = True
 
 
-def test_construct() -> None:
-    with mock.patch.object(StdModule.ModuleBase,
-                           "__init__") as mock_super_init:
-        mock_super_init.return_value = None
-        module = StdModule("Module1")
-        mock_super_init.assert_called_once_with("Module1")
+path = "ms_ovba.Models.Entities.std_module.ModuleBase.__init__"
 
-        assert isinstance(module, StdModule)
-        assert module.type == "Module"
-        assert not hasattr(module, 'modName')
+
+@patch(path, return_value=None)
+def test_construct(mock_base_init) -> None:
+    module = StdModule("Module1")
+    mock_base_init.assert_called_once_with("Module1")
+
+    assert isinstance(module, StdModule)
+    assert module.type == "Module"
+    assert not hasattr(module, 'modName')
 
 
 # def test_get_name() -> None:
