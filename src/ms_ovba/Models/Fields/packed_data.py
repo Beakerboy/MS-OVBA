@@ -15,6 +15,6 @@ class PackedData():
         self.values = values
         self.format = format
 
-    def pack(self: T, codepage_name: str, endien: str) -> bytes:
+    def pack(self: T, endien: str) -> bytes:
         endien_symbol = '<' if endien == 'little' else '>'
         return struct.pack(endien_symbol + self.format, *self.values)
