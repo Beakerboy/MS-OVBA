@@ -7,7 +7,9 @@ T = TypeVar('T', bound='PackedData')
 
 class PackedData():
     """
-    Multivalue field with a packing format
+    Multivalue field with a packing format.
+    This class allows a user to define a data format,
+    and render it at a later time.
     """
     def __init__(self: T, format: str, *values: Any) -> None:
         self.values = values
