@@ -2,16 +2,21 @@ from unittest import mock
 from ms_ovba.Models.Entities.std_module import StdModule
 
 
-path = "ms_ovba.Models.Entities.std_module.ModuleBase"
+class MockBase:
+    called = false
+    def __init__(self, foo) -> None:
+        self.called = true
 
 
-@mock.patch(path)
 def test_construct(mock_path) -> None:
-    module = StdModule("Module1")
-    # assert mock_path.called
-    assert isinstance(module, StdModule)
-    assert module.type == "Module"
-    assert not hasattr(module, 'modName')
+    path = "ms_ovba.Models.Entities.std_module.ModuleBase"
+    with mock.patch(path, MockBase):
+        module = StdModule("Module1")
+
+        assert isinstance(module, StdModule)
+        assert module.type == "Module"
+        assert not hasattr(module, 'modName')
+        assert MockBase.called
 
 
 # def test_get_name() -> None:
