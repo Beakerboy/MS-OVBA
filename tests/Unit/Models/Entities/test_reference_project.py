@@ -3,7 +3,7 @@ from ms_ovba.Models.Entities.reference_project import ReferenceProject
 
 def test_constructor() -> None:
     ref = MockProjectReference()
-    module = ReferenceProject("cp1", ref)
+    module = ReferenceProject(ref)
     assert isinstance(module, ReferenceProject)
 
 
