@@ -83,22 +83,22 @@ def test_full_file() -> None:
     project.set_include_projectwm(True)
     codepage = 0x04E4
     codepage_name = "cp" + str(codepage)
-    libid_ref = ReferenceRegistered(codepage_name, LibidReference(
+    libid_ref = ReferenceRegistered(LibidReference(
         uuid.UUID("0002043000000000C000000000000046"),
         "2.0",
         "0",
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     ))
-    ole_reference = Reference(codepage_name, libid_ref, "stdole")
-    libid_ref2 = ReferenceRegistered(codepage_name, LibidReference(
+    ole_reference = Reference(libid_ref, "stdole")
+    libid_ref2 = ReferenceRegistered(LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
         "0",
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
     ))
-    office_reference = Reference(codepage_name, libid_ref2, "Office")
+    office_reference = Reference(libid_ref2, "Office")
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
     proj_cookie = 0x08F3
