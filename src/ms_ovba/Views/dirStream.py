@@ -24,7 +24,7 @@ class DirStream():
     def to_bytes(self: T) -> bytes:
         information = self._load_information()
         endien = self.project.endien
-        codepage_name = self.project.get_codepage_name()
+        cp_name = self.project.get_codepage_name()
         pack_symbol = '<' if endien == 'little' else '>'
         # should be 0xFFFF
         cookie_value = self.project.get_project_cookie()
@@ -33,16 +33,16 @@ class DirStream():
         modules = self.project.modules
         output = b''
         for record in information:
-            output += record.pack(codepage_name, endien)
+            output += record.pack(endien, cp_name)
         for record in references:
-            output += record.pack(codepage_name, endien)
+            output += record.pack(endien, cp_name)
 
         modules_header = IdSizeField(0x000F, 2, len(modules))
 
-        output += (modules_header.pack(codepage_name, endien)
-                   + self.project_cookie.pack(codepage_name, endien))
+        output += (modules_header.pack(cp_name, endien)
+                   + self.project_cookie.pack(cp_name, endien))
         for record in modules:
-            output += record.pack(codepage_name, endien)
+            output += record.pack(cp_name, endien)
         output += struct.pack(pack_symbol + "HI", 16, 0)
         return output
 
