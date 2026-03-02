@@ -65,22 +65,22 @@ class ModuleBase():
                       val3: int, val4: int, val5: int) -> None:
         self.workspace = [val1, val2, val3, val4, val5]
 
-    def pack(self: T, codepage_name: str, endien: str) -> bytes:
+    def pack(self: T, endien: str, cp_name: str) -> bytes:
         """
         Pack the metadata for use in the dir stream.
         """
         typeid_value = 0x0022 if self.type == 'Document' else 0x0021
         type_id = PackedData("HI", typeid_value, 0)
         self.offsetRec = IdSizeField(0x0031, 4, len(self._cache))
-        output = (self.modName.pack(codepage_name, endien)
-                  + self.streamName.pack(codepage_name, endien)
-                  + self.docString.pack(codepage_name, endien)
-                  + self.offsetRec.pack(codepage_name, endien)
-                  + self.helpContext.pack(codepage_name, endien)
-                  + self.cookie.pack(codepage_name, endien)
-                  + type_id.pack(codepage_name, endien))
+        output = (self.modName.pack(endien, cp_name)
+                  + self.streamName.pack(endien, cp_name)
+                  + self.docString.pack(endien, cp_name)
+                  + self.offsetRec.pack(endien)
+                  + self.helpContext.pack(endien, cp_name)
+                  + self.cookie.pack(endien)
+                  + type_id.pack(endien))
         footer = PackedData("HI", 0x002B, 0)
-        output += footer.pack(codepage_name, endien)
+        output += footer.pack(endien)
         return output
 
     def to_project_module_string(self: T) -> str:
