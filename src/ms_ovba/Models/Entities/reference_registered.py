@@ -12,17 +12,14 @@ class ReferenceRegistered(ReferenceRecord):
     2.3.4.2.2.5
     Specifies a reference to an Automation type library.
     """
-    def __init__(self: T, codepage_name: str,
-                 libid_ref: LibidReference) -> None:
-        # is self._codepage_name even needed?
-        self._codepage_name = codepage_name
+    def __init__(self: T, libid_ref: LibidReference) -> None:
         self._libid_ref = libid_ref
 
     @property
     def libid(self: T) -> LibidReference:
         return self._libid_ref
 
-    def pack(self: T, cp_name: str, endien: str) -> bytes:
+    def pack(self: T, endien: str, cp_name: str) -> bytes:
         endien_symbol = '<' if endien == 'little' else '>'
         strlen = len(self._libid_ref)
         format = endien_symbol + "HII" + str(strlen) + "sIH"
