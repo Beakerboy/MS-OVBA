@@ -9,7 +9,8 @@ def test_H():
 
 def test_I():
     field = IdSizeField(1, 4, 3)
-    assert field.pack("cp", "little") == b'\x01\x00\x01\x00\x00\x00\x03\x00\x00\x00'
+    expected = b'\x01\x00\x01\x00\x00\x00\x03\x00\x00\x00'
+    assert field.pack("cp", "little") == expected
 
 
 def test_bad_value() -> None:
