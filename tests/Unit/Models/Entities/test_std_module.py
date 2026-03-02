@@ -3,9 +3,10 @@ from ms_ovba.Models.Entities.std_module import StdModule
 
 
 class MockBase:
-    called = false
+    called = False
+
     def __init__(self, foo) -> None:
-        self.called = true
+        self.called = True
 
 
 def test_construct(mock_path) -> None:
