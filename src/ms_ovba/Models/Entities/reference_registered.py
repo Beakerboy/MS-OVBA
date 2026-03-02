@@ -28,7 +28,7 @@ class ReferenceRegistered(ReferenceRecord):
         format = endien_symbol + "HII" + str(strlen) + "sIH"
         lib_str = str(self._libid_ref).encode(cp_name)
         ref_registered = struct.pack(format, 0x000D, strlen + 10,
-                                    strlen, lib_str, 0, 0)
+                                     strlen, lib_str, 0, 0)
 
         return ref_registered.pack(cp_name, endien)
 
