@@ -9,7 +9,7 @@ def test_construct() -> None:
         module = StdModule("Module1")
         assert isinstance(module, StdModule)
         assert module.type == "Module"
-        assert module.modname = None
+        assert module.modname == None
 
 
 #def test_get_name() -> None:
