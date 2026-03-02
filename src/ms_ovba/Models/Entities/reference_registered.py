@@ -1,7 +1,6 @@
 import struct
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.libid_reference import LibidReference
-from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import TypeVar
 
 
@@ -24,10 +23,11 @@ class ReferenceRegistered(ReferenceRecord):
         return self._libid_ref
 
     def pack(self: T, cp_name: str, endien: str) -> bytes:
+        endien_symbol = '<' if endien == 'little' else '>'
         strlen = len(self._libid_ref)
-        format = "HII" + str(strlen) + "sIH"
+        format = endien_symbol + "HII" + str(strlen) + "sIH"
         lib_str = str(self._libid_ref).encode(cp_name)
-        ref_registered = PackedData(format, 0x000D, strlen + 10,
+        ref_registered = struct.pack(format, 0x000D, strlen + 10,
                                     strlen, lib_str, 0, 0)
 
         return ref_registered.pack(cp_name, endien)
