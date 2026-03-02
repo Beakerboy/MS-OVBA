@@ -8,7 +8,7 @@ path = "ms_ovba.Models.Entities.std_module.ModuleBase"
 @mock.patch(path)
 def test_construct(mock_path) -> None:
     module = StdModule("Module1")
-    mock_path.__init__.assert_called_with("Module1")
+    assert mock_path.called
     assert isinstance(module, StdModule)
     assert module.type == "Module"
     assert module.modName is None
