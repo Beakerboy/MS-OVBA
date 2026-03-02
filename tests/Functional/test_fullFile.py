@@ -81,8 +81,6 @@ def test_full_file() -> None:
     project = VbaProject()
     project.default_date = Filetime.from_msfiletime(0x01D92433C2B823C0)
     project.set_include_projectwm(True)
-    codepage = 0x04E4
-    codepage_name = "cp" + str(codepage)
     libid_ref = ReferenceRegistered(LibidReference(
         uuid.UUID("0002043000000000C000000000000046"),
         "2.0",
