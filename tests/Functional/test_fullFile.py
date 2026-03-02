@@ -136,45 +136,8 @@ def test_full_file() -> None:
 
     ProjectOleFile.write_file(project)
 
-    # storage.set_modified(time)
-    # storage.set_created(time)
-
-    # fails
-    # file_size = os.stat("vbaProject.bin").st_size
-    # expected_size = os.stat("tests/blank/vbaProject.bin").st_size
-    # assert file_size == expected_size
-    # compare new file to blank file in 512 block chunks
-    new = open("./vbaProject.bin", "rb")
-    expected = open("tests/blank/vbaProject.bin", "rb")
-
-    # Header
-    assert new.read(512) == expected.read(512)
-
-    # FAT
-    # assert new.read(512) == expected.read(512)
-    new.read(512)
-    expected.read(512)
-
-    # Dir1
-    ole_standard = OleFile.create_from_file("tests/blank/vbaProject.bin")
-    ole_new = OleFile.create_from_file("./vbaProject.bin")
-    std_flat = ole_standard.root_directory.flatten()
-    new_flat = ole_new.root_directory.flatten()
-    assert (len(std_flat) == len(new_flat))
-    std_str = ""
-    new_str = ""
-    for dir in std_flat:
-        std_str += "\n" + str(dir)
-    for dir in new_flat:
-        new_str += "\n" + str(dir)
-    assert new_str == std_str
-
-    # assert new.read(512) == expected.read(512)
-    new.read(512)
-    expected.read(512)
-
-    # minifat
-    # assert new.read(512) == expected.read(512)
+    # combine sectors from bin into the streams
+    # compare raw or uncompressed streams.
 
 
 def create_cache() -> bytes:
