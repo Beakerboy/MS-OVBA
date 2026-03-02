@@ -10,7 +10,7 @@ class MockBase:
 
 
 def test_construct() -> None:
-    with mock.patch.object(ms_ovba.Models.Entities.std_module.ModuleBase,
+    with mock.patch.object(StdModule.ModuleBase,
                            "__init__") as mock_super_init:
         mock_super_init.return_value = None
         module = StdModule("Module1")
