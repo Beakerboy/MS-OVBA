@@ -61,4 +61,4 @@ class ReferenceRegistered(ReferenceRecord):
             pass
 
         libid_ref = LibidReference.unpack(libid_ref_bytes)
-        return ReferenceRegistered("", libid_ref)
+        return ReferenceRegistered(libid_ref)
