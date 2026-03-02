@@ -9,7 +9,7 @@ class MockBase:
         self.called = True
 
 
-def test_construct(mock_path) -> None:
+def test_construct() -> None:
     path = "ms_ovba.Models.Entities.std_module.ModuleBase"
     with mock.patch(path, MockBase):
         module = StdModule("Module1")
