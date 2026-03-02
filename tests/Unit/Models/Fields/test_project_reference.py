@@ -18,7 +18,7 @@ def test_len() -> None:
     assert len(ref) == 48
 
 
-@pytest.mark.parametrize("data, "embedded", expected", [
+@pytest.mark.parametrize("data, embedded, expected", [
     (
         "C:\\Example Path\\Example-ReferencedProject.xls",
         True,
