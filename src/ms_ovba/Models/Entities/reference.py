@@ -22,7 +22,7 @@ class Reference():
         name_pack = b''
         if self._refname is not None:
             name_de = DoubleEncodedString([0x0016, 0x003E], self._refname)
-            name_pack = name_de.pack(cp_name, endien)
+            name_pack = name_de.pack(endien, cp_name)
 
         return name_pack + self._ref.pack(cp_name, endien)
 
