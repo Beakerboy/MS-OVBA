@@ -39,10 +39,10 @@ class DirStream():
 
         modules_header = IdSizeField(0x000F, 2, len(modules))
 
-        output += (modules_header.pack(cp_name, endien)
-                   + self.project_cookie.pack(cp_name, endien))
+        output += (modules_header.pack(endien)
+                   + self.project_cookie.pack(endien))
         for record in modules:
-            output += record.pack(cp_name, endien)
+            output += record.pack(endien, cp_name)
         output += struct.pack(pack_symbol + "HI", 16, 0)
         return output
 
