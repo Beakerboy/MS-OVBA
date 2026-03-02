@@ -2,13 +2,6 @@ from unittest import mock
 from ms_ovba.Models.Entities.std_module import StdModule
 
 
-class MockBase:
-    called = False
-
-    def __init__(self, foo) -> None:
-        self.called = True
-
-
 path = "ms_ovba.Models.Entities.std_module.ModuleBase.__init__"
 
 
