@@ -3,6 +3,8 @@ from ms_ovba.Models.Entities.std_module import StdModule
 
 
 path = "ms_ovba.Models.Entities.std_module.ModuleBase"
+
+
 @mock.patch(path)
 def test_construct(mock_path) -> None:
     module = StdModule("Module1")
