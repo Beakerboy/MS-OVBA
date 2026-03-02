@@ -134,8 +134,7 @@ def test_full_file() -> None:
     project.add_module(sheet1)
     project.add_module(this_workbook)
 
-    ole_file = ProjectOleFile(project)
-    ole_file.write_file()
+    ProjectOleFile.write_file(project)
 
     # storage.set_modified(time)
     # storage.set_created(time)
