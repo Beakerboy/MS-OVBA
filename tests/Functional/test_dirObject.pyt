@@ -43,7 +43,7 @@ def test_dirstream() -> None:
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     ))
-    ole_reference = Reference(codepage_name, libid_ref, "stdole")
+    ole_reference = Reference(libid_ref, "stdole")
     guid = uuid.UUID('2DF8D04C5BFA101BBDE500AA0044DE52')
     libid_ref2 = ReferenceRegistered(codepage_name, LibidReference(
         guid,
@@ -52,7 +52,7 @@ def test_dirstream() -> None:
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
     ))
-    office_reference = Reference(codepage_name, libid_ref2, "Office")
+    office_reference = Reference(libid_ref2, "Office")
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
     project.set_project_cookie(0x08F3)
