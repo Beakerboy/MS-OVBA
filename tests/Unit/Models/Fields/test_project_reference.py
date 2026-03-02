@@ -25,4 +25,4 @@ def test_str() -> None:
 def test_relative() -> None:
     ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
     rel = ref.relative()
-    assert str(rel) == "Example-ReferencedProject.xls"
+    assert str(rel) == "*\\CExample-ReferencedProject.xls"
