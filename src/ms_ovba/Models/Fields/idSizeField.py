@@ -22,8 +22,7 @@ class IdSizeField():
         if isinstance(self._value, str):
             self.stringValue = self._value
             self._value = bytes(self._value, encoding="ascii")
-            format += str(self._size) + "s"
-        elif isinstance(self._value, bytes):
+        if isinstance(self._value, bytes):
             format += str(self._size) + "s"
         elif self._size == 2:
             format += "H"
