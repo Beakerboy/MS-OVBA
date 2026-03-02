@@ -19,14 +19,14 @@ def test_len() -> None:
 
 
 @pytest.mark.parametrize("data, expected", [
-    [
+    (
         "C:\\Example Path\\Example-ReferencedProject.xls",
         "*\\CC:\\Example Path\\Example-ReferencedProject.xls"
-    ],
-    [
+    ),
+    (
         "/Example Path/Example-ReferencedProject.xls",
         "*\\B/Example Path/Example-ReferencedProject.xls"
-    ]
+    )
 ])
 def test_str(data, expected) -> None:
     ref = ProjectReference(data)
