@@ -262,7 +262,7 @@ def create_cache(proj_cookie: int) -> bytes:
     neg_one_one = neg_one_4b + struct.pack("<I", 1)
     bin_array = [
         b'\xf1q\x9a\xee\xc0\xe0\xc4F\xa2\xf8l|\xf9{s',
-        b'vS\x9e\xe1B\x85\xfeF\xa1\x8b0E\x08tCU'
+        b'vS\x9e\xe1B\x85\xfeF\xa1\x8b0E\x08tCU',
         b'"\x93\xba>\xc3\x82\xfcD\x88\xcav\x96\xe5\x061"'
     ]
 
@@ -270,7 +270,7 @@ def create_cache(proj_cookie: int) -> bytes:
               neg_one_4b * 28 + struct.pack("<I", 0x0200) + neg_one_4b * 84)
     for byte_string in bin_array:
         record += byte_string + neg_one_one
-        
+
     ca += struct.pack("<I", len(record)) + record
     return ca
 
