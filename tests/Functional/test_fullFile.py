@@ -241,13 +241,15 @@ def create_cache(proj_cookie: int) -> bytes:
     # Modules
     ca += struct.pack("<H", len(modules))
     i = 0
+    data = [0x0333, 0x0333, 0x0283]
     for module in modules:
         name = module.modName.value.encode("utf_16_le")
         ca += struct.pack("<H", len(name)) + name
         txt = ("2" + chr(70 + i) + "65be0257").encode("utf_16_le")
         ca += struct.pack("<H", len(txt)) + txt
-        ca += struct.pack("<HHH", 0xFFFF, 0x0227, len(name))
-        ca += name + struct.pack("<HHHI", 0xFFFF, module.cookie.value, 0, 0)
+        ca += struct.pack("<HHH", 0xFFFF, 0x0227, len(name)) + name
+        ca += struct.pack("<HHIH", 0xFFFF, module.cookie.value, 0, 0)
+        ca += struct.pack("<BIIH", 0xFFFF, 2, data[i], 0xFF)
 
     return ca
 
