@@ -229,9 +229,13 @@ def create_cache(proj_cookie: int) -> bytes:
     # Data
     ca += b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 2 + b'\x00' * 2
     ca += struct.pack("<3H", 0x0257, 0x65BE, 0x11)
+
+    # 64 bytes?
     ca += b'\xFF' * 8
     ca += struct.pack("<I", 1)
-    ca += b'\xFF' * 52
+    ca += b'\xFF' * 36 + struct.pack("<H", 2) + b'\xFF' * 14
+
+    # Footer?
     ca += struct.pack("<5IH", 1, 0, 0, 0, 0, proj_cookie)
     prefix = [0x0018, 0x000C, 0x000E]
     # index = 0x0046
