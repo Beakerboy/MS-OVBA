@@ -135,7 +135,7 @@ def test_full_file() -> None:
     project.add_module(module1)
 
     # Check ProjectWm
-    projectwm = ProjectWm(project)
+    wm_bytes = ProjectWm(project).to_bytes()
     # Read from file instead of pasting
     expected = (b'ThisWorkbook\x00T\x00h' +
                 b'\x00i\x00s\x00W\x00o\x00r\x00k\x00b\x00o' +
@@ -143,7 +143,6 @@ def test_full_file() -> None:
                 b'h\x00e\x00e\x00t\x001\x00\x00\x00Modu' +
                 b'le1\x00M\x00o\x00d\x00u\x00l\x00e\x00' +
                 b'1\x00\x00\x00\x00\x00')
-    wm_bytes = projectwm.to_bytes()
     assert size(wm_bytes) == 0x56
     assert wm_bytes == expected
 
@@ -152,6 +151,8 @@ def test_full_file() -> None:
     # Check Dir
 
     # Check _VBA_Project
+    pv_bytes = ProjectView(project).to_bytes()
+    assert size(pv_bytes) == 0x09F0
 
     ProjectOleFile.write_file(project)
 
