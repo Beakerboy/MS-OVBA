@@ -263,7 +263,7 @@ def create_cache(proj_cookie: int) -> bytes:
     bin_array = [
         b'\xf1q\x9a\xee\xc0\xe0\xc4F\xa2\xf8l|\xf9{s',
         b'vS\x9e\xe1B\x85\xfeF\xa1\x8b0E\x08tCU'
-        b'"?º>A?üD?Ev\x96\xe5\x061"'
+        b'"?º>A?üD\x88\xcav\x96\xe5\x061"'
     ]
         
     record = (neg_one_4b * 13 + struct.pack("<2I", 0x0230, 0x0218) +
