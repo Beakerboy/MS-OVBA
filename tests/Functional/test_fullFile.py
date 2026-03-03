@@ -240,7 +240,7 @@ def create_cache(proj_cookie: int) -> bytes:
 
     # Modules
     ca += struct.pack("<H", len(modules))
-    i=0
+    i = 0
     for module in modules:
         name = module.modName.value.encode("utf_16_le")
         ca += struct.pack("<H", len(name)) + name
