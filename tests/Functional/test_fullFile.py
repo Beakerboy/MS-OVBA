@@ -18,6 +18,7 @@ from ms_ovba.Models.Entities.reference_registered import (
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Views.project_ole_file import ProjectOleFile
+from ms_ovba.Views.projectWm import ProjectWm
 from typing import Type, TypeVar
 
 
@@ -134,6 +135,23 @@ def test_full_file() -> None:
     project.add_module(sheet1)
     project.add_module(this_workbook)
 
+    # Check ProjectWm
+    projectwm = ProjectWm(project)
+    # Read from file instead of pasting
+    expected = (b'ThisWorkbook\x00T\x00h' +
+                b'\x00i\x00s\x00W\x00o\x00r\x00k\x00b\x00o' +
+                b'\x00o\x00k\x00\x00\x00Sheet1\x00S\x00' +
+                b'h\x00e\x00e\x00t\x001\x00\x00\x00Modu' +
+                b'le1\x00M\x00o\x00d\x00u\x00l\x00e\x00' +
+                b'1\x00')
+    assert projectwm.to_bytes() == b''
+
+    # Check Project
+
+    # Check Dir
+
+    # Check _VBA_Project
+    
     ProjectOleFile.write_file(project)
 
     # combine sectors from bin into the streams
