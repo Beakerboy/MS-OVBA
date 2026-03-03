@@ -213,6 +213,7 @@ def create_cache() -> bytes:
     ca = (b''
           + b'\xFF\x09\x04\x00\x00\x09\x04\x00\x00\xE4\x04\x03\x00\x00\x00\x00'
           + b'\x00\x00\x00\x00\x00\x01\x00\x04\x00\x02\x00')
+    # Why is this counter here?
     i = 0
     for lib in libraries:
         lib_str = bytearray(str(lib), "utf_16_le")
@@ -220,7 +221,7 @@ def create_cache() -> bytes:
         ca += lib_str
         ca += struct.pack("<III", 0, 0, 0)
         i += 1
-    ca += struct.pack("<17H", 2, 2, 1, 6, 0x0212, 0, 0x0214, 1, 0x0216, 1,
+    ca += struct.pack("<18H", 3, 2, 2, 1, 6, 0x0212, 0, 0x0214, 1, 0x0216, 1,
                       0x0218, 0, 0x021a, 1, 0x021c, 1, 0x0222)
     ca += b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 36
     prefix = [0x0018, 0x000C, 0x000E]
