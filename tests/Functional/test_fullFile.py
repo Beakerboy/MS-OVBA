@@ -3,7 +3,6 @@ import pytest
 import struct
 import unittest.mock
 import uuid
-from ms_cfb.ole_file import OleFile
 from ms_dtyp.filetime import Filetime
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_pcode_assembler.module_cache import ModuleCache
@@ -151,7 +150,7 @@ def test_full_file() -> None:
     # Check Dir
 
     # Check _VBA_Project
-    
+
     ProjectOleFile.write_file(project)
 
     # combine sectors from bin into the streams
