@@ -274,7 +274,7 @@ def create_cache(proj_cookie: int) -> bytes:
     record += neg_one_4b + struct.pack("<I", 0x30)
     ca += struct.pack("<I", len(record)) + record
     names = [
-        "Excel, "VBA", "Win16", "Win32", "Win64", "Mac", "VBA6", "VBA7",
+        "Excel", "VBA", "Win16", "Win32", "Win64", "Mac", "VBA6", "VBA7",
         "Project1", "stdole", "VBAProject", "Office", "ThisWorkbook",
         "Evaluate", "Sheet1", "Module1", "Workbook"
         ]
