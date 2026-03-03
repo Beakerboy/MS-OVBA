@@ -210,7 +210,7 @@ def create_cache(proj_cookie: int) -> bytes:
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
     ))
-    ca = struct.pack("<HIIHHIIH", 0xFF, 1033, 1033, 0x04E4, 3, 0, 0, 0, 1)
+    ca = struct.pack("<HIIHHIIH", 0xFF, 1033, 1033, 0x04E4, 3, 0, 0, 1)
     ca += struct.pack("<HH", len(libraries), 2)
 
     for lib in libraries:
