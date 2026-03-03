@@ -223,7 +223,8 @@ def create_cache(proj_cookie: int) -> bytes:
     ca += struct.pack("<5H", 3, 2, 2, 1, 6)
 
     # Compile Time Data
-    ca += struct.pack("<6IH", 0x0212,  0x010214, 0x010216, 0x0218, 0x01021a, 0x01021c, 0x0222)
+    ca += struct.pack("<6IH", 0x0212,  0x010214, 0x010216, 0x0218,
+                      0x01021a, 0x01021c, 0x0222)
 
     # Data
     ca += b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 2 + b'\x00' * 2
