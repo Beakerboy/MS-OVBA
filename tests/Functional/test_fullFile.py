@@ -271,7 +271,7 @@ def create_cache(proj_cookie: int) -> bytes:
     for byte_string in bin_array:
         record += byte_string + neg_one_one
 
-    record += neg_one_4b + struct.pack("<I", 3)
+    record += neg_one_4b + struct.pack("<I", 0x30)
     ca += struct.pack("<I", len(record)) + record
     return ca
 
