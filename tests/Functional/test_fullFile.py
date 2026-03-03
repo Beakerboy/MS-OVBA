@@ -130,9 +130,10 @@ def test_full_file() -> None:
     module1.normalize_file()
     module1.set_cache(module_cache.to_bytes())
 
-    project.add_module(module1)
-    project.add_module(sheet1)
     project.add_module(this_workbook)
+    project.add_module(sheet1)
+    project.add_module(module1)
+    
 
     # Check ProjectWm
     projectwm = ProjectWm(project)
