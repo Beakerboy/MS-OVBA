@@ -103,7 +103,7 @@ def test_full_file() -> None:
     proj_cookie = 0x08F3
     project.set_project_cookie(proj_cookie)
     project.set_project_id('{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}')
-    project.set_performance_cache(create_cache())
+    project.set_performance_cache(create_cache(proj_cookie))
     project.set_performance_cache_version(0x00B5)
 
     base_path = "src/ms_ovba/blank_files/"
@@ -168,7 +168,7 @@ def test_full_file() -> None:
     # compare raw or uncompressed streams.
 
 
-def create_cache() -> bytes:
+def create_cache(proj_cookie: int) -> bytes:
     modules = []
     this_workbook = DocModule("ThisWorkbook")
     this_workbook.cookie.value = 0xB81C
@@ -210,20 +210,28 @@ def create_cache() -> bytes:
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
     ))
-    ca = (b''
-          + b'\xFF\x09\x04\x00\x00\x09\x04\x00\x00\xE4\x04\x03\x00\x00\x00\x00'
-          + b'\x00\x00\x00\x00\x00\x01\x00\x04\x00\x02\x00')
-    # Why is this counter here?
-    i = 0
+    ca = struct.pack("<HIIHHIIH", 0xFF, 1033, 1033, 0x04E4, 3, 0, 0, 0, 1)
+    ca += struct.pack("<HH", len(libraries), 2)
+
     for lib in libraries:
         lib_str = bytearray(str(lib), "utf_16_le")
         ca += struct.pack("<H", len(lib_str))
         ca += lib_str
         ca += struct.pack("<III", 0, 0, 0)
-        i += 1
-    ca += struct.pack("<18H", 3, 2, 2, 1, 6, 0x0212, 0, 0x0214, 1, 0x0216, 1,
-                      0x0218, 0, 0x021a, 1, 0x021c, 1, 0x0222)
-    ca += b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 36
+
+    # User Class
+    ca += struct.pack("<5H", 3, 2, 2, 1, 6)
+
+    # Compile Time Data
+    ca += struct.pack("<6IH", 0x0212,  0x010214, 0x010216, 0x0218, 0x01021a, 0x01021c, 0x0222)
+
+    # Data
+    ca += b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 2 + b'\x00' * 2
+    ca += struct.pack("<3H", 0x0257, 0x65BE, 0x11)
+    ca += b'\xFF' * 8
+    ca += struct.pack("<I", 1)
+    ca += b'\xFF' * 52
+    ca += struct.pack("<5IH", 1, 0, 0, 0, 0, proj_cookie)
     prefix = [0x0018, 0x000C, 0x000E]
     # index = 0x0046
     i = 0
