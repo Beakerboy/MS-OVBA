@@ -144,7 +144,7 @@ def test_full_file() -> None:
                 b'h\x00e\x00e\x00t\x001\x00\x00\x00Modu' +
                 b'le1\x00M\x00o\x00d\x00u\x00l\x00e\x00' +
                 b'1\x00')
-    assert projectwm.to_bytes() == b''
+    assert projectwm.to_bytes() == expected
 
     # Check Project
 
