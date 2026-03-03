@@ -251,7 +251,7 @@ def create_cache(proj_cookie: int) -> bytes:
         ca += struct.pack("<H", len(txt)) + txt
         ca += struct.pack("<HHH", 0xFFFF, 0x0227, len(name)) + name
         ca += struct.pack("<HHIH", 0xFFFF, module.cookie.value, 0, 0)
-        ca += struct.pack("<IIH", data[i], 2, data1[i], 0xFF)
+        ca += struct.pack("<BIIH", data[i], 2, data1[i], 0xFF)
 
     return ca
 
