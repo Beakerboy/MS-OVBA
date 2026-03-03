@@ -228,7 +228,7 @@ def create_cache(proj_cookie: int) -> bytes:
 
     # Data
     ca += b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 2 + b'\x00' * 2
-    ca += struct.pack("<3H", 0x0257, 0x65BE, 0x11)
+    ca += struct.pack("<IH", 0x65BE0257, 0x11)
 
     # 64 bytes?
     ca += b'\xFF' * 8
@@ -242,7 +242,7 @@ def create_cache(proj_cookie: int) -> bytes:
     ca += struct.pack("<H", len(modules))
     i = 0
 
-    data_str = ["57", "57", "63")
+    data_str = ["57", "57", "63"]
     data = [0x0227, 0x022B, 0x022C]
     # data1 = i*24
     data1 = [0, 0x18, 0x30]
