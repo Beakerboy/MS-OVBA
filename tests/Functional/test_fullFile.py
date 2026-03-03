@@ -241,6 +241,7 @@ def create_cache(proj_cookie: int) -> bytes:
     # Modules
     ca += struct.pack("<H", len(modules))
     i = 0
+    # data = i*24
     data = [0, 0x18, 0x30]
     data1 = [0x0333, 0x0333, 0x0283]
     for module in modules:
