@@ -133,7 +133,6 @@ def test_full_file() -> None:
     project.add_module(this_workbook)
     project.add_module(sheet1)
     project.add_module(module1)
-    
 
     # Check ProjectWm
     projectwm = ProjectWm(project)
