@@ -257,6 +257,13 @@ def create_cache(proj_cookie: int) -> bytes:
         ca += struct.pack("<BIIH", data1[i], 2, data2[i], 0xFFFF)
         i += 1
 
+    ca += struct.pack("<IH", 0xFFFFFFFF, 0x0101)
+    neg_one_4b = b'\xFF\xFF\xFF\xFF'
+    record = (neg_one_4b * 13 + struct.pack("<2I", 0x0230, 0x0218) +
+              neg_one_4b * 28 + struct.pack("<I", 0x0200) + neg_one_4b * 84)
+    ca += struct.pack("<I", len(record)) + record
+    )
+    0x0250
     return ca
 
 
