@@ -298,7 +298,8 @@ def create_cache(proj_cookie: int) -> bytes:
            "00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
            "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
            "FF FF FF FF FF FF FF FF FF FF FF FF FF FF 06 00",
-           "10 00 00 00 01 00 36 00 00 00 00 00 00 00 00 00")
+           "10 00 00 00 01 00 36 00 00 00 00 00 00 00 00 00",
+           "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00")
     ca += bytes.fromhex(" ".join(hex))
     return ca
 
