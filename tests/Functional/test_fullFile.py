@@ -293,7 +293,7 @@ def create_cache(proj_cookie: int) -> bytes:
 
     hex = ("02 FF FF 01 01 60 00 00 00 20 02" +
            "02 00 FF FF 22 02 FF FF FF FF 24 02 03 00 FF FF" +
-           "27 02 00 00 03 00 FF FF FF FF FF FF 2B 02 01 00" +.
+           "27 02 00 00 03 00 FF FF FF FF FF FF 2B 02 01 00" +
            "03 00 2D 02 02 00 05 00 0E 02 01 00 FF FF 10 02" +
            "00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF" +
            "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF" +
