@@ -290,6 +290,16 @@ def create_cache(proj_cookie: int) -> bytes:
             ca += struct.pack("<BBHI" + str(len(name[1])) + "sHH",
                               len(name[1]), 0x80, 0, name[2], name[1],
                               name[0], 16)
+
+    hex = ("02 FF FF 01 01 60 00 00 00 20 02" +
+           "02 00 FF FF 22 02 FF FF FF FF 24 02 03 00 FF FF" +
+           "27 02 00 00 03 00 FF FF FF FF FF FF 2B 02 01 00" +.
+           "03 00 2D 02 02 00 05 00 0E 02 01 00 FF FF 10 02" +
+           "00 00 FF FF FF FF FF FF FF FF FF FF FF FF FF FF" +
+           "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF" +
+           "FF FF FF FF FF FF FF FF FF FF FF FF FF FF 06 00" +.
+           "10 00 00 00 01 00 36 00 00 00 00 00 00 00 00 00")
+    ca += bytes.fromhex(" ".join(hex))
     return ca
 
 
