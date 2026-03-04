@@ -281,7 +281,7 @@ def create_cache(proj_cookie: int) -> bytes:
         (0xe37c, b"ThisWorkbook"), (0xd918, b"_Evaluate", 0x103FF),
         (0x1ae8, b"Sheet1"), (0x1162, b"Module1"), (0x186b, b"Workbook")
         ]
-    ca += struct.pack("<IHHHHI", 0x80, 0, 0x0117, 0x11, 0x0106, 0x2ba0)
+    ca += struct.pack("<IHHHHI", 0x80, 0, 0x0117, len(names), 0x0106, 0x2ba0)
     for name in names:
         if len(name) == 2:
             ca += struct.pack("<BB" + str(len(name[1])) + "sHH",
