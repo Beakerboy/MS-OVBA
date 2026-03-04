@@ -279,7 +279,7 @@ def create_cache(proj_cookie: int) -> bytes:
         (0x23ad, b"VBA6"), (0x23ae, b"VBA7"), (0x170a, b"Project1"),
         (0x6093, b"stdole"), (0xbfbe, b"VBAProject"), (0x7515, b"Office"),
         (0xe37c, b"ThisWorkbook"), (0xd918, b"_Evaluate", 0x103FF),
-        (0, b"Sheet1"), (0, b"Module1"), (0, b"Workbook")
+        (0x1ae8, b"Sheet1"), (0x1162, b"Module1"), (0x186b, b"Workbook")
         ]
     ca += struct.pack("<IHHHHI", 0x80, 0, 0x0117, 0x11, 0x0106, 0x2ba0)
     for name in names:
