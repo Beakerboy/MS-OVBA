@@ -55,7 +55,7 @@ class ModuleBase():
     def cache(self: T) -> bytes:
         return self._cache
 
-    @property
+    @cookie.setter
     def cookie(self: T, value: int) -> None:
         self._cookie = IdSizeField(0x002C, 2, value)
 
