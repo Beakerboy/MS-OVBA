@@ -280,8 +280,8 @@ def create_cache(proj_cookie: int) -> bytes:
         ]
     ca += struct.pack("<IHHHH", 0x80, 0, 0x0117, 0x11, 0x0106)
     for name in names:
-        ca += struct.pack("<HI" + str(len(name)) + "s", 0x2ba0,
-                          0x04050000, name)
+        ca += struct.pack("<IBB" + str(len(name)) + "s", 0x2ba0,
+                          len(name), 4, name)
     return ca
 
 
