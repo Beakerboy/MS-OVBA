@@ -86,12 +86,15 @@ stdole_lib = LibidReference(
 
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
 def test_full_file() -> None:
+    """
+    Create an exact reproduction of a complete "empty" vba excel addin.
+    """
     rand = [0x41, 0xBC, 0x7B, 0x7B, 0x37, 0x7B, 0x7B, 0x7B]
     NotSoRandom.set_seed(rand)
     project = VbaProject()
     project.default_date = Filetime.from_msfiletime(0x01D92433C2B823C0)
     project.set_include_projectwm(True)
-    libid_ref = ReferenceRegistered(stde_lib)
+    libid_ref = ReferenceRegistered(stdole_lib)
     ole_reference = Reference(libid_ref, "stdole")
     libid_ref2 = ReferenceRegistered(LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
