@@ -287,8 +287,8 @@ def create_cache(proj_cookie: int) -> bytes:
             ca += struct.pack("<BB" + str(len(name[1])) + "sHH",
                               len(name[1]), 4, name[1], name[0], 16)
         else:
-            ca += struct.pack("<BBHI" + str(len(name[1])) + "sHH", len(name[1]), 0x80,
-                              0, name[2], name[3], name[1], name[0], 16)
+            ca += struct.pack("<BBHI" + str(len(name[1])) + "sHH", len(name[1]),
+                              0x80, 0, name[2], name[3], name[1], name[0], 16)
     return ca
 
 
