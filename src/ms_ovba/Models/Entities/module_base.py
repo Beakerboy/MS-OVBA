@@ -32,33 +32,43 @@ class ModuleBase():
         self._size = 0
 
         # GUIDs
-        self._guid = []
+        self._guids = []
 
-    def set_guid(self: T, guid: str) -> None:
+    @guids.setter
+    def guid(self: T, guid: str) -> None:
         if isinstance(guid, list):
-            self._guid = guid
+            self._guids = guid
         else:
-            self._guid = [guid]
+            self._guids = [guid]
 
     def add_guid(self: T, guid: str) -> None:
+        """
+        Append a guid to the list
+        """
         self._guid += guid
 
-    def set_cache(self: T, cache: bytes) -> None:
+    @cache.setter
+    def cache(self: T, cache: bytes) -> None:
         self._cache = cache
 
-    def get_cache(self: T) -> bytes:
+    @property
+    def cache(self: T) -> bytes:
         return self._cache
 
-    def set_cookie(self: T, value: int) -> None:
-        self.cookie = IdSizeField(0x002C, 2, value)
+    @property
+    def cookie(self: T, value: int) -> None:
+        self._cookie = IdSizeField(0x002C, 2, value)
 
-    def get_cookie(self: T) -> int:
+    @property
+    def cookie(self: T) -> int:
         return self.cookie.value
 
-    def get_name(self: T) -> str:
+    @property
+    def name(self: T) -> str:
         return self.modName.value
 
-    def get_bin_path(self: T) -> str:
+    @property
+    def bin_path(self: T) -> str:
         return self._file_path + ".bin"
 
     def add_workspace(self: T, val1: int, val2: int,
