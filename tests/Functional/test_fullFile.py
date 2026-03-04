@@ -75,6 +75,15 @@ def module_matches_bin(module_path: str,
     return m_uncompressed == b_uncompressed
 
 
+stdole_lib = LibidReference(
+        uuid.UUID("00020430-0000-0000-C000-000000000046"),
+        "2.0",
+        "0",
+        "C:\\Windows\\System32\\stdole2.tlb",
+        "OLE Automation"
+    )
+
+
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
 def test_full_file() -> None:
     rand = [0x41, 0xBC, 0x7B, 0x7B, 0x37, 0x7B, 0x7B, 0x7B]
@@ -82,13 +91,7 @@ def test_full_file() -> None:
     project = VbaProject()
     project.default_date = Filetime.from_msfiletime(0x01D92433C2B823C0)
     project.set_include_projectwm(True)
-    libid_ref = ReferenceRegistered(LibidReference(
-        uuid.UUID("0002043000000000C000000000000046"),
-        "2.0",
-        "0",
-        "C:\\Windows\\System32\\stdole2.tlb",
-        "OLE Automation"
-    ))
+    libid_ref = ReferenceRegistered(stde_lib)
     ole_reference = Reference(libid_ref, "stdole")
     libid_ref2 = ReferenceRegistered(LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
@@ -196,13 +199,7 @@ def create_cache(proj_cookie: int) -> bytes:
         "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
         "Microsoft Excel 16.0 Object Library"
     ))
-    libraries.append(LibidReference(
-        uuid.UUID("00020430-0000-0000-C000-000000000046"),
-        "2.0",
-        "0",
-        "C:\\Windows\\System32\\stdole2.tlb",
-        "OLE Automation"
-    ))
+    libraries.append(stdole_lib)
     libraries.append(LibidReference(
         uuid.UUID("2DF8D04C-5BFA-101B-BDE5-00AA0044DE52"),
         "2.8",
