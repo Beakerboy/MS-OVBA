@@ -6,6 +6,7 @@ import uuid
 from ms_dtyp.filetime import Filetime
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_pcode_assembler.module_cache import ModuleCache
+from ms_pcode_assembler.project_cache import ProjectCache
 from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Models.Entities.doc_module import DocModule
 from ms_ovba.Models.Entities.std_module import StdModule
@@ -175,6 +176,7 @@ def test_full_file() -> None:
 
 
 def create_cache(proj_cookie: int) -> bytes:
+    cache = ProjectCache(0x04E4, proj_cookie, 0x65BE0257)
     modules = []
     this_workbook = DocModule("ThisWorkbook")
     this_workbook.cookie.value = 0xB81C
