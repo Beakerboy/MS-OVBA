@@ -27,7 +27,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install git+https://github.com/Beakerboy/MS-CFB
-        pip install git+https://github.com/Beakerboy/MS-Pcode-Assembler
+        pip install git+https://github.com/Beakerboy/MS-Pcode-Assembler@project_cache
         pip install -e .[tests]
     - name: Lint with flake8
       run: |
