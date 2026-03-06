@@ -177,49 +177,36 @@ def test_full_file() -> None:
 
 def create_cache(proj_cookie: int) -> bytes:
     cache = ProjectCache(0x04E4, proj_cookie, 0x65BE0257)
-    modules = []
-    this_workbook = DocModule("ThisWorkbook")
-    this_workbook.cookie.value = 0xB81C
-    modules.append(this_workbook)
-    sheet1 = DocModule("Sheet1")
-    sheet1.cookie.value = 0x9B9A
-    modules.append(sheet1)
-    module1 = StdModule("Module1")
-    module1.cookie.value = 0xB241
-    modules.append(module1)
+    
+    modules = [
+        ("ThisWorkbook", 50, 70, 0x65BE0257, 0x227, 0xB81C, 0x333, [], -1),
+        ("Sheet1", 50, 71, 0x65BE0257, 0x22B, 0x9B9A, 0x333, [], -1),
+        ("Module1", 50, 72, 0x65BE0263, 0x22C, 0xB241, 0x283, [], -1)
+    ]
+    cache._modules = modules
 
-    libraries = []
-    libraries.append(LibidReference(
+    cache.add_library(str(LibidReference(
         uuid.UUID("000204EF-0000-0000-C000-000000000046"),
         "4.2",
         "9",
         "C:\\Program Files\\Common Files\\Microsoft Shared\\VBA"
         "\\VBA7.1\\VBE7.DLL",
         "Visual Basic For Applications"
-    ))
-    libraries.append(LibidReference(
+    )))
+    cache.add_library(str(LibidReference(
         uuid.UUID("00020813-0000-0000-C000-000000000046"),
         "1.9",
         "0",
         "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
         "Microsoft Excel 16.0 Object Library"
-    ))
-    libraries.append(stdole_lib)
-    libraries.append(LibidReference(
+    )))
+    cache.add_library(str(LibidReference(
         uuid.UUID("2DF8D04C-5BFA-101B-BDE5-00AA0044DE52"),
         "2.8",
         "0",
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
-    ))
-    ca = struct.pack("<BIIHHIIH", 0xFF, 1033, 1033, 0x04E4, 3, 0, 0, 1)
-    ca += struct.pack("<HH", len(libraries), 2)
-
-    for lib in libraries:
-        lib_str = bytearray(str(lib), "utf_16_le")
-        ca += struct.pack("<H", len(lib_str))
-        ca += lib_str
-        ca += struct.pack("<III", 0, 0, 0)
+    )))
 
     # User Class
     ca += struct.pack("<5H", 3, 2, 2, 1, 6)
@@ -240,24 +227,6 @@ def create_cache(proj_cookie: int) -> bytes:
     # Footer?
     ca += struct.pack("<5IH", 1, 0, 0, 0, 0, proj_cookie)
 
-    # Modules
-    ca += struct.pack("<H", len(modules))
-    i = 0
-
-    data_str = ["57", "57", "63"]
-    data = [0x0227, 0x022B, 0x022C]
-    # data1 = i*24
-    data1 = [0, 0x18, 0x30]
-    data2 = [0x0333, 0x0333, 0x0283]
-    for module in modules:
-        name = module.modName.value.encode("utf_16_le")
-        ca += struct.pack("<H", len(name)) + name
-        txt = ("2" + chr(70 + i) + "65be02" + data_str[i]).encode("utf_16_le")
-        ca += struct.pack("<H", len(txt)) + txt
-        ca += struct.pack("<HHH", 0xFFFF, data[i], len(name)) + name
-        ca += struct.pack("<HHIH", 0xFFFF, module.cookie.value, 0, 0)
-        ca += struct.pack("<BIIH", data1[i], 2, data2[i], 0xFFFF)
-        i += 1
 
     ca += struct.pack("<IH", 0xFFFFFFFF, 0x0101)
     neg_one_4b = b'\xFF\xFF\xFF\xFF'
