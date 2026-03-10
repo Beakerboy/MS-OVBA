@@ -98,7 +98,7 @@ class VbaProject:
     @codepage_name.setter
     def codepage_name(self: T, name: str) -> None:
         self._codepage_name = name
-        
+
     @property
     def project_cookie(self: T) -> int:
         return self._project_cookie
