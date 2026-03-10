@@ -110,11 +110,15 @@ class VbaProject:
     def get_modules(self: T) -> list:
         return self.modules
 
-    def set_include_projectwm(self: T, value: bool) -> None:
-        self._project_wm = value
-
-    def get_include_projectwm(self: T) -> bool:
+    @property
+    def projectwm(self: T) -> bool
         return self._project_wm
+    
+    def include_projectwm(self: T) -> bool:
+        self._project_wm = True
+
+    def exclude_projectwm(self: T) -> bool:
+        self._project_wm = False
 
     # Appenders
     def add_module(self: T, mod: ModuleBase) -> None:
