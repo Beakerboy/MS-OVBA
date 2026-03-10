@@ -111,7 +111,7 @@ def test_full_file() -> None:
     project.set_project_cookie(proj_cookie)
     project.set_project_id('{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}')
     project.performance_cache = create_cache(proj_cookie)
-    project.set_performance_cache_version(0x00B5)
+    project.performance_cache_version = 0x00B5
 
     base_path = "src/ms_ovba/blank_files/"
     # Add Modules
@@ -286,7 +286,7 @@ def create_doc_module(project: VbaProject, name: str,
     mod.add_file(module_path)
     mod.normalize_file()
 
-    cache_ver = project.get_performance_cache_version()
+    cache_ver = project.performance_cache_version
     proj_cookie = project.get_project_cookie()
     module_cache = ModuleCache(cache_ver, proj_cookie, signature=3)
     module_cache.header.data3 = 0x88
