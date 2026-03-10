@@ -73,11 +73,13 @@ class VbaProject:
     def get_password(self: T) -> bytes:
         return self._password
 
-    def set_performance_cache(self: T, cache: bytes) -> None:
-        self._performance_cache = cache
-
-    def get_performance_cache(self: T) -> None:
+    @property
+    def performance_cache(self: T) -> bytes:
         return self._performance_cache
+
+    @performance_cache.setter
+    def performance_cache(self: T, cache: bytes) -> None:
+        self._performance_cache = cache
 
     def set_performance_cache_version(self: T, version: int) -> None:
         self._performance_cache_version = version
