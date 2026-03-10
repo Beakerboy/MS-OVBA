@@ -209,14 +209,14 @@ def create_cache(proj_cookie: int) -> bytes:
     )))
 
     # User Class
-    cache._user= [2, 2, 1]
+    cache._user = [2, 2, 1]
 
     # Compile Time Data
-    ca += struct.pack("<6IH", 0x0212,  0x010214, 0x010216, 0x0218,
-                      0x01021a, 0x01021c, 0x0222)
+    cache._compile = [0x0212,  0x010214, 0x010216, 0x0218,
+                      0x01021a, 0x01021c, 0x0222]
 
     # Data
-    ca += b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 2 + b'\x00' * 2
+    ca = b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 2 + b'\x00' * 2
     ca += struct.pack("<IH", 0x65BE0257, 0x11)
 
     # 64 bytes?
