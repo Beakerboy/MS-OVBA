@@ -111,7 +111,7 @@ class VbaProject:
         return self.modules
 
     @property
-    def projectwm(self: T) -> bool
+    def projectwm(self: T) -> bool:
         return self._project_wm
     
     def include_projectwm(self: T) -> bool:
