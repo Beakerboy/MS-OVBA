@@ -94,7 +94,7 @@ def test_full_file() -> None:
     NotSoRandom.set_seed(rand)
     project = VbaProject()
     project.default_date = Filetime.from_msfiletime(0x01D92433C2B823C0)
-    project.set_include_projectwm(True)
+    project.include_projectwm()
     libid_ref = ReferenceRegistered(stdole_lib)
     ole_reference = Reference(libid_ref, "stdole")
     libid_ref2 = ReferenceRegistered(LibidReference(
@@ -108,8 +108,8 @@ def test_full_file() -> None:
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
     proj_cookie = 0x08F3
-    project.set_project_cookie(proj_cookie)
-    project.set_project_id('{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}')
+    project.project_cookie = proj_cookie
+    project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
     project.performance_cache = create_cache(proj_cookie)
     project.performance_cache_version = 0x00B5
 
