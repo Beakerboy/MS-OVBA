@@ -219,7 +219,6 @@ def create_cache(proj_cookie: int) -> bytes:
     cache._data = [0x21e, 0, 7, 14, 18, -1, 5, -1, 4, 2, 8, -1, 11, 16,
                    10, 3, 20, 12, 6, 13, 15, 17, 7, 9, 19]
     cache._hex = 0x65BE0257
-    
 
     # 64 bytes?
     ca = b'\xFF' * 8
