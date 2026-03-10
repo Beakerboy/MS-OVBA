@@ -53,7 +53,7 @@ def test_dirstream() -> None:
     office_reference = Reference(libid_ref2, "Office")
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
-    project.set_project_cookie(0x08F3)
+    project.project_cookie = 0x08F3
 
     indirect_table = ("02 80 FE FF FF FF FF FF 20 00 00 00 FF FF FF FF",
                       "30 00 00 00 02 01 FF FF 00 00 00 00 00 00 00 00",
@@ -74,7 +74,7 @@ def test_dirstream() -> None:
     guid = uuid.UUID('0002081900000000C000000000000046')
     this_workbook.add_guid(guid)
     module_cache.guids = [guid]
-    this_workbook.set_cache(module_cache.to_bytes())
+    this_workbook.cache = module_cache.to_bytes()
 
     sheet1 = DocModule("Sheet1")
     sheet1.cookie = 0x9B9A
@@ -82,7 +82,7 @@ def test_dirstream() -> None:
     guid = uuid.UUID('0002082000000000C000000000000046')
     module_cache.guids = [guid]
     sheet1.add_guid(guid)
-    sheet1.set_cache(module_cache.to_bytes())
+    sheet1.cache = module_cache.to_bytes()
 
     module1 = StdModule("Module1")
     module1.cookie = 0xB241
