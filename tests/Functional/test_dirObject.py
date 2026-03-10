@@ -91,7 +91,7 @@ def test_dirstream() -> None:
     module_cache.misc = [[-1, 2], 0xFFFF, 0, [0, "FFFFFFFF"]]
     module_cache.header.data2 = 3
     module_cache.header.data3 = 0
-    module_cache.header.sata4 = 7
+    module_cache.header.data4 = 7
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
     module1.cache = module_cache.to_bytes()
 
