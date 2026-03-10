@@ -27,7 +27,7 @@ class ProjectView:
 
         output += struct.pack(format, reserved1, cache_version,
                               reserved2, self._reserved3)
-        return output + self.project.get_performance_cache()
+        return output + self.project.performance_cache
 
     def write_file(self: T) -> None:
         bin_f = open("vba_project.bin", "wb")
