@@ -177,7 +177,7 @@ def test_full_file() -> None:
 
 def create_cache(proj_cookie: int) -> bytes:
     cache = ProjectCache(0x04E4, proj_cookie, 0x65BE0257)
-    
+
     modules = [
         ("ThisWorkbook", 50, 70, 0x65BE0257, 0x227, 0xB81C, 0x333, [], -1),
         ("Sheet1", 50, 71, 0x65BE0257, 0x22B, 0x9B9A, 0x333, [], -1),
@@ -209,7 +209,7 @@ def create_cache(proj_cookie: int) -> bytes:
     )))
 
     # User Class
-    ca += struct.pack("<5H", 3, 2, 2, 1, 6)
+    ca = struct.pack("<5H", 3, 2, 2, 1, 6)
 
     # Compile Time Data
     ca += struct.pack("<6IH", 0x0212,  0x010214, 0x010216, 0x0218,
@@ -226,7 +226,6 @@ def create_cache(proj_cookie: int) -> bytes:
 
     # Footer?
     ca += struct.pack("<5IH", 1, 0, 0, 0, 0, proj_cookie)
-
 
     ca += struct.pack("<IH", 0xFFFFFFFF, 0x0101)
     neg_one_4b = b'\xFF\xFF\xFF\xFF'
