@@ -287,7 +287,7 @@ def create_doc_module(project: VbaProject, name: str,
     mod.normalize_file()
 
     cache_ver = project.performance_cache_version
-    proj_cookie = project.get_project_cookie()
+    proj_cookie = project.project_cookie
     module_cache = ModuleCache(cache_ver, proj_cookie, signature=3)
     module_cache.header.data3 = 0x88
     module_cache.header.data4 = 8
