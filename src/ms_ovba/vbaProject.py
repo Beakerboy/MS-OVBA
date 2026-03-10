@@ -113,7 +113,7 @@ class VbaProject:
     @property
     def projectwm(self: T) -> bool:
         return self._project_wm
-    
+
     def include_projectwm(self: T) -> bool:
         self._project_wm = True
 
