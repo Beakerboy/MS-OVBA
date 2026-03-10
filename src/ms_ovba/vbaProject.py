@@ -81,11 +81,13 @@ class VbaProject:
     def performance_cache(self: T, cache: bytes) -> None:
         self._performance_cache = cache
 
-    def set_performance_cache_version(self: T, version: int) -> None:
-        self._performance_cache_version = version
-
-    def get_performance_cache_version(self: T) -> int:
+    @property
+    def performance_cache_version(self: T) -> int:
         return self._performance_cache_version
+
+    @performance_cache_version.setter
+    def performance_cache_version(self: T, version: int) -> None:
+        self._performance_cache_version = version
 
     def get_codepage_name(self: T) -> str:
         return self._codepage_name
