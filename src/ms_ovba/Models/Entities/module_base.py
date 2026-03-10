@@ -34,6 +34,10 @@ class ModuleBase():
         # GUIDs
         self._guids = []
 
+    @property
+    def guids(self: T) -> str:
+        return self._guids
+
     @guids.setter
     def guids(self: T, guid: str) -> None:
         if isinstance(guid, list):
