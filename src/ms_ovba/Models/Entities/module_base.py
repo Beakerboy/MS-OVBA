@@ -49,7 +49,7 @@ class ModuleBase():
         """
         Append a guid to the list
         """
-        self._guid += guid
+        self._guid += [guid]
 
     @property
     def cache(self: T) -> bytes:
