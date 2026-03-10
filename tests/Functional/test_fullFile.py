@@ -216,16 +216,18 @@ def create_cache(proj_cookie: int) -> bytes:
                       0x01021a, 0x01021c, 0x0222]
 
     # Data
-    ca = b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 2 + b'\x00' * 2
-    ca += struct.pack("<IH", 0x65BE0257, 0x11)
+    cache._data = [0x21e, 0, 7, 14, 18, -1, 5, -1, 4, 2, 8, -1, 11, 16,
+                   10, 3, 20, 12, 6, 13, 15, 17, 7, 9, 19]
+    cache._hex = 0x65BE0257
+    
 
     # 64 bytes?
-    ca += b'\xFF' * 8
+    ca = b'\xFF' * 8
     ca += struct.pack("<I", 1)
     ca += b'\xFF' * 36 + struct.pack("<H", 2) + b'\xFF' * 14
 
     # Footer?
-    ca += struct.pack("<5IH", 1, 0, 0, 0, 0, proj_cookie)
+    ca = struct.pack("<5IH", 1, 0, 0, 0, 0, proj_cookie)
 
     ca += struct.pack("<IH", 0xFFFFFFFF, 0x0101)
     neg_one_4b = b'\xFF\xFF\xFF\xFF'
