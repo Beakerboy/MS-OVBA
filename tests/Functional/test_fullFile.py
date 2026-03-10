@@ -273,7 +273,7 @@ def create_cache(proj_cookie: int) -> bytes:
            "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
            "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00")
     ca += bytes.fromhex(" ".join(hex))
-    return cache.to_bytes
+    return cache.to_bytes()
 
 
 def create_doc_module(project: VbaProject, name: str,
