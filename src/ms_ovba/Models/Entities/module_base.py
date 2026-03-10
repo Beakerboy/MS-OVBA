@@ -51,21 +51,21 @@ class ModuleBase():
         """
         self._guid += guid
 
+    @property
+    def cache(self: T) -> bytes:
+        return self._cache
+
     @cache.setter
     def cache(self: T, cache: bytes) -> None:
         self._cache = cache
 
     @property
-    def cache(self: T) -> bytes:
-        return self._cache
+    def cookie(self: T) -> int:
+        return self.cookie.value
 
     @cookie.setter
     def cookie(self: T, value: int) -> None:
         self._cookie = IdSizeField(0x002C, 2, value)
-
-    @property
-    def cookie(self: T) -> int:
-        return self.cookie.value
 
     @property
     def name(self: T) -> str:
