@@ -209,7 +209,7 @@ def create_cache(proj_cookie: int) -> bytes:
     )))
 
     # User Class
-    ca = struct.pack("<5H", 3, 2, 2, 1, 6)
+    cache._user= [2, 2, 1]
 
     # Compile Time Data
     ca += struct.pack("<6IH", 0x0212,  0x010214, 0x010216, 0x0218,
