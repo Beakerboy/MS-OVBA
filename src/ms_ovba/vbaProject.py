@@ -43,11 +43,13 @@ class VbaProject:
     def default_date(self: T, date: Filetime) -> None:
         self._default_date = date
 
-    def set_project_id(self: T, id: str) -> None:
-        self._project_id = id
-
-    def get_project_id(self: T) -> str:
+    @property
+    def project_id(self: T) -> str:
         return self._project_id
+
+    @project_id.setter
+    def project_id(self: T, id: str) -> None:
+        self._project_id = id
 
     def set_protection_state(self: T, state: int) -> None:
         self._protection_state = state
@@ -89,14 +91,21 @@ class VbaProject:
     def performance_cache_version(self: T, version: int) -> None:
         self._performance_cache_version = version
 
-    def get_codepage_name(self: T) -> str:
+    @property
+    def codepage_name(self: T) -> str:
         return self._codepage_name
 
-    def set_project_cookie(self: T, value: int) -> None:
-        self._project_cookie = value
-
-    def get_project_cookie(self: T) -> int:
+    @codepage_name.setter
+    def codepage_name(self: T, name: str) -> None:
+        self._codepage_name = name
+        
+    @property
+    def project_cookie(self: T) -> int:
         return self._project_cookie
+
+    @project_cookie.setter
+    def project_cookie(self: T, value: int) -> None:
+        self._project_cookie = value
 
     def get_modules(self: T) -> list:
         return self.modules
