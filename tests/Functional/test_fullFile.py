@@ -125,7 +125,7 @@ def test_full_file() -> None:
 
     module1 = StdModule("Module1")
     cookie = 0xB241
-    module1.set_cookie(cookie)
+    module1.cookie = cookie
     module_cache = ModuleCache(0xB5, proj_cookie, signature=3)
     module_cache.header.data2 = 3
     module_cache.header.data4 = 2
@@ -136,7 +136,7 @@ def test_full_file() -> None:
     module_path = "tests/blank/Module1.bas"
     module1.add_file(module_path)
     module1.normalize_file()
-    module1.set_cache(module_cache.to_bytes())
+    module1.cache = module_cache.to_bytes()
 
     project.add_module(this_workbook)
     project.add_module(sheet1)
@@ -279,9 +279,9 @@ def create_cache(proj_cookie: int) -> bytes:
 def create_doc_module(project: VbaProject, name: str,
                       cookie: int, guid_s: str, path: str) -> DocModule:
     mod = DocModule(name)
-    mod.set_cookie(cookie)
+    mod.cookie = cookie
     guid = uuid.UUID(guid_s)
-    mod.set_guid(guid)
+    mod.add_guid(guid)
     module_path = path
     mod.add_file(module_path)
     mod.normalize_file()
