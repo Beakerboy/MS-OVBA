@@ -307,5 +307,5 @@ def create_doc_module(project: VbaProject, name: str,
     module_cache.guid = [guid]
     module_cache.module_cookie = cookie
 
-    mod.set_cache(module_cache.to_bytes())
+    mod.cache = module_cache.to_bytes()
     return mod
