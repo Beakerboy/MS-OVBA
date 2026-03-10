@@ -35,7 +35,7 @@ class ModuleBase():
         self._guids = []
 
     @guids.setter
-    def guid(self: T, guid: str) -> None:
+    def guids(self: T, guid: str) -> None:
         if isinstance(guid, list):
             self._guids = guid
         else:
