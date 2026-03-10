@@ -236,7 +236,7 @@ def create_cache(proj_cookie: int) -> bytes:
         b'vS\x9e\xe1B\x85\xfeF\xa1\x8b0E\x08tCU',
         b'"\x93\xba>\xc3\x82\xfcD\x88\xcav\x96\xe5\x061"'
     ]
-
+    cache._post_footer = 0xe8
     record = (neg_one_4b * 13 + struct.pack("<2I", 0x0230, 0x0218) +
               neg_one_4b * 28 + struct.pack("<I", 0x0200) + neg_one_4b * 84)
     for byte_string in bin_array:
