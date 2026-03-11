@@ -229,15 +229,15 @@ def create_cache(proj_cookie: int) -> bytes:
     cache._post_footer = 0xe8
     cache._w0 = 0x117
     cache._identifiers = [
-        (b"Excel", 20, 0x2b80), (b"VBA", 20, 0xe2f7), (b"Win16", 20, 0x7ec1),
-        (b"Win32", 20, 0x7f07), (b"Win64", 20, 0x7f78), (b"Mac", 20, 0xb2b3),
-        (b"VBA6", 20, 0x23ad), (b"VBA7", 20, 0x23ae),
-        (b"Project1", 20, 0x170a),
-        (b"stdole", 20, 0x6093), (b"VBAProject", 20, 0xbfbe),
-        (b"Office", 20, 0x7515), (b"ThisWorkbook", 20, 0xe37c),
-        (b"_Evaluate", 128, 0xd918, 0, -1, 0x103),
-        (b"Sheet1", 20, 0x1ae8), (b"Module1", 20, 0x1162),
-        (b"Workbook", 20, 0x186b)
+        (b"Excel", 4, 0x2b80), (b"VBA", 4, 0xe2f7), (b"Win16", 4, 0x7ec1),
+        (b"Win32", 4, 0x7f07), (b"Win64", 4, 0x7f78), (b"Mac", 4, 0xb2b3),
+        (b"VBA6", 4, 0x23ad), (b"VBA7", 4, 0x23ae),
+        (b"Project1", 4, 0x170a),
+        (b"stdole", 4, 0x6093), (b"VBAProject", 4, 0xbfbe),
+        (b"Office", 4, 0x7515), (b"ThisWorkbook", 4, 0xe37c),
+        (b"_Evaluate", 128, 0xd918, 0, 0x103, -1),
+        (b"Sheet1", 4, 0x1ae8), (b"Module1", 4, 0x1162),
+        (b"Workbook", 4, 0x186b)
     ]
 
     hex = ("02 FF FF 01 01 60 00 00 00 20 02",
