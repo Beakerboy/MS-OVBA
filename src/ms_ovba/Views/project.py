@@ -30,7 +30,7 @@ class Project:
         codepage_name = project.codepage_name
         # Use \x0D0A line endings...however python encodes that.
         eol = b'\x0D\x0A'
-        project_id = project.get_project_id()
+        project_id = project.project_id
         id = bytearray(project_id, codepage_name)
         result = b'ID="' + id + b'"' + eol
         modules = project.modules
@@ -42,10 +42,10 @@ class Project:
             result += self._attr(key, self.attributes[key])
         cmg = ms_ovba_crypto.encrypt(
                                      project_id,
-                                     project.get_protection_state()
+                                     project.protection_state
                                     )
-        dpb = ms_ovba_crypto.encrypt(project_id, project.get_password())
-        gc = ms_ovba_crypto.encrypt(project_id, project.get_visibility_state())
+        dpb = ms_ovba_crypto.encrypt(project_id, project.password)
+        gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
         result += (bytes('CMG="', codepage_name)
                    + binascii.hexlify(cmg).upper()
                    + b'\x22\x0D\x0A')
