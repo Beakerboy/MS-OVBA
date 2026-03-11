@@ -78,7 +78,7 @@ class VbaProject:
         return self._password
 
     @password.setter
-    def set_password(self: T, value: bytes) -> None:
+    def password(self: T, value: bytes) -> None:
         self._password = value
 
     @property
