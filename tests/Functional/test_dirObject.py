@@ -99,6 +99,10 @@ def test_dirstream() -> None:
     project.add_module(sheet1)
     project.add_module(module1)
 
+    f.seek(0x800)
+    expected_cache = f.read(0x333)
+    assert sheet1.cache == expected_cache
+
     assert stream.to_bytes() == decompressed_stream
 
     # The OEM and 3rd party compression results are not the same,
