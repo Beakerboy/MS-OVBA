@@ -54,7 +54,7 @@ def test_set_get_cache_version() -> None:
 def test_set_get_codepage() -> None:
     project = VbaProject()
     project.codepage_name = 'cp1253'
-    assert project.codepage_name == 'cp1252'
+    assert project.codepage_name == 'cp1253'
 
 
 def test_set_get_cookie() -> None:
