@@ -27,7 +27,7 @@ class Project:
 
     def to_bytes(self: T) -> bytes:
         project = self.project
-        codepage_name = project.get_codepage_name()
+        codepage_name = project.codepage_name
         # Use \x0D0A line endings...however python encodes that.
         eol = b'\x0D\x0A'
         project_id = project.get_project_id()
@@ -74,7 +74,7 @@ class Project:
         bin_f.close()
 
     def _attr(self: T, name: str, value: str) -> str:
-        codepage_name = self.project.get_codepage_name()
+        codepage_name = self.project.codepage_name
         eol = b'\x0D\x0A'
         b_name = bytes(name, codepage_name)
         b_value = bytes(value, codepage_name)
