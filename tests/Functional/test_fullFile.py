@@ -175,14 +175,20 @@ def test_full_file() -> None:
     # compare raw or uncompressed streams.
 
 
-def create_cache(proj_cookie: int) -> bytes:
+def create_cache(proj_cookie: int, modules) -> bytes:
     cache = ProjectCache(0x04E4, proj_cookie, 0x65BE0257)
+    cache._hex = 0x65BE0257
+    module_array = []
+    i = 0
+    id = [0x227, 0x22B, 0x22C]
+    for module in modules:
+        hex = 0x65BE0263 if i == 3 else cache._hex
+        module_array.append(
+            (module.name, 50, 70 + i, hex, id[i]
+             module.cookie, len(module.cache), [], -1)
+        )
+        i += 1
 
-    modules = [
-        ("ThisWorkbook", 50, 70, 0x65BE0257, 0x227, 0xB81C, 0x333, [], -1),
-        ("Sheet1", 50, 71, 0x65BE0257, 0x22B, 0x9B9A, 0x333, [], -1),
-        ("Module1", 50, 72, 0x65BE0263, 0x22C, 0xB241, 0x283, [], -1)
-    ]
     cache._modules = modules
 
     cache.add_library(str(LibidReference(
@@ -219,7 +225,6 @@ def create_cache(proj_cookie: int) -> bytes:
     # Data
     cache._data = [0x222, 0xffff, 17, -1, -1, -1, -1, 1, -1, -1, -1, -1,
                    -1, -1, -1, -1, -1, -1, -1, -1, 2, -1, -1, -1, -1, -1]
-    cache._hex = 0x65BE0257
 
     # Footer?
     cache._post_f_data = [(13, 0x230), (14, 0x218), (43, 0x200)]
