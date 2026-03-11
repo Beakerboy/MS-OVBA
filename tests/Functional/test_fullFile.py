@@ -142,6 +142,10 @@ def test_full_file() -> None:
     project.add_module(sheet1)
     project.add_module(module1)
 
+    project.performance_cache = create_cache(
+        proj_cookie,
+        [this_workbook, sheet1, module1]
+    )
     # Check ProjectWm
     wm_bytes = ProjectWm(project).to_bytes()
     # Read from file instead of pasting
