@@ -218,7 +218,7 @@ def create_cache(proj_cookie: int) -> bytes:
 
     # Data
     cache._data = [0x222, 0xffff, 17, -1, -1, -1, -1, 1, -1, -1, -1, -1, -1, -1,
-                   -1, -1, -1, -1, -1, 2, -1, 17, 7, 9, 19]
+                   -1, -1, -1, -1, -1, 2, -1, -1, -1, -1, -1]
     cache._hex = 0x65BE0257
 
     # Footer?
