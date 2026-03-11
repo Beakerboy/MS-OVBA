@@ -19,7 +19,7 @@ class ModuleBase():
         self.streamName = DoubleEncodedString([0x001A, 0x0032], name)
         self.docString = DoubleEncodedString([0x001C, 0x0048], "")
         self.helpContext = IdSizeField(0x001E, 4, 0)
-        self.cookie = IdSizeField(0x002C, 2, 0xFFFF)
+        self._cookie = IdSizeField(0x002C, 2, 0xFFFF)
 
         # self.readonly = SimpleRecord(0x001E, 4, helpContext)
         # self.private = SimpleRecord(0x001E, 4, helpContext)
