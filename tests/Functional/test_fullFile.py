@@ -213,8 +213,8 @@ def create_cache(proj_cookie: int) -> bytes:
     cache._user = [2, 2, 1]
 
     # Compile Time Data
-    cache._compile = [0x0212,  0x010214, 0x010216, 0x0218,
-                      0x01021a, 0x01021c, 0x0222]
+    cache._compile = [0x0212, 0x010214, 0x010216,
+                      0x0218, 0x01021a, 0x01021c]
 
     # Data
     cache._data = [0x21e, 0, 7, 14, 18, -1, 5, -1, 4, 2, 8, -1, 11, 16,
