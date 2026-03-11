@@ -222,7 +222,7 @@ def create_cache(proj_cookie: int) -> bytes:
     cache._hex = 0x65BE0257
 
     # Footer?
-    cache._post_f_data = [(13, 0x230), (14, 0x218)]
+    cache._post_f_data = [(13, 0x230), (14, 0x218), (43, 0x200)]
     cache._post_data = [
         b'\xf1q\x9a\xee\xc0\xe0\xc4F\xa2\xf8l|\xf9{s\x06',
         b'vS\x9e\xe1B\x85\xfeF\xa1\x8b0E\x08tCU',
