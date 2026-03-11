@@ -200,6 +200,7 @@ def create_cache(proj_cookie: int) -> bytes:
         "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
         "Microsoft Excel 16.0 Object Library"
     )))
+    cache.add_library(str(stdole_lib))
     cache.add_library(str(LibidReference(
         uuid.UUID("2DF8D04C-5BFA-101B-BDE5-00AA0044DE52"),
         "2.8",
