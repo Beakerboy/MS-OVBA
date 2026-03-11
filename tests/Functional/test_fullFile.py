@@ -251,7 +251,7 @@ def create_cache(proj_cookie: int) -> bytes:
            "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
            "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
            "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00")
-    ca += bytes.fromhex(" ".join(hex))
+    cache._footer = bytes.fromhex(" ".join(hex))
     return cache.to_bytes()
 
 
