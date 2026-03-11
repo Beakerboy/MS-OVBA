@@ -61,7 +61,7 @@ class ModuleBase():
 
     @property
     def cookie(self: T) -> int:
-        return self.cookie.value
+        return self._cookie.value
 
     @cookie.setter
     def cookie(self: T, value: int) -> None:
