@@ -64,7 +64,7 @@ def test_dirstream() -> None:
                     "FF FF 00 00 01 00 53 94 FF FF FF FF 00 00 00 00",
                     "02 3C FF FF FF FF 00 00")
     module_cache.object_table = bytes.fromhex(" ".join(object_table))
-    module_cache.misc = [[-1, 0x18], 0xFF, 0, [1, "00000000"]]
+    module_cache.misc = [-1, 0x18, 0xFF, 0, [1, "00000000"]]
     module_cache.header.data2 = 0
     module_cache.header.data3 = 0x123
     module_cache.header.data4 = 0x88
