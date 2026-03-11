@@ -67,7 +67,7 @@ def test_dirstream() -> None:
     module_cache.misc = [[-1, 0x18], 0xFF, 0, [1, "00000000"]]
     module_cache.header.data2 = 0x0123
     module_cache.header.data3 = 0x88
-    module_cache.header.sata4 = 8
+    module_cache.header.data4 = 8
     this_workbook = DocModule("ThisWorkbook")
     this_workbook.cookie = 0xB81C
     module_cache.cookie = 0xB81C
