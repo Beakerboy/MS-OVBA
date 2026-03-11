@@ -227,7 +227,7 @@ def create_cache(proj_cookie: int) -> bytes:
         b'"\x93\xba>\xc3\x82\xfcD\x88\xcav\x96\xe5\x061"'
     ]
     cache._post_footer = 0xe8
-
+    cache._w0 = 0x117
     cache._identifiers = [
         (b"Excel", 20, 0x2b80), (b"VBA", 20, 0xe2f7), (b"Win16", 20, 0x7ec1),
         (b"Win32", 20, 0x7f07), (b"Win64", 20, 0x7f78), (b"Mac", 20, 0xb2b3),
