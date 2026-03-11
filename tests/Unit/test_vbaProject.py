@@ -4,20 +4,20 @@ from ms_ovba.vbaProject import VbaProject
 
 def test_set_get_visibility() -> None:
     project = VbaProject()
-    project.set_visibility_state(0)
-    assert project.get_visibility_state() == 0
+    project.visibility_state = 0
+    assert project.visibility_state == 0
 
 
 def test_set_get_protection() -> None:
     project = VbaProject()
-    project.set_protection_state(0)
-    assert project.get_protection_state() == 0
+    project.protection_state = 0
+    assert project.protection_state == 0
 
 
 def test_set_get_password() -> None:
     project = VbaProject()
-    project.set_password(0)
-    assert project.get_password() == 0
+    project.password = 0
+    assert project.password == 0
 
 
 def test_bad_visibility() -> None:
@@ -26,4 +26,4 @@ def test_bad_visibility() -> None:
     """
     project = VbaProject()
     with pytest.raises(Exception):
-        project.set_visibility_state(1)
+        project.visibility_state = 1
