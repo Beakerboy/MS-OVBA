@@ -70,7 +70,7 @@ def test_dirstream() -> None:
     module_cache.header.data4 = 8
     this_workbook = DocModule("ThisWorkbook")
     this_workbook.cookie = 0xB81C
-    module_cache.cookie = 0xB81C
+    module_cache.module_cookie = 0xB81C
     guid = uuid.UUID('0002081900000000C000000000000046')
     this_workbook.add_guid(guid)
     module_cache.guids = [guid]
@@ -78,7 +78,7 @@ def test_dirstream() -> None:
 
     sheet1 = DocModule("Sheet1")
     sheet1.cookie = 0x9B9A
-    module_cache.cookie = 0x9B9A
+    module_cache.module_cookie = 0x9B9A
     guid = uuid.UUID('0002082000000000C000000000000046')
     module_cache.guids = [guid]
     sheet1.add_guid(guid)
@@ -87,7 +87,7 @@ def test_dirstream() -> None:
     module1 = StdModule("Module1")
     module1.cookie = 0xB241
     module_cache.clear_variables()
-    module_cache.cookie = 0xB241
+    module_cache.module_cookie = 0xB241
     module_cache.misc = [[-1, 2], 0xFFFF, 0, [0, "FFFFFFFF"]]
     module_cache.header.data2 = 3
     module_cache.header.data3 = 0
