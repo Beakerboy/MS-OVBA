@@ -192,7 +192,7 @@ def create_cache(proj_cookie: int, modules) -> bytes:
         )
         i += 1
 
-    cache._modules = modules
+    cache._modules = module_array
 
     cache.add_library(str(LibidReference(
         uuid.UUID("000204EF-0000-0000-C000-000000000046"),
