@@ -185,7 +185,7 @@ def create_cache(proj_cookie: int, modules) -> bytes:
     i = 0
     id = [0x227, 0x22B, 0x22C]
     for module in modules:
-        hex = 0x65BE0263 if i == 3 else cache._hex
+        hex = 0x65BE0263 if i == 2 else cache._hex
         module_array.append(
             (module.name, 50, 70 + i, hex, id[i],
              module.cookie, len(module.cache), [], -1)
