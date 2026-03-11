@@ -16,6 +16,10 @@ class IdSizeField():
         self._size = size
         self._value = value
 
+    @property
+    def value(self: T) -> Any:
+        return _value
+
     def pack(self: T, endien: str, cp_name: str = None) -> bytes:
         endien_symbol = '<' if endien == 'little' else '>'
         format = endien_symbol + "HI"
