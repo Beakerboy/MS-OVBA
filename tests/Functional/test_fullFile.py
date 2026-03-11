@@ -235,7 +235,7 @@ def create_cache(proj_cookie: int) -> bytes:
         (b"Project1", 20, 0x170a),
         (b"stdole", 20, 0x6093), (b"VBAProject", 20, 0xbfbe),
         (b"Office", 20, 0x7515), (b"ThisWorkbook", 20, 0xe37c),
-        (b"_Evaluate", 128, 0xd918, 20, 0x103, -253),
+        (b"_Evaluate", 128, 0xd918, 0, -1, 0x103),
         (b"Sheet1", 20, 0x1ae8), (b"Module1", 20, 0x1162),
         (b"Workbook", 20, 0x186b)
     ]
