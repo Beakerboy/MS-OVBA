@@ -91,7 +91,7 @@ class ModuleBase():
                   + self.docString.pack(endien, cp_name)
                   + self.offsetRec.pack(endien)
                   + self.helpContext.pack(endien, cp_name)
-                  + self.cookie.pack(endien)
+                  + self._cookie.pack(endien)
                   + type_id.pack(endien))
         footer = PackedData("HI", 0x002B, 0)
         output += footer.pack(endien)
