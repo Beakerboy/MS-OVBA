@@ -220,32 +220,16 @@ def create_cache(proj_cookie: int) -> bytes:
                    10, 3, 20, 12, 6, 13, 15, 17, 7, 9, 19]
     cache._hex = 0x65BE0257
 
-    # 64 bytes?
-    ca = b'\xFF' * 8
-    ca += struct.pack("<I", 1)
-    ca += b'\xFF' * 36 + struct.pack("<H", 2) + b'\xFF' * 14
-
     # Footer?
-    ca = struct.pack("<5IH", 1, 0, 0, 0, 0, proj_cookie)
-
-    ca += struct.pack("<IH", 0xFFFFFFFF, 0x0101)
-    neg_one_4b = b'\xFF\xFF\xFF\xFF'
-    neg_one_one = neg_one_4b + struct.pack("<I", 1)
-    bin_array = [
+    cache._post_data = [
         b'\xf1q\x9a\xee\xc0\xe0\xc4F\xa2\xf8l|\xf9{s\x06',
         b'vS\x9e\xe1B\x85\xfeF\xa1\x8b0E\x08tCU',
         b'"\x93\xba>\xc3\x82\xfcD\x88\xcav\x96\xe5\x061"'
     ]
     cache._post_footer = 0xe8
-    record = (neg_one_4b * 13 + struct.pack("<2I", 0x0230, 0x0218) +
-              neg_one_4b * 28 + struct.pack("<I", 0x0200) + neg_one_4b * 84)
-    for byte_string in bin_array:
-        record += byte_string + neg_one_one
 
-    record += neg_one_4b + struct.pack("<I", 0x30)
-    ca += struct.pack("<I", len(record)) + record
     cache._identifiers = [
-        (b"Excel",20, 0x2b80), (b"VBA", 20, 0xe2f7), (b"Win16", 20, 0x7ec1),
+        (b"Excel", 20, 0x2b80), (b"VBA", 20, 0xe2f7), (b"Win16", 20, 0x7ec1),
         (b"Win32", 20, 0x7f07), (b"Win64", 20, 0x7f78), (b"Mac", 20, 0xb2b3),
         (b"VBA6", 20, 0x23ad), (b"VBA7", 20, 0x23ae), (b"Project1", 20, 0x170a),
         (b"stdole", 20, 0x6093), (b"VBAProject", 20, 0xbfbe),
@@ -254,16 +238,7 @@ def create_cache(proj_cookie: int) -> bytes:
         (b"Sheet1", 20, 0x1ae8), (b"Module1", 20, 0x1162),
         (b"Workbook", 20, 0x186b)
     ]
-    ca += struct.pack("<IHHHHI", 0x80, 0, 0x0117, len(names), 0x0106, 0x2ba0)
-    for name in names:
-        if len(name) == 2:
-            ca += struct.pack("<BB" + str(len(name[1])) + "sHH",
-                              len(name[1]), 4, name[1], name[0], 16)
-        else:
-            ca += struct.pack("<BBHI" + str(len(name[1])) + "sHH",
-                              len(name[1]), 0x80, 0, name[2], name[1],
-                              name[0], 16)
-
+    
     hex = ("02 FF FF 01 01 60 00 00 00 20 02",
            "02 00 FF FF 22 02 FF FF FF FF 24 02 03 00 FF FF",
            "27 02 00 00 03 00 FF FF FF FF FF FF 2B 02 01 00",
