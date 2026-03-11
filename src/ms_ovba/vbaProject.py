@@ -51,13 +51,20 @@ class VbaProject:
     def project_id(self: T, id: str) -> None:
         self._project_id = id
 
-    def set_protection_state(self: T, state: int) -> None:
-        self._protection_state = state
-
-    def get_protection_state(self: T) -> int:
+    @property
+    def protection_state(self: T) -> int:
         return self._protection_state
 
-    def set_visibility_state(self: T, state: int) -> None:
+    @protection_state.setter
+    def protection_state(self: T, state: int) -> None:
+        self._protection_state = state
+
+    @property
+    def visibility_state(self: T) -> bytes:
+        return self._visibility_state
+
+    @visibility_state.setter
+    def visibility_state(self: T, state: int) -> None:
         """
         0   = not visible
         255 = visible
@@ -66,14 +73,13 @@ class VbaProject:
             raise Exception("Bad visibility value.")
         self._visibility_state = state
 
-    def get_visibility_state(self: T) -> bytes:
-        return self._visibility_state
+    @property
+    def password(self: T) -> bytes:
+        return self._password
 
+    @password.setter
     def set_password(self: T, value: bytes) -> None:
         self._password = value
-
-    def get_password(self: T) -> bytes:
-        return self._password
 
     @property
     def performance_cache(self: T) -> bytes:
