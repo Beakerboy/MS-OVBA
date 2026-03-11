@@ -73,14 +73,14 @@ def test_dirstream() -> None:
     module_cache.module_cookie = 0xB81C
     guid = uuid.UUID('0002081900000000C000000000000046')
     this_workbook.add_guid(guid)
-    module_cache.guids = [guid]
+    module_cache.guid = [guid]
     this_workbook.cache = module_cache.to_bytes()
 
     sheet1 = DocModule("Sheet1")
     sheet1.cookie = 0x9B9A
     module_cache.module_cookie = 0x9B9A
     guid = uuid.UUID('0002082000000000C000000000000046')
-    module_cache.guids = [guid]
+    module_cache.guid = [guid]
     sheet1.add_guid(guid)
     sheet1.cache = module_cache.to_bytes()
 
