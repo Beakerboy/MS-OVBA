@@ -244,14 +244,16 @@ def create_cache(proj_cookie: int) -> bytes:
 
     record += neg_one_4b + struct.pack("<I", 0x30)
     ca += struct.pack("<I", len(record)) + record
-    names = [
-        (b"Excel",20, 0x2b80), (b"VBA", 20, 0xe2f7), (b"Win16", 20, 0x7ec1, ),
+    cache._identifiers = [
+        (b"Excel",20, 0x2b80), (b"VBA", 20, 0xe2f7), (b"Win16", 20, 0x7ec1),
         (b"Win32", 20, 0x7f07), (b"Win64", 20, 0x7f78), (b"Mac", 20, 0xb2b3),
         (b"VBA6", 20, 0x23ad), (b"VBA7", 20, 0x23ae), (b"Project1", 20, 0x170a),
-        (0x6093, b"stdole"), (0xbfbe, b"VBAProject"), (b"Office", 20, 0x7515),
-        (0xe37c, b"ThisWorkbook"), (0xd918, b"_Evaluate", 0x103FF),
-        (0x1ae8, b"Sheet1"), (0x1162, b"Module1"), (0x186b, b"Workbook")
-        ]
+        (b"stdole", 20, 0x6093), (b"VBAProject", 20, 0xbfbe),
+        (b"Office", 20, 0x7515), (b"ThisWorkbook", 20, 0xe37c),
+        (b"_Evaluate", 128, 0xd918, 20, 0x103FF),
+        (b"Sheet1", 20, 0x1ae8), (b"Module1", 20, 0x1162),
+        (b"Workbook", 20, 0x186b)
+    ]
     ca += struct.pack("<IHHHHI", 0x80, 0, 0x0117, len(names), 0x0106, 0x2ba0)
     for name in names:
         if len(name) == 2:
