@@ -110,7 +110,6 @@ def test_full_file() -> None:
     proj_cookie = 0x08F3
     project.project_cookie = proj_cookie
     project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
-    project.performance_cache = create_cache(proj_cookie)
     project.performance_cache_version = 0x00B5
 
     base_path = "src/ms_ovba/blank_files/"
