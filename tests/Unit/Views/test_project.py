@@ -47,21 +47,10 @@ class MockVbaProject:
         self.modules = [Mod("ThisWorkbook"),
                         Mod("Sheet1"), mod1]
         self.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
-
-    def get_codepage_name(self):
-        return 'cp1252'
-
-    def get_project_id(self):
-        return self.project_id
-
-    def get_protection_state(self):
-        return b'\x00\x00\x00\x00'
-
-    def get_password(self):
-        return b'\x00'
-
-    def get_visibility_state(self):
-        return b'\xFF'
+        self.codepage_name = 'cp1252'
+        self.protection_state = b'\x00\x00\x00\x00'
+        self.password = b'\x00'
+        self.visibility_state = b'\xFF'
 
 
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
