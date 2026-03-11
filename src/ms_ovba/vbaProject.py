@@ -43,19 +43,28 @@ class VbaProject:
     def default_date(self: T, date: Filetime) -> None:
         self._default_date = date
 
-    def set_project_id(self: T, id: str) -> None:
-        self._project_id = id
-
-    def get_project_id(self: T) -> str:
+    @property
+    def project_id(self: T) -> str:
         return self._project_id
 
-    def set_protection_state(self: T, state: int) -> None:
-        self._protection_state = state
+    @project_id.setter
+    def project_id(self: T, id: str) -> None:
+        self._project_id = id
 
-    def get_protection_state(self: T) -> int:
+    @property
+    def protection_state(self: T) -> int:
         return self._protection_state
 
-    def set_visibility_state(self: T, state: int) -> None:
+    @protection_state.setter
+    def protection_state(self: T, state: int) -> None:
+        self._protection_state = state
+
+    @property
+    def visibility_state(self: T) -> bytes:
+        return self._visibility_state
+
+    @visibility_state.setter
+    def visibility_state(self: T, state: int) -> None:
         """
         0   = not visible
         255 = visible
@@ -64,44 +73,58 @@ class VbaProject:
             raise Exception("Bad visibility value.")
         self._visibility_state = state
 
-    def get_visibility_state(self: T) -> bytes:
-        return self._visibility_state
-
-    def set_password(self: T, value: bytes) -> None:
-        self._password = value
-
-    def get_password(self: T) -> bytes:
+    @property
+    def password(self: T) -> bytes:
         return self._password
 
-    def set_performance_cache(self: T, cache: bytes) -> None:
-        self._performance_cache = cache
+    @password.setter
+    def password(self: T, value: bytes) -> None:
+        self._password = value
 
-    def get_performance_cache(self: T) -> None:
+    @property
+    def performance_cache(self: T) -> bytes:
         return self._performance_cache
 
-    def set_performance_cache_version(self: T, version: int) -> None:
-        self._performance_cache_version = version
+    @performance_cache.setter
+    def performance_cache(self: T, cache: bytes) -> None:
+        self._performance_cache = cache
 
-    def get_performance_cache_version(self: T) -> int:
+    @property
+    def performance_cache_version(self: T) -> int:
         return self._performance_cache_version
 
-    def get_codepage_name(self: T) -> str:
+    @performance_cache_version.setter
+    def performance_cache_version(self: T, version: int) -> None:
+        self._performance_cache_version = version
+
+    @property
+    def codepage_name(self: T) -> str:
         return self._codepage_name
 
-    def set_project_cookie(self: T, value: int) -> None:
-        self._project_cookie = value
+    @codepage_name.setter
+    def codepage_name(self: T, name: str) -> None:
+        self._codepage_name = name
 
-    def get_project_cookie(self: T) -> int:
+    @property
+    def project_cookie(self: T) -> int:
         return self._project_cookie
+
+    @project_cookie.setter
+    def project_cookie(self: T, value: int) -> None:
+        self._project_cookie = value
 
     def get_modules(self: T) -> list:
         return self.modules
 
-    def set_include_projectwm(self: T, value: bool) -> None:
-        self._project_wm = value
-
-    def get_include_projectwm(self: T) -> bool:
+    @property
+    def projectwm(self: T) -> bool:
         return self._project_wm
+
+    def include_projectwm(self: T) -> bool:
+        self._project_wm = True
+
+    def exclude_projectwm(self: T) -> bool:
+        self._project_wm = False
 
     # Appenders
     def add_module(self: T, mod: ModuleBase) -> None:

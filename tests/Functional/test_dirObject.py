@@ -53,7 +53,7 @@ def test_dirstream() -> None:
     office_reference = Reference(libid_ref2, "Office")
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
-    project.set_project_cookie(0x08F3)
+    project.project_cookie = 0x08F3
 
     indirect_table = ("02 80 FE FF FF FF FF FF 20 00 00 00 FF FF FF FF",
                       "30 00 00 00 02 01 FF FF 00 00 00 00 00 00 00 00",
@@ -64,40 +64,44 @@ def test_dirstream() -> None:
                     "FF FF 00 00 01 00 53 94 FF FF FF FF 00 00 00 00",
                     "02 3C FF FF FF FF 00 00")
     module_cache.object_table = bytes.fromhex(" ".join(object_table))
-    module_cache.misc = [[-1, 0x18], 0xFF, 0, [1, "00000000"]]
-    module_cache.header.data2 = 0x0123
-    module_cache.header.data3 = 0x88
-    module_cache.header.sata4 = 8
+    module_cache.misc = [[-1, 8], 0x18, 0, [1, "00000000"]]
+    module_cache.header.data2 = 0
+    module_cache.header.data3 = 0x123
+    module_cache.header.data4 = 0x88
     this_workbook = DocModule("ThisWorkbook")
-    this_workbook.set_cookie(0xB81C)
-    module_cache.cookie = 0xB81C
+    this_workbook.cookie = 0xB81C
+    module_cache.module_cookie = 0xB81C
     guid = uuid.UUID('0002081900000000C000000000000046')
-    this_workbook.set_guid(guid)
+    this_workbook.add_guid(guid)
     module_cache.guid = [guid]
-    this_workbook.set_cache(module_cache.to_bytes())
+    this_workbook.cache = module_cache.to_bytes()
 
     sheet1 = DocModule("Sheet1")
-    sheet1.set_cookie(0x9B9A)
-    module_cache.cookie = 0x9B9A
+    sheet1.cookie = 0x9B9A
+    module_cache.module_cookie = 0x9B9A
     guid = uuid.UUID('0002082000000000C000000000000046')
     module_cache.guid = [guid]
-    sheet1.set_guid(guid)
-    sheet1.set_cache(module_cache.to_bytes())
+    sheet1.add_guid(guid)
+    sheet1.cache = module_cache.to_bytes()
 
     module1 = StdModule("Module1")
-    module1.set_cookie(0xB241)
+    module1.cookie = 0xB241
     module_cache.clear_variables()
-    module_cache.cookie = 0xB241
+    module_cache.module_cookie = 0xB241
     module_cache.misc = [[-1, 2], 0xFFFF, 0, [0, "FFFFFFFF"]]
-    module_cache.header.data2 = 3
-    module_cache.header.data3 = 0
-    module_cache.header.sata4 = 7
+    module_cache.header.data2 = 0
+    module_cache.header.data3 = 3
+    module_cache.header.data4 = 0
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
-    module1.set_cache(module_cache.to_bytes())
+    module1.cache = module_cache.to_bytes()
 
     project.add_module(this_workbook)
     project.add_module(sheet1)
     project.add_module(module1)
+
+    f.seek(0x1200)
+    expected_cache = f.read(len(module1.cache))
+    assert module1.cache == expected_cache
 
     assert stream.to_bytes() == decompressed_stream
 

@@ -24,10 +24,10 @@ class DirStream():
     def to_bytes(self: T) -> bytes:
         information = self._load_information()
         endien = self.project.endien
-        cp_name = self.project.get_codepage_name()
+        cp_name = self.project.codepage_name
         pack_symbol = '<' if endien == 'little' else '>'
         # should be 0xFFFF
-        cookie_value = self.project.get_project_cookie()
+        cookie_value = self.project.project_cookie
         self.project_cookie = IdSizeField(19, 2, cookie_value)
         references = self.project.references
         modules = self.project.modules

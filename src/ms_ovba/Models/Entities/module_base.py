@@ -19,7 +19,7 @@ class ModuleBase():
         self.streamName = DoubleEncodedString([0x001A, 0x0032], name)
         self.docString = DoubleEncodedString([0x001C, 0x0048], "")
         self.helpContext = IdSizeField(0x001E, 4, 0)
-        self.cookie = IdSizeField(0x002C, 2, 0xFFFF)
+        self._cookie = IdSizeField(0x002C, 2, 0xFFFF)
 
         # self.readonly = SimpleRecord(0x001E, 4, helpContext)
         # self.private = SimpleRecord(0x001E, 4, helpContext)
@@ -32,33 +32,47 @@ class ModuleBase():
         self._size = 0
 
         # GUIDs
-        self._guid = []
+        self._guids = []
 
-    def set_guid(self: T, guid: str) -> None:
+    @property
+    def guids(self: T) -> str:
+        return self._guids
+
+    @guids.setter
+    def guids(self: T, guid: str) -> None:
         if isinstance(guid, list):
-            self._guid = guid
+            self._guids = guid
         else:
-            self._guid = [guid]
+            self._guids = [guid]
 
     def add_guid(self: T, guid: str) -> None:
-        self._guid += guid
+        """
+        Append a guid to the list
+        """
+        self._guid += [guid]
 
-    def set_cache(self: T, cache: bytes) -> None:
-        self._cache = cache
-
-    def get_cache(self: T) -> bytes:
+    @property
+    def cache(self: T) -> bytes:
         return self._cache
 
-    def set_cookie(self: T, value: int) -> None:
-        self.cookie = IdSizeField(0x002C, 2, value)
+    @cache.setter
+    def cache(self: T, cache: bytes) -> None:
+        self._cache = cache
 
-    def get_cookie(self: T) -> int:
-        return self.cookie.value
+    @property
+    def cookie(self: T) -> int:
+        return self._cookie.value
 
-    def get_name(self: T) -> str:
+    @cookie.setter
+    def cookie(self: T, value: int) -> None:
+        self._cookie = IdSizeField(0x002C, 2, value)
+
+    @property
+    def name(self: T) -> str:
         return self.modName.value
 
-    def get_bin_path(self: T) -> str:
+    @property
+    def bin_path(self: T) -> str:
         return self._file_path + ".bin"
 
     def add_workspace(self: T, val1: int, val2: int,
@@ -77,7 +91,7 @@ class ModuleBase():
                   + self.docString.pack(endien, cp_name)
                   + self.offsetRec.pack(endien)
                   + self.helpContext.pack(endien, cp_name)
-                  + self.cookie.pack(endien)
+                  + self._cookie.pack(endien)
                   + type_id.pack(endien))
         footer = PackedData("HI", 0x002B, 0)
         output += footer.pack(endien)
