@@ -148,6 +148,7 @@ def test_full_file() -> None:
     project.add_attribute("HelpContextID", "0")
     project.add_attribute("VersionCompatible32", "393222000")
     project.include_compat()
+    project.include_projectwm()
 
     # Check _VBA_Project
     pv_bytes = ProjectView(project).to_bytes()
