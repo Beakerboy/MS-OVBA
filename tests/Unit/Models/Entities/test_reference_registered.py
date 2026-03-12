@@ -1,3 +1,4 @@
+import pytest
 from unittest import mock
 from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 
@@ -70,5 +71,4 @@ def test_bad_id():
     path = 'ms_ovba.Models.Entities.reference_registered.LibidReference'
     with mock.patch(path, MockLibid2):
         with pytest.raises(Exception):
-            ref = ReferenceRegistered.unpack(data, "little")
-        
+            ReferenceRegistered.unpack(data, "little")
