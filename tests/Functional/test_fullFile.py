@@ -164,16 +164,15 @@ def test_full_file() -> None:
     assert wm_bytes == expected
 
     # Check Dir
-    stream = DirStream(project)
-    stream.include_compat()
-
+    ms_ovba = MsOvba()
+    g = open('project.bin', 'rb')
+    given = ms_ovba.decompress(g.read())
     offset = 0x1EC0
     length = 0x0232
     f.seek(offset)
     container = f.read(length)
-    ms_ovba = MsOvba()
-    decompressed_stream = ms_ovba.decompress(container)
-    assert stream.to_bytes() == decompressed_stream
+    expected = ms_ovba.decompress(container)
+    assert given == expected
 
     # The OEM and 3rd party compression results are not the same,
     # so we compare the uncompressed streams.
