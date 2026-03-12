@@ -145,7 +145,7 @@ def test_full_file() -> None:
         proj_cookie,
         [this_workbook, sheet1, module1]
     )
-    
+
     # Check ProjectWm
     wm_bytes = ProjectWm(project).to_bytes()
     # Read from file instead of pasting
@@ -164,7 +164,7 @@ def test_full_file() -> None:
 
     # Check _VBA_Project
     pv_bytes = ProjectView(project).to_bytes()
-    
+
     bin_offset = 0x14C0
     cache_size = 0x09F0
     bin_path = "tests/blank/vbaProject.bin"
@@ -175,7 +175,7 @@ def test_full_file() -> None:
     assert len(pv_bytes) == 0x09F0
 
     ProjectOleFile.write_file(project)
-    
+
     # Check Modules
 
     path = base_path + "Module1.bas"
