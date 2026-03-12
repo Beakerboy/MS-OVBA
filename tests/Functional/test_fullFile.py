@@ -177,7 +177,7 @@ def test_full_file() -> None:
 
     # Check Modules
 
-    path = bin_path
+    path = "Module1.bin"
     cache_size = 0x333
     bin_path = "vbaProject.bin"
     bin_offset = 0x1200
