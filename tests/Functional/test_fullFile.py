@@ -19,7 +19,6 @@ from ms_ovba.Models.Entities.reference_registered import (
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Views.project_ole_file import ProjectOleFile
 from ms_ovba.Views.project_view import ProjectView
-from ms_ovba.Views.projectWm import ProjectWm
 from typing import Type, TypeVar
 
 
@@ -175,7 +174,6 @@ def test_full_file() -> None:
                 b'h\x00e\x00e\x00t\x001\x00\x00\x00Modu' +
                 b'le1\x00M\x00o\x00d\x00u\x00l\x00e\x00' +
                 b'1\x00\x00\x00\x00\x00')
-    assert len(wm_bytes) == 0x56
     assert given == expected
 
     # Check Modules
