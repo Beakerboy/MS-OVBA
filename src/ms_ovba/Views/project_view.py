@@ -10,13 +10,10 @@ class ProjectView:
     """
     The _VBA_PROJECT data view for the vbaProject
     """
-    def __init__(self: T, project: VbaProject) -> None:
+    def __init__(self: T, project: VbaProject, reserved: int = 3) -> None:
         self.project = project
-        self._reserved3 = 0x0003
-
-    def set_reserved3(self: T, value: int) -> None:
-        self._reserved3 = value
-
+        self._reserved3 = reserved
+    
     def to_bytes(self: T) -> bytes:
         endien_symbol = '<' if self.project.endien == 'little' else '>'
         format = endien_symbol + "HHBH"
