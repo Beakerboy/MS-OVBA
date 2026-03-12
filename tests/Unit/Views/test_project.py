@@ -51,6 +51,7 @@ class MockVbaProject:
         self.protection_state = b'\x00\x00\x00\x00'
         self.password = b'\x00'
         self.visibility_state = b'\xFF'
+        self.attributes = {}
 
 
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
