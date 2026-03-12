@@ -61,10 +61,10 @@ def remove_module(names: str) -> None:
 
 
 def assert_module_matches_bin(module_path: str,
-                       cache_size: int,
-                       bin_path: str,
-                       bin_offset: int,
-                       bin_length: int) -> bool:
+                              cache_size: int,
+                              bin_path: str,
+                              bin_offset: int,
+                              bin_length: int) -> bool:
     m = open(module_path, "rb")
     b = open(bin_path, "rb")
     b.seek(bin_offset)
