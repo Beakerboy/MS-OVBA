@@ -29,6 +29,9 @@ class VbaProject:
         self.references = []
         self.modules = []
 
+        # A list of attributes and values
+        self.attributes = {}
+    
         self._project_cookie = 0xFFFF
 
         self._project_wm = False
@@ -132,3 +135,6 @@ class VbaProject:
 
     def add_reference(self: T, ref: ReferenceRegistered) -> None:
         self.references.append(ref)
+
+    def add_attribute(self: T, name: str, value: str) -> None:
+        self.attributes[name] = value
