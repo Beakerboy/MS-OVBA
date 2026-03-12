@@ -59,6 +59,7 @@ def test_unpack():
                                   b'C:\\Windows\\system32\\stdole2.tlb#' +
                                   b'OLE Automation')
 
+
 def test_bad_id():
     hex = ("0C 00 68 00 00 00 5E 00 00 00 2A 5C 47 7B 30 30",
            "30 32 30 34 33 30 2D 30 30 30 30 2D 30 30 30 30",
