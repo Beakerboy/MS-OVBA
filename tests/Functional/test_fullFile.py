@@ -145,6 +145,7 @@ def test_full_file() -> None:
         proj_cookie,
         [this_workbook, sheet1, module1]
     )
+    
     # Check ProjectWm
     wm_bytes = ProjectWm(project).to_bytes()
     # Read from file instead of pasting
@@ -163,9 +164,10 @@ def test_full_file() -> None:
 
     # Check _VBA_Project
     pv_bytes = ProjectView(project).to_bytes()
-    bin_path = "tests/blank/vbaProject.bin"
+    
     bin_offset = 0x14C0
     cache_size = 0x09F0
+    bin_path = "tests/blank/vbaProject.bin"
     b = open(bin_path, "rb")
     b.seek(bin_offset)
     file_bytes = b.read(cache_size)
@@ -173,6 +175,18 @@ def test_full_file() -> None:
     assert len(pv_bytes) == 0x09F0
 
     ProjectOleFile.write_file(project)
+    
+    # Check Modules
+
+    path = base_path + "Module1.bas"
+    cache_size = 0x333
+    bin_path = "vbaProject.bin"
+    bin_offset = 0x1200
+    bin_length = 0x2a9
+    assert module_matches_bin(
+        path, cache_size, bin_path,
+        bin_offset, bin_length
+    )
 
     # combine sectors from bin into the streams
     # compare raw or uncompressed streams.
