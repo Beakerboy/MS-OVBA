@@ -60,7 +60,7 @@ def remove_module(names: str) -> None:
         os.remove(name + ".bin")
 
 
-def module_matches_bin(module_path: str,
+def assert_module_matches_bin(module_path: str,
                        cache_size: int,
                        bin_path: str,
                        bin_offset: int,
@@ -68,12 +68,11 @@ def module_matches_bin(module_path: str,
     m = open(module_path, "rb")
     b = open(bin_path, "rb")
     b.seek(bin_offset)
-    if m.read(cache_size) != b.read(cache_size):
-        return False
+    assert m.read(cache_size) == b.read(cache_size):
     ms_ovba = MsOvba()
     m_uncompressed = ms_ovba.decompress(m.read())
     b_uncompressed = ms_ovba.decompress(b.read(bin_length))
-    return m_uncompressed == b_uncompressed
+    assert m_uncompressed == b_uncompressed
 
 
 stdole_lib = LibidReference(
@@ -183,7 +182,7 @@ def test_full_file() -> None:
     bin_path = "vbaProject.bin"
     bin_offset = 0x1200
     bin_length = 0x2a9
-    assert module_matches_bin(
+    assert_module_matches_bin(
         path, cache_size, bin_path,
         bin_offset, bin_length
     )
