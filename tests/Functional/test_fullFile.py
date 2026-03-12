@@ -188,10 +188,18 @@ def test_full_file() -> None:
     )
 
     path = "src/ms_ovba/blank_files/ThisWorkbook.cls.bin"
-    cache_size = 0x333
-    bin_path = "tests/blank/vbaProject.bin"
     bin_offset = 0x800
     bin_length = 0x3e7  # From vbaProject.bin OLE Directory
+    assert_module_matches_bin(
+        path, cache_size, bin_path,
+        bin_offset, bin_length
+    )
+
+    path = "tests/blank/Module1.bas.bin"
+    cache_size = 0x283
+    bin_path = "tests/blank/vbaProject.bin"
+    bin_offset = 0x1200
+    bin_length = 0x2a9  # From vbaProject.bin OLE Directory
     assert_module_matches_bin(
         path, cache_size, bin_path,
         bin_offset, bin_length
