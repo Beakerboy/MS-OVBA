@@ -177,7 +177,7 @@ def test_full_file() -> None:
     # so we compare the uncompressed streams.
     compressed = ms_ovba.compress(stream.to_bytes())
     assert ms_ovba.decompress(compressed) == decompressed_stream
-    
+
     # Check _VBA_Project
     pv_bytes = ProjectView(project).to_bytes()
 
