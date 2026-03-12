@@ -191,7 +191,7 @@ def test_full_file() -> None:
     cache_size = 0x333
     bin_path = "tests/blank/vbaProject.bin"
     bin_offset = 0x800
-    bin_length = 0x3e7 # From vbaProject.bin OLE Directory
+    bin_length = 0x3e7  # From vbaProject.bin OLE Directory
     assert_module_matches_bin(
         path, cache_size, bin_path,
         bin_offset, bin_length
