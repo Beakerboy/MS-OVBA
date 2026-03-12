@@ -147,6 +147,7 @@ def test_full_file() -> None:
         [this_workbook, sheet1, module1]
     )
 
+    project.add_attribute("HelpContextID", "0")
     f = open('tests/blank/vbaProject.bin', 'rb')
     # Check ProjectWm
     wm_bytes = ProjectWm(project).to_bytes()
