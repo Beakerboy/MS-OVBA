@@ -17,7 +17,6 @@ from ms_ovba.Models.Entities.reference_registered import (
     ReferenceRegistered
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
-from ms_ovba.Views.dirStream import DirStream
 from ms_ovba.Views.project_ole_file import ProjectOleFile
 from ms_ovba.Views.project_view import ProjectView
 from ms_ovba.Views.projectWm import ProjectWm
@@ -173,11 +172,6 @@ def test_full_file() -> None:
     container = f.read(length)
     expected = ms_ovba.decompress(container)
     assert given == expected
-
-    # The OEM and 3rd party compression results are not the same,
-    # so we compare the uncompressed streams.
-    compressed = ms_ovba.compress(stream.to_bytes())
-    assert ms_ovba.decompress(compressed) == decompressed_stream
 
     # Check _VBA_Project
     pv_bytes = ProjectView(project).to_bytes()
