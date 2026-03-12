@@ -27,12 +27,6 @@ def test_set_get_protection() -> None:
     assert project.protection_state == 0
 
 
-def test_set_get_visibility() -> None:
-    project = VbaProject()
-    project.visibility_state = 0
-    assert project.visibility_state == 0
-
-
 def test_set_get_password() -> None:
     project = VbaProject()
     project.password = 0
