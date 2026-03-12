@@ -171,11 +171,11 @@ def test_full_file() -> None:
     expected += f.read(length - 0x80)
     given = Project(project)
     assert ms_ovba.decompress(given.to_bytes()) == ms_ovba.decompress(expected)
-    
+
     # Check Dir
     stream = DirStream(project)
     stream.include_compat()
-    
+
     offset = 0x1EC0
     length = 0x0232
     f.seek(offset)
