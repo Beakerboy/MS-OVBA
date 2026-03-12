@@ -217,8 +217,8 @@ def test_full_file() -> None:
 
     # Check Dir
     ms_ovba = MsOvba()
-    g = open('project.bin', 'rb')
-    given = g.read()
+    g = open('dir.bin', 'rb')
+    given = ms_ovba.decompress(g.read())
     offset = 0x1EC0
     length = 0x0232
     f.seek(offset)
