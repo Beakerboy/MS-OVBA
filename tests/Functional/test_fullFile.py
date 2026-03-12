@@ -170,7 +170,7 @@ def test_full_file() -> None:
     b.seek(bin_offset)
     file_bytes = b.read(cache_size)
     assert pv_bytes == file_bytes
-    # assert len(pv_bytes) == 0x09F0
+    assert len(pv_bytes) == 0x09F0
 
     ProjectOleFile.write_file(project)
 
