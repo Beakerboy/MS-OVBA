@@ -148,8 +148,10 @@ def test_full_file() -> None:
     )
 
     project.add_attribute("HelpContextID", "0")
-    f = open('tests/blank/vbaProject.bin', 'rb')
+    project.add_attribute("VersionCompatible32", "393222000")
+    
     # Check ProjectWm
+    f = open('tests/blank/vbaProject.bin', 'rb')
     wm_bytes = ProjectWm(project).to_bytes()
     # Read from file instead of pasting
     expected = (b'ThisWorkbook\x00T\x00h' +
