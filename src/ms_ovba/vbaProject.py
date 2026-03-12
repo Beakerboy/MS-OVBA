@@ -31,7 +31,7 @@ class VbaProject:
 
         # A list of attributes and values
         self.attributes = {}
-    
+
         self._project_cookie = 0xFFFF
 
         self._project_wm = False
