@@ -150,19 +150,18 @@ def test_full_file() -> None:
     project.include_compat()
     project.include_projectwm()
 
-    # Check _VBA_Project
-    pv_bytes = ProjectView(project).to_bytes()
+    ProjectOleFile.write_file(project)
 
+    # Check _VBA_Project
+    g = open('vba_project.bin')
+    given = g.read()
     bin_offset = 0x14C0
-    cache_size = 0x09F0
+    bin_length = 0x09F0
     bin_path = "tests/blank/vbaProject.bin"
     b = open(bin_path, "rb")
     b.seek(bin_offset)
-    file_bytes = b.read(cache_size)
-    assert pv_bytes == file_bytes
-    assert len(pv_bytes) == 0x09F0
-
-    ProjectOleFile.write_file(project)
+    expected = b.read(bin_length)
+    assert given == expected
 
     # Check ProjectWm
     f = open('tests/blank/vbaProject.bin', 'rb')
