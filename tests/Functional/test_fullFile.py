@@ -68,7 +68,7 @@ def assert_module_matches_bin(module_path: str,
     m = open(module_path, "rb")
     b = open(bin_path, "rb")
     b.seek(bin_offset)
-    assert m.read(cache_size) == b.read(cache_size):
+    assert m.read(cache_size) == b.read(cache_size)
     ms_ovba = MsOvba()
     m_uncompressed = ms_ovba.decompress(m.read())
     b_uncompressed = ms_ovba.decompress(b.read(bin_length))
