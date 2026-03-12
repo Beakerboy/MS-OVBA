@@ -63,6 +63,18 @@ def test_set_get_cookie() -> None:
     assert project.project_cookie == 2
 
 
+def test_include_projectwm() -> None:
+    project = VbaProject()
+    project.include_projectwm()
+    assert project.projectwm
+
+
+def test_exclude_projectwm() -> None:
+    project = VbaProject()
+    project.exclude_projectwm()
+    assert not project.projectwm
+
+
 def test_bad_visibility() -> None:
     """
     Visibility must be zero or 0xFF
