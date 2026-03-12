@@ -49,7 +49,7 @@ def run_around_tests() -> None:
     names = [root + "ThisWorkbook.cls", root + "Sheet1.cls",
              root2 + "Module1.bas"]
     remove_module(names)
-    names = ["dir.bin", "projectWm.bin", "project.bin", "vba_project.bin"]
+    names = ["dir.bin", "projectwm.bin", "project.bin", "vba_project.bin"]
     map(os.remove, names)
 
 
@@ -166,7 +166,7 @@ def test_full_file() -> None:
 
     # Check ProjectWm
     f = open('tests/blank/vbaProject.bin', 'rb')
-    g = open('projectWm.bin', 'rb')
+    g = open('projectwm.bin', 'rb')
     given = g.read()
     # Read from file instead of pasting
     expected = (b'ThisWorkbook\x00T\x00h' +
