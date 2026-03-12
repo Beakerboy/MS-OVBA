@@ -124,6 +124,7 @@ def test_full_file() -> None:
     module1 = StdModule("Module1")
     cookie = 0xB241
     module1.cookie = cookie
+    module_cache = ModuleCache(0xB5, proj_cookie, signature=3)
     module_cache.misc = [[-1, 2], 0xFFFF, 0, [0, "FFFFFFFF"]]
     module_cache.header.data2 = 0
     module_cache.header.data3 = 3
