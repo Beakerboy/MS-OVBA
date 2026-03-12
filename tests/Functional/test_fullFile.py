@@ -162,17 +162,6 @@ def test_full_file() -> None:
     assert len(wm_bytes) == 0x56
     assert wm_bytes == expected
 
-    # Check Dir
-    ms_ovba = MsOvba()
-    g = open('project.bin', 'rb')
-    given = ms_ovba.decompress(g.read())
-    offset = 0x1EC0
-    length = 0x0232
-    f.seek(offset)
-    container = f.read(length)
-    expected = ms_ovba.decompress(container)
-    assert given == expected
-
     # Check _VBA_Project
     pv_bytes = ProjectView(project).to_bytes()
 
@@ -226,6 +215,16 @@ def test_full_file() -> None:
     g = open('project.bin', 'rb')
     assert g.read() == expected
 
+    # Check Dir
+    ms_ovba = MsOvba()
+    g = open('project.bin', 'rb')
+    given = ms_ovba.decompress(g.read())
+    offset = 0x1EC0
+    length = 0x0232
+    f.seek(offset)
+    container = f.read(length)
+    expected = ms_ovba.decompress(container)
+    assert given == expected
 
 def create_cache(proj_cookie: int, modules) -> bytes:
     cache = ProjectCache(0x04E4, proj_cookie, 0x65BE0257)
