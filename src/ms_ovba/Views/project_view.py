@@ -13,7 +13,7 @@ class ProjectView:
     def __init__(self: T, project: VbaProject, reserved: int = 3) -> None:
         self.project = project
         self._reserved3 = reserved
-    
+
     def to_bytes(self: T) -> bytes:
         endien_symbol = '<' if self.project.endien == 'little' else '>'
         format = endien_symbol + "HHBH"
