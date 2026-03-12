@@ -148,6 +148,7 @@ def test_full_file() -> None:
         [this_workbook, sheet1, module1]
     )
 
+    ms_ovba = MsOvba()
     # Check ProjectWm
     wm_bytes = ProjectWm(project).to_bytes()
     # Read from file instead of pasting
@@ -169,7 +170,7 @@ def test_full_file() -> None:
     f.seek(0x2400)
     expected += f.read(length - 0x80)
     given = Project(project)
-    assert  ms_ovba.decompress(given.to_bytes()) == ms_ovba.decompress(expected)
+    assert ms_ovba.decompress(given.to_bytes()) == ms_ovba.decompress(expected)
     
     # Check Dir
     stream = DirStream(project)
