@@ -161,17 +161,6 @@ def test_full_file() -> None:
     assert len(wm_bytes) == 0x56
     assert wm_bytes == expected
 
-    # Check Project
-    f = open('tests/blank/vbaProject.bin', 'rb')
-    length = 0x1d2
-    offset = 0x2180
-    f.seek(offset)
-    expected = f.read(0x80)
-    f.seek(0x2400)
-    expected += f.read(length - 0x80)
-    given = Project(project)
-    assert given.to_bytes() == expected
-
     # Check Dir
     stream = DirStream(project)
     stream.include_compat()
@@ -231,6 +220,17 @@ def test_full_file() -> None:
         path, cache_size, bin_path,
         bin_offset, bin_length
     )
+
+    # Check Project
+    f = open('tests/blank/vbaProject.bin', 'rb')
+    length = 0x1d2
+    offset = 0x2180
+    f.seek(offset)
+    expected = f.read(0x80)
+    f.seek(0x2400)
+    expected += f.read(length - 0x80)
+    g = open('Project.bin', 'rb')
+    assert g.read() == expected
 
 
 def create_cache(proj_cookie: int, modules) -> bytes:
