@@ -18,6 +18,7 @@ from ms_ovba.Models.Entities.reference_registered import (
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Views.dirStream import DirStream
+from ms_ovba.Views.project import Project
 from ms_ovba.Views.project_ole_file import ProjectOleFile
 from ms_ovba.Views.project_view import ProjectView
 from ms_ovba.Views.projectWm import ProjectWm
@@ -160,11 +161,20 @@ def test_full_file() -> None:
     assert wm_bytes == expected
 
     # Check Project
-
+    f = open('tests/blank/vbaProject.bin', 'rb')
+    length = 0x1d2
+    offset = 0x2180
+    f.seek(offset)
+    expected = f.read(0x80)
+    f.seek(0x2400)
+    expected += f.read(length - 0x80)
+    given = Project(project)
+    assert  ms_ovba.decompress(given.to_bytes()) == ms_ovba.decompress(expected)
+    
     # Check Dir
     stream = DirStream(project)
     stream.include_compat()
-    f = open('tests/blank/vbaProject.bin', 'rb')
+    
     offset = 0x1EC0
     length = 0x0232
     f.seek(offset)
@@ -193,7 +203,6 @@ def test_full_file() -> None:
     ProjectOleFile.write_file(project)
 
     # Check Modules
-
     path = "src/ms_ovba/blank_files/Sheet1.cls.bin"
     cache_size = 0x333
     bin_path = "tests/blank/vbaProject.bin"
