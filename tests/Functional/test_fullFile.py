@@ -229,7 +229,7 @@ def test_full_file() -> None:
     expected = f.read(0x80)
     f.seek(0x2400)
     expected += f.read(length - 0x80)
-    g = open('Project.bin', 'rb')
+    g = open('project.bin', 'rb')
     assert g.read() == expected
 
 
