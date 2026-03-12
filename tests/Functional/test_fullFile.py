@@ -18,7 +18,6 @@ from ms_ovba.Models.Entities.reference_registered import (
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Views.dirStream import DirStream
-from ms_ovba.Views.project import Project
 from ms_ovba.Views.project_ole_file import ProjectOleFile
 from ms_ovba.Views.project_view import ProjectView
 from ms_ovba.Views.projectWm import ProjectWm
@@ -148,7 +147,7 @@ def test_full_file() -> None:
         [this_workbook, sheet1, module1]
     )
 
-    ms_ovba = MsOvba()
+    f = open('tests/blank/vbaProject.bin', 'rb')
     # Check ProjectWm
     wm_bytes = ProjectWm(project).to_bytes()
     # Read from file instead of pasting
@@ -222,7 +221,6 @@ def test_full_file() -> None:
     )
 
     # Check Project
-    f = open('tests/blank/vbaProject.bin', 'rb')
     length = 0x1d2
     offset = 0x2180
     f.seek(offset)
