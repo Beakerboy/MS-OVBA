@@ -161,7 +161,22 @@ def test_full_file() -> None:
     # Check Project
 
     # Check Dir
+    stream = DirStream(project)
+    stream.include_compat()
+    f = open('tests/blank/vbaProject.bin', 'rb')
+    offset = 0x1EC0
+    length = 0x0232
+    f.seek(offset)
+    container = f.read(length)
+    ms_ovba = MsOvba()
+    decompressed_stream = ms_ovba.decompress(container)
+    assert stream.to_bytes() == decompressed_stream
 
+    # The OEM and 3rd party compression results are not the same,
+    # so we compare the uncompressed streams.
+    compressed = ms_ovba.compress(stream.to_bytes())
+    assert ms_ovba.decompress(compressed) == decompressed_stream
+    
     # Check _VBA_Project
     pv_bytes = ProjectView(project).to_bytes()
 
@@ -205,9 +220,6 @@ def test_full_file() -> None:
         path, cache_size, bin_path,
         bin_offset, bin_length
     )
-
-    # combine sectors from bin into the streams
-    # compare raw or uncompressed streams.
 
 
 def create_cache(proj_cookie: int, modules) -> bytes:
