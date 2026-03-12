@@ -182,6 +182,7 @@ def test_full_file() -> None:
     bin_path = "vbaProject.bin"
     bin_offset = 0x1200
     bin_length = 0x2a9
+    assert os.getcwd() == 'src/bin'
     assert_module_matches_bin(
         path, cache_size, bin_path,
         bin_offset, bin_length
