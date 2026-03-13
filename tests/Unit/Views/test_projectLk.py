@@ -12,5 +12,4 @@ def test_project_lk() -> None:
 
     expected = (b'\x01\x00\x00\x00\x00\x00')
     result = project_lk.to_bytes()
-    assert len(result) == 86
     assert result == expected
