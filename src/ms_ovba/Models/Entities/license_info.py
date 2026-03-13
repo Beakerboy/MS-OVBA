@@ -17,7 +17,8 @@ class LicenseInfo:
 
     def to_bytes(self: T) -> bytes:
         return (
-            struct.pack("<16sI", self._guid, len(self._key)) +
+            self._guid.bytes +
+            struct.pack("<I", len(self._key)) +
             self._key +
             struct.pack("<I", 1 if self._required else 0)
         )
