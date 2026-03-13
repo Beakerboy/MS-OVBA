@@ -153,7 +153,7 @@ def test_full_file() -> None:
     ProjectOleFile.write_file(project)
 
     # Check _VBA_Project
-    g = open('vba_project.bin')
+    g = open('vba_project.bin', 'rb')
     given = g.read()
     bin_offset = 0x14C0
     bin_length = 0x09F0
