@@ -17,10 +17,7 @@ class ProjectLk:
         size = len(self.project._license_records)
         output = struct.pack("<HI", 1, size)
         for record in self.project._license_records:
-            output += (
-                struct.pack("<16sI", record.guid, len(record.key)) +
-                record.key + struct.pack("<I", record.required)
-            )
+            output += record.to_bytes()
         return output
 
     def write_file(self: T) -> None:
