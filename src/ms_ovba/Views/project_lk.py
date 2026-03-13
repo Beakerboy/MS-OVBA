@@ -16,10 +16,10 @@ class ProjectLk:
 
     def to_bytes(self: T) -> bytes:
         output = struct.pack("<HI", 1, len(project._license_records))
-        for record in project._license_records:
+        for record in self.project._license_records:
             output += (
                 struct.pack("<16sI", record.guid, len(record.key)) +
-                record.key + steict.pack("<I", record.required)
+                record.key + struct.pack("<I", record.required)
             )
         return output
 
