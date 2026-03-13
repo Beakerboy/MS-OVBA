@@ -19,5 +19,5 @@ class LicenseInfo:
         return (
             struct.pack("<16sI", self._guid, len(self._key)) +
             self._key +
-            struct.pack("<I", 1 if record._required else 0)
+            struct.pack("<I", 1 if self._required else 0)
         )
