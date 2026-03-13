@@ -8,7 +8,7 @@ T = TypeVar('T', bound='LicenseInfo')
 
 class LicenseInfo:
     def __init__(self: T, guid: uuid.UUID, key: bytes) -> None:
-        self._guid = uuid
+        self._guid = guid
         self._key = key
         self._required = len(key) > 0
 
