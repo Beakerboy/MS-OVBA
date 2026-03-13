@@ -18,7 +18,6 @@ from ms_ovba.Models.Entities.reference_registered import (
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Views.project_ole_file import ProjectOleFile
-from ms_ovba.Views.project_view import ProjectView
 from typing import Type, TypeVar
 
 
