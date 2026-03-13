@@ -13,21 +13,18 @@ class Reference():
     """
     2.3.4.2.2.1 REFERENCE Record
     """
-    def __init__(self: T, codepage_name: str,
-                 ref: ReferenceRecord,
+    def __init__(self: T, ref: ReferenceRecord,
                  name: str = None) -> None:
-        # is self._codepage_name even needed?
-        self._codepage_name = codepage_name
         self._ref = ref
         self._refname = name
 
-    def pack(self: T, cp_name: str, endien: str) -> bytes:
+    def pack(self: T, endien: str, cp_name: str) -> bytes:
         name_pack = b''
         if self._refname is not None:
             name_de = DoubleEncodedString([0x0016, 0x003E], self._refname)
-            name_pack = name_de.pack(cp_name, endien)
+            name_pack = name_de.pack(endien, cp_name)
 
-        return name_pack + self._ref.pack(cp_name, endien)
+        return name_pack + self._ref.pack(endien, cp_name)
 
     @staticmethod
     def unpack(data: bytes, endien: str) -> T:

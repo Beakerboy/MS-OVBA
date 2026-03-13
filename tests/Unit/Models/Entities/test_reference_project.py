@@ -3,7 +3,7 @@ from ms_ovba.Models.Entities.reference_project import ReferenceProject
 
 def test_constructor() -> None:
     ref = MockProjectReference()
-    module = ReferenceProject("cp1", ref)
+    module = ReferenceProject(ref)
     assert isinstance(module, ReferenceProject)
 
 
@@ -38,7 +38,7 @@ def test_pack() -> None:
                     "BE 65 17 00")
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
-    codepage_name = "cp" + str(codepage)
-    ref_proj = ReferenceProject(codepage_name, ref)
-    results = ref_proj.pack(codepage_name, 'little')
+    cp_name = "cp" + str(codepage)
+    ref_proj = ReferenceProject(ref)
+    results = ref_proj.pack('little', cp_name)
     assert results == expected

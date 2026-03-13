@@ -33,7 +33,7 @@ class ProjectOleFile:
         storage.set_modified(project.default_date)
         for module in project.get_modules():
             module.write_file()
-            dir = StreamDirectory(module.get_name(), module.get_bin_path())
+            dir = StreamDirectory(module.name, module.bin_path)
             storage.add_directory(dir)
 
         module = DirStream(project)
@@ -48,7 +48,7 @@ class ProjectOleFile:
 
         directory.add_directory(storage)
 
-        if project.get_include_projectwm():
+        if project.projectwm:
             module = ProjectWm(project)
             module.write_file()
             stream = StreamDirectory("PROJECTwm", "projectwm.bin")

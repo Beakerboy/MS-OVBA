@@ -41,6 +41,7 @@ jobs:
       run: |
         pytest --cov=src
         coveralls --service=github
+        ls -al
         
   flake8:
     runs-on: ubuntu-latest

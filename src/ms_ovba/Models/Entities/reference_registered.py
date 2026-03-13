@@ -1,7 +1,6 @@
 import struct
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.libid_reference import LibidReference
-from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import TypeVar
 
 
@@ -13,24 +12,20 @@ class ReferenceRegistered(ReferenceRecord):
     2.3.4.2.2.5
     Specifies a reference to an Automation type library.
     """
-    def __init__(self: T, codepage_name: str,
-                 libid_ref: LibidReference) -> None:
-        # is self._codepage_name even needed?
-        self._codepage_name = codepage_name
+    def __init__(self: T, libid_ref: LibidReference) -> None:
         self._libid_ref = libid_ref
 
     @property
     def libid(self: T) -> LibidReference:
         return self._libid_ref
 
-    def pack(self: T, cp_name: str, endien: str) -> bytes:
+    def pack(self: T, endien: str, cp_name: str) -> bytes:
+        endien_symbol = '<' if endien == 'little' else '>'
         strlen = len(self._libid_ref)
-        format = "HII" + str(strlen) + "sIH"
+        format = endien_symbol + "HII" + str(strlen) + "sIH"
         lib_str = str(self._libid_ref).encode(cp_name)
-        ref_registered = PackedData(format, 0x000D, strlen + 10,
-                                    strlen, lib_str, 0, 0)
-
-        return ref_registered.pack(cp_name, endien)
+        return struct.pack(format, 0x000D, strlen + 10,
+                           strlen, lib_str, 0, 0)
 
     @staticmethod
     def unpack(data: bytes, endien: str) -> T:
@@ -66,4 +61,4 @@ class ReferenceRegistered(ReferenceRecord):
             pass
 
         libid_ref = LibidReference.unpack(libid_ref_bytes)
-        return ReferenceRegistered("", libid_ref)
+        return ReferenceRegistered(libid_ref)

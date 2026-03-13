@@ -1,3 +1,4 @@
+import pytest
 from ms_ovba.Models.Fields.project_reference import ProjectReference
 
 
@@ -17,6 +18,24 @@ def test_len() -> None:
     assert len(ref) == 48
 
 
-def test_str() -> None:
+@pytest.mark.parametrize("data, embedded, expected", [
+    (
+        "C:\\Example Path\\Example-ReferencedProject.xls",
+        True,
+        "*\\CC:\\Example Path\\Example-ReferencedProject.xls"
+    ),
+    (
+        "/Example Path/Example-ReferencedProject.xls",
+        False,
+        "*\\B/Example Path/Example-ReferencedProject.xls"
+    )
+])
+def test_str(data, embedded, expected) -> None:
+    ref = ProjectReference(data, embedded)
+    assert str(ref) == expected
+
+
+def test_relative() -> None:
     ref = ProjectReference("C:\\Example Path\\Example-ReferencedProject.xls")
-    assert str(ref) == "*\\CC:\\Example Path\\Example-ReferencedProject.xls"
+    rel = ref.relative()
+    assert str(rel) == "*\\CExample-ReferencedProject.xls"

@@ -22,18 +22,18 @@ class MockRefProj:
 
 def test_constructor1() -> None:
     ref_proj = ""
-    ref = Reference("cp1", ref_proj)
+    ref = Reference(ref_proj)
     assert isinstance(ref, Reference)
 
 
 def test_constructor2() -> None:
-    ref = Reference("cp1", "", "VBAProject1")
+    ref = Reference("", "VBAProject1")
     assert isinstance(ref, Reference)
 
 
 def test_pack() -> None:
     ref_proj = MockRefProj()
-    ref = Reference("cp1", ref_proj, "VBAProject1")
+    ref = Reference(ref_proj, "VBAProject1")
 
     expected_hex = ("16 00 0B 00 00 00 56 42 41 50 72 6F 6A 65 63 74",
                     "31 3E 00 16 00 00 00 56 00 42 00 41 00 50 00 72",
@@ -47,8 +47,8 @@ def test_pack() -> None:
                     "00")
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
-    codepage_name = "cp" + str(codepage)
+    cp_name = "cp" + str(codepage)
     path = 'ms_ovba.Models.Entities.reference.DoubleEncodedString'
     with mock.patch(path, MockDEString):
-        results = ref.pack(codepage_name, 'little')
+        results = ref.pack('little', cp_name)
         assert results == expected

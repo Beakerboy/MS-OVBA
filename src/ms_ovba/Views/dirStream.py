@@ -19,30 +19,30 @@ class DirStream():
 
     def __init__(self: T, project: VbaProject) -> None:
         self.project = project
-        self._include_compat = False
+        self._include_compat = project.compat
 
     def to_bytes(self: T) -> bytes:
         information = self._load_information()
         endien = self.project.endien
-        codepage_name = self.project.get_codepage_name()
+        cp_name = self.project.codepage_name
         pack_symbol = '<' if endien == 'little' else '>'
         # should be 0xFFFF
-        cookie_value = self.project.get_project_cookie()
+        cookie_value = self.project.project_cookie
         self.project_cookie = IdSizeField(19, 2, cookie_value)
         references = self.project.references
         modules = self.project.modules
         output = b''
         for record in information:
-            output += record.pack(codepage_name, endien)
+            output += record.pack(endien, cp_name)
         for record in references:
-            output += record.pack(codepage_name, endien)
+            output += record.pack(endien, cp_name)
 
         modules_header = IdSizeField(0x000F, 2, len(modules))
 
-        output += (modules_header.pack(codepage_name, endien)
-                   + self.project_cookie.pack(codepage_name, endien))
+        output += (modules_header.pack(endien)
+                   + self.project_cookie.pack(endien))
         for record in modules:
-            output += record.pack(codepage_name, endien)
+            output += record.pack(endien, cp_name)
         output += struct.pack(pack_symbol + "HI", 16, 0)
         return output
 

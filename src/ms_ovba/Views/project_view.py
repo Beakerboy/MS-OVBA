@@ -10,12 +10,9 @@ class ProjectView:
     """
     The _VBA_PROJECT data view for the vbaProject
     """
-    def __init__(self: T, project: VbaProject) -> None:
+    def __init__(self: T, project: VbaProject, reserved: int = 3) -> None:
         self.project = project
-        self._reserved3 = 0x0003
-
-    def set_reserved3(self: T, value: int) -> None:
-        self._reserved3 = value
+        self._reserved3 = reserved
 
     def to_bytes(self: T) -> bytes:
         endien_symbol = '<' if self.project.endien == 'little' else '>'
@@ -23,11 +20,11 @@ class ProjectView:
         output = b''
         reserved1 = 0x61CC
         reserved2 = 0x00
-        cache_version = self.project.get_performance_cache_version()
+        cache_version = self.project.performance_cache_version
 
         output += struct.pack(format, reserved1, cache_version,
                               reserved2, self._reserved3)
-        return output + self.project.get_performance_cache()
+        return output + self.project.performance_cache
 
     def write_file(self: T) -> None:
         bin_f = open("vba_project.bin", "wb")
