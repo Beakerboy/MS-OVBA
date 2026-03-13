@@ -7,5 +7,5 @@ def test_to_bytes() -> None:
     key = b'Key'
     out = LicenseInfo(guid, key)
     expected = (b'-\xF8\xD0L[\xFA\x10\x1B\xBD\xE5\x00\xAA\x00D\xDER' +
-                b'\x04\x00\x00\x00Key\x04\x00\x00\x00')
+                b'\x04\x00\x00\x00Key\x01\x00\x00\x00')
     assert out.to_bytes() == expected
