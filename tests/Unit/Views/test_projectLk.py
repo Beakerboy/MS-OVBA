@@ -1,4 +1,4 @@
-from ms_ovba.Views.project_lk import ProjectLk
+from ms_ovba.Views.projectLk import ProjectLk
 
 
 class MockVbaProject:
