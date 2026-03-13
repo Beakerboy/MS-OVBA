@@ -18,8 +18,6 @@ from ms_ovba.Models.Entities.reference_registered import (
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Views.project_ole_file import ProjectOleFile
-from ms_ovba.Views.project_view import ProjectView
-from ms_ovba.Views.projectWm import ProjectWm
 from typing import Type, TypeVar
 
 
@@ -50,7 +48,7 @@ def run_around_tests() -> None:
     names = [root + "ThisWorkbook.cls", root + "Sheet1.cls",
              root2 + "Module1.bas"]
     remove_module(names)
-    names = ["dir.bin", "projectWm.bin", "project.bin", "vba_project.bin"]
+    names = ["dir.bin", "projectwm.bin", "project.bin", "vba_project.bin"]
     map(os.remove, names)
 
 
@@ -60,20 +58,19 @@ def remove_module(names: str) -> None:
         os.remove(name + ".bin")
 
 
-def module_matches_bin(module_path: str,
-                       cache_size: int,
-                       bin_path: str,
-                       bin_offset: int,
-                       bin_length: int) -> bool:
+def assert_module_matches_bin(module_path: str,
+                              cache_size: int,
+                              bin_path: str,
+                              bin_offset: int,
+                              bin_length: int) -> bool:
     m = open(module_path, "rb")
     b = open(bin_path, "rb")
     b.seek(bin_offset)
-    if m.read(cache_size) != b.read(cache_size):
-        return False
+    assert m.read(cache_size) == b.read(cache_size)
     ms_ovba = MsOvba()
     m_uncompressed = ms_ovba.decompress(m.read())
-    b_uncompressed = ms_ovba.decompress(b.read(bin_length))
-    return m_uncompressed == b_uncompressed
+    b_uncompressed = ms_ovba.decompress(b.read(bin_length - cache_size))
+    assert m_uncompressed == b_uncompressed
 
 
 stdole_lib = LibidReference(
@@ -126,9 +123,10 @@ def test_full_file() -> None:
     cookie = 0xB241
     module1.cookie = cookie
     module_cache = ModuleCache(0xB5, proj_cookie, signature=3)
-    module_cache.header.data2 = 3
-    module_cache.header.data4 = 2
-    module_cache.misc = [[-1, 0], 0xFFFF, 0, [0, "FFFFFFFF"]]
+    module_cache.misc = [[-1, 2], 0xFFFF, 0, [0, "FFFFFFFF"]]
+    module_cache.header.data2 = 0
+    module_cache.header.data3 = 3
+    module_cache.header.data4 = 0
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
     module_cache.module_cookie = cookie
     module1.add_workspace(26, 26, 1349, 522, 'Z')
@@ -145,8 +143,29 @@ def test_full_file() -> None:
         proj_cookie,
         [this_workbook, sheet1, module1]
     )
+
+    project.add_attribute("HelpContextID", "0")
+    project.add_attribute("VersionCompatible32", "393222000")
+    project.include_compat()
+    project.include_projectwm()
+
+    ProjectOleFile.write_file(project)
+
+    # Check _VBA_Project
+    g = open('vba_project.bin', 'rb')
+    given = g.read()
+    bin_offset = 0x14C0
+    bin_length = 0x09F0
+    bin_path = "tests/blank/vbaProject.bin"
+    b = open(bin_path, "rb")
+    b.seek(bin_offset)
+    expected = b.read(bin_length)
+    assert given == expected
+
     # Check ProjectWm
-    wm_bytes = ProjectWm(project).to_bytes()
+    f = open('tests/blank/vbaProject.bin', 'rb')
+    g = open('projectwm.bin', 'rb')
+    given = g.read()
     # Read from file instead of pasting
     expected = (b'ThisWorkbook\x00T\x00h' +
                 b'\x00i\x00s\x00W\x00o\x00r\x00k\x00b\x00o' +
@@ -154,28 +173,57 @@ def test_full_file() -> None:
                 b'h\x00e\x00e\x00t\x001\x00\x00\x00Modu' +
                 b'le1\x00M\x00o\x00d\x00u\x00l\x00e\x00' +
                 b'1\x00\x00\x00\x00\x00')
-    assert len(wm_bytes) == 0x56
-    assert wm_bytes == expected
+    assert given == expected
+
+    # Check Modules
+    path = "src/ms_ovba/blank_files/Sheet1.cls.bin"
+    cache_size = 0x333
+    bin_path = "tests/blank/vbaProject.bin"
+    bin_offset = 0xC00
+    bin_length = 0x3df
+    assert_module_matches_bin(
+        path, cache_size, bin_path,
+        bin_offset, bin_length
+    )
+
+    path = "src/ms_ovba/blank_files/ThisWorkbook.cls.bin"
+    bin_offset = 0x800
+    bin_length = 0x3e7  # From vbaProject.bin OLE Directory
+    assert_module_matches_bin(
+        path, cache_size, bin_path,
+        bin_offset, bin_length
+    )
+
+    path = "tests/blank/Module1.bas.bin"
+    cache_size = 0x283
+    bin_path = "tests/blank/vbaProject.bin"
+    bin_offset = 0x1200
+    bin_length = 0x2a9  # From vbaProject.bin OLE Directory
+    assert_module_matches_bin(
+        path, cache_size, bin_path,
+        bin_offset, bin_length
+    )
 
     # Check Project
+    length = 0x1d2
+    offset = 0x2180
+    f.seek(offset)
+    expected = f.read(0x80)
+    f.seek(0x2400)
+    expected += f.read(length - 0x80)
+    g = open('project.bin', 'rb')
+    assert g.read() == expected
 
     # Check Dir
-
-    # Check _VBA_Project
-    pv_bytes = ProjectView(project).to_bytes()
-    bin_path = "tests/blank/vbaProject.bin"
-    bin_offset = 0x14C0
-    cache_size = 0x09F0
-    b = open(bin_path, "rb")
-    b.seek(bin_offset)
-    file_bytes = b.read(cache_size)
-    assert pv_bytes == file_bytes
-    assert len(pv_bytes) == 0x09F0
-
-    ProjectOleFile.write_file(project)
-
-    # combine sectors from bin into the streams
-    # compare raw or uncompressed streams.
+    ms_ovba = MsOvba()
+    g = open('dir.bin', 'rb')
+    given = ms_ovba.decompress(g.read())
+    offset = 0x1EC0
+    length = 0x0232
+    f.seek(offset)
+    container = f.read(length)
+    expected = ms_ovba.decompress(container)
+    assert given == expected
 
 
 def create_cache(proj_cookie: int, modules) -> bytes:
@@ -284,9 +332,10 @@ def create_doc_module(project: VbaProject, name: str,
     cache_ver = project.performance_cache_version
     proj_cookie = project.project_cookie
     module_cache = ModuleCache(cache_ver, proj_cookie, signature=3)
-    module_cache.header.data3 = 0x88
-    module_cache.header.data4 = 8
-    module_cache.misc = [[-1, 0x18], 0x18, 0, [1, "00000000"]]
+    module_cache.header.data2 = 0
+    module_cache.header.data3 = 0x123
+    module_cache.header.data4 = 0x88
+    module_cache.misc = [[-1, 8], 0x18, 0, [1, "00000000"]]
     indirect_table = ("02 80 FE FF FF FF FF FF 20 00 00 00 FF FF FF FF",
                       "30 00 00 00 02 01 FF FF 00 00 00 00 00 00 00 00",
                       "FF FF FF FF FF FF FF FF 00 00 00 00 2E 00 43 00",

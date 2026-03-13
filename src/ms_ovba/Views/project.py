@@ -16,7 +16,7 @@ class Project:
         # Attributes
 
         # A list of attributes and values
-        self.attributes = {}
+        self.attributes = project.attributes
 
         # The HostExtenderInfo string
         guid = "{3832D640-CF90-11CF-8E43-00A0C911005A}"

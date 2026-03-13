@@ -29,9 +29,13 @@ class VbaProject:
         self.references = []
         self.modules = []
 
+        # A list of attributes and values
+        self.attributes = {}
+
         self._project_cookie = 0xFFFF
 
         self._project_wm = False
+        self._compat = False
         self._default_date = Filetime.from_msfiletime(0x0000000000000000)
     # Getters and Setters
 
@@ -126,9 +130,22 @@ class VbaProject:
     def exclude_projectwm(self: T) -> bool:
         self._project_wm = False
 
+    @property
+    def compat(self: T) -> bool:
+        return self._compat
+
+    def include_compat(self: T) -> None:
+        self._compat = True
+
+    def exclude_compat(self: T) -> None:
+        self._compat = False
+
     # Appenders
     def add_module(self: T, mod: ModuleBase) -> None:
         self.modules.append(mod)
 
     def add_reference(self: T, ref: ReferenceRegistered) -> None:
         self.references.append(ref)
+
+    def add_attribute(self: T, name: str, value: str) -> None:
+        self.attributes[name] = value

@@ -19,7 +19,7 @@ class DirStream():
 
     def __init__(self: T, project: VbaProject) -> None:
         self.project = project
-        self._include_compat = False
+        self._include_compat = project.compat
 
     def to_bytes(self: T) -> bytes:
         information = self._load_information()
