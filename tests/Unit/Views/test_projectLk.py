@@ -7,7 +7,7 @@ class MockVbaProject:
 
 
 class MockLicense:
-    def to_bytes() -> bytes:
+    def to_bytes(self) -> bytes:
         return b'Test'
 
 
