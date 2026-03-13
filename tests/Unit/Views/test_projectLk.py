@@ -3,7 +3,7 @@ from ms_ovba.Views.projectLk import ProjectLk
 
 class MockVbaProject:
     def __init__(self) -> None:
-        self.licenses = []
+        self._license_records = []
 
 
 def test_project_lk() -> None:
