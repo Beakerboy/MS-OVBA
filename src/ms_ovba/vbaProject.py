@@ -24,12 +24,13 @@ class VbaProject:
         self._performance_cache = b''
         self._performance_cache_version = 0xFFFF
 
-        # A list of directories
+        # Lists
         self.directories = []
         self.references = []
         self.modules = []
+        self._license_records = []
 
-        # A list of attributes and values
+        # Attributes  and values
         self.attributes = {}
 
         self._project_cookie = 0xFFFF
