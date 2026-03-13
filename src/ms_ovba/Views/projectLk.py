@@ -12,7 +12,6 @@ class ProjectLk:
     """
     def __init__(self: T, project: VbaProject) -> None:
         self.project = project
-        self._license_records = []
 
     def to_bytes(self: T) -> bytes:
         output = struct.pack("<HI", 1, len(project._license_records))
