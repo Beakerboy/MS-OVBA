@@ -14,7 +14,7 @@ class ReferenceControl(ReferenceRecord):
     """
     def __init__(self: T, ref: ProjectReference,
                  ref2: ProjectReference,
-                 name: str = None
+                 name: str = None,
                  guid uuid.UUID, cookie: int) -> None:
         self._libid_twiddled = ref
         self._libid_extended = ref2
