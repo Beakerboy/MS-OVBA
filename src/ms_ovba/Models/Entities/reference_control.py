@@ -31,7 +31,7 @@ class ReferenceControl(ReferenceRecord):
         endien_symbol = '<' if endien == 'little' else '>'
         format = (
             endien_symbol + "HII" + str(size_of_libid_twiddled) +
-            "sIH" + str(libid_rel_size) + "sIH")
+            "sIH")
         if self._name_record_extended is not None:
             name_de = DoubleEncodedString([0x0016, 0x003E], self._refname)
             name_pack = name_de.pack(endien, cp_name)
