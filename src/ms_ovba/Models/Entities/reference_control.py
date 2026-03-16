@@ -27,6 +27,7 @@ class ReferenceControl(ReferenceRecord):
         ref2_str = str(self._libid_extended).encode(cp_name)
         size_of_libid_extended = len(ref2_str)
         size_extended = 30 + size_of_libid_extended
+        name_pack = b''
         endien_symbol = '<' if endien == 'little' else '>'
         format = (
             endien_symbol + "HII" + str(size_of_libid_twiddled) +
