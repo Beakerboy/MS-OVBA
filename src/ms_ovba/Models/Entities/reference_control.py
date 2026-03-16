@@ -2,6 +2,9 @@ import struct
 import uuid
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.project_reference import ProjectReference
+from ms_ovba.Models.Fields.doubleEncodedString import (
+    DoubleEncodedString
+)
 from typing import TypeVar
 
 
