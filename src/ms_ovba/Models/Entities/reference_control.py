@@ -11,7 +11,7 @@ class ReferenceControl(ReferenceRecord):
     """
     2.3.4.2.2.3 REFERENCECONTROL Record
     """
-    def __init__(self: T, ref: ProjectReference, name) -> None:
+    def __init__(self: T, ref: ProjectReference, name: str = None) -> None:
         self._libid_twiddled = ref
         name_record_extended = name
 
