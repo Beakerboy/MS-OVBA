@@ -37,7 +37,7 @@ class ReferenceControl(ReferenceRecord):
 
         return (
             struct.pack(
-                format, 0x2F, size_twiddled, size_of_libid_twiddled
+                format, 0x2F, size_twiddled, size_of_libid_twiddled,
                 ref_str, 0, 0
             ) + name_pack +
             struct.pack(
