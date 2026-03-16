@@ -22,6 +22,8 @@ class ReferenceControl(ReferenceRecord):
         self._libid_twiddled = ref
         self._libid_extended = ref2
         self._name_record_extended = name
+        self._guid = guid
+        self._cookie = cookie
 
     def pack(self: T, endien: str, cp_name: str) -> bytes:
         ref_str = str(self._libid_twiddled).encode(cp_name)
@@ -49,5 +51,8 @@ class ReferenceControl(ReferenceRecord):
                 size_of_libid_extended
             ) +
             ref2_str +
-            struct.pack(endien_symbol + "IH16sI", 0, 0, guid.bytes, cookie)
+            struct.pack(
+                endien_symbol + "IH16sI", 0, 0,
+                self._guid.bytes, self._cookie
+            )
         )
