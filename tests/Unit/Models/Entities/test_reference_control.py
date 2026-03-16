@@ -13,12 +13,11 @@ class MockDEString:
                 b'\x00o\x00j\x00e\x00c\x00t\x001\x00')
 
 
-class MockRefProj:
-    def pack(self, foo, bar) -> bytes:
-        return (b'\x0e\x00^\x00\x00\x000\x00\x00\x00' +
-                b'*\\CC:\\Example Path\\Example-ReferencedProject.xls ' +
-                b'\x00\x00\x00*\\CExample-ReferencedProject.xls' +
-                b'W\x02\xbee\x17\x00')
+class MockLibIdExt:
+    def __str__(self) -> str:
+        return ("*\G{896C2D83-5466-46ED-8FAE-4C3E4F85E710}#2.0#" +
+            "0#C:\Users\jsmith\AppData\Local\Temp\VBE\MSForms.exd#" +
+            "Microsoft Forms 2.0 Object Library")
 
 
 def test_constructor1() -> None:
@@ -40,7 +39,8 @@ def test_constructor1() -> None:
 
 def test_pack() -> None:
     ref_proj = MockRefProj()
-    ref = Reference(ref_proj, "VBAProject1")
+    ref_extend = LockLibIdExt()
+    ref = ReferenceControl(ref_twid, ref_extend, 1, "VBAProject1")
 
     expected_hex = ("16 00 0B 00 00 00 56 42 41 50 72 6F 6A 65 63 74",
                     "31 3E 00 16 00 00 00 56 00 42 00 41 00 50 00 72",
