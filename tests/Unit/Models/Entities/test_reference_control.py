@@ -23,13 +23,18 @@ class MockRefProj:
 
 def test_constructor1() -> None:
     guid = uiid.UUID()
-    ref_proj = ""
-    ref = ReferenceControl(ref_proj)
+    ref1 = ""
+    cookie = 2
+    ref = ReferenceControl(ref1, ref2, guid, cookie)
     assert isinstance(ref, ReferenceControl)
 
 
-def test_constructor2() -> None:
-    ref = ReferenceControl("", "VBAProject1")
+def test_constructor1() -> None:
+    guid = uiid.UUID()
+    ref1 = ""
+    cookie = 2
+    name = "Test"
+    ref = ReferenceControl(ref1, ref2, guid, cookie, name)
     assert isinstance(ref, ReferenceControl)
 
 
