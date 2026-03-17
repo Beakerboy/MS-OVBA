@@ -23,7 +23,7 @@ class MockLibIdExt:
 
 class MockLibIdTwid:
     def __str__(self):
-        return "*\G{00000000-0000-0000-0000-000000000000}#0.0#0##"
+        return "*\\G{00000000-0000-0000-0000-000000000000}#0.0#0##"
 
 
 guid = uuid.UUID('896C2D83546646ED8FAE4C3E4F85E710')
