@@ -15,9 +15,11 @@ class MockDEString:
 
 class MockLibIdExt:
     def __str__(self) -> str:
-        return ("*\\G{896C2D83-5466-46ED-8FAE-4C3E4F85E710}#2.0#" +
+        return (
+            "*\\G{896C2D83-5466-46ED-8FAE-4C3E4F85E710}#2.0#" +
             "0#C:\\Users\\jsmith\\AppData\\Local\\Temp\\VBE\\MSForms.exd#" +
-            "Microsoft Forms 2.0 Object Library")
+            "Microsoft Forms 2.0 Object Library"
+        )
 
 
 def test_constructor1() -> None:
