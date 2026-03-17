@@ -22,7 +22,7 @@ class MockLibIdExt:
         )
 
 
-def test_constructor1() -> None:
+def test_constructor() -> None:
     guid = uuid.UUID('896C2D83546646ED8FAE4C3E4F85E710')
     ref1 = ""
     cookie = 2
