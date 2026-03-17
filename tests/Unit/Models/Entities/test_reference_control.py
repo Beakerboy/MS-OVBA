@@ -52,8 +52,8 @@ def test_pack() -> None:
     ref_extend = MockLibIdExt()
     ref = ReferenceControl(ref_twid, ref_extend, guid, 1, "VBAProject1")
 
-    expected_hex = ("2F 00 3B 00 00 00 31 00 00 00 2A 5C 47 65 63 74",
-                    "31 3E 00 16 00 00 00 56 00 42 00 41 00 50 00 72",
+    expected_hex = ("2F 00 3B 00 00 00 31 00 00 00 2A 5C 47 7B 00 00",
+                    "00 00 00 00 00 00 2D 00 00 00 00 2D 00 50 00 72",
                     "00 6F 00 6A 00 65 00 63 00 74 00 31 00 0E 00 5E",
                     "00 00 00 30 00 00 00 2A 5C 43 43 3A 5C 45 78 61",
                     "6D 70 6C 65 20 50 61 74 68 5C 45 78 61 6D 70 6C",
