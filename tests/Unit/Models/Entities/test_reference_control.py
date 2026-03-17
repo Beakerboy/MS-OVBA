@@ -50,7 +50,7 @@ def test_constructor1() -> None:
 def test_pack() -> None:
     ref_twid = MockLibIdTwid()
     ref_extend = MockLibIdExt()
-    ref = ReferenceControl(ref_twid, ref_extend, guid, 1, "VBAProject1")
+    ref = ReferenceControl(ref_twid, ref_extend, guid, 1, "MSForms")
 
     expected_hex = ("2F 00 3B 00 00 00 31 00 00 00 2A 5C 47 7B 30 30",
                     "30 30 30 30 30 30 2D 30 30 30 30 2D 30 30 30 30",
