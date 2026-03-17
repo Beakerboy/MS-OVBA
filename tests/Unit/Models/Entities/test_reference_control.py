@@ -48,7 +48,7 @@ def test_constructor1() -> None:
 
 
 def test_pack() -> None:
-    ref_twid = MockLibIdExt()
+    ref_twid = MockLibIdTwid()
     ref_extend = MockLibIdExt()
     ref = ReferenceControl(ref_twid, ref_extend, guid, 1, "VBAProject1")
 
