@@ -51,9 +51,6 @@ class ReferenceControl(ReferenceRecord):
                 endien_symbol + "HII", 0x30, size_extended,
                 size_of_libid_extended
             ) +
-            ref2_str +
-            struct.pack(
-                endien_symbol + "IH16sI", 0, 0,
-                self._guid.bytes, self._cookie
-            )
+            ref2_str + b'\00' * 6 + self._guid.bytes +
+            struct.pack(enbien_symbol + "H", self._cookie)
         )
