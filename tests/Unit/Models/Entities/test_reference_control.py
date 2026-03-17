@@ -21,6 +21,7 @@ class MockLibIdExt:
             "Microsoft Forms 2.0 Object Library"
         )
 
+
 class MockLibIdTwid:
     def __str__(self):
         return "*\\G{00000000-0000-0000-0000-000000000000}#0.0#0##"
