@@ -45,7 +45,7 @@ def test_constructor1() -> None:
 def test_pack() -> None:
     ref_twid = MockLibIdExt()
     ref_extend = MockLibIdExt()
-    ref = ReferenceControl(ref_twid, ref_extend, uuid, 1, "VBAProject1")
+    ref = ReferenceControl(ref_twid, ref_extend, guid, 1, "VBAProject1")
 
     expected_hex = ("2F 00 3B 00 00 00 31 00 00 00 2A 5C 47 65 63 74",
                     "31 3E 00 16 00 00 00 56 00 42 00 41 00 50 00 72",
