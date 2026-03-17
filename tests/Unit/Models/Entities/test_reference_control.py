@@ -21,13 +21,17 @@ class MockLibIdExt:
             "Microsoft Forms 2.0 Object Library"
         )
 
+class MockLibIdTwid:
+    def __str__(self):
+        return "*\G{00000000-0000-0000-0000-000000000000}#0.0#0##"
+
 
 guid = uuid.UUID('896C2D83546646ED8FAE4C3E4F85E710')
 
 
 def test_constructor() -> None:
-    ref1 = ""
-    ref2 = ""
+    ref1 = MockLibIdTwid()
+    ref2 = MockLibIdExt()
     cookie = 2
     ref = ReferenceControl(ref1, ref2, guid, cookie)
     assert isinstance(ref, ReferenceControl)
