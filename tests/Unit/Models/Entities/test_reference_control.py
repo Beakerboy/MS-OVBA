@@ -22,17 +22,20 @@ class MockLibIdExt:
         )
 
 
+guid = uuid.UUID('896C2D83546646ED8FAE4C3E4F85E710')
+
+
 def test_constructor() -> None:
-    guid = uuid.UUID('896C2D83546646ED8FAE4C3E4F85E710')
     ref1 = ""
+    ref2 = ""
     cookie = 2
     ref = ReferenceControl(ref1, ref2, guid, cookie)
     assert isinstance(ref, ReferenceControl)
 
 
 def test_constructor1() -> None:
-    guid = uiid.UUID()
     ref1 = ""
+    ref2 = ""
     cookie = 2
     name = "Test"
     ref = ReferenceControl(ref1, ref2, guid, cookie, name)
