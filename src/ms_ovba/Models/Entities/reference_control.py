@@ -54,3 +54,13 @@ class ReferenceControl(ReferenceRecord):
             ref2_str + b'\00' * 6 + self._guid.bytes +
             struct.pack(endien_symbol + "I", self._cookie)
         )
+
+    @staticmethod
+    def unpack(data: bytes, endien: str) -> T:
+        endien_symbol = '<' if endien == 'little' else '>'
+        offset = 0
+        id, = struct.unpack_from(endien_symbol + "H", data, offset)
+        offset += 2
+        if id != 0x002F:
+            msg = "Incorrect id in data. Received " + id + ", expected 0x002F"
+            raise ValueError(msg)
