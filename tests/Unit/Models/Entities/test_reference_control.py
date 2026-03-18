@@ -67,7 +67,8 @@ def test_pack() -> None:
                     "42 45 5C 4D 53 46 6F 72 6D 73 2E 65 78 64 23 4D",
                     "69 63 72 6F 73 6F 66 74 20 46 6F 72 6D 73 20 32",
                     "2E 30 20 4F 62 6A 65 63 74 20 4C 69 62 72 61 72",
-                    "79 00 00 00 00 00 00")
+                    "79 00 00 00 00 00 00 E1 2E 45 0D 8F E0 1A 10 85",
+                    "2E 02 60 8C 4D 0B B4")
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
