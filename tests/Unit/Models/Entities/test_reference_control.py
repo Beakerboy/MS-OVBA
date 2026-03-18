@@ -62,12 +62,12 @@ def test_pack() -> None:
                     "38 39 36 43 32 44 38 33 2D 35 34 36 36 2D 34 36",
                     "45 44 2D 38 46 41 45 2D 34 43 33 45 34 46 38 35",
                     "45 37 31 30 7D 23 32 2E 30 23 30 23 43 3A 5C 55",
-                    "ss 65 rr ss 5C jj ss mm 69 tt hh 5C 41 pp pp 45",
-                    "61 tt 61 5C LL oo 63 61 ll 5C TT 65 mm pp 5C VV",
-                    "42 41 5C MM SS FF oo rr mm ss .. 65 xx 64 23 MM",
-                    "ii cc rr oo ss oo 66 tt 20 FF oo rr mm ss 20 32",
-                    ".. 30 20 OO 62 jj 65 63 tt 20 LL 69 62 rr 61 rr",
-                    "yy")
+                    "73 65 72 73 5C 6A 73 6D 69 74 68 5C 41 70 70 45",
+                    "61 74 61 5C 4C 6F 63 61 4C 5C 44 65 6D 70 5C 56",
+                    "42 41 5C 4D 53 46 6F 72 6D 73 2E 65 78 64 23 4D",
+                    "6C 63 72 6F 73 6F 66 74 20 46 6F 72 6D 73 20 32",
+                    "2E 30 20 4F 62 6A 65 63 74 20 4C 69 62 72 61 72",
+                    "7A")
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
