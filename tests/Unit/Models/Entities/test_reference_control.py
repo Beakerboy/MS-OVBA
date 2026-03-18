@@ -27,7 +27,7 @@ class MockLibIdTwid:
         return "*\\G{00000000-0000-0000-0000-000000000000}#0.0#0##"
 
 
-guid = uuid.UUID('896C2D83546646ED8FAE4C3E4F85E710')
+guid = uuid.UUID('E12E450D8FE01A10852E02608C4D0BB4')
 
 
 def test_constructor() -> None:
