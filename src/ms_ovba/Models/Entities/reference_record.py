@@ -9,6 +9,7 @@ class ReferenceRecord:
 
     @staticmethod
     def unpack(bytestring: bytes, endien: str) -> T:
+        from ms_ovba.Models.Entities.reference_control import ReferenceControl
         from ms_ovba.Models.Entities.reference_project import ReferenceProject
         from ms_ovba.Models.Entities.reference_registered import (
             ReferenceRegistered
