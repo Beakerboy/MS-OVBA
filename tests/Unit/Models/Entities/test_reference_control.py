@@ -17,7 +17,7 @@ class MockLibIdExt:
     def __str__(self) -> str:
         return (
             "*\\G{896C2D83-5466-46ED-8FAE-4C3E4F85E710}#2.0#" +
-            "0#C:\\Users\\jsmith\\AppData\\Local\\Temp\\VBA\\MSForms.exd#" +
+            "0#C:\\Users\\jsmith\\AppData\\Local\\Temp\\VBE\\MSForms.exd#" +
             "Microsoft Forms 2.0 Object Library"
         )
 
@@ -65,7 +65,7 @@ def test_pack() -> None:
                     "73 65 72 73 5C 6A 73 6D 69 74 68 5C 41 70 70 44",
                     "61 74 61 5C 4C 6F 63 61 6C 5C 54 65 6D 70 5C 56",
                     "42 41 5C 4D 53 46 6F 72 6D 73 2E 65 78 64 23 4D",
-                    "6C 61 72 6F 73 6F 66 74 20 46 6F 72 6D 73 20 32",
+                    "6C 65 72 6F 73 6F 66 74 20 46 6F 72 6D 73 20 32",
                     "2E 30 20 4F 62 6A 65 63 74 20 4C 69 62 72 61 72",
                     "7A")
     expected = bytes.fromhex(" ".join(expected_hex))
