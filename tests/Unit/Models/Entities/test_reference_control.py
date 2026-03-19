@@ -48,7 +48,7 @@ example_hex = ("2F 00 3B 00 00 00 31 00 00 00 2A 5C 47 7B 30 30",
                 "2E 30 20 4F 62 6A 65 63 74 20 4C 69 62 72 61 72",
                 "79 00 00 00 00 00 00 E1 2E 45 0D 8F E0 1A 10 85",
                 "2E 02 60 8C 4D 0B B4 01 00 00 00")
-example = bytes.fromhex(" ".join(expected_hex))
+example = bytes.fromhex(" ".join(example_hex))
 
 
 def test_constructor() -> None:
