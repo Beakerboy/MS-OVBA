@@ -63,9 +63,9 @@ class LibidReference():
         elif len(values) == 5:
             name = values[4]
         prefix = guid[:3]
-        guid = uuid.UUID(guid[3:])
         if prefix[:2] != "*\\":
             raise Exception("Improper prefix")
+        guid = uuid.UUID(guid[3:])
         kind = prefix[2:]
         if kind != "G" and kind != "H":
             raise Exception("Unknown Reference Kind")
