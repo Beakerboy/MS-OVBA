@@ -118,5 +118,5 @@ class ReferenceControl(ReferenceRecord):
         cookie = struct.unpack_from(endien_symbol + "I", data, offset)
         offset += 4
         if len(data) != offset:
-            raise Exception("Data stream length incorrect" + str(offset) +" != " + str(len(data)))
+            raise Exception("Data stream length incorrect" + str(offset) + " != " + str(len(data)))
         return ReferenceControl(libid_twid, libid_ext, guid, cookie, name)
