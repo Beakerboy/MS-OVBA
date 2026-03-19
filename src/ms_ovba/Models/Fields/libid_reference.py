@@ -24,12 +24,13 @@ class LibidReference():
     """
     def __init__(self: T, libid_guid: uuid.UUID, version: str,
                  libid_lcid: str, libid_path: str,
-                 libid_reg_name: str) -> None:
+                 libid_reg_name: str, windows_path: bool = None) -> None:
         self._libid_guid = libid_guid
         self._version = version
         self._libid_lcid = libid_lcid
         self._libid_path = libid_path
         self._libid_reg_name = libid_reg_name
+        self._windows_path = windows_path
         if self._is_windows_path(libid_path):
             self._libid_reference_kind = "G"
         else:
@@ -58,7 +59,9 @@ class LibidReference():
         if kind != "G" and kind != "H":
             raise Exception("Unknown Reference Kind")
         return LibidReference(guid, version, lcid,
-                              path, name)
+                              path, name, kind == "G")
 
     def _is_windows_path(self: T, path: str) -> bool:
-        return path[0] != '/'
+        if self._windows_path is None
+            self._windows_path = path[0] != '/'
+        return self._windows_path
