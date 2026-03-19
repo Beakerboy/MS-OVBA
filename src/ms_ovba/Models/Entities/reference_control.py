@@ -64,3 +64,7 @@ class ReferenceControl(ReferenceRecord):
         if id != 0x002F:
             msg = "Incorrect id in data. Received " + id + ", expected 0x002F"
             raise ValueError(msg)
+
+        size_twiddled, size_of_libid_twiddled = struct.unpack_from(endien_symbol + "II", data, offset)
+        if size_twiddled != size_of_libid_twiddled + 10:
+            pass
