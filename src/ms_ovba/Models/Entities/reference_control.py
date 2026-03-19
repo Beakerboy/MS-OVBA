@@ -92,7 +92,7 @@ class ReferenceControl(ReferenceRecord):
             # Read Name1
             offset += size * 2
             #verify name2 is unicode version of name
-        else if id == 0x30:
+        elif id == 0x30:
             # No ReferenceName
             name_record_extended = None
         else:
