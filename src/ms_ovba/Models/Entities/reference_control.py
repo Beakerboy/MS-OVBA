@@ -75,7 +75,9 @@ class ReferenceControl(ReferenceRecord):
         libid_twid_bytes = data[offset:offset + size_of_libid_twiddled]
         libid_twid = LibidReference.unpack(libid_twid_bytes)
         offset += size_of_libid_twiddled
-        zero1, zero2, id = struct.unpack_from(endien_symbol + "IHH", data, offset)
+        zero1, zero2, id = (
+            struct.unpack_from(endien_symbol + "IHH", data, offset)
+        )
         if zero1 != 0 or zero2 != 0:
             pass
         offset += 8
