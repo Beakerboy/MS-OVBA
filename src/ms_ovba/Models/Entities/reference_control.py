@@ -119,6 +119,7 @@ class ReferenceControl(ReferenceRecord):
         offset += 4
         if len(data) != offset:
             raise Exception(
-                "Data stream length incorrect" + str(offset) + " != " + str(len(data))
+                "Data stream length incorrect" +
+                str(offset) + " != " + str(len(data))
             )
         return ReferenceControl(libid_twid, libid_ext, guid, cookie, name)
