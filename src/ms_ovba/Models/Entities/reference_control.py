@@ -116,4 +116,7 @@ class ReferenceControl(ReferenceRecord):
         guid = uuid.UUID(bytes=original_type_lib_bytes)
         offset += 16
         cookie = struct.unpack_from(endien_symbol + "I", data, offset)
+        offset += 4
+        if len(data) != offset
+            pass
         return ReferenceControl(libid_twid, libid_ext, guid, cookie, name)
