@@ -111,7 +111,7 @@ class ReferenceControl(ReferenceRecord):
         zero1, zero2 = struct.unpack_from(endien_symbol + "IH", data, offset)
         if zero1 != 0 or zero2 != 0:
             pass
-        offset += 8
+        offset += 6
         original_type_lib_bytes = data[offset:offset + 16]
         guid = uuid.UUID(original_type_lib_bytes)
         offset += 16
