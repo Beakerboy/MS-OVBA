@@ -94,11 +94,9 @@ class ReferenceControl(ReferenceRecord):
             # Verify name2 is unicode version of name
             id, = struct.unpack_from(endien_symbol + "H", data, offset)
             offset += 2
-            # Verify id == 0x30
-        elif id == 0x30:
-            # No ReferenceName
-            name = None
         else:
+            name = None
+        if id != 0x30:
             # Unknown Data
             pass
         size_ext, size_of_libid_ext = (
