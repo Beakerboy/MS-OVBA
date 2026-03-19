@@ -55,7 +55,9 @@ class LibidReference():
         name = None
         # Need to test if name is given but path is not
         if len(values) >= 3:
-            guid, version, lcid, = values
+            guid = values[0]
+            version = values[1]
+            lcid = values[2]
         if len(values) == 4:
             path = values[3]
         elif len(values) == 5:
