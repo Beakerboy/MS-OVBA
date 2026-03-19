@@ -50,7 +50,16 @@ class LibidReference():
 
     @staticmethod
     def unpack(data: bytes):
-        guid, version, lcid, path, name = data.decode('ascii').split("#")
+        values = data.decode('ascii').split("#")
+        path = None
+        name = None
+        # Need to test if name is given but path is not
+        if len(values) >= 3:
+            guid, version, lcid = values
+        if len(values) == 4:
+            path = values[3]
+        elif len(values) == 5:
+            name = values[4]
         prefix = guid[:3]
         guid = uuid.UUID(guid[3:])
         if prefix[:2] != "*\\":
