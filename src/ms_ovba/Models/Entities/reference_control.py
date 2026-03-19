@@ -113,7 +113,7 @@ class ReferenceControl(ReferenceRecord):
             pass
         offset += 6
         original_type_lib_bytes = data[offset:offset + 16]
-        guid = uuid.UUID(original_type_lib_bytes)
+        guid = uuid.UUID(bytes=original_type_lib_bytes)
         offset += 16
         cookie = struct.unpack_from(endien_symbol + "I", data, offset)
         return ReferenceControl(libid_twid, libid_ext, guid, cookie, name)
