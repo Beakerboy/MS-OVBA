@@ -117,7 +117,7 @@ class ReferenceControl(ReferenceRecord):
         original_type_lib_bytes = data[offset:offset + 16]
         guid = uuid.UUID(bytes=original_type_lib_bytes)
         offset += 16
-        cookie = struct.unpack_from(endien_symbol + "I", data, offset)
+        cookie, = struct.unpack_from(endien_symbol + "I", data, offset)
         offset += 4
         if len(data) != offset:
             raise Exception(
