@@ -40,7 +40,7 @@ def test_posix() -> None:
     ])
 def test_unpack(data: bytes) -> None:
     lib = LibidReference.unpack(data)
-    assert str(lib) == data
+    assert str(lib).encode("ascii") == data
 
 
 @pytest.mark.parametrize("data", [
