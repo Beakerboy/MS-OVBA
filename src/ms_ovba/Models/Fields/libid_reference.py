@@ -63,6 +63,6 @@ class LibidReference():
                               path, name, kind == "G")
 
     def _is_windows_path(self: T, path: str) -> bool:
-        if self._windows_path is None
+        if self._windows_path is None:
             self._windows_path = path[0] != '/'
         return self._windows_path
