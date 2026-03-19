@@ -65,7 +65,9 @@ class ReferenceControl(ReferenceRecord):
             msg = "Incorrect id in data. Received " + id + ", expected 0x002F"
             raise ValueError(msg)
 
-        size_twiddled, size_of_libid_twiddled = struct.unpack_from(endien_symbol + "II", data, offset)
+        size_twiddled, size_of_libid_twiddled = (
+            struct.unpack_from(endien_symbol + "II", data, offset)
+        )
         if size_twiddled != size_of_libid_twiddled + 10:
             pass
         offset += 8
@@ -88,17 +90,19 @@ class ReferenceControl(ReferenceRecord):
             offset += 2
             # Read size1
             offset += 4
-            # verify size1 = 2 * size
+            # Verify size1 = 2 * size
             # Read Name1
-            offset += size * 2
-            #verify name2 is unicode version of name
+            offset += name_size * 2
+            # Verify name2 is unicode version of name
         elif id == 0x30:
             # No ReferenceName
             name_record_extended = None
         else:
             # Unknown Data
             pass
-        size_ext, size_of_libid_ext = struct.unpack_from(endien_symbol + "II", data, offset)
+        size_ext, size_of_libid_ext = (
+            struct.unpack_from(endien_symbol + "II", data, offset)
+        )
         offset += 8
         if size_ext != size_of_libid_ext + 30:
             pass
