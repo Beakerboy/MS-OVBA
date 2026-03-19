@@ -78,6 +78,7 @@ class ReferenceControl(ReferenceRecord):
         zero1, zero2 = struct.unpack_from(endien_symbol + "IH", data, offset)
         if zero1 != 0 or zero2 != 0:
             pass
+        offset += 6
         id = struct.unpack_from(endien_symbol + "H", data, offset)
         offset += 2
         if id == 0x16:
