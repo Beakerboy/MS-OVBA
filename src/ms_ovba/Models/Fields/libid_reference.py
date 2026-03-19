@@ -24,12 +24,13 @@ class LibidReference():
     """
     def __init__(self: T, libid_guid: uuid.UUID, version: str,
                  libid_lcid: str, libid_path: str,
-                 libid_reg_name: str) -> None:
+                 libid_reg_name: str, windows_path: bool = None) -> None:
         self._libid_guid = libid_guid
         self._version = version
         self._libid_lcid = libid_lcid
-        self._libid_path = libid_path
-        self._libid_reg_name = libid_reg_name
+        self._libid_path = "" if libid_path is None else libid_path
+        self._libid_reg_name = "" if libid_reg_name is None else libid_reg_name
+        self._windows_path = windows_path
         if self._is_windows_path(libid_path):
             self._libid_reference_kind = "G"
         else:
@@ -41,7 +42,7 @@ class LibidReference():
             "{" + str(self._libid_guid).upper() + "}#" + \
             self._version + "#" + \
             self._libid_lcid + "#" + \
-            str(self._libid_path) + "#" + \
+            self._libid_path + "#" + \
             self._libid_reg_name
 
     def __len__(self: T) -> int:
@@ -49,16 +50,34 @@ class LibidReference():
 
     @staticmethod
     def unpack(data: bytes):
-        guid, version, lcid, path, name = data.decode('ascii').split("#")
+        values = data.decode('ascii').split("#")
+        path = None
+        name = None
+        # Need to test if name is given but path is not
+        if len(values) >= 3:
+            guid = values[0]
+            version = values[1]
+            lcid = values[2]
+        else:
+            raise Exception("Not enough tokens")
+        if len(values) >= 4:
+            path = values[3]
+        if len(values) == 5:
+            name = values[4]
+        elif len(values) > 5:
+            raise Exception("Too many tokens")
         prefix = guid[:3]
-        guid = uuid.UUID(guid[3:])
         if prefix[:2] != "*\\":
             raise Exception("Improper prefix")
+        guid = uuid.UUID(guid[3:])
         kind = prefix[2:]
         if kind != "G" and kind != "H":
             raise Exception("Unknown Reference Kind")
+        # Verify that path and kind match
         return LibidReference(guid, version, lcid,
-                              path, name)
+                              path, name, kind == "G")
 
     def _is_windows_path(self: T, path: str) -> bool:
-        return path[0] != '/'
+        if self._windows_path is None:
+            self._windows_path = path[0] != '/'
+        return self._windows_path
