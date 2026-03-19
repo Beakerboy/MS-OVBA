@@ -75,12 +75,10 @@ class ReferenceControl(ReferenceRecord):
         libid_twid_bytes = data[offset:offset + size_of_libid_twiddled]
         libid_twid = LibidReference.unpack(libid_twid_bytes)
         offset += size_of_libid_twiddled
-        zero1, zero2 = struct.unpack_from(endien_symbol + "IH", data, offset)
+        zero1, zero2, id = struct.unpack_from(endien_symbol + "IHH", data, offset)
         if zero1 != 0 or zero2 != 0:
             pass
-        offset += 6
-        id = struct.unpack_from(endien_symbol + "H", data, offset)
-        offset += 2
+        offset += 8
         if id == 0x16:
             # ReferenceName Record
             name_size = struct.unpack_from(endien_symbol + "I", data, offset)
