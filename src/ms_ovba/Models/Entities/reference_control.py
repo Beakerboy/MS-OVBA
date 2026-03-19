@@ -83,7 +83,7 @@ class ReferenceControl(ReferenceRecord):
         offset += 8
         if id == 0x16:
             # ReferenceName Record
-            name_size = struct.unpack_from(endien_symbol + "I", data, offset)
+            name_size, = struct.unpack_from(endien_symbol + "I", data, offset)
             offset += 4
             name = data[offset:offset + name_size].decode('ascii')
             offset += name_size
