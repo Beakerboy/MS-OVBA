@@ -59,18 +59,15 @@ class ReferenceControl(ReferenceRecord):
     def unpack(data: bytes, endien: str) -> T:
         endien_symbol = '<' if endien == 'little' else '>'
         offset = 0
-        id, = struct.unpack_from(endien_symbol + "H", data, offset)
-        offset += 2
+        id, size_twiddled, size_of_libid_twiddled = (
+            struct.unpack_from(endien_symbol + "HII", data, offset)
+        )
+        offset += 10
         if id != 0x002F:
             msg = "Incorrect id in data. Received " + id + ", expected 0x002F"
             raise ValueError(msg)
-
-        size_twiddled, size_of_libid_twiddled = (
-            struct.unpack_from(endien_symbol + "II", data, offset)
-        )
         if size_twiddled != size_of_libid_twiddled + 10:
             pass
-        offset += 8
 
         libid_twid_bytes = data[offset:offset + size_of_libid_twiddled]
         libid_twid = LibidReference.unpack(libid_twid_bytes)
