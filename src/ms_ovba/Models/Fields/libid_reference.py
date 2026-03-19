@@ -58,7 +58,7 @@ class LibidReference():
             guid = values[0]
             version = values[1]
             lcid = values[2]
-        if len(values) == 4:
+        if len(values) >= 4:
             path = values[3]
         elif len(values) == 5:
             name = values[4]
