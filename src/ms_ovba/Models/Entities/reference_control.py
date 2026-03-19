@@ -15,7 +15,7 @@ class ReferenceControl(ReferenceRecord):
     """
     2.3.4.2.2.3 REFERENCECONTROL Record
     """
-    def __init__(self: T, ref: LibidReference
+    def __init__(self: T, ref: LibidReference,
                  ref2: LibidReference,
                  guid: uuid.UUID, cookie: int,
                  name: str = None,) -> None:
