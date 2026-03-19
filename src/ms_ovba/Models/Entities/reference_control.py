@@ -105,7 +105,7 @@ class ReferenceControl(ReferenceRecord):
         offset += 8
         if size_ext != size_of_libid_ext + 30:
             pass
-        libid_ext_bytes = data[offset:offset + size_of_libid_twiddled]
+        libid_ext_bytes = data[offset:offset + size_of_libid_ext]
         libid_ext = LibidReference.unpack(libid_ext_bytes)
         offset += size_of_libid_ext
         zero1, zero2 = struct.unpack_from(endien_symbol + "IH", data, offset)
