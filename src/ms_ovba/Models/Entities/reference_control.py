@@ -82,8 +82,8 @@ class ReferenceControl(ReferenceRecord):
         offset += 2
         if id == 0x16:
             # ReferenceName Record
-            name_size = struct.unpack_from(endien_symbol + "H", data, offset)
-            offset += 2
+            name_size = struct.unpack_from(endien_symbol + "I", data, offset)
+            offset += 4
             name = data[offset:offset + name_size].decode('ascii')
             offset += name_size
             # Verify Reserved is 0x3e
