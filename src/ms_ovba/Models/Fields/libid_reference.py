@@ -58,6 +58,7 @@ class LibidReference():
         kind = prefix[2:]
         if kind != "G" and kind != "H":
             raise Exception("Unknown Reference Kind")
+        # Verify that path and kind match
         return LibidReference(guid, version, lcid,
                               path, name, kind == "G")
 
