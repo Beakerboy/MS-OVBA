@@ -84,7 +84,7 @@ class ReferenceControl(ReferenceRecord):
             # ReferenceName Record
             name_size = struct.unpack_from(endien_symbol + "H", data, offset)
             offset += 2
-            name = data[offset:offset + name_size]
+            name = data[offset:offset + name_size].decode('ascii')
             offset += name_size
             # Verify Reserved is 0x3e
             offset += 2
