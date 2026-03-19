@@ -34,7 +34,8 @@ def test_posix() -> None:
 
 def test_unpack() -> None:
     data = (b'*\\G{00020430-0000-0000-C000-000000000046}'
-            b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation')
+            b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation',
+            b"*\\G{00000000-0000-0000-0000-000000000000}#0.0#0##")
     lib = LibidReference.unpack(data)
     assert str(lib) == data
 
