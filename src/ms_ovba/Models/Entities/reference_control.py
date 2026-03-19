@@ -23,8 +23,6 @@ class ReferenceControl(ReferenceRecord):
         self._libid_extended = ref2
         self._name_record_extended = name
         self._guid = guid
-        if not isinstance(cookie, int):
-            raise Exception(f"{cookie} is not an int")
         self._cookie = cookie
 
     def pack(self: T, endien: str, cp_name: str) -> bytes:
