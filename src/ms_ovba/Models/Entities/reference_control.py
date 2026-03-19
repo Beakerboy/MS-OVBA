@@ -1,7 +1,7 @@
 import struct
 import uuid
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
-from ms_ovba.Models.Fields.project_reference import ProjectReference
+from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
 )
@@ -15,8 +15,8 @@ class ReferenceControl(ReferenceRecord):
     """
     2.3.4.2.2.3 REFERENCECONTROL Record
     """
-    def __init__(self: T, ref: ProjectReference,
-                 ref2: ProjectReference,
+    def __init__(self: T, ref: LibidReference
+                 ref2: LibidReference,
                  guid: uuid.UUID, cookie: int,
                  name: str = None,) -> None:
         self._libid_twiddled = ref
@@ -68,3 +68,48 @@ class ReferenceControl(ReferenceRecord):
         size_twiddled, size_of_libid_twiddled = struct.unpack_from(endien_symbol + "II", data, offset)
         if size_twiddled != size_of_libid_twiddled + 10:
             pass
+        offset += 8
+
+        libid_twid_bytes = data[offset:offset + size_of_libid_twiddled]
+        libid_twid = LibidReference.unpack(libid_twid_bytes)
+        offset += size_of_libid_twiddled
+        zero1, zero2 = struct.unpack_from(endien_symbol + "IH", data, offset)
+        if zero1 != 0 or zero2 != 0:
+            pass
+        id = struct.unpack_from(endien_symbol + "H", data, offset)
+        offset += 2
+        if id == 0x16:
+            # ReferenceName Record
+            name_size = struct.unpack_from(endien_symbol + "H", data, offset)
+            offset += 2
+            name = data[offset:offset + name_size]
+            offset += name_size
+            # Verify Reserved is 0x3e
+            offset += 2
+            # Read size1
+            offset += 4
+            # verify size1 = 2 * size
+            # Read Name1
+            offset += size * 2
+            #verify name2 is unicode version of name
+        else if id == 0x30:
+            # No ReferenceName
+            name_record_extended = None
+        else:
+            # Unknown Data
+            pass
+        size_ext, size_of_libid_ext = struct.unpack_from(endien_symbol + "II", data, offset)
+        offset += 8
+        if size_ext != size_of_libid_ext + 30:
+            pass
+        libid_ext_bytes = data[offset:offset + size_of_libid_twiddled]
+        libid_ext = LibidReference.unpack(libid_ext_bytes)
+        offset += size_of_libid_ext
+        zero1, zero2 = struct.unpack_from(endien_symbol + "IH", data, offset)
+        if zero1 != 0 or zero2 != 0:
+            pass
+        original_type_lib_bytes = data[offset:offset + 16]
+        guid = uuid.UUID(original_type_lib_bytes)
+        offset += 16
+        cookie = struct.unpack_from(endien_symbol + "I", data, offset)
+        return ReferenceControl(libid_twid, libid_ext, guid, cookie, name)
