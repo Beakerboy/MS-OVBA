@@ -92,6 +92,9 @@ class ReferenceControl(ReferenceRecord):
             # Read Name1
             offset += name_size * 2
             # Verify name2 is unicode version of name
+            id, = struct.unpack_from(endien_symbol + "H", data, offset)
+            offset += 2
+            # Verify id == 0x30
         elif id == 0x30:
             # No ReferenceName
             name = None
