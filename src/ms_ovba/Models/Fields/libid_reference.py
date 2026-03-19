@@ -42,7 +42,7 @@ class LibidReference():
             "{" + str(self._libid_guid).upper() + "}#" + \
             self._version + "#" + \
             self._libid_lcid + "#" + \
-            str(self._libid_path) + "#" + \
+            self._libid_path + "#" + \
             self._libid_reg_name
 
     def __len__(self: T) -> int:
