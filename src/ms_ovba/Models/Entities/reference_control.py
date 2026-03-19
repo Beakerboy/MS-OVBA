@@ -96,7 +96,7 @@ class ReferenceControl(ReferenceRecord):
             # Verify name2 is unicode version of name
         elif id == 0x30:
             # No ReferenceName
-            name_record_extended = None
+            name = None
         else:
             # Unknown Data
             pass
