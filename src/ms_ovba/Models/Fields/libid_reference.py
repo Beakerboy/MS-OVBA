@@ -62,7 +62,7 @@ class LibidReference():
             raise Exception("Not enough tokens")
         if len(values) >= 4:
             path = values[3]
-        elif len(values) == 5:
+        if len(values) == 5:
             name = values[4]
         elif len(values) > 5:
             raise Exception("Too many tokens")
