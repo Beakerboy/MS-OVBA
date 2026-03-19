@@ -80,7 +80,7 @@ def test_pack() -> None:
         assert results == example
 
 
-def test unpack() -> None:
+def test_unpack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     ref = ReferenceControl.unpack(example, 'little')
