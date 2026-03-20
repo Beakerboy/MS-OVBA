@@ -6,7 +6,7 @@ from ms_ovba.Models.Fields.libid_reference import LibidReference
 @pytest.mark.parametrize(
     "guid, ver, lib, path, name, expected", [
         ('0002043000000000C000000000000046',
-         "2.0", 0, "C:\\Windows\\System32\\stdole2.tlb",
+         "2.0", "0", "C:\\Windows\\System32\\stdole2.tlb",
          "OLE Automation",
          "*\\G{00020430-0000-0000-C000-000000000046}"
          "#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation")
