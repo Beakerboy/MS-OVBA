@@ -64,6 +64,7 @@ def test_unpack(data: bytes) -> None:
     (br'*\G{00000000-0000-0000-0000-000000000000}#2.0#M#C:\#Test'),
     (br'*\G{00000000-0000-0000-0000-000000000000}#1#0#C:\#Test#Foo'),
     (br'*\G{00000000-0000-0000-0000-000000000000}#1#0#'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}##0#1#Test'),
 ])
 def test_unpack_exception(data) -> None:
     with pytest.raises(Exception):
