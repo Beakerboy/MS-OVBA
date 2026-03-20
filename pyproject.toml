@@ -22,6 +22,7 @@ dependencies = [
 ]
 [project.optional-dependencies]
 tests = [
+  'mypy',
   'pytest',
   'pytest-cov',
   'pytest-mock',
