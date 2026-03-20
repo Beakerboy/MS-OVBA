@@ -50,7 +50,7 @@ class LibidReference():
 
     def __str__(self: T) -> str:
         return (
-            r"*\" +
+            "*\\" +
             self._libid_reference_kind +
             "{" + str(self._libid_guid).upper() + "}#" +
             self._version + "#" +
