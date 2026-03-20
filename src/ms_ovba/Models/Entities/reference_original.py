@@ -45,4 +45,4 @@ class ReferenceOriginal(ReferenceRecord):
         ref_cntl = ReferenceControl.unpack(data[offset:], endien)
 
         libid_ref = LibidReference.unpack(libid_ref_bytes)
-        return ReferenceRegistered(libid_ref, ref_cntl)
+        return ReferenceOriginal(libid_ref, ref_cntl)
