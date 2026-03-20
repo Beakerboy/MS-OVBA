@@ -29,6 +29,9 @@ class LibidReference():
         pattern = r'[0-9A-F]{1,4}\.[0-9A-F]{1,4}'
         if not re.match(pattern, version):
             raise Exception("Improper version")
+        pattern = r'[0-9A-F]{1,8}'
+        if not re.match(pattern, libid_lcid):
+            raise Exception("Improper LibidLcid")
         self._libid_guid = libid_guid
         self._version = version
         self._libid_lcid = libid_lcid
