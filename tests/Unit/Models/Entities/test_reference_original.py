@@ -58,9 +58,10 @@ def test_pack() -> None:
 def test_unpack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
+    path = 'ms_ovba.Models.Entities.reference_original.LibidReference'
     with mock.patch(path, MockLibid):
         path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
-        with mock.patch(path1, MockLibid):
+        with mock.patch(path1, MockRefCntl):
             ref = ReferenceOriginal.unpack(min_hex, 'little')
             assert ref.pack('little', cp_name) == min_hex
 
@@ -80,6 +81,6 @@ def test_bad_id():
     path = 'ms_ovba.Models.Entities.reference_original.LibidReference'
     with mock.patch(path, MockLibid):
         path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
-        with mock.patch(path1, MockLibid):
+        with mock.patch(path1, MockRefCntl):
             with pytest.raises(Exception):
                 ReferenceOriginal.unpack(min_hex, "little")
