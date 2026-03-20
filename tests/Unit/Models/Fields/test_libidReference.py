@@ -3,15 +3,15 @@ import pytest
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 
 
-def test_str() -> None:
-    guid = uuid.UUID('0002043000000000C000000000000046')
-    libid_ref = LibidReference(
-        guid,
-        "2.0",
-        "0",
-        "C:\\Windows\\System32\\stdole2.tlb",
-        "OLE Automation"
-    )
+@pytest.mark.parametrize(
+    "guid, ver, lib, path, name, expected", [
+        ('0002043000000000C000000000000046',
+         "2.0", 0, "C:\\Windows\\System32\\stdole2.tlb",
+         "OLE Automation"),
+    ])
+def test_str(guid, ver, lib, path, name, expected) -> None:
+    guid = uuid.UUID('')
+    libid_ref = LibidReference(guid, ver, lib, path, name)
     expected = ("*\\G{00020430-0000-0000-C000-000000000046}"
                 "#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation")
     assert str(libid_ref) == expected
