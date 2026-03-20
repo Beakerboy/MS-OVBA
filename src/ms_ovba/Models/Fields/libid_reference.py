@@ -24,8 +24,9 @@ class LibidReference():
     LibidRegName = *255(%x01-FF)
     """
     def __init__(self: T, libid_guid: uuid.UUID, version: str,
-                 libid_lcid: str, libid_path: str,
-                 libid_reg_name: str, windows_path: bool = None) -> None:
+                 libid_lcid: str, libid_path: str = "",
+                 libid_reg_name: str = "",
+                 windows_path: bool = None) -> None:
         pattern = r'[0-9A-F]{1,4}\.[0-9A-F]{1,4}'
         if not re.match(pattern, version):
             raise Exception("Improper version")
@@ -35,8 +36,8 @@ class LibidReference():
         self._libid_guid = libid_guid
         self._version = version
         self._libid_lcid = libid_lcid
-        self._libid_path = "" if libid_path is None else libid_path
-        self._libid_reg_name = "" if libid_reg_name is None else libid_reg_name
+        self._libid_path = libid_path 
+        self._libid_reg_name = libid_reg_name
         self._windows_path = windows_path
         if self._is_windows_path(libid_path):
             self._libid_reference_kind = "G"
