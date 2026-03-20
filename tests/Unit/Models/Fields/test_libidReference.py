@@ -21,6 +21,13 @@ def test_str(guid, ver, lib, path, name, expected) -> None:
     assert str(libid_ref) == expected
 
 
+def test_str_posix(guid, ver, lib, path, name, expected) -> None:
+    guid = uuid.UUID('00000000000000000000000000000000')
+    libid_ref = LibidReference(guid, "2.0", "0", "", "", False)
+    expected = r"*\H{00000000-0000-0000-0000-000000000000}#2.0#0##"
+    assert str(libid_ref) == expected
+
+
 def test_posix() -> None:
     guid = uuid.UUID('0002043000000000C000000000000046')
     libid_ref = LibidReference(
