@@ -51,4 +51,4 @@ def test_bad_id():
         path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
         with mock.patch(path, MockLibid):
             with pytest.raises(Exception):
-                ReferenceRegistered.unpack(data, "little")
+                ReferenceRegistered.unpack(hex, "little")
