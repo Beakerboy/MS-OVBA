@@ -35,7 +35,8 @@ def test_constructor() -> None:
 
 
 def test_pack() -> None:
-    expected = b'\x33\x00\x08\x00\x00\x00'
+    expected = (
+        b'\x33\x00\x08\x00\x00\x00'
         br''*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
         b'/\x00;\x00\x00\x001\x00\x00\x00'
         br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
@@ -44,6 +45,7 @@ def test_pack() -> None:
         b'\x00\x00\x00\x00\x00\x00'
         b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
         b'\x01\x00\x00\x00'
+    )
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     ref_reg = ReferenceOriginal(MockLibid(), MockRefCntl())
