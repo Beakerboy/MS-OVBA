@@ -9,7 +9,9 @@ from ms_ovba.Models.Fields.libid_reference import LibidReference
          "2.0", "0", r"C:\Windows\System32\stdole2.tlb",
          "OLE Automation",
          r"*\G{00020430-0000-0000-C000-000000000046}"
-         r"#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation")
+         r"#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation"),
+        ('00000000000000000000000000000000', "2.0", "0", r"C:\", "",
+         r"*\G{00020000-0000-0000-0000-000000000000}#2.0#0#C:\b#")
     ])
 def test_str(guid, ver, lib, path, name, expected) -> None:
     guid = uuid.UUID(guid)
