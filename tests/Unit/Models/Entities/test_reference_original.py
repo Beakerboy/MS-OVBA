@@ -63,6 +63,17 @@ def test_unpack() -> None:
 
 
 def test_bad_id():
+    min_hex = (
+        b'4\x001\x00\x00\x00'
+        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+        b'/\x00;\x00\x00\x001\x00\x00\x00'
+        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+        b'\x00\x00\x00\x00\x00\x000\x00O\x00\x00\x001\x00\x00\x00'
+        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+        b'\x00\x00\x00\x00\x00\x00'
+        b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+        b'\x01\x00\x00\x00'
+    )
     path = 'ms_ovba.Models.Entities.reference_original.LibidReference'
     with mock.patch(path, MockLibid):
         path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
