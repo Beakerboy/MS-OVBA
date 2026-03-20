@@ -12,7 +12,7 @@ from ms_ovba.Models.Fields.libid_reference import LibidReference
          r"#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation"),
         ('00000000000000000000000000000000', "2.0", "0", "C:\\", "",
          r"*\G{00000000-0000-0000-0000-000000000000}#2.0#0#C:\#"),
-        ('00000000000000000000000000000000', "2.0", "0", r"", "",
+        ('00000000000000000000000000000000', "2.0", "0", "", "",
          r"*\G{00000000-0000-0000-0000-000000000000}#2.0#0##")
     ])
 def test_str(guid, ver, lib, path, name, expected) -> None:
