@@ -12,7 +12,7 @@ class MockLibid:
 
 
 class MockRefCntl:
-    def pack(self) -> bytes:
+    def pack(self, endien, name) -> bytes:
         return (
             b'/\x00;\x00\x00\x001\x00\x00\x00'
             br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
