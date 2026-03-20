@@ -5,7 +5,7 @@ from ms_ovba.Models.Entities.reference_original import ReferenceOriginal
 
 class MockLibid:
     def __len__(self) -> int:
-        return 0x33
+        return 0x31
 
     def __str__(self) -> str:
         return (r'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##')
@@ -36,7 +36,7 @@ def test_constructor() -> None:
 
 def test_pack() -> None:
     expected = (
-        b'3\x00\x08\x00\x00\x00'
+        b'3\x001\x00\x00\x00'
         br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
         b'/\x00;\x00\x00\x001\x00\x00\x00'
         br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
@@ -55,7 +55,7 @@ def test_pack() -> None:
 
 def test_bad_id():
     hex = (
-        b'\x33\x00\x32\x00\x00\x00'
+        b'3\x001\x00\x00\x00'
         br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
         b'/\x00;\x00\x00\x001\x00\x00\x00'
         br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
