@@ -27,16 +27,20 @@ class LibidReference():
                  libid_lcid: str, libid_path: str = "",
                  libid_reg_name: str = "",
                  windows_path: bool = None) -> None:
+
+        # Validate Inputs
         pattern = r'[0-9A-F]{1,4}\.[0-9A-F]{1,4}'
         if not re.match(pattern, version):
             raise Exception("Improper version")
         pattern = r'[0-9A-F]{1,8}'
         if not re.match(pattern, libid_lcid):
             raise Exception("Improper LibidLcid")
+
+        # Assign Inputs
         self._libid_guid = libid_guid
         self._version = version
         self._libid_lcid = libid_lcid
-        self._libid_path = libid_path 
+        self._libid_path = libid_path
         self._libid_reg_name = libid_reg_name
         self._windows_path = windows_path
         if self._is_windows_path(libid_path):
@@ -45,13 +49,15 @@ class LibidReference():
             self._libid_reference_kind = "H"
 
     def __str__(self: T) -> str:
-        return "*\\" + \
-            self._libid_reference_kind + \
-            "{" + str(self._libid_guid).upper() + "}#" + \
-            self._version + "#" + \
-            self._libid_lcid + "#" + \
-            self._libid_path + "#" + \
+        return (
+            r"*\" +
+            self._libid_reference_kind +
+            "{" + str(self._libid_guid).upper() + "}#" +
+            self._version + "#" +
+            self._libid_lcid + "#" +
+            self._libid_path + "#" +
             self._libid_reg_name
+        )
 
     def __len__(self: T) -> int:
         return len(str(self))
