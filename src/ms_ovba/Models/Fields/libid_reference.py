@@ -64,7 +64,10 @@ class LibidReference():
 
     @staticmethod
     def unpack(data: bytes):
-        values = data.decode('ascii').split("#")
+        data = data.decode('ascii')
+        if data.count("#") != 4:
+            raise Exception(Incorrect Number of Tokens")
+        values = data.split("#")
         path = None
         name = None
         # Need to test if name is given but path is not
@@ -72,14 +75,10 @@ class LibidReference():
             guid = values[0]
             version = values[1]
             lcid = values[2]
-        else:
-            raise Exception("Not enough tokens")
         if len(values) >= 4:
             path = values[3]
         if len(values) == 5:
             name = values[4]
-        elif len(values) > 5:
-            raise Exception("Too many tokens")
         prefix = guid[:3]
         if prefix[:2] != "*\\":
             raise Exception("Improper prefix")
