@@ -13,7 +13,9 @@ class ReferenceOriginal(ReferenceRecord):
     2.3.4.2.2.5
     Specifies a reference to an Automation type library.
     """
-    def __init__(self: T, libid_ref: LibidReference, ref_cntl: ReferenceControl) -> None:
+    def __init__(self: T,
+                 libid_ref: LibidReference,
+                 ref_cntl: ReferenceControl) -> None:
         self._libid_ref = libid_ref
         self._ref_cntl = ref_cntl
 
@@ -22,7 +24,7 @@ class ReferenceOriginal(ReferenceRecord):
         strlen = len(self._libid_ref)
         format = endien_symbol + "HI"
         lib_str = str(self._libid_ref).encode(cp_name)
-        ref_str = ref_cntl.pack(endien, cp_name)
+        ref_str = self._ref_cntl.pack(endien, cp_name)
         return struct.pack(format, 0x0033, strlen) + lib_str + ref_str
 
     @staticmethod
