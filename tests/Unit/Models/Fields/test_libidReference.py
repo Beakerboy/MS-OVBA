@@ -9,7 +9,7 @@ from ms_ovba.Models.Fields.libid_reference import LibidReference
          "2.0", "0", "C:\\Windows\\System32\\stdole2.tlb",
          "OLE Automation",
          "*\\G{00020430-0000-0000-C000-000000000046}"
-         "#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation")
+         r"#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation")
     ])
 def test_str(guid, ver, lib, path, name, expected) -> None:
     guid = uuid.UUID(guid)
@@ -33,11 +33,11 @@ def test_posix() -> None:
 
 @pytest.mark.parametrize(
     "data", [
-        (b'*\\G{00020430-0000-0000-C000-000000000046}' +
-         b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation'),
-        (b"*\\G{00000000-0000-0000-0000-000000000000}#0.0#0##"),
-        (b"*\\G{00000000-0000-0000-0000-000000000000}#0.0#0#C:\\#"),
-        (b"*\\G{00000000-0000-0000-0000-000000000000}#0.0#0##Foo")
+        (br'*\G{00020430-0000-0000-C000-000000000046}'
+         br'#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation'),
+        (br"*\G{00000000-0000-0000-0000-000000000000}#0.0#0##"),
+        (br"*\G{00000000-0000-0000-0000-000000000000}#0.0#0#C:\#"),
+        (br"*\G{00000000-0000-0000-0000-000000000000}#0.0#0##Foo")
     ])
 def test_unpack(data: bytes) -> None:
     lib = LibidReference.unpack(data)
@@ -45,12 +45,12 @@ def test_unpack(data: bytes) -> None:
 
 
 @pytest.mark.parametrize("data", [
-    (b'*\\A{00020430-0000-0000-C000-000000000046}' +
-     b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation'),
-    (b'+\\G{00020430-0000-0000-C000-000000000046}' +
-     b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation'),
-    (b'*\\G{00020430-0000-0000-C000-000000000046}' +
-     b'#123456.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation')
+    (br'*\A{00020430-0000-0000-C000-000000000046}'
+     br'#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation'),
+    (br'+\G{00020430-0000-0000-C000-000000000046}'
+     br'#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation'),
+    (br'*\G{00020430-0000-0000-C000-000000000046}'
+     br'#123456.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation')
 ])
 def test_unpack_exception(data) -> None:
     with pytest.raises(Exception):
