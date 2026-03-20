@@ -34,40 +34,31 @@ def test_constructor() -> None:
     assert isinstance(module, ReferenceOriginal)
 
 
-def test_pack() -> None:
-    expected = (
-        b'3\x001\x00\x00\x00'
-        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
-        b'/\x00;\x00\x00\x001\x00\x00\x00'
-        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
-        b'\x00\x00\x00\x00\x00\x00'
-        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
-        b'\x00\x00\x00\x00\x00\x00'
-        b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-        b'\x01\x00\x00\x00'
-    )
+min_hex = (
+    b'3\x001\x00\x00\x00'
+    br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+    b'/\x00;\x00\x00\x001\x00\x00\x00'
+    br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+    b'\x00\x00\x00\x00\x00\x00'
+    br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+    b'\x00\x00\x00\x00\x00\x00'
+    b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+    b'\x01\x00\x00\x00'
+)
+
+
+def test_pack() -> None:  
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     ref_reg = ReferenceOriginal(MockLibid(), MockRefCntl())
     results = ref_reg.pack('little', cp_name)
-    assert results == expected
+    assert results == min_hex
 
 
 def test_bad_id():
-    hex = (
-        b'3\x001\x00\x00\x00'
-        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
-        b'/\x00;\x00\x00\x001\x00\x00\x00'
-        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
-        b'\x00\x00\x00\x00\x00\x00'
-        br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
-        b'\x00\x00\x00\x00\x00\x00'
-        b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-        b'\x01\x00\x00\x00'
-    )
     path = 'ms_ovba.Models.Entities.reference_original.LibidReference'
     with mock.patch(path, MockLibid):
         path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
         with mock.patch(path1, MockLibid):
             with pytest.raises(Exception):
-                ReferenceOriginal.unpack(hex, "little")
+                ReferenceOriginal.unpack(min_hex, "little")
