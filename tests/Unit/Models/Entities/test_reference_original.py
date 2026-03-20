@@ -47,12 +47,19 @@ min_hex = (
 )
 
 
-def test_pack() -> None:  
+def test_pack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     ref_reg = ReferenceOriginal(MockLibid(), MockRefCntl())
     results = ref_reg.pack('little', cp_name)
     assert results == min_hex
+
+
+def test_unpack() -> None:
+    codepage = 0x04E4
+    cp_name = "cp" + str(codepage)
+    ref = ReferenceOriginal.unpack(min_hex, 'little')
+    assert ref.pack('little', cp_name) == min_hex
 
 
 def test_bad_id():
