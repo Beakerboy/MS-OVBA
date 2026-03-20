@@ -10,6 +10,9 @@ class MockLibid:
     def __str__(self) -> str:
         return (r'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##')
 
+    def unpack(self, data) -> bytes:
+        return MockLibid()
+
 
 class MockRefCntl:
     def pack(self, endien, name) -> bytes:
