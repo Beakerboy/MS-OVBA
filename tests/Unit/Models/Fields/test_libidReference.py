@@ -45,14 +45,11 @@ def test_unpack(data: bytes) -> None:
 
 
 @pytest.mark.parametrize("data", [
-    (br'*\A{00020430-0000-0000-C000-000000000046}'
-     br'#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation'),
-    (br'+\G{00020430-0000-0000-C000-000000000046}'
-     br'#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation'),
-    (br'*\G{00020430-0000-0000-C000-000000000046}'
-     br'#12345.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation'),
-    (br'*\G{00020430-0000-0000-C000-000000000046}'
-     br'#1#0#C:\Windows\System32\stdole2.tlb#OLE Automation')
+    (br'*\A{00000000-0000-0000-0000-000000000000}#2.0#0#C:\#Test'),
+    (br'+\G{00000000-0000-0000-0000-000000000000}#2.0#0#C:\#Test'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}#12345.0#0#C:\#Test'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}#1#0#C:\#Test'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}#2.0#M#C:\#Test')
 ])
 def test_unpack_exception(data) -> None:
     with pytest.raises(Exception):
