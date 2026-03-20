@@ -28,7 +28,7 @@ class MockRefCntl:
         )
 
     @staticmethod
-    def unpack(endien):
+    def unpack(data, endien):
         return MockRefCntl()
 
 
