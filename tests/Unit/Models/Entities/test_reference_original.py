@@ -30,7 +30,7 @@ def test_pack() -> None:
     expected = b'\x33\x00\x08\x00\x00\x00Test#LibTestRef'
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
-    ref_reg = ReferenceOriginal(MockLibid1(), MockRefCntl())
+    ref_reg = ReferenceOriginal(MockLibid(), MockRefCntl())
     results = ref_reg.pack('little', cp_name)
     assert results == expected
 
@@ -50,6 +50,6 @@ def test_bad_id():
     path = 'ms_ovba.Models.Entities.reference_original.LibidReference'
     with mock.patch(path, MockLibid):
         path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
-        with mock.patch(path, MockLibid):
+        with mock.patch(path1, MockLibid):
             with pytest.raises(Exception):
-                ReferenceRegistered.unpack(hex, "little")
+                ReferenceOriginal.unpack(hex, "little")
