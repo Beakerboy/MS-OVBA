@@ -50,7 +50,7 @@ def test_unpack(data: bytes) -> None:
     (b'+\\G{00020430-0000-0000-C000-000000000046}' +
      b'#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation'),
     (b'*\\G{00020430-0000-0000-C000-000000000046}' +
-     b'#123456.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation')  
+     b'#123456.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation')
 ])
 def test_unpack_exception(data) -> None:
     with pytest.raises(Exception):
