@@ -14,6 +14,7 @@ class MockLibid:
 class MockRefCntl:
     def pack(self) -> bytes:
         return b'TestRef'
+
     def unpack(self, endien):
         return MockRefCntl()
 
