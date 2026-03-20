@@ -66,7 +66,7 @@ class LibidReference():
     def unpack(data: bytes):
         data = data.decode('ascii')
         if data.count("#") != 4:
-            raise Exception(Incorrect Number of Tokens")
+            raise Exception("Incorrect Number of Tokens")
         values = data.split("#")
         path = None
         name = None
