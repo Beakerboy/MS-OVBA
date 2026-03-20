@@ -23,7 +23,7 @@ def test_constructor() -> None:
     lib = MockLibid()
     ref = MockRefCntl()
     module = ReferenceOriginal(lib, ref)
-    assert isinstance(module, ReferenceRegistered)
+    assert isinstance(module, ReferenceOriginal)
 
 
 def test_pack() -> None:
