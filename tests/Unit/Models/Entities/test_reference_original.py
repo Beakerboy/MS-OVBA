@@ -5,10 +5,10 @@ from ms_ovba.Models.Entities.reference_original import ReferenceOriginal
 
 class MockLibid:
     def __len__(self) -> int:
-        return 8
+        return 0x33
 
     def __str__(self) -> str:
-        return ("Test#Lib")
+        return (r'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##')
 
 
 class MockRefCntl:
@@ -27,7 +27,9 @@ def test_constructor() -> None:
 
 
 def test_pack() -> None:
-    expected = b'\x33\x00\x08\x00\x00\x00Test#LibTestRef'
+    expected = b'\x33\x00\x08\x00\x00\x00'
+        br''*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+        br'LibTestRef'
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     ref_reg = ReferenceOriginal(MockLibid(), MockRefCntl())
