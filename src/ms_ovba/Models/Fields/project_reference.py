@@ -18,11 +18,11 @@ class ProjectReference():
         self._embedded = embedded
 
     # Dunder Methods
-    def __str__(self) -> str:
+    def __str__(self: T) -> str:
         return self._header() + \
             str(self._project_path)
 
-    def __len__(self) -> int:
+    def __len__(self: T) -> int:
         return len(str(self))
 
     def relative(self: T) -> T:
