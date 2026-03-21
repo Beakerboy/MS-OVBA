@@ -3,13 +3,12 @@ from unittest import mock
 from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 
 
-class MockLibid1:
-    def __len__(self):
-        return 0x005E
-
-    def __str__(self):
-        return ("*\\G{00020430-0000-0000-C000-000000000046}#2.0#0#" +
-                "C:\\Windows\\system32\\stdole2.tlb#OLE Automation")
+mock_libid = mock.MagicMock()
+mock_libid.__len__.return_value = 0x5e
+mock_libid.__str__.return_value = (
+    r"*\G{00020430-0000-0000-C000-000000000046}#2.0#0#"
+    r"C:\Windows\system32\stdole2.tlb#OLE Automation"
+)
 
 
 class MockLibid2:
@@ -21,8 +20,7 @@ class MockLibid2:
 
 
 def test_constructor() -> None:
-    ref = MockLibid1()
-    module = ReferenceRegistered(ref)
+    module = ReferenceRegistered(mock_libid)
     assert isinstance(module, ReferenceRegistered)
 
 
