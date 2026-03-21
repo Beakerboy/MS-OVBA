@@ -10,7 +10,7 @@ def test_vba_project_default() -> None:
     pc = mock.PropertyMock(return_value=b'')
     type(mock_vbaproject).performance_cache_version = pcv
     type(mock_vbaproject).performance_cache = pc
-    vba_project_view = ProjectView(vba_project)
+    vba_project_view = ProjectView(mock_vbaproject)
     expected = b'\xCC\x61\xFF\xFF\x00\x03\x00'
     assert vba_project_view.to_bytes() == expected
 
