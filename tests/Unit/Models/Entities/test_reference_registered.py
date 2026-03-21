@@ -53,8 +53,8 @@ def test_unpack() -> None:
     with mock.patch(path, MockLibid2):
         ref = ReferenceRegistered.unpack(data, "little")
         assert ref.libid.data == (
-            b'*\\G{00020430-0000-0000-C000-000000000046}#2.0#0#' +
-            b'C:\\Windows\\system32\\stdole2.tlb#OLE Automation'
+            br'*\G{00020430-0000-0000-C000-000000000046}#2.0#0#'
+            br'C:\Windows\system32\stdole2.tlb#OLE Automation'
         )
 
 
