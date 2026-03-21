@@ -11,7 +11,7 @@ mock_destring.pack.return_value = (
 )
 
 
-mock_libidext = mock.Mock()
+mock_libidext = mock.MagicMock()
 mock_libidext.__str__.return_value = (
     r"*\G{896C2D83-5466-46ED-8FAE-4C3E4F85E710}#2.0#"
     r"0#C:\Users\jsmith\AppData\Local\Temp\VBE\MSForms.exd#"
