@@ -58,9 +58,9 @@ def test_pack() -> None:
 def test_unpack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
-    path = 'ms_ovba.Models.Entities.reference_original.LibidReference'
-    with mock.patch(path) as mock_class:
-        mock_class.return_value = mock_libid
+    path = 'ms_ovba.Models.Entities.reference_original.LibidReference.unpack'
+    with mock.patch(path) as mock_unpack:
+        mock_unpack.return_value = mock_libid
         path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
         with mock.patch(path1, MockRefCntl):
             ref = ReferenceOriginal.unpack(min_hex, 'little')
