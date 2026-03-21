@@ -1,18 +1,12 @@
 from ms_ovba.Views.project_view import ProjectView
+from unittest import mock
 
 
-class MockVbaProject():
-
-    def __init__(self) -> None:
-        self.endien = 'little'
-        self.performance_cache = b''
-        self.performance_cache_version = 0xFFFF
-
-    def get_performance_cache(self) -> bytes:
-        return self.performance_cache
-
-    def get_performance_cache_version(self):
-        return self.performance_cache_version
+mock_vbaproject = mock.MagicMock()
+pcv = mock.PropertyMock(return_value=0xb5)
+pc = mock.PropertyMock(return_value=b'\x00\x01\x02\x03')
+type(mock_vbaproject).performance_cache_version = pcv
+type(mock_vbaproject).performance_cache = pc
 
 
 def test_vba_project_default() -> None:
@@ -30,6 +24,6 @@ def test_vba_project() -> None:
     vba_project.performance_cache = b'\x00\x01\x02\x03'
     vba_project.performance_cache_version = 0x00B5
 
-    vba_project_view = ProjectView(vba_project)
+    vba_project_view = ProjectView(mock_vbaproject)
     expected = b'\xCC\x61\xB5\x00\x00\x03\x00\x00\x01\x02\x03'
     assert vba_project_view.to_bytes() == expected
