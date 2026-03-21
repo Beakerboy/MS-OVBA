@@ -67,7 +67,5 @@ def test_bad_id() -> None:
            "64 6F 6C 65 32 2E 74 6C 62 23 4F 4C 45 20 41 75",
            "74 6F 6D 61 74 69 6F 6E 00 00 00 00 00 00")
     data = bytes.fromhex(" ".join(hex))
-    path = 'ms_ovba.Models.Entities.reference_registered.LibidReference'
-    with mock.patch(path, MockLibid2):
-        with pytest.raises(Exception):
-            ReferenceRegistered.unpack(data, "little")
+    with pytest.raises(Exception):
+        ReferenceRegistered.unpack(data, "little")
