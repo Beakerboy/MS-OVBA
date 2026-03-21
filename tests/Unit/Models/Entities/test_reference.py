@@ -2,14 +2,12 @@ from ms_ovba.Models.Entities.reference import Reference
 from unittest import mock
 
 
-class MockDEString:
-    def __init__(self, foo, bar) -> None:
-        pass
-
-    def pack(self, one, two) -> bytes:
-        return (b'\x16\x00\x0B\x00\x00\x00VBAProject1' +
-                b'\x3E\x00\x16\x00\x00\x00V\x00B\x00A\x00P\x00r' +
-                b'\x00o\x00j\x00e\x00c\x00t\x001\x00')
+mock_destring = mock.Mock()
+mock_destring.pack.return_value = (
+    b'\x16\x00\x0B\x00\x00\x00VBAProject1' +
+    b'\x3E\x00\x16\x00\x00\x00V\x00B\x00A\x00P\x00r' +
+    b'\x00o\x00j\x00e\x00c\x00t\x001\x00'
+)
 
 
 class MockRefProj:
@@ -49,6 +47,6 @@ def test_pack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     path = 'ms_ovba.Models.Entities.reference.DoubleEncodedString'
-    with mock.patch(path, MockDEString):
+    with mock.patch(path, mock_destring):
         results = ref.pack('little', cp_name)
         assert results == expected
