@@ -62,7 +62,7 @@ def test_unpack() -> None:
             assert ref.pack('little', cp_name) == min_hex
 
 
-def test_bad_id():
+def test_bad_id() -> None:
     min_hex = (
         b'4\x001\x00\x00\x00'
         br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
