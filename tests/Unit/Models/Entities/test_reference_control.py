@@ -19,9 +19,10 @@ mock_libidext.__str__.return_value = (
 )
 
 
-class MockLibIdTwid:
-    def __str__(self):
-        return "*\\G{00000000-0000-0000-0000-000000000000}#0.0#0##"
+mock_libidtwid = mock.MagicMock()
+mock_libidtwid.__str__.return_value = (
+    r"*\G{00000000-0000-0000-0000-000000000000}#0.0#0##"
+)
 
 
 guid = uuid.UUID('E12E450D8FE01A10852E02608C4D0BB4')
@@ -51,9 +52,8 @@ example = bytes.fromhex(" ".join(example_hex))
 
 
 def test_constructor() -> None:
-    ref1 = MockLibIdTwid()
     cookie = 2
-    ref = ReferenceControl(ref1, mock_libidext, guid, cookie)
+    ref = ReferenceControl(mock_libidtwid, mock_libidext, guid, cookie)
     assert isinstance(ref, ReferenceControl)
 
 
@@ -67,8 +67,7 @@ def test_constructor1() -> None:
 
 
 def test_pack() -> None:
-    ref_twid = MockLibIdTwid()
-    ref = ReferenceControl(ref_twid, mock_libidext, guid, 1, "MSForms")
+    ref = ReferenceControl(mock_libidtwid, mock_libidext, guid, 1, "MSForms")
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     path = 'ms_ovba.Models.Entities.reference.DoubleEncodedString'
