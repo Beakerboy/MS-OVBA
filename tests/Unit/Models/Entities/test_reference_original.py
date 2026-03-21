@@ -57,7 +57,7 @@ def test_unpack() -> None:
         mock_unpack.return_value = mock_libid
         path1 = base_path + 'ReferenceControl.unpack'
         with mock.patch(path1) as mock_ctrl_unpack:
-            mock_ctrl_unpack.return_value = mock_refctrl
+            mock_ctrl_unpack.return_value = mock_refcntl
             ref = ReferenceOriginal.unpack(min_hex, 'little')
             assert ref.pack('little', cp_name) == min_hex
 
