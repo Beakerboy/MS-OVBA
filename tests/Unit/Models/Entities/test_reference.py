@@ -10,12 +10,13 @@ mock_destring.pack.return_value = (
 )
 
 
-class MockRefProj:
-    def pack(self, foo, bar) -> bytes:
-        return (b'\x0e\x00^\x00\x00\x000\x00\x00\x00' +
-                b'*\\CC:\\Example Path\\Example-ReferencedProject.xls ' +
-                b'\x00\x00\x00*\\CExample-ReferencedProject.xls' +
-                b'W\x02\xbee\x17\x00')
+mock_refproj = mock.Mock()
+mock_refproj.pack.return_value = (
+    b'\x0e\x00^\x00\x00\x000\x00\x00\x00' +
+    b'*\\CC:\\Example Path\\Example-ReferencedProject.xls ' +
+    b'\x00\x00\x00*\\CExample-ReferencedProject.xls' +
+    b'W\x02\xbee\x17\x00'
+)
 
 
 def test_constructor1() -> None:
@@ -30,8 +31,7 @@ def test_constructor2() -> None:
 
 
 def test_pack() -> None:
-    ref_proj = MockRefProj()
-    ref = Reference(ref_proj, "VBAProject1")
+    ref = Reference(mock_refproj, "VBAProject1")
 
     expected_hex = ("16 00 0B 00 00 00 56 42 41 50 72 6F 6A 65 63 74",
                     "31 3E 00 16 00 00 00 56 00 42 00 41 00 50 00 72",
