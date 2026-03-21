@@ -20,10 +20,6 @@ def test_vba_project() -> None:
     """
     Demonstrate the effect of performance cache on the project
     """
-    vba_project = MockVbaProject()
-    vba_project.performance_cache = b'\x00\x01\x02\x03'
-    vba_project.performance_cache_version = 0x00B5
-
     vba_project_view = ProjectView(mock_vbaproject)
     expected = b'\xCC\x61\xB5\x00\x00\x03\x00\x00\x01\x02\x03'
     assert vba_project_view.to_bytes() == expected
