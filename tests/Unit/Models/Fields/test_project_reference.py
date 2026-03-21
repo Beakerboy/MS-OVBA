@@ -30,7 +30,7 @@ def test_len() -> None:
         "*\\B/Example Path/Example-ReferencedProject.xls"
     )
 ])
-def test_str(data, embedded, expected) -> None:
+def test_str(data: str, embedded: bool, expected: str) -> None:
     ref = ProjectReference(data, embedded)
     assert str(ref) == expected
 
