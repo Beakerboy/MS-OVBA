@@ -8,13 +8,13 @@ def test_string() -> None:
     assert field.pack("little") == expected
 
 
-def test_H():
+def test_H() -> None:
     field = IdSizeField(1, 2, 3)
     expected = b'\x01\x00\x02\x00\x00\x00\x03\x00'
     assert field.pack("little") == expected
 
 
-def test_I():
+def test_I() -> None:
     field = IdSizeField(1, 4, 3)
     expected = b'\x01\x00\x04\x00\x00\x00\x03\x00\x00\x00'
     assert field.pack("little") == expected
