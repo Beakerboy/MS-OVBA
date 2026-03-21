@@ -14,7 +14,7 @@ mock_proj.__len__.return_value = 0x30
 mock_proj.__str__.return_value = (
     r"*\CC:\Example Path\Example-ReferencedProject.xls"
 )
-mock_proj.relative.return_value =mock_proj1
+mock_proj.relative.return_value = mock_proj1
 
 
 def test_constructor() -> None:
