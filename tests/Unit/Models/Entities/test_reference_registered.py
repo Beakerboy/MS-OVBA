@@ -13,7 +13,7 @@ mock_libid.__str__.return_value = (
 
 class MockLibid2:
     @staticmethod
-    def unpack(data):
+    def unpack(data: bytes) -> T
         lib = MockLibid2()
         lib.data = data
         return lib
