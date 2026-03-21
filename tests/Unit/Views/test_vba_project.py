@@ -3,6 +3,7 @@ from unittest import mock
 
 
 mock_vbaproject = mock.Mock()
+mock_vbaproject.endien = 'little'
 
 
 def test_vba_project_default() -> None:
