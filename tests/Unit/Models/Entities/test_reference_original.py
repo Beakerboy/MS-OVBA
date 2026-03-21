@@ -79,9 +79,5 @@ def test_bad_id():
         b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
         b'\x01\x00\x00\x00'
     )
-    path = 'ms_ovba.Models.Entities.reference_original.LibidReference'
-    with mock.patch(path, MockLibid):
-        path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
-        with mock.patch(path1, MockRefCntl):
-            with pytest.raises(Exception):
-                ReferenceOriginal.unpack(min_hex, "little")
+    with pytest.raises(Exception):
+        ReferenceOriginal.unpack(min_hex, "little")
