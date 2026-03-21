@@ -2,7 +2,7 @@ from ms_ovba.Views.project_view import ProjectView
 from unittest import mock
 
 
-mock_vbaproject = mock.MagicMock()
+mock_vbaproject = mock.Mock()
 
 
 def test_vba_project_default() -> None:
