@@ -19,30 +19,30 @@ class NotSoRandom():
 
 
 class Obj:
-    def __init__(self, name) -> None:
+    def __init__(self: T, name: str) -> None:
         self.value = name
 
 
 class Mod:
-    def __init__(self, name) -> None:
+    def __init__(self: T, name: str) -> None:
         self.modName = Obj(name)
         self.workspace = [0, 0, 0, 0, 'C']
 
-    def to_project_module_string(self):
+    def to_project_module_string(self: T) -> str:
         return "Document" + "=" + self.modName.value + "/&H00000000"
 
 
 class Mod1:
-    def __init__(self, name) -> None:
+    def __init__(self: T, name: str) -> None:
         self.modName = Obj(name)
         self.workspace = [26, 26, 1349, 522, 'Z']
 
-    def to_project_module_string(self):
+    def to_project_module_string(self: T):
         return "Module=Module1"
 
 
 class MockVbaProject:
-    def __init__(self) -> None:
+    def __init__(self: T) -> None:
         mod1 = Mod1("Module1")
         self.modules = [Mod("ThisWorkbook"),
                         Mod("Sheet1"), mod1]
