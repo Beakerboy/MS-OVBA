@@ -8,7 +8,7 @@ mock_libid.__len__.return_value = 0x31
 mock_libid.__str__.return_value = (
     r'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
 )
-mock_libid.unpack.return_value = mock_libid
+
 
 
 class MockRefCntl:
