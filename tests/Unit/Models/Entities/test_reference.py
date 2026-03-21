@@ -47,6 +47,7 @@ def test_pack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     path = 'ms_ovba.Models.Entities.reference.DoubleEncodedString'
-    with mock.patch(path, mock_destring):
+    with mock.patch(path) as mock_class:
+        mock_class.return_value = mock_destring
         results = ref.pack('little', cp_name)
         assert results == expected
