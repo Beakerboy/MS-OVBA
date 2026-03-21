@@ -37,7 +37,7 @@ class Mod1:
         self.modName = Obj(name)
         self.workspace = [26, 26, 1349, 522, 'Z']
 
-    def to_project_module_string(self: T):
+    def to_project_module_string(self: T) -> str:
         return "Module=Module1"
 
 
