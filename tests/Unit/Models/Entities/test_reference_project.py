@@ -1,10 +1,5 @@
+from unittest import mock
 from ms_ovba.Models.Entities.reference_project import ReferenceProject
-
-
-def test_constructor() -> None:
-    ref = MockProjectReference()
-    module = ReferenceProject(ref)
-    assert isinstance(module, ReferenceProject)
 
 
 mock_proj1 = mock.MagicMock()
@@ -20,6 +15,11 @@ mock_proj.__str__.return_value = (
     r"*\CC:\Example Path\Example-ReferencedProject.xls"
 )
 mock_proj.relative.return_value =mock_proj1
+
+
+def test_constructor() -> None:
+    module = ReferenceProject(mock_proj)
+    assert isinstance(module, ReferenceProject)
 
 
 def test_pack() -> None:
