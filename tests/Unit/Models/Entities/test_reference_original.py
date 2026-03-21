@@ -3,16 +3,12 @@ from unittest import mock
 from ms_ovba.Models.Entities.reference_original import ReferenceOriginal
 
 
-class MockLibid:
-    def __len__(self) -> int:
-        return 0x31
-
-    def __str__(self) -> str:
-        return (r'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##')
-
-    @staticmethod
-    def unpack(data):
-        return MockLibid()
+mock_libid = mock.MagicMock()
+mock_libid.__len__.return_value = 0x31
+mock_libid.__str__.return_value = (
+    r'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+)
+mock_libid.unpack.return_value = mock_libid
 
 
 class MockRefCntl:
@@ -33,9 +29,8 @@ class MockRefCntl:
 
 
 def test_constructor() -> None:
-    lib = MockLibid()
     ref = MockRefCntl()
-    module = ReferenceOriginal(lib, ref)
+    module = ReferenceOriginal(mock_libid, ref)
     assert isinstance(module, ReferenceOriginal)
 
 
@@ -55,7 +50,7 @@ min_hex = (
 def test_pack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
-    ref_reg = ReferenceOriginal(MockLibid(), MockRefCntl())
+    ref_reg = ReferenceOriginal(mock_libid, MockRefCntl())
     results = ref_reg.pack('little', cp_name)
     assert results == min_hex
 
@@ -64,7 +59,8 @@ def test_unpack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     path = 'ms_ovba.Models.Entities.reference_original.LibidReference'
-    with mock.patch(path, MockLibid):
+    with mock.patch(path) as mock_class:
+        mock_class.return_value = mock_libid
         path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
         with mock.patch(path1, MockRefCntl):
             ref = ReferenceOriginal.unpack(min_hex, 'little')
