@@ -10,27 +10,20 @@ mock_libid.__str__.return_value = (
 )
 
 
-
-class MockRefCntl:
-    def pack(self, endien, name) -> bytes:
-        return (
-            b'/\x00;\x00\x00\x001\x00\x00\x00'
-            br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
-            b'\x00\x00\x00\x00\x00\x000\x00O\x00\x00\x001\x00\x00\x00'
-            br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
-            b'\x00\x00\x00\x00\x00\x00'
-            b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-            b'\x01\x00\x00\x00'
-        )
-
-    @staticmethod
-    def unpack(data, endien):
-        return MockRefCntl()
+mock_refcntl = mock.Mock()
+mock_refcntl.pack.return_value = (
+    b'/\x00;\x00\x00\x001\x00\x00\x00'
+    br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+    b'\x00\x00\x00\x00\x00\x000\x00O\x00\x00\x001\x00\x00\x00'
+    br'*\G{00000000-0000-0000-0000-000000000000}#0.0#0##'
+    b'\x00\x00\x00\x00\x00\x00'
+    b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+    b'\x01\x00\x00\x00'
+)
 
 
 def test_constructor() -> None:
-    ref = MockRefCntl()
-    module = ReferenceOriginal(mock_libid, ref)
+    module = ReferenceOriginal(mock_libid, mock_refcntl)
     assert isinstance(module, ReferenceOriginal)
 
 
@@ -50,7 +43,7 @@ min_hex = (
 def test_pack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
-    ref_reg = ReferenceOriginal(mock_libid, MockRefCntl())
+    ref_reg = ReferenceOriginal(mock_libid, mock_refcntl)
     results = ref_reg.pack('little', cp_name)
     assert results == min_hex
 
@@ -58,11 +51,13 @@ def test_pack() -> None:
 def test_unpack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
-    path = 'ms_ovba.Models.Entities.reference_original.LibidReference.unpack'
+    base_path = 'ms_ovba.Models.Entities.reference_original.'
+    path = base_path + 'LibidReference.unpack'
     with mock.patch(path) as mock_unpack:
         mock_unpack.return_value = mock_libid
-        path1 = 'ms_ovba.Models.Entities.reference_original.ReferenceControl'
-        with mock.patch(path1, MockRefCntl):
+        path1 = base_path + 'ReferenceControl.unpack'
+        with mock.patch(path1) as mock_ctrl_unpack:
+            mock_ctrl_unpack.return_value = mock_refctrl
             ref = ReferenceOriginal.unpack(min_hex, 'little')
             assert ref.pack('little', cp_name) == min_hex
 
