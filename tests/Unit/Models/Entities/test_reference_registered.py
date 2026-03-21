@@ -40,7 +40,7 @@ def test_pack() -> None:
     assert results == expected
 
 
-def test_unpack():
+def test_unpack() -> None:
     hex = ("0D 00 68 00 00 00 5E 00 00 00 2A 5C 47 7B 30 30",
            "30 32 30 34 33 30 2D 30 30 30 30 2D 30 30 30 30",
            "2D 43 30 30 30 2D 30 30 30 30 30 30 30 30 30 30",
@@ -58,7 +58,7 @@ def test_unpack():
         )
 
 
-def test_bad_id():
+def test_bad_id() -> None:
     hex = ("0C 00 68 00 00 00 5E 00 00 00 2A 5C 47 7B 30 30",
            "30 32 30 34 33 30 2D 30 30 30 30 2D 30 30 30 30",
            "2D 43 30 30 30 2D 30 30 30 30 30 30 30 30 30 30",
