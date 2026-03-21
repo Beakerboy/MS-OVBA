@@ -10,7 +10,7 @@ mock_destring.pack.return_value = (
 )
 
 
-mock_refproj = mock.MagicMock()
+mock_refproj = mock.Mock()
 mock_refproj.pack.return_value = (
     b'\x0e\x00^\x00\x00\x000\x00\x00\x00' +
     b'*\\CC:\\Example Path\\Example-ReferencedProject.xls ' +
