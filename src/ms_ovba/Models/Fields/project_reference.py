@@ -1,4 +1,5 @@
-from typing import Self, TypeVar
+from __future__ import annotations
+from typing import TypeVar
 
 
 T = TypeVar('T', bound='ProjectReference')
@@ -25,7 +26,7 @@ class ProjectReference():
     def __len__(self: T) -> int:
         return len(str(self))
 
-    def relative(self: T) -> Self:
+    def relative(self: T) -> ProjectReference:
         """
         Strip off the path and just return the file.
         """
