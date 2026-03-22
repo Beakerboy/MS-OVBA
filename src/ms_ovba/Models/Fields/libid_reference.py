@@ -69,8 +69,8 @@ class LibidReference():
         if data.count("#") != 4:
             raise Exception("Incorrect Number of Tokens")
         values = data.split("#")
-        path = None
-        name = None
+        path = ""
+        name = ""
         # Need to test if name is given but path is not
         if len(values) >= 3:
             guid_str = values[0]
