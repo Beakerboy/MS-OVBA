@@ -8,6 +8,9 @@ T = TypeVar('T', bound='ReferenceRecord')
 
 class ReferenceRecord:
 
+    def pack(self: T, endien: str, cp_name: str) -> bytes:
+        pass
+
     @staticmethod
     def unpack(bytestring: bytes, endien: str) -> ReferenceRecord:
         from ms_ovba.Models.Entities.reference_control import ReferenceControl
