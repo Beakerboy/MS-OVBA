@@ -24,7 +24,7 @@ class VbaProject:
         self._performance_cache_version = 0xFFFF
 
         # Lists
-        self.directories: list[] = []
+        # self.directories: list[] = []
         self.references: list[Reference] = []
         self.modules: list[ModuleBase] = []
         self._license_records: list[LicenseInfo] = []
