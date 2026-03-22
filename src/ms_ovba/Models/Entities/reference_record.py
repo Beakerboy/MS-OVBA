@@ -20,6 +20,7 @@ class ReferenceRecord:
         )
         endien_symbol = '<' if endien == 'little' else '>'
         id = struct.unpack(endien_symbol + "H", bytestring)
+        ref: ReferenceRecord
         if id == 0x000D:
             ref = ReferenceRegistered.unpack(bytestring, endien)
         elif id == 0x000E:
