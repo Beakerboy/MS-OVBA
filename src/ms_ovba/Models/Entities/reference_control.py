@@ -1,3 +1,4 @@
+from __future__ import annotations
 import struct
 import uuid
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
@@ -56,7 +57,7 @@ class ReferenceControl(ReferenceRecord):
         )
 
     @staticmethod
-    def unpack(data: bytes, endien: str) -> T:
+    def unpack(data: bytes, endien: str) -> ReferenceControl:
         endien_symbol = '<' if endien == 'little' else '>'
         offset = 0
         id, size_twiddled, size_of_libid_twiddled = (
