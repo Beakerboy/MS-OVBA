@@ -1,3 +1,4 @@
+from __future__ import annotations
 import struct
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.doubleEncodedString import (
@@ -27,14 +28,14 @@ class Reference():
         return name_pack + self._ref.pack(endien, cp_name)
 
     @staticmethod
-    def unpack(data: bytes, endien: str) -> T:
+    def unpack(data: bytes, endien: str) -> Reference:
         endien_symbol = '<' if endien == 'little' else '>'
         name = ''
         offset = 0
         id = struct.unpack_from(endien_symbol + "H", data, offset)
         if id == 0x0016:
             offset += 2
-            size1 = struct.unpack_from(endien_symbol + "I", data, offset)
+            size1, = struct.unpack_from(endien_symbol + "I", data, offset)
             offset += 4
             format = endien_symbol + size1 + "s"
             name = struct.unpack_from(format, data, offset)
