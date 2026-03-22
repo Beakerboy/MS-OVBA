@@ -14,7 +14,7 @@ class Reference():
     2.3.4.2.2.1 REFERENCE Record
     """
     def __init__(self: T, ref: ReferenceRecord,
-                 name: str = None) -> None:
+                 name: str = '') -> None:
         self._ref = ref
         self._refname = name
 
@@ -29,7 +29,7 @@ class Reference():
     @staticmethod
     def unpack(data: bytes, endien: str) -> T:
         endien_symbol = '<' if endien == 'little' else '>'
-        name = None
+        name = ''
         offset = 0
         id = struct.unpack_from(endien_symbol + "H", data, offset)
         if id == 0x0016:
