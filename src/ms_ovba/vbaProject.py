@@ -29,8 +29,8 @@ class VbaProject:
         self.modules: list[ModuleBase] = []
         self._license_records: list[LicenseInfo] = []
 
-        # Attributes  and values
-        self.attributes = {}
+        # Attributes and values
+        self.attributes dict[str, str] = {}
 
         self._project_cookie = 0xFFFF
 
