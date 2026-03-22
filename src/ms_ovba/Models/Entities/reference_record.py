@@ -26,6 +26,5 @@ class ReferenceRecord:
         elif id == 0x0033:
             ref = ReferenceOriginal.unpack(bytestring, endien)
         else:
-            # raise warning
-            return None
+            raise Exception("Unknown Reference Type")
         return ref
