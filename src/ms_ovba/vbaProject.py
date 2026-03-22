@@ -1,4 +1,4 @@
-from ms_ovba.Models.Entities.licence_info import LicenseInfo
+from ms_ovba.Models.Entities.license_info import LicenseInfo
 from ms_ovba.Models.Entities.module_base import ModuleBase
 from ms_ovba.Models.Entities.reference import Reference
 from ms_dtyp.filetime import Filetime
