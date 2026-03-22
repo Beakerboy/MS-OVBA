@@ -35,7 +35,7 @@ class ModuleBase():
         self._guids: list[str] = []
 
     @property
-    def guids(self: T) -> str[]:
+    def guids(self: T) -> list[str]:
         return self._guids
 
     @guids.setter
