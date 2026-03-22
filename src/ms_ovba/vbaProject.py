@@ -1,3 +1,4 @@
+from ms_ovba.Models.Entities.licence_info import LicenseInfo
 from ms_ovba.Models.Entities.module_base import ModuleBase
 from ms_ovba.Models.Entities.reference import Reference
 from ms_dtyp.filetime import Filetime
@@ -26,7 +27,7 @@ class VbaProject:
         self.directories: list[] = []
         self.references: list[Reference] = []
         self.modules: list[ModuleBase] = []
-        self._license_records: list[] = []
+        self._license_records: list[LicenseInfo] = []
 
         # Attributes  and values
         self.attributes = {}
