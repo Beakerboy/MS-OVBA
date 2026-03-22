@@ -32,7 +32,7 @@ class ModuleBase():
         self._size = 0
 
         # GUIDs
-        self._guids: str[] = []
+        self._guids: list[str] = []
 
     @property
     def guids(self: T) -> str[]:
