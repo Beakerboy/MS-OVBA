@@ -1,3 +1,4 @@
+from __future__ import annotations
 import struct
 from typing import TypeVar
 
@@ -8,7 +9,7 @@ T = TypeVar('T', bound='ReferenceRecord')
 class ReferenceRecord:
 
     @staticmethod
-    def unpack(bytestring: bytes, endien: str) -> T:
+    def unpack(bytestring: bytes, endien: str) -> ReferenceRecord:
         from ms_ovba.Models.Entities.reference_control import ReferenceControl
         from ms_ovba.Models.Entities.reference_project import ReferenceProject
         from ms_ovba.Models.Entities.reference_registered import (
