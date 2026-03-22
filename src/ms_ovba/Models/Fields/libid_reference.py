@@ -73,17 +73,17 @@ class LibidReference():
         name = None
         # Need to test if name is given but path is not
         if len(values) >= 3:
-            guid = values[0]
+            guid_str = values[0]
             version = values[1]
             lcid = values[2]
         if len(values) >= 4:
             path = values[3]
         if len(values) == 5:
             name = values[4]
-        prefix = guid[:3]
+        prefix = guid_str[:3]
         if prefix[:2] != "*\\":
             raise Exception("Improper prefix")
-        guid = uuid.UUID(guid[3:])
+        guid = uuid.UUID(guid_str[3:])
         kind = prefix[2:]
         if kind != "G" and kind != "H":
             raise Exception("Unknown Reference Kind")
