@@ -1,3 +1,4 @@
+from __future__ import annotations
 import struct
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.libid_reference import LibidReference
@@ -28,7 +29,7 @@ class ReferenceRegistered(ReferenceRecord):
                            strlen, lib_str, 0, 0)
 
     @staticmethod
-    def unpack(data: bytes, endien: str) -> T:
+    def unpack(data: bytes, endien: str) -> ReferenceRecord:
         endien_symbol = '<' if endien == 'little' else '>'
         offset = 0
         id, = struct.unpack_from(endien_symbol + "H", data, offset)
