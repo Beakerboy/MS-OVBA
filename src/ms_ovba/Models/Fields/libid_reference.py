@@ -64,7 +64,7 @@ class LibidReference():
         return len(str(self))
 
     @staticmethod
-    def unpack(data: bytes) -> T:
+    def unpack(data: bytes) -> LibidReference:
         data = data.decode('ascii')
         if data.count("#") != 4:
             raise Exception("Incorrect Number of Tokens")
