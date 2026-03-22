@@ -25,10 +25,10 @@ class VbaProject:
         self._performance_cache_version = 0xFFFF
 
         # Lists
-        self.directories = []
-        self.references = []
-        self.modules = []
-        self._license_records = []
+        self.directories: list[] = []
+        self.references: list[] = []
+        self.modules: list[] = []
+        self._license_records: list[] = []
 
         # Attributes  and values
         self.attributes = {}
