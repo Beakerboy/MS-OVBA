@@ -19,7 +19,7 @@ class ReferenceControl(ReferenceRecord):
     def __init__(self: T, ref: LibidReference,
                  ref2: LibidReference,
                  guid: uuid.UUID, cookie: int,
-                 name: str = None) -> None:
+                 name: str = '') -> None:
         self._libid_twiddled = ref
         self._libid_extended = ref2
         self._name_record_extended = name
@@ -38,7 +38,7 @@ class ReferenceControl(ReferenceRecord):
         format = (
             endien_symbol + "HII" + str(size_of_libid_twiddled) +
             "sIH")
-        if self._name_record_extended is not None:
+        if self._name_record_extended != '':
             name_de = DoubleEncodedString([0x0016, 0x003E],
                                           self._name_record_extended)
             name_pack = name_de.pack(endien, cp_name)
