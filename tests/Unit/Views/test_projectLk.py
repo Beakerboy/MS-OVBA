@@ -1,19 +1,17 @@
 from ms_ovba.Views.projectLk import ProjectLk
+from unittest import mock
 
 
-class MockVbaProject:
-    def __init__(self) -> None:
-        self._license_records = []
+mock_vbaproject = mock.Mock()
 
 
-class MockLicense:
-    def to_bytes(self) -> bytes:
-        return b'Test'
+mock_license = mock.Mock()
+mock_license.to_bytes.return_value = b'Test'
 
 
 def test_project_lk_empty() -> None:
-    vba_project = MockVbaProject()
-    project_lk = ProjectLk(vba_project)
+    mock_vbaproject._license_records = []
+    project_lk = ProjectLk(mock_vbaproject)
 
     expected = (b'\x01\x00\x00\x00\x00\x00')
     result = project_lk.to_bytes()
@@ -21,10 +19,8 @@ def test_project_lk_empty() -> None:
 
 
 def test_project_lk() -> None:
-    vba_project = MockVbaProject()
-    mock_license = MockLicense()
-    vba_project._license_records = [mock_license]
-    project_lk = ProjectLk(vba_project)
+    mock_vbaproject._license_records = [mock_license]
+    project_lk = ProjectLk(mock_vbaproject)
 
     expected = (b'\x01\x00\x01\x00\x00\x00Test')
     result = project_lk.to_bytes()

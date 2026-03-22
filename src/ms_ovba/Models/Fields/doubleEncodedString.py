@@ -15,7 +15,7 @@ class DoubleEncodedString():
         self._value = text
 
     @property
-    def value(self) -> str:
+    def value(self: T) -> str:
         return self._value
 
     def pack(self: T, endien: str, cp_name: str) -> bytes:

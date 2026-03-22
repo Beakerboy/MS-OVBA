@@ -1,24 +1,19 @@
 from ms_ovba.Views.projectWm import ProjectWm
+from unittest import mock
 
 
-class Obj:
-    def __init__(self, name) -> None:
-        self.value = name
-
-
-class Mod:
-    def __init__(self, name) -> None:
-        self.modName = Obj(name)
-
-
-class MockVbaProject:
-    def __init__(self) -> None:
-        self.modules = [Mod("ThisWorkbook"), Mod("Sheet1"), Mod("Module1")]
+mock_obj1 = mock.Mock()
+mock_obj1.modName.value = "ThisWorkbook"
+mock_obj2 = mock.Mock()
+mock_obj2.modName.value = "Sheet1"
+mock_obj3 = mock.Mock()
+mock_obj3.modName.value = "Module1"
+mock_vbaproject = mock.Mock()
+mock_vbaproject.modules = [mock_obj1, mock_obj2, mock_obj3]
 
 
 def test_project_wm() -> None:
-    vba_project = MockVbaProject()
-    project_wm = ProjectWm(vba_project)
+    project_wm = ProjectWm(mock_vbaproject)
 
     expected = (b'ThisWorkbook\x00T\x00h\x00i\x00s\x00W\x00o\x00r\x00k\x00b'
                 + b'\x00o\x00o\x00k\x00\x00\x00Sheet1\x00S\x00h\x00e\x00e\x00'

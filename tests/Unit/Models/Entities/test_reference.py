@@ -2,22 +2,21 @@ from ms_ovba.Models.Entities.reference import Reference
 from unittest import mock
 
 
-class MockDEString:
-    def __init__(self, foo, bar) -> None:
-        pass
-
-    def pack(self, one, two) -> bytes:
-        return (b'\x16\x00\x0B\x00\x00\x00VBAProject1' +
-                b'\x3E\x00\x16\x00\x00\x00V\x00B\x00A\x00P\x00r' +
-                b'\x00o\x00j\x00e\x00c\x00t\x001\x00')
+mock_destring = mock.Mock()
+mock_destring.pack.return_value = (
+    b'\x16\x00\x0B\x00\x00\x00VBAProject1' +
+    b'\x3E\x00\x16\x00\x00\x00V\x00B\x00A\x00P\x00r' +
+    b'\x00o\x00j\x00e\x00c\x00t\x001\x00'
+)
 
 
-class MockRefProj:
-    def pack(self, foo, bar) -> bytes:
-        return (b'\x0e\x00^\x00\x00\x000\x00\x00\x00' +
-                b'*\\CC:\\Example Path\\Example-ReferencedProject.xls ' +
-                b'\x00\x00\x00*\\CExample-ReferencedProject.xls' +
-                b'W\x02\xbee\x17\x00')
+mock_refproj = mock.Mock()
+mock_refproj.pack.return_value = (
+    b'\x0e\x00^\x00\x00\x000\x00\x00\x00' +
+    b'*\\CC:\\Example Path\\Example-ReferencedProject.xls ' +
+    b'\x00\x00\x00*\\CExample-ReferencedProject.xls' +
+    b'W\x02\xbee\x17\x00'
+)
 
 
 def test_constructor1() -> None:
@@ -32,8 +31,7 @@ def test_constructor2() -> None:
 
 
 def test_pack() -> None:
-    ref_proj = MockRefProj()
-    ref = Reference(ref_proj, "VBAProject1")
+    ref = Reference(mock_refproj, "VBAProject1")
 
     expected_hex = ("16 00 0B 00 00 00 56 42 41 50 72 6F 6A 65 63 74",
                     "31 3E 00 16 00 00 00 56 00 42 00 41 00 50 00 72",
@@ -49,6 +47,7 @@ def test_pack() -> None:
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
     path = 'ms_ovba.Models.Entities.reference.DoubleEncodedString'
-    with mock.patch(path, MockDEString):
+    with mock.patch(path) as mock_class:
+        mock_class.return_value = mock_destring
         results = ref.pack('little', cp_name)
         assert results == expected

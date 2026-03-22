@@ -226,7 +226,7 @@ def test_full_file() -> None:
     assert given == expected
 
 
-def create_cache(proj_cookie: int, modules) -> bytes:
+def create_cache(proj_cookie: int, modules: list) -> bytes:
     cache = ProjectCache(0x04E4, proj_cookie, 0x65BE0257)
     cache._hex = 0x65BE0257
     module_array = []

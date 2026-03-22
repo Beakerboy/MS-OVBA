@@ -15,7 +15,8 @@ from ms_ovba.Models.Fields.libid_reference import LibidReference
         ('00000000000000000000000000000000', "2.0", "0", "", "",
          r"*\G{00000000-0000-0000-0000-000000000000}#2.0#0##")
     ])
-def test_str(guid, ver, lib, path, name, expected) -> None:
+def test_str(guid: str, ver: str, lib: str,
+             path: str, name: str, expected: str) -> None:
     guid = uuid.UUID(guid)
     libid_ref = LibidReference(guid, ver, lib, path, name)
     assert str(libid_ref) == expected
@@ -66,6 +67,6 @@ def test_unpack(data: bytes) -> None:
     (br'*\G{00000000-0000-0000-0000-000000000000}#1#0#'),
     (br'*\G{00000000-0000-0000-0000-000000000000}##0.0#1#Test'),
 ])
-def test_unpack_exception(data) -> None:
+def test_unpack_exception(data: bytes) -> None:
     with pytest.raises(Exception):
         LibidReference.unpack(data)

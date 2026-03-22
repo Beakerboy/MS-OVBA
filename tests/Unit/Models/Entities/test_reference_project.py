@@ -1,34 +1,28 @@
+from unittest import mock
 from ms_ovba.Models.Entities.reference_project import ReferenceProject
 
 
+mock_proj1 = mock.MagicMock()
+mock_proj1.__len__.return_value = 0x20
+mock_proj1.__str__.return_value = (
+    r"*\CExample-ReferencedProject.xls"
+)
+
+
+mock_proj = mock.MagicMock()
+mock_proj.__len__.return_value = 0x30
+mock_proj.__str__.return_value = (
+    r"*\CC:\Example Path\Example-ReferencedProject.xls"
+)
+mock_proj.relative.return_value = mock_proj1
+
+
 def test_constructor() -> None:
-    ref = MockProjectReference()
-    module = ReferenceProject(ref)
+    module = ReferenceProject(mock_proj)
     assert isinstance(module, ReferenceProject)
 
 
-class MockProjectReference2:
-    def __len__(self):
-        return 0x0020
-
-    def __str__(self):
-        return "*\\CExample-ReferencedProject.xls"
-
-
-class MockProjectReference:
-    def __len__(self):
-        return 0x0030
-
-    def __str__(self):
-        return "*\\CC:\\Example Path\\Example-ReferencedProject.xls"
-
-    def relative(self):
-        return MockProjectReference2()
-
-
 def test_pack() -> None:
-    ref = MockProjectReference()
-
     expected_hex = ("0E 00 5E 00 00 00 30 00 00 00 2A 5C 43 43 3A 5C",
                     "45 78 61 6D 70 6C 65 20 50 61 74 68 5C 45 78 61",
                     "6D 70 6C 65 2D 52 65 66 65 72 65 6E 63 65 64 50",
@@ -39,6 +33,6 @@ def test_pack() -> None:
     expected = bytes.fromhex(" ".join(expected_hex))
     codepage = 0x04E4
     cp_name = "cp" + str(codepage)
-    ref_proj = ReferenceProject(ref)
+    ref_proj = ReferenceProject(mock_proj)
     results = ref_proj.pack('little', cp_name)
     assert results == expected

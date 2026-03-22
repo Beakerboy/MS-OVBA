@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import TypeVar
 
 
@@ -18,14 +19,14 @@ class ProjectReference():
         self._embedded = embedded
 
     # Dunder Methods
-    def __str__(self) -> str:
+    def __str__(self: T) -> str:
         return self._header() + \
             str(self._project_path)
 
-    def __len__(self) -> int:
+    def __len__(self: T) -> int:
         return len(str(self))
 
-    def relative(self: T) -> T:
+    def relative(self: T) -> ProjectReference:
         """
         Strip off the path and just return the file.
         """
