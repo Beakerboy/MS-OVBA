@@ -96,7 +96,7 @@ class ReferenceControl(ReferenceRecord):
             id, = struct.unpack_from(endien_symbol + "H", data, offset)
             offset += 2
         else:
-            name = None
+            name = ''
         if id != 0x30:
             # Unknown Data
             pass
