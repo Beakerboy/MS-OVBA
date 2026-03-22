@@ -1,3 +1,4 @@
+from __future__ import annotations
 import struct
 from ms_ovba.Models.Entities.reference_control import ReferenceControl
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
@@ -28,7 +29,7 @@ class ReferenceOriginal(ReferenceRecord):
         return struct.pack(format, 0x0033, strlen) + lib_str + ref_str
 
     @staticmethod
-    def unpack(data: bytes, endien: str) -> T:
+    def unpack(data: bytes, endien: str) -> ReferenceOriginal:
         endien_symbol = '<' if endien == 'little' else '>'
         offset = 0
         id, = struct.unpack_from(endien_symbol + "H", data, offset)
