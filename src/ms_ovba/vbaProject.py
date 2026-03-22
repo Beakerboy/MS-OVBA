@@ -1,4 +1,5 @@
 from ms_ovba.Models.Entities.module_base import ModuleBase
+from ms_ovba.Models.Entities.reference import Reference
 from ms_ovba.Models.Entities.reference_registered import (
     ReferenceRegistered
 )
@@ -26,7 +27,7 @@ class VbaProject:
 
         # Lists
         self.directories: list[] = []
-        self.references: list[] = []
+        self.references: list[Reference] = []
         self.modules: list[] = []
         self._license_records: list[] = []
 
