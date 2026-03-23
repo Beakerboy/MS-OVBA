@@ -34,14 +34,12 @@ def main() -> None:
     base_path = os.path.dirname(__file__)
     module.add_file(base_path + '/blank_files/Sheet1.cls')
     module.normalize_file()
-    guid = uuid.UUID("0002082000000000C000000000000046")
-    module.add_guid(guid)
+    module.add_guid("0002082000000000C000000000000046")
     project.add_module(module)
     module = DocModule('ThisWorkbook')
     module.add_file(base_path + '/blank_files/ThisWorkbook.cls')
     module.normalize_file()
-    guid = uuid.UUID("0002081900000000C000000000000046")
-    module.set_guid(guid)
+    module.add_guid("0002081900000000C000000000000046")
     project.add_module(module)
     project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
     # add the files
