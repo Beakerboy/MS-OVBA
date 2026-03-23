@@ -1,5 +1,5 @@
 import binascii
-import ms_ovba_crypto.ms_ovba_crypto as ms_ovba_crypto
+import ms_ovba_crypto.ms_ovba_crypto as crypto
 from ms_ovba.vbaProject import VbaProject
 from typing import TypeVar
 
@@ -36,9 +36,9 @@ class Project:
         result += ['Name="VBAProject"']
         for name, value in self.attributes.items():
             result += [f'{name}="{value}"']
-        cmg = ms_ovba_crypto.encrypt(project_id, project.protection_state)
-        dpb = ms_ovba_crypto.encrypt(project_id, project.password)
-        gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
+        cmg = crypto.encrypt(project_id, project.protection_state)
+        dpb = crypto.encrypt(project_id, project.password)
+        gc = crypto.encrypt(project_id, project.visibility_state)
         result += [f'CMG="{binascii.hexlify(cmg).upper().decode("ascii")}"']
         result += [f'DPB="{binascii.hexlify(dpb).upper().decode("ascii")}"']
         result += [f'GC="{binascii.hexlify(gc).upper().decode("ascii")}"']
