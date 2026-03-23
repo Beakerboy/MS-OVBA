@@ -52,8 +52,6 @@ def main() -> None:
         code.add_file(file_path)
         code.normalize_file()
         project.add_module(code)
-    codepage = 0x04E4
-    codepage_name = "cp" + str(codepage)
     libid_ref = LibidReference(
         uuid.UUID("0002043000000000C000000000000046"),
         "2.0",
