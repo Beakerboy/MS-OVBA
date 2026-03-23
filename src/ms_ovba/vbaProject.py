@@ -17,7 +17,7 @@ class VbaProject:
         # Protected Instance Attributes
         self._codepage_name = 'cp1252'
         self._project_id = '{}'
-        self._protection_state = b'\x00\x00\x00\x00'
+        self._protection_state = 0
         self._password = b'\x00'
         self._visibility_state = b'\xFF'
         self._performance_cache = b''
@@ -57,11 +57,7 @@ class VbaProject:
 
     @property
     def protection_state(self: T) -> bytes:
-        return self._protection_state
-
-    @protection_state.setter
-    def protection_state(self: T, state: bytes) -> None:
-        self._protection_state = state
+        return bytes(self._protection_state) + b'\x00' * 3
 
     @property
     def visibility_state(self: T) -> bytes:
@@ -145,3 +141,21 @@ class VbaProject:
 
     def make_invisible(self: T) -> None:
         self._visibility_state = b'\x00'
+
+    def user_protect(self: T) -> None:
+        self._protection_state = self._protection_state | 128
+
+    def user_unprotect(self: T) -> None:
+        self._protection_state = self._protection_state & 127
+
+    def host_protect(self: T) -> None:
+        self._protection_state = self._protection_state | 64
+
+    def host_unprotect(self: T) -> None:
+        self._protection_state = self._protection_state & 191
+    
+    def vbe_protect(self: T) -> None:
+        self._protection_state = self._protection_state | 32
+
+    def vbe_unprotect(self: T) -> None:
+        self._protection_state = self._protection_state & 223
