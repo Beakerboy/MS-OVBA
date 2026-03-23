@@ -6,8 +6,9 @@ from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Models.Entities.doc_module import DocModule
 from ms_ovba.Models.Entities.std_module import StdModule
 from ms_ovba.Views.project_ole_file import ProjectOleFile
-from ms_ovba.Models.Entities.reference_record import (
-    ReferenceRecord
+from ms_ovba.Models.Entities.reference import Reference
+from ms_ovba.Models.Entities.reference_registered import (
+    ReferenceRegistered
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 
@@ -60,7 +61,7 @@ def main() -> None:
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     )
-    ole_reference = ReferenceRecord("stdole", libid_ref)
+    ole_reference = ReferenceRegistered("stdole", libid_ref)
     libid_ref2 = LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
@@ -68,9 +69,9 @@ def main() -> None:
         r"C:\Program Files\Common Files\Microsoft Shared\OFFICE16\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
     )
-    office_reference = ReferenceRecord("Office", libid_ref2)
-    project.add_reference(ole_reference)
-    project.add_reference(office_reference)
+    office_reference = ReferenceRegistered("Office", libid_ref2)
+    project.add_reference(Reference(ole_reference))
+    project.add_reference(Reference(office_reference))
     ProjectOleFile.write_file(project)
     file = glob.glob('vbaProject.bin')
 
