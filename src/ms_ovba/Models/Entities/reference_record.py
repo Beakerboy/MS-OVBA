@@ -9,7 +9,7 @@ T = TypeVar('T', bound='ReferenceRecord')
 class ReferenceRecord:
 
     def pack(self: T, endien: str, cp_name: str) -> bytes:
-        pass
+        return b''
 
     @staticmethod
     def unpack(bytestring: bytes, endien: str) -> ReferenceRecord:
