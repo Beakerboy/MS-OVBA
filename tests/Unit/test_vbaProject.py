@@ -27,10 +27,16 @@ def test_set_get_invisibility() -> None:
     assert project.visibility_state == b'\x00'
 
 
-def test_set_get_protection() -> None:
+def test_get_protection() -> None:
     project = VbaProject()
-    project.protection_state = 0
-    assert project.protection_state == 0
+    assert project.protection_state == b'\00' * 4
+
+
+def test_get_protection() -> None:
+    project = VbaProject()
+    project.user_protected()
+    expected = b'\x80\x00\x00\x00'
+    assert project.protection_state == expected
 
 
 def test_set_get_password() -> None:
