@@ -29,31 +29,30 @@ class Project:
         # Use \x0D0A line endings.
         eol = "\r\n"
         result = 'ID="{project.project_id}"' + eol
-        modules = project.modules
+        modules = self.project.modules
         for module in modules:
             result += module.to_project_module_string() + eol
         result += 'Name="VBAProject"' + eol
         for key in self.attributes:
             result += '{name}="{value}"' + eol
         cmg = ms_ovba_crypto.encrypt(
-            project_id, project.protection_state
+            project_id, self.project.protection_state
         )
-        dpb = ms_ovba_crypto.encrypt(project_id, project.password)
-        gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
+        dpb = ms_ovba_crypto.encrypt(project_id, self.project.password)
+        gc = ms_ovba_crypto.encrypt(project_id, self.project.visibility_state)
         result += 'CMG="' + binascii.hexlify(cmg).upper() + '"' + eol
         result += 'DPB="' + binascii.hexlify(dpb).upper() + '"' + eol
         result += 'GC="' + binascii.hexlify(gc).upper() + '"' + eol
         result += eol
         result += '[Host Extender Info]' + eol
         result += self.hostExtenderInfo
-        result += eol + eol
+        result += eol * 2
         result += '[Workspace]' + eol
         for module in modules:
             separator = ", "
             result += module.modName.value + '='
             joined = separator.join(map(str, module.workspace))
-            result += joined
-            result += eol
+            result += joined + eol
         return result
 
     def to_bytes(self: T) -> bytes:
