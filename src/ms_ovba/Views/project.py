@@ -52,7 +52,7 @@ class Project:
             joined = module.modName.value + '='
             joined += separator.join(map(str, module.workspace))
             result += [joined]
-        return "\r\n".join(result)
+        return "\r\n".join(result) + "\r\n"
 
     def to_bytes(self: T) -> bytes:
         codepage_name = self.project.codepage_name
