@@ -2,7 +2,7 @@ import pytest
 from ms_ovba.vbaProject import VbaProject
 
 
-project: VbaProject
+project = VbaProject()
 
 
 @pytest.fixture(autouse=True)
