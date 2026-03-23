@@ -19,7 +19,7 @@ class VbaProject:
         self._project_id = '{}'
         # The first byte of the protection byte string
         self._protection_state = 0
-        self._password = b''
+        self._password = ""
         self._visibility_state = b'\xFF'
         self._performance_cache = b''
         self._performance_cache_version = 0xFFFF
@@ -70,7 +70,7 @@ class VbaProject:
         if self._use_pw_hash:
             pass
         else:
-            return self._password + b'\x00'
+            return self._password.encode(self._codepage_name) + b'\x00'
 
     @password.setter
     def password(self: T, value: bytes) -> None:
