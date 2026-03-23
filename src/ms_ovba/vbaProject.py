@@ -56,7 +56,7 @@ class VbaProject:
         self._project_id = id
 
     @property
-    def protection_state(self: T) -> int:
+    def protection_state(self: T) -> bytes:
         return self._protection_state
 
     @protection_state.setter
