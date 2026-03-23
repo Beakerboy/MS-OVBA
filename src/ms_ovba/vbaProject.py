@@ -60,7 +60,7 @@ class VbaProject:
         return self._protection_state
 
     @protection_state.setter
-    def protection_state(self: T, state: int) -> None:
+    def protection_state(self: T, state: bytes) -> None:
         self._protection_state = state
 
     @property
