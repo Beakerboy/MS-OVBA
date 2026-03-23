@@ -44,7 +44,8 @@ class Project:
         result += [f'DPB="{binascii.hexlify(dpb).upper().decode("ascii")}"']
         result += [f'GC="{binascii.hexlify(gc).upper().decode("ascii")}"']
         result += ['']
-        result += ['[Host Extender Info]' + self.hostExtenderInfo]
+        result += ['[Host Extender Info]']
+        result += [self.hostExtenderInfo]
         result += ['']
         result += ['[Workspace]']
         for module in modules:
