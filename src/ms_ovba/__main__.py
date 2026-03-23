@@ -69,7 +69,6 @@ def main() -> None:
     project.add_reference(Reference(ole_reference, "stdole"))
     project.add_reference(Reference(office_reference, "Office"))
     ProjectOleFile.write_file(project)
-    file = glob.glob('vbaProject.bin')
 
 
 if __name__ == '__main__':
