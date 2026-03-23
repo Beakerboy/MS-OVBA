@@ -60,7 +60,7 @@ class Project:
     def to_bytes(self: T) -> bytes:
         codepage_name = self.project.codepage_name
         return bytes(str(self), codepage_name)
-        
+
     def write_file(self: T) -> None:
         bin_f = open("project.bin", "wb")
         bin_f.write(self.to_bytes())
