@@ -60,7 +60,7 @@ def main() -> None:
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     )
-    ole_reference = ReferenceRegistered("stdole", libid_ref)
+    ole_reference = ReferenceRegistered(libid_ref)
     libid_ref2 = LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
@@ -68,9 +68,9 @@ def main() -> None:
         r"C:\Program Files\Common Files\Microsoft Shared\OFFICE16\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
     )
-    office_reference = ReferenceRegistered("Office", libid_ref2)
-    project.add_reference(ole_reference)
-    project.add_reference(office_reference)
+    office_reference = ReferenceRegistered(libid_ref2)
+    project.add_reference(Reference(ole_reference, "stdole"))
+    project.add_reference(Reference(office_reference, "Office"))
     ProjectOleFile.write_file(project)
     file = glob.glob('vbaProject.bin')
 
