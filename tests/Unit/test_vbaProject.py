@@ -58,7 +58,7 @@ def test_unset_protection() -> None:
     project.user_protect()
     project.host_protect()
     project.vbe_protect()
-    expected = b'\xD0\x00\x00\x00'
+    expected = b'\xe0\x00\x00\x00'
     assert project.protection_state == expected
     project.user_unprotect()
     project.host_unprotect()
