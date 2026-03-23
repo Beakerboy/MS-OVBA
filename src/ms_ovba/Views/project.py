@@ -27,19 +27,20 @@ class Project:
 
     def __str__(self: T) -> str:
         # Use \x0D0A line endings.
+        project = self.project
         eol = "\r\n"
         result = 'ID="{project.project_id}"' + eol
-        modules = self.project.modules
+        modules = project.modules
         for module in modules:
             result += module.to_project_module_string() + eol
         result += 'Name="VBAProject"' + eol
         for key in self.attributes:
             result += '{name}="{value}"' + eol
         cmg = ms_ovba_crypto.encrypt(
-            project_id, self.project.protection_state
+            project_id, project.protection_state
         )
-        dpb = ms_ovba_crypto.encrypt(project_id, self.project.password)
-        gc = ms_ovba_crypto.encrypt(project_id, self.project.visibility_state)
+        dpb = ms_ovba_crypto.encrypt(project_id, project.password)
+        gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
         result += 'CMG="' + binascii.hexlify(cmg).upper() + '"' + eol
         result += 'DPB="' + binascii.hexlify(dpb).upper() + '"' + eol
         result += 'GC="' + binascii.hexlify(gc).upper() + '"' + eol
