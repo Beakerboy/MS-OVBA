@@ -1,9 +1,6 @@
 from ms_ovba.Models.Entities.license_info import LicenseInfo
 from ms_ovba.Models.Entities.module_base import ModuleBase
 from ms_ovba.Models.Entities.reference import Reference
-from ms_ovba.Models.Entities.reference_record import (
-    ReferenceRecord
-)
 from ms_dtyp.filetime import Filetime
 from typing import TypeVar
 
@@ -147,8 +144,8 @@ class VbaProject:
     def add_module(self: T, mod: ModuleBase) -> None:
         self.modules.append(mod)
 
-    def add_reference(self: T, ref: ReferenceRecord) -> None:
-        self.references.append(Reference(ref))
+    def add_reference(self: T, ref: Reference) -> None:
+        self.references.append(ref)
 
     def add_attribute(self: T, name: str, value: str) -> None:
         self.attributes[name] = value
