@@ -30,32 +30,31 @@ class Project:
         project = self.project
         project_id = project.project_id
         eol = "\r\n"
-        result = f'ID="{project_id}"' + eol
+        result = [f'ID="{project_id}"']
         modules = project.modules
         for module in modules:
-            result += module.to_project_module_string() + eol
-        result += 'Name="VBAProject"' + eol
+            result += [module.to_project_module_string()]
+        result += ['Name="VBAProject"']
         for key in self.attributes:
-            result += f'{name}="{value}"' + eol
+            result += [f'{name}="{value}"']
         cmg = ms_ovba_crypto.encrypt(
             project_id, project.protection_state
         )
         dpb = ms_ovba_crypto.encrypt(project_id, project.password)
         gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
-        result += 'CMG="' + binascii.hexlify(cmg).upper().decode('ascii') + '"' + eol
-        result += 'DPB="' + binascii.hexlify(dpb).upper().decode('ascii') + '"' + eol
-        result += 'GC="' + binascii.hexlify(gc).upper().decode('ascii') + '"' + eol
-        result += eol
-        result += '[Host Extender Info]' + eol
-        result += self.hostExtenderInfo
-        result += eol * 2
-        result += '[Workspace]' + eol
+        result += [f'CMG="{binascii.hexlify(cmg).upper().decode('ascii')}"']
+        result += [f'DPB="{binascii.hexlify(dpb).upper().decode('ascii')}"']
+        result += [f'GC="{binascii.hexlify(gc).upper().decode('ascii')}"']
+        result += ['']
+        result += ['[Host Extender Info]' + self.hostExtenderInfo]
+        result += ['']
+        result += ['[Workspace]']
         for module in modules:
             separator = ", "
-            result += module.modName.value + '='
-            joined = separator.join(map(str, module.workspace))
-            result += joined + eol
-        return result
+            joined = module.modName.value + '='
+            joined += separator.join(map(str, module.workspace))
+            result += [joined]
+        return eol.join(result)
 
     def to_bytes(self: T) -> bytes:
         codepage_name = self.project.codepage_name
