@@ -34,7 +34,7 @@ def main() -> None:
     module.add_file(base_path + '/blank_files/Sheet1.cls')
     module.normalize_file()
     guid = uuid.UUID("0002082000000000C000000000000046")
-    module.set_guid(guid)
+    module.add_guid(guid)
     project.add_module(module)
     module = DocModule('ThisWorkbook')
     module.add_file(base_path + '/blank_files/ThisWorkbook.cls')
@@ -42,7 +42,7 @@ def main() -> None:
     guid = uuid.UUID("0002081900000000C000000000000046")
     module.set_guid(guid)
     project.add_module(module)
-    project.set_project_id('{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}')
+    project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
     # add the files
     for file_path in bas_files:
         file_name = os.path.basename(file_path)
@@ -60,15 +60,15 @@ def main() -> None:
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     )
-    ole_reference = ReferenceRecord(codepage_name, "stdole", libid_ref)
+    ole_reference = ReferenceRecord("stdole", libid_ref)
     libid_ref2 = LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
         "0",
-        "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
+        r"C:\Program Files\Common Files\Microsoft Shared\OFFICE16\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
     )
-    office_reference = ReferenceRecord(codepage_name, "Office", libid_ref2)
+    office_reference = ReferenceRecord("Office", libid_ref2)
     project.add_reference(ole_reference)
     project.add_reference(office_reference)
     ProjectOleFile.write_file(project)
