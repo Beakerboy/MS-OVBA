@@ -17,8 +17,14 @@ def test_set_get_project_id() -> None:
 
 def test_set_get_visibility() -> None:
     project = VbaProject()
-    project.visibility_state = 0
-    assert project.visibility_state == 0
+    project.make_invisible()
+    assert project.visibility_state == b'\xff'
+
+
+def test_set_get_invisibility() -> None:
+    project = VbaProject()
+    project.make_visible()
+    assert project.visibility_state == b'\x00'
 
 
 def test_set_get_protection() -> None:
