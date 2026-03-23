@@ -37,6 +37,7 @@ class VbaProject:
 
         self._project_wm = False
         self._compat = False
+        self._use_pw_hash = False
         self._default_date = Filetime.from_msfiletime(0x0000000000000000)
     # Getters and Setters
 
@@ -160,3 +161,15 @@ class VbaProject:
 
     def vbe_unprotect(self: T) -> None:
         self._protection_state = self._protection_state & 223
+
+    def use_password_hash(self: T) -> None:
+        """
+        Use the password hash data structure
+        """
+        self.use_pw_hash = True
+
+    def use_plain_password(self: T) -> None:
+        """
+        Encrypt the plaintext password
+        """
+        self.use_pw_hash = False
