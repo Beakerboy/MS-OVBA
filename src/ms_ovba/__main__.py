@@ -6,6 +6,7 @@ from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Models.Entities.doc_module import DocModule
 from ms_ovba.Models.Entities.std_module import StdModule
 from ms_ovba.Views.project_ole_file import ProjectOleFile
+from ms_ovba.Models.Entities.reference import Reference
 from ms_ovba.Models.Entities.reference_registered import (
     ReferenceRegistered
 )
