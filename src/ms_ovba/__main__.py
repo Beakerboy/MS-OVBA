@@ -6,7 +6,6 @@ from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Models.Entities.doc_module import DocModule
 from ms_ovba.Models.Entities.std_module import StdModule
 from ms_ovba.Views.project_ole_file import ProjectOleFile
-from ms_ovba.Models.Entities.reference import Reference
 from ms_ovba.Models.Entities.reference_registered import (
     ReferenceRegistered
 )
@@ -70,8 +69,8 @@ def main() -> None:
         "Microsoft Office 16.0 Object Library"
     )
     office_reference = ReferenceRegistered("Office", libid_ref2)
-    project.add_reference(Reference(ole_reference))
-    project.add_reference(Reference(office_reference))
+    project.add_reference(ole_reference)
+    project.add_reference(office_reference)
     ProjectOleFile.write_file(project)
     file = glob.glob('vbaProject.bin')
 
