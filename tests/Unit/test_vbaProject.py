@@ -17,13 +17,13 @@ def test_set_get_project_id() -> None:
 
 def test_set_get_visibility() -> None:
     project = VbaProject()
-    project.make_invisible()
+    project.make_visible()
     assert project.visibility_state == b'\xff'
 
 
 def test_set_get_invisibility() -> None:
     project = VbaProject()
-    project.make_visible()
+    project.make_invisible()
     assert project.visibility_state == b'\x00'
 
 
