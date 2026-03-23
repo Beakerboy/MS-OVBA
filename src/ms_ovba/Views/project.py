@@ -1,5 +1,5 @@
 import binascii
-from ms_ovba_crypto.ms_ovba_crypto import MsOvbaCrypto
+from ms_ovba_crypto import MsOvbaCrypto
 from ms_ovba.vbaProject import VbaProject
 from typing import TypeVar
 
