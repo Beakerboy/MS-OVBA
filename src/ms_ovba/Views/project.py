@@ -42,9 +42,9 @@ class Project:
         )
         dpb = ms_ovba_crypto.encrypt(project_id, project.password)
         gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
-        result += [f'CMG="{binascii.hexlify(cmg).upper().decode('ascii')}"']
-        result += [f'DPB="{binascii.hexlify(dpb).upper().decode('ascii')}"']
-        result += [f'GC="{binascii.hexlify(gc).upper().decode('ascii')}"']
+        result += [f'CMG="{binascii.hexlify(cmg).upper().decode("ascii")}"']
+        result += [f'DPB="{binascii.hexlify(dpb).upper().decode("ascii")}"']
+        result += [f'GC="{binascii.hexlify(gc).upper().decode("ascii")}"']
         result += ['']
         result += ['[Host Extender Info]' + self.hostExtenderInfo]
         result += ['']
