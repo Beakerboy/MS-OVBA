@@ -67,16 +67,6 @@ class VbaProject:
     def visibility_state(self: T) -> bytes:
         return self._visibility_state
 
-    @visibility_state.setter
-    def visibility_state(self: T, state: int) -> None:
-        """
-        0   = not visible
-        255 = visible
-        """
-        if state != 0 and state != 255:
-            raise Exception("Bad visibility value.")
-        self._visibility_state = state
-
     @property
     def password(self: T) -> bytes:
         return self._password
@@ -149,3 +139,9 @@ class VbaProject:
 
     def add_attribute(self: T, name: str, value: str) -> None:
         self.attributes[name] = value
+
+    def make_visible(self) -> None:
+        self._visibility_state = 255
+
+    def make_invisible(self) -> None:
+        self._visibility_state = 0
