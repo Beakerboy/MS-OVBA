@@ -29,7 +29,6 @@ class Project:
         # Use \x0D0A line endings.
         project = self.project
         project_id = project.project_id
-        eol = "\r\n"
         result = [f'ID="{project_id}"']
         modules = project.modules
         for module in modules:
@@ -53,7 +52,7 @@ class Project:
             joined = module.modName.value + '='
             joined += separator.join(map(str, module.workspace))
             result += [joined]
-        return eol.join(result)
+        return "\r\n".join(result)
 
     def to_bytes(self: T) -> bytes:
         codepage_name = self.project.codepage_name
