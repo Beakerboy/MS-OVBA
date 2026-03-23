@@ -30,13 +30,13 @@ class Project:
         project = self.project
         project_id = project.project_id
         eol = "\r\n"
-        result = 'ID="{project_id}"' + eol
+        result = f'ID="{project_id}"' + eol
         modules = project.modules
         for module in modules:
             result += module.to_project_module_string() + eol
         result += 'Name="VBAProject"' + eol
         for key in self.attributes:
-            result += '{name}="{value}"' + eol
+            result += f'{name}="{value}"' + eol
         cmg = ms_ovba_crypto.encrypt(
             project_id, project.protection_state
         )
