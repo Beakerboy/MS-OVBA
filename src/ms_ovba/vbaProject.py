@@ -141,7 +141,7 @@ class VbaProject:
         self.attributes[name] = value
 
     def make_visible(self) -> None:
-        self._visibility_state = 255
+        self._visibility_state = b'\xff'
 
     def make_invisible(self) -> None:
-        self._visibility_state = 0
+        self._visibility_state = b'\x00'
