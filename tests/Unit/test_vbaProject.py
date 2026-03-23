@@ -2,7 +2,13 @@ import pytest
 from ms_ovba.vbaProject import VbaProject
 
 
-project = VbaProject()
+project: VbaProject
+
+
+@pytest.fixture(autouse=True)
+def run_around_tests() -> None:
+    project = VbaProject()
+    yield
 
 
 def test_set_get_default_date() -> None:
