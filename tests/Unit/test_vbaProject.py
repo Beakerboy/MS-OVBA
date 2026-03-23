@@ -34,7 +34,7 @@ def test_get_protection() -> None:
 
 def test_get_protection() -> None:
     project = VbaProject()
-    project.user_protected()
+    project.user_protect()
     expected = b'\x80\x00\x00\x00'
     assert project.protection_state == expected
 
