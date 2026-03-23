@@ -25,57 +25,42 @@ class Project:
     def add_attribute(self: T, name: str, value: str) -> None:
         self.attributes[name] = value
 
-    def to_bytes(self: T) -> bytes:
-        project = self.project
-        codepage_name = project.codepage_name
-        # Use \x0D0A line endings...however python encodes that.
-        eol = b'\x0D\x0A'
-        project_id = project.project_id
-        id = bytearray(project_id, codepage_name)
-        result = b'ID="' + id + b'"' + eol
+    def __str__(self: T) -> str:
+        # Use \x0D0A line endings.
+        eol = "\r\n"
+        result = 'ID="{project.project_id}"' + eol
         modules = project.modules
         for module in modules:
-            result += bytes(module.to_project_module_string(), codepage_name)
-            result += eol
-        result += b'Name="VBAProject"' + eol
+            result += module.to_project_module_string() + eol
+        result += 'Name="VBAProject"' + eol
         for key in self.attributes:
-            result += self._attr(key, self.attributes[key])
+            result += '{name}="{value}"' + eol
         cmg = ms_ovba_crypto.encrypt(
-                                     project_id,
-                                     project.protection_state
-                                    )
+            project_id, project.protection_state
+        )
         dpb = ms_ovba_crypto.encrypt(project_id, project.password)
         gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
-        result += (bytes('CMG="', codepage_name)
-                   + binascii.hexlify(cmg).upper()
-                   + b'\x22\x0D\x0A')
-        result += (bytes('DPB="', codepage_name)
-                   + binascii.hexlify(dpb).upper()
-                   + b'\x22\x0D\x0A')
-        result += (bytes('GC="', codepage_name)
-                   + binascii.hexlify(gc).upper()
-                   + b'\x22\x0D\x0A')
+        result += 'CMG="' + binascii.hexlify(cmg).upper() + '"' + eol
+        result += 'DPB="' + binascii.hexlify(dpb).upper() + '"' + eol
+        result += 'GC="' + binascii.hexlify(gc).upper() + '"' + eol
         result += eol
-        result += b'[Host Extender Info]' + eol
-        result += bytes(self.hostExtenderInfo, codepage_name)
+        result += '[Host Extender Info]' + eol
+        result += self.hostExtenderInfo
         result += eol + eol
-        result += b'[Workspace]' + eol
+        result += '[Workspace]' + eol
         for module in modules:
             separator = ", "
-            result += bytes(module.modName.value, codepage_name) + b'='
+            result += module.modName.value + '='
             joined = separator.join(map(str, module.workspace))
-            result += bytes(joined, codepage_name)
+            result += joined
             result += eol
         return result
 
+    def to_bytes(self: T) -> bytes:
+        codepage_name = self.project.codepage_name
+        return bytes(str(self), codepage_name)
+        
     def write_file(self: T) -> None:
         bin_f = open("project.bin", "wb")
         bin_f.write(self.to_bytes())
         bin_f.close()
-
-    def _attr(self: T, name: str, value: str) -> str:
-        codepage_name = self.project.codepage_name
-        eol = b'\x0D\x0A'
-        b_name = bytes(name, codepage_name)
-        b_value = bytes(value, codepage_name)
-        return b_name + b'="' + b_value + b'"' + eol
