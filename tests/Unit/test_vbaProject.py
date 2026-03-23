@@ -32,10 +32,38 @@ def test_get_protection() -> None:
     assert project.protection_state == b'\00' * 4
 
 
-def test_get_protection() -> None:
+def test_set_user_protection() -> None:
     project = VbaProject()
     project.user_protect()
     expected = b'\x80\x00\x00\x00'
+    assert project.protection_state == expected
+
+
+def test_set_host_protection() -> None:
+    project = VbaProject()
+    project.host_protect()
+    expected = b'\x40\x00\x00\x00'
+    assert project.protection_state == expected
+
+
+def test_set_vbe_protection() -> None:
+    project = VbaProject()
+    project.vbe_protect()
+    expected = b'\x20\x00\x00\x00'
+    assert project.protection_state == expected
+
+
+def test_unset_protection() -> None:
+    project = VbaProject()
+    project.user_protect()
+    project.host_protect()
+    project.vbe_protect()
+    expected = b'\xD0\x00\x00\x00'
+    assert project.protection_state == expected
+    project.user_unprotect()
+    project.host_unprotect()
+    project.vbe_unprotect()
+    expected = b'\x00\x00\x00\x00'
     assert project.protection_state == expected
 
 
