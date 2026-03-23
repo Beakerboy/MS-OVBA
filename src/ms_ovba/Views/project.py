@@ -1,5 +1,5 @@
 import binascii
-import ms_ovba_crypto.ms_ovba_crypto.encrypt as encrypt
+import ms_ovba_crypto.ms_ovba_crypto
 from ms_ovba.vbaProject import VbaProject
 from typing import TypeVar
 
