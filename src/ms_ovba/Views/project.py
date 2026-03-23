@@ -37,9 +37,7 @@ class Project:
         result += ['Name="VBAProject"']
         for name, value in self.attributes.items():
             result += [f'{name}="{value}"']
-        cmg = ms_ovba_crypto.encrypt(
-            project_id, project.protection_state
-        )
+        cmg = ms_ovba_crypto.encrypt(project_id, project.protection_state)
         dpb = ms_ovba_crypto.encrypt(project_id, project.password)
         gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
         result += [f'CMG="{binascii.hexlify(cmg).upper().decode("ascii")}"']
