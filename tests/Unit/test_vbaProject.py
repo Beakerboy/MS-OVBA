@@ -9,6 +9,7 @@ project = VbaProject()
 def run_around_tests() -> None:
     project = VbaProject()
     yield
+    project = VbaProject()
 
 
 def test_set_get_default_date() -> None:
