@@ -140,8 +140,8 @@ class VbaProject:
     def add_attribute(self: T, name: str, value: str) -> None:
         self.attributes[name] = value
 
-    def make_visible(self) -> None:
+    def make_visible(self: T) -> None:
         self._visibility_state = b'\xff'
 
-    def make_invisible(self) -> None:
+    def make_invisible(self: T) -> None:
         self._visibility_state = b'\x00'
