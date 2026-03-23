@@ -124,10 +124,10 @@ class VbaProject:
     def projectwm(self: T) -> bool:
         return self._project_wm
 
-    def include_projectwm(self: T) -> bool:
+    def include_projectwm(self: T) -> None:
         self._project_wm = True
 
-    def exclude_projectwm(self: T) -> bool:
+    def exclude_projectwm(self: T) -> None:
         self._project_wm = False
 
     @property
