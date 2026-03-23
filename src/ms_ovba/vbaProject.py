@@ -58,7 +58,7 @@ class VbaProject:
 
     @property
     def protection_state(self: T) -> bytes:
-        return byte(self._protection_state) + b'\x00' * 3
+        return bytes([self._protection_state]) + b'\x00' * 3
 
     @property
     def visibility_state(self: T) -> bytes:
