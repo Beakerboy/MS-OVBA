@@ -1,4 +1,4 @@
-from typing inport TypeVar
+from typing import TypeVar
 
 
 T = TypeVar('T', bound='PasswordHash)')
