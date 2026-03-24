@@ -65,8 +65,8 @@ def test_unset_protection(project) -> None:
 
 
 def test_set_get_password(project) -> None:
-    project.password = 0
-    assert project.password == 0
+    project.password = "Test"
+    assert project.password == b"Test\x00"
 
 
 def test_set_get_cache(project) -> None:
