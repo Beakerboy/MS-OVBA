@@ -3,7 +3,7 @@ from ms_ovba.vbaProject import VbaProject
 
 
 @pytest.fixture
-def project():
+def project() -> VbaProject:
     # Setup: Create a fresh object for every test
     return VbaProject()
 
@@ -101,6 +101,6 @@ def test_exclude_projectwm(project: VbaProject) -> None:
 
 def test_compat(project: VbaProject) -> None:
     project.include_compat()
-    assert project._compat == True
+    assert project._compat
     project.exclude_compat()
-    assert project._compat == False
+    assert not project._compat
