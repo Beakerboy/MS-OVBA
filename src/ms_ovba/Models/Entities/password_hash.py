@@ -6,7 +6,7 @@ T = TypeVar('T', bound='PasswordHash')
 
 
 class PasswordHash:
-    def __init__(self, password: str) -> None:
+    def __init__(self: T, password: str) -> None:
         self._password = password
         # The top 4 bits only
         self._grbit_key = 0x000000
