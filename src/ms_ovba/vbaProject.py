@@ -75,7 +75,7 @@ class VbaProject:
             return self._password.encode(self._codepage_name) + b'\x00'
 
     @password.setter
-    def password(self: T, value: bytes) -> None:
+    def password(self: T, value: str) -> None:
         self._password = value
 
     @property
