@@ -1,3 +1,4 @@
+import struct
 from typing import TypeVar
 
 
