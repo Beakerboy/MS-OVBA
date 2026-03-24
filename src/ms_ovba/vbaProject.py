@@ -70,7 +70,7 @@ class VbaProject:
     @property
     def password(self: T) -> bytes:
         if self._use_pw_hash:
-            pass
+            return b''
         else:
             return self._password.encode(self._codepage_name) + b'\x00'
 
