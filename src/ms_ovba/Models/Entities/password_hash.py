@@ -12,6 +12,7 @@ class PasswordHash:
         self._grbit_key = 0x000000
         # The low 20 bits
         self._grbit_hash_null = 0x000000
+        self._key = b''
 
     def to_bytes(self: T) -> bytes:
         grbit = self._grbit_key | self._grbit_hash_null
@@ -23,5 +24,5 @@ class PasswordHash:
         )
         return output
 
-    def _remove_nulls(self: T) -> bytes:
-        pass
+    def _remove_nulls(self: T, key: bytes) -> bytes:
+        return b''
