@@ -160,7 +160,7 @@ class VbaProject:
 
     def host_unprotect(self: T) -> None:
         self._protection_state = self._protection_state & 191
-    
+
     def vbe_protect(self: T) -> None:
         self._protection_state = self._protection_state | 32
 
