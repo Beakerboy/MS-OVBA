@@ -51,6 +51,8 @@ class VbaProject:
 
     @property
     def project_id(self: T) -> str:
+        if self._use_pw_hash and self._password != "":
+            return "{00000000-0000-0000-0000-000000000000}" 
         return self._project_id
 
     @project_id.setter
