@@ -1,7 +1,7 @@
 from typing import TypeVar
 
 
-T = TypeVar('T', bound='PasswordHash)')
+T = TypeVar('T', bound='PasswordHash')
 
 
 class PasswordHash:
