@@ -12,7 +12,7 @@ class Project:
     The Project data view for the vbaProject
     """
     def __init__(self: T, project: VbaProject) -> None:
-        self.project = project
+        self._project = project
         # Attributes
 
         # A list of attributes and values
@@ -27,14 +27,14 @@ class Project:
 
     def __str__(self: T) -> str:
         # Use \x0D0A line endings.
-        project = self.project
+        project = self._project
         project_id = project.project_id
         result = [f'ID="{project_id}"']
         modules = project.modules
         for module in modules:
             result += [module.to_project_module_string()]
         result += ['Name="VBAProject"']
-        result += ['HelpContextID="0"']
+        result += ['HelpContextID="' + str(project.help_context_id) + '"']
         for name, value in self.attributes.items():
             result += [f'{name}="{value}"']
         cmg = MsOvbaCrypto.encrypt(project_id, project.protection_state)
@@ -56,7 +56,7 @@ class Project:
         return "\r\n".join(result) + "\r\n"
 
     def to_bytes(self: T) -> bytes:
-        codepage_name = self.project.codepage_name
+        codepage_name = self._project.codepage_name
         return bytes(str(self), codepage_name)
 
     def write_file(self: T) -> None:
