@@ -144,7 +144,6 @@ def test_full_file() -> None:
         [this_workbook, sheet1, module1]
     )
 
-    project.add_attribute("HelpContextID", "0")
     project.add_attribute("VersionCompatible32", "393222000")
     project.include_compat()
     project.include_projectwm()
