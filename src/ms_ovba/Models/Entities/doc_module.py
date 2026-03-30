@@ -16,9 +16,6 @@ class DocModule(ModuleBase):
         super(DocModule, self).__init__(name)
         self.type = "Document"
 
-        # GUIDs
-        self._guid = []
-
     def to_project_module_string(self: T) -> str:
         return ("Document=" + self.modName.value + "/&H"
                 + self.doc_tlib_ver.to_bytes(4, "big").hex())
@@ -31,7 +28,7 @@ class DocModule(ModuleBase):
 
         new_f.write(line)
         guid_string = '"0'
-        for guid in self._guid:
+        for guid in self._guids:
             guid_string += '{' + str(guid).upper() + '}"'
         txt = self._attr("Base", guid_string)
         new_f.writelines([txt])

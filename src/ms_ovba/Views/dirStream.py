@@ -12,6 +12,9 @@ from typing import List, TypeVar
 T = TypeVar('T', bound='DirStream')
 
 
+PackableData = DoubleEncodedString | IdSizeField | PackedData
+
+
 class DirStream():
     """
     The dir stream is compressed on write
@@ -73,7 +76,7 @@ class DirStream():
         minor_version = PackedData("H", 17)
         constants = DoubleEncodedString([12, 0x003C], "")
 
-        information = [syskind]
+        information: list[PackableData] = [syskind]
         if self._include_compat:
             information.append(compat_version)
         information.extend([

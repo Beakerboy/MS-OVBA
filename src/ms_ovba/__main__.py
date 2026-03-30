@@ -6,8 +6,9 @@ from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Models.Entities.doc_module import DocModule
 from ms_ovba.Models.Entities.std_module import StdModule
 from ms_ovba.Views.project_ole_file import ProjectOleFile
-from ms_ovba.Models.Entities.reference_record import (
-    ReferenceRecord
+from ms_ovba.Models.Entities.reference import Reference
+from ms_ovba.Models.Entities.reference_registered import (
+    ReferenceRegistered
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 
@@ -33,16 +34,14 @@ def main() -> None:
     base_path = os.path.dirname(__file__)
     module.add_file(base_path + '/blank_files/Sheet1.cls')
     module.normalize_file()
-    guid = uuid.UUID("0002082000000000C000000000000046")
-    module.set_guid(guid)
+    module.add_guid("0002082000000000C000000000000046")
     project.add_module(module)
     module = DocModule('ThisWorkbook')
     module.add_file(base_path + '/blank_files/ThisWorkbook.cls')
     module.normalize_file()
-    guid = uuid.UUID("0002081900000000C000000000000046")
-    module.set_guid(guid)
+    module.add_guid("0002081900000000C000000000000046")
     project.add_module(module)
-    project.set_project_id('{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}')
+    project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
     # add the files
     for file_path in bas_files:
         file_name = os.path.basename(file_path)
@@ -51,8 +50,6 @@ def main() -> None:
         code.add_file(file_path)
         code.normalize_file()
         project.add_module(code)
-    codepage = 0x04E4
-    codepage_name = "cp" + str(codepage)
     libid_ref = LibidReference(
         uuid.UUID("0002043000000000C000000000000046"),
         "2.0",
@@ -60,19 +57,18 @@ def main() -> None:
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     )
-    ole_reference = ReferenceRecord(codepage_name, "stdole", libid_ref)
+    ole_reference = ReferenceRegistered(libid_ref)
     libid_ref2 = LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
         "0",
-        "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
+        r"C:\Program Files\Common Files\Microsoft Shared\OFFICE16\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
     )
-    office_reference = ReferenceRecord(codepage_name, "Office", libid_ref2)
-    project.add_reference(ole_reference)
-    project.add_reference(office_reference)
+    office_reference = ReferenceRegistered(libid_ref2)
+    project.add_reference(Reference(ole_reference, "stdole"))
+    project.add_reference(Reference(office_reference, "Office"))
     ProjectOleFile.write_file(project)
-    file = glob.glob('vbaProject.bin')
 
 
 if __name__ == '__main__':

@@ -32,10 +32,10 @@ class ModuleBase():
         self._size = 0
 
         # GUIDs
-        self._guids = []
+        self._guids: list[str] = []
 
     @property
-    def guids(self: T) -> str:
+    def guids(self: T) -> list[str]:
         return self._guids
 
     @guids.setter
@@ -49,7 +49,7 @@ class ModuleBase():
         """
         Append a guid to the list
         """
-        self._guid += [guid]
+        self._guids += [guid]
 
     @property
     def cache(self: T) -> bytes:

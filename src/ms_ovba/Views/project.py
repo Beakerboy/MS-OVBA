@@ -1,5 +1,5 @@
 import binascii
-import ms_ovba_crypto
+from ms_ovba_crypto import MsOvbaCrypto
 from ms_ovba.vbaProject import VbaProject
 from typing import TypeVar
 
@@ -25,57 +25,40 @@ class Project:
     def add_attribute(self: T, name: str, value: str) -> None:
         self.attributes[name] = value
 
-    def to_bytes(self: T) -> bytes:
+    def __str__(self: T) -> str:
+        # Use \x0D0A line endings.
         project = self.project
-        codepage_name = project.codepage_name
-        # Use \x0D0A line endings...however python encodes that.
-        eol = b'\x0D\x0A'
         project_id = project.project_id
-        id = bytearray(project_id, codepage_name)
-        result = b'ID="' + id + b'"' + eol
+        result = [f'ID="{project_id}"']
         modules = project.modules
         for module in modules:
-            result += bytes(module.to_project_module_string(), codepage_name)
-            result += eol
-        result += b'Name="VBAProject"' + eol
-        for key in self.attributes:
-            result += self._attr(key, self.attributes[key])
-        cmg = ms_ovba_crypto.encrypt(
-                                     project_id,
-                                     project.protection_state
-                                    )
-        dpb = ms_ovba_crypto.encrypt(project_id, project.password)
-        gc = ms_ovba_crypto.encrypt(project_id, project.visibility_state)
-        result += (bytes('CMG="', codepage_name)
-                   + binascii.hexlify(cmg).upper()
-                   + b'\x22\x0D\x0A')
-        result += (bytes('DPB="', codepage_name)
-                   + binascii.hexlify(dpb).upper()
-                   + b'\x22\x0D\x0A')
-        result += (bytes('GC="', codepage_name)
-                   + binascii.hexlify(gc).upper()
-                   + b'\x22\x0D\x0A')
-        result += eol
-        result += b'[Host Extender Info]' + eol
-        result += bytes(self.hostExtenderInfo, codepage_name)
-        result += eol + eol
-        result += b'[Workspace]' + eol
+            result += [module.to_project_module_string()]
+        result += ['Name="VBAProject"']
+        for name, value in self.attributes.items():
+            result += [f'{name}="{value}"']
+        cmg = MsOvbaCrypto.encrypt(project_id, project.protection_state)
+        dpb = MsOvbaCrypto.encrypt(project_id, project.password)
+        gc = MsOvbaCrypto.encrypt(project_id, project.visibility_state)
+        result += [f'CMG="{binascii.hexlify(cmg).upper().decode("ascii")}"']
+        result += [f'DPB="{binascii.hexlify(dpb).upper().decode("ascii")}"']
+        result += [f'GC="{binascii.hexlify(gc).upper().decode("ascii")}"']
+        result += ['']
+        result += ['[Host Extender Info]']
+        result += [self.hostExtenderInfo]
+        result += ['']
+        result += ['[Workspace]']
         for module in modules:
             separator = ", "
-            result += bytes(module.modName.value, codepage_name) + b'='
-            joined = separator.join(map(str, module.workspace))
-            result += bytes(joined, codepage_name)
-            result += eol
-        return result
+            joined = module.modName.value + '='
+            joined += separator.join(map(str, module.workspace))
+            result += [joined]
+        return "\r\n".join(result) + "\r\n"
+
+    def to_bytes(self: T) -> bytes:
+        codepage_name = self.project.codepage_name
+        return bytes(str(self), codepage_name)
 
     def write_file(self: T) -> None:
         bin_f = open("project.bin", "wb")
         bin_f.write(self.to_bytes())
         bin_f.close()
-
-    def _attr(self: T, name: str, value: str) -> str:
-        codepage_name = self.project.codepage_name
-        eol = b'\x0D\x0A'
-        b_name = bytes(name, codepage_name)
-        b_value = bytes(value, codepage_name)
-        return b_name + b'="' + b_value + b'"' + eol

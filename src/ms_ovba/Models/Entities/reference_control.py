@@ -1,3 +1,4 @@
+from __future__ import annotations
 import struct
 import uuid
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
@@ -18,7 +19,7 @@ class ReferenceControl(ReferenceRecord):
     def __init__(self: T, ref: LibidReference,
                  ref2: LibidReference,
                  guid: uuid.UUID, cookie: int,
-                 name: str = None) -> None:
+                 name: str = '') -> None:
         self._libid_twiddled = ref
         self._libid_extended = ref2
         self._name_record_extended = name
@@ -37,7 +38,7 @@ class ReferenceControl(ReferenceRecord):
         format = (
             endien_symbol + "HII" + str(size_of_libid_twiddled) +
             "sIH")
-        if self._name_record_extended is not None:
+        if self._name_record_extended != '':
             name_de = DoubleEncodedString([0x0016, 0x003E],
                                           self._name_record_extended)
             name_pack = name_de.pack(endien, cp_name)
@@ -56,7 +57,7 @@ class ReferenceControl(ReferenceRecord):
         )
 
     @staticmethod
-    def unpack(data: bytes, endien: str) -> T:
+    def unpack(data: bytes, endien: str) -> ReferenceControl:
         endien_symbol = '<' if endien == 'little' else '>'
         offset = 0
         id, size_twiddled, size_of_libid_twiddled = (
@@ -95,7 +96,7 @@ class ReferenceControl(ReferenceRecord):
             id, = struct.unpack_from(endien_symbol + "H", data, offset)
             offset += 2
         else:
-            name = None
+            name = ''
         if id != 0x30:
             # Unknown Data
             pass

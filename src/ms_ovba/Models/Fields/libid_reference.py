@@ -64,26 +64,26 @@ class LibidReference():
         return len(str(self))
 
     @staticmethod
-    def unpack(data: bytes) -> T:
-        data = data.decode('ascii')
+    def unpack(byte_data: bytes) -> LibidReference:
+        data = byte_data.decode('ascii')
         if data.count("#") != 4:
             raise Exception("Incorrect Number of Tokens")
         values = data.split("#")
-        path = None
-        name = None
+        path = ""
+        name = ""
         # Need to test if name is given but path is not
         if len(values) >= 3:
-            guid = values[0]
+            guid_str = values[0]
             version = values[1]
             lcid = values[2]
         if len(values) >= 4:
             path = values[3]
         if len(values) == 5:
             name = values[4]
-        prefix = guid[:3]
+        prefix = guid_str[:3]
         if prefix[:2] != "*\\":
             raise Exception("Improper prefix")
-        guid = uuid.UUID(guid[3:])
+        guid = uuid.UUID(guid_str[3:])
         kind = prefix[2:]
         if kind != "G" and kind != "H":
             raise Exception("Unknown Reference Kind")

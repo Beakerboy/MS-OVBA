@@ -1,7 +1,6 @@
+from ms_ovba.Models.Entities.license_info import LicenseInfo
 from ms_ovba.Models.Entities.module_base import ModuleBase
-from ms_ovba.Models.Entities.reference_registered import (
-    ReferenceRegistered
-)
+from ms_ovba.Models.Entities.reference import Reference
 from ms_dtyp.filetime import Filetime
 from typing import TypeVar
 
@@ -18,25 +17,27 @@ class VbaProject:
         # Protected Instance Attributes
         self._codepage_name = 'cp1252'
         self._project_id = '{}'
-        self._protection_state = b'\x00\x00\x00\x00'
-        self._password = b'\x00'
+        # The first byte of the protection byte string
+        self._protection_state = 0
+        self._password = ""
         self._visibility_state = b'\xFF'
         self._performance_cache = b''
         self._performance_cache_version = 0xFFFF
 
         # Lists
-        self.directories = []
-        self.references = []
-        self.modules = []
-        self._license_records = []
+        # self.directories: list[] = []
+        self.references: list[Reference] = []
+        self.modules: list[ModuleBase] = []
+        self._license_records: list[LicenseInfo] = []
 
-        # Attributes  and values
-        self.attributes = {}
+        # Attributes and values
+        self.attributes: dict[str, str] = {}
 
         self._project_cookie = 0xFFFF
 
         self._project_wm = False
         self._compat = False
+        self._use_pw_hash = False
         self._default_date = Filetime.from_msfiletime(0x0000000000000000)
     # Getters and Setters
 
@@ -50,6 +51,8 @@ class VbaProject:
 
     @property
     def project_id(self: T) -> str:
+        if self._use_pw_hash and self._password != "":
+            return "{00000000-0000-0000-0000-000000000000}"
         return self._project_id
 
     @project_id.setter
@@ -57,33 +60,22 @@ class VbaProject:
         self._project_id = id
 
     @property
-    def protection_state(self: T) -> int:
-        return self._protection_state
-
-    @protection_state.setter
-    def protection_state(self: T, state: int) -> None:
-        self._protection_state = state
+    def protection_state(self: T) -> bytes:
+        return bytes([self._protection_state]) + b'\x00' * 3
 
     @property
     def visibility_state(self: T) -> bytes:
         return self._visibility_state
 
-    @visibility_state.setter
-    def visibility_state(self: T, state: int) -> None:
-        """
-        0   = not visible
-        255 = visible
-        """
-        if state != 0 and state != 255:
-            raise Exception("Bad visibility value.")
-        self._visibility_state = state
-
     @property
     def password(self: T) -> bytes:
-        return self._password
+        if self._use_pw_hash:
+            return b''
+        else:
+            return self._password.encode(self._codepage_name) + b'\x00'
 
     @password.setter
-    def password(self: T, value: bytes) -> None:
+    def password(self: T, value: str) -> None:
         self._password = value
 
     @property
@@ -125,10 +117,10 @@ class VbaProject:
     def projectwm(self: T) -> bool:
         return self._project_wm
 
-    def include_projectwm(self: T) -> bool:
+    def include_projectwm(self: T) -> None:
         self._project_wm = True
 
-    def exclude_projectwm(self: T) -> bool:
+    def exclude_projectwm(self: T) -> None:
         self._project_wm = False
 
     @property
@@ -145,8 +137,44 @@ class VbaProject:
     def add_module(self: T, mod: ModuleBase) -> None:
         self.modules.append(mod)
 
-    def add_reference(self: T, ref: ReferenceRegistered) -> None:
+    def add_reference(self: T, ref: Reference) -> None:
         self.references.append(ref)
 
     def add_attribute(self: T, name: str, value: str) -> None:
         self.attributes[name] = value
+
+    def make_visible(self: T) -> None:
+        self._visibility_state = b'\xff'
+
+    def make_invisible(self: T) -> None:
+        self._visibility_state = b'\x00'
+
+    def user_protect(self: T) -> None:
+        self._protection_state = self._protection_state | 128
+
+    def user_unprotect(self: T) -> None:
+        self._protection_state = self._protection_state & 127
+
+    def host_protect(self: T) -> None:
+        self._protection_state = self._protection_state | 64
+
+    def host_unprotect(self: T) -> None:
+        self._protection_state = self._protection_state & 191
+
+    def vbe_protect(self: T) -> None:
+        self._protection_state = self._protection_state | 32
+
+    def vbe_unprotect(self: T) -> None:
+        self._protection_state = self._protection_state & 223
+
+    def use_password_hash(self: T) -> None:
+        """
+        Use the password hash data structure
+        """
+        self.use_pw_hash = True
+
+    def use_plain_password(self: T) -> None:
+        """
+        Encrypt the plaintext password
+        """
+        self.use_pw_hash = False
