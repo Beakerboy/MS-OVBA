@@ -34,6 +34,7 @@ class Project:
         for module in modules:
             result += [module.to_project_module_string()]
         result += ['Name="VBAProject"']
+        result += ['HelpContextID="0"']
         for name, value in self.attributes.items():
             result += [f'{name}="{value}"']
         cmg = MsOvbaCrypto.encrypt(project_id, project.protection_state)
