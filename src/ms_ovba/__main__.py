@@ -28,20 +28,22 @@ def main() -> None:
 
     # create a new project object
     project = VbaProject()
+    project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
 
     # add default modules
-    module = DocModule('Sheet1')
+    sheet1 = DocModule('Sheet1')
     base_path = os.path.dirname(__file__)
-    module.add_file(base_path + '/blank_files/Sheet1.cls')
-    module.normalize_file()
-    module.add_guid("0002082000000000C000000000000046")
-    project.add_module(module)
-    module = DocModule('ThisWorkbook')
-    module.add_file(base_path + '/blank_files/ThisWorkbook.cls')
-    module.normalize_file()
-    module.add_guid("0002081900000000C000000000000046")
-    project.add_module(module)
-    project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
+    sheet1.add_file(base_path + '/blank_files/Sheet1.cls')
+    sheet1.normalize_file()
+    sheet1.add_guid("0002082000000000C000000000000046")
+    project.add_module(sheet1)
+
+    workbook = DocModule('ThisWorkbook')
+    workbook.add_file(base_path + '/blank_files/ThisWorkbook.cls')
+    workbook.normalize_file()
+    workbook.add_guid("0002081900000000C000000000000046")
+    project.add_module(workbook)
+
     # add the files
     for file_path in bas_files:
         file_name = os.path.basename(file_path)
@@ -50,6 +52,7 @@ def main() -> None:
         code.add_file(file_path)
         code.normalize_file()
         project.add_module(code)
+
     libid_ref = LibidReference(
         uuid.UUID("0002043000000000C000000000000046"),
         "2.0",
