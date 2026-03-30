@@ -60,7 +60,6 @@ def test_blank() -> None:
     NotSoRandom.set_seed(rand)
     vba_project = MockVbaProject()
     project = Project(vba_project)
-    project.add_attribute("HelpContextID", "0")
     project.add_attribute("VersionCompatible32", "393222000")
 
     project.hostExtenderInfo = ("&H00000001="
