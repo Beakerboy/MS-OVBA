@@ -31,6 +31,7 @@ class VbaProject:
         self._license_records: list[LicenseInfo] = []
 
         # Attributes and values
+        self.help_context_id = 0
         self.attributes: dict[str, str] = {}
 
         self._project_cookie = 0xFFFF
