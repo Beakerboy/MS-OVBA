@@ -223,7 +223,7 @@ class Project:
     def _valid_version_line(line) -> bool:
         pieces = line.split('=')
         if pieces[0] == "VersionCompatible32":
-            return Project._valid_quoted_string(pieces[1], 0, 2000)
+            return pieces[1] == '"393222000"'
         return False
         
     # Data Type Validators
