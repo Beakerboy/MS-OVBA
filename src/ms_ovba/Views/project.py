@@ -219,6 +219,13 @@ class Project:
             return Project._valid_quoted_string(pieces[1], 0, 2000)
         return False
 
+    @staticmethod
+    def _valid_version_line(line) -> bool:
+        pieces = line.split('=')
+        if pieces[0] == "VersionCompatible32":
+            return Project._valid_quoted_string(pieces[1], 0, 2000)
+        return False
+        
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
