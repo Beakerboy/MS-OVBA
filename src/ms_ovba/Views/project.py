@@ -93,14 +93,37 @@ class Project:
             if Project._help_file_line(line):
                 if not Project._valid_help_file_line(line):
                     return False
+                line = file.readline().strip()
             if Project._exe_line(line):
                 if not Project._valid_exe_line(line):
                     return False
+                line = file.readline().strip()
             if not Project._valid_name_line(line):
                 return False
             line = file.readline().strip()
             if not Project._valid_help_id_line(line):
                 return False
+            line = file.readline().strip()
+            # if Project._description_line(line):
+            #     if not Project._valid_description_line(line):
+            #         return False
+            #     line = file.readline().strip()
+            # if Project._version_line(line):
+            #     if not Project._valid_version_line(line):
+            #         return False
+            #     line = file.readline().strip()
+            # if not Project._valid_protection_line(line):
+            #     return False
+            # line = file.readline().strip()
+            # if not Project._valid_password_line(line):
+            #     return False
+            # line = file.readline().strip()
+            # if not Project._valid_visibility_line(line):
+            #     return False
+            # line = file.readline().strip()
+            # if line != "":
+            #     return False
+            
         return True
 
     @staticmethod
