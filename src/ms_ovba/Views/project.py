@@ -74,6 +74,7 @@ class Project:
         for line in lines:
             if line[-2:] not in ["\r\n", "\n\r"]:
                 return False
+        lines = file.splitlines(False)
         i = 0
         if not self._valid_project_id_line(lines[i]):
             return False
@@ -101,7 +102,7 @@ class Project:
     def _valid_project_id_line(self: T, line) -> bool:
         if line[:3] != 'ID="':
             return False
-        if line[26:] != '"'\r\n':
+        if line[26:] != '"':
             return False
         guid = line[4:24]
         hd = '[0-9a-fA-F]'
