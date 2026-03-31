@@ -2,7 +2,7 @@ import binascii
 import re
 from ms_ovba_crypto import MsOvbaCrypto
 from ms_ovba.vbaProject import VbaProject
-from typing import TypeVar
+from typing import Any, TypeVar
 
 
 T = TypeVar('T', bound='Project')
@@ -71,7 +71,7 @@ class Project:
         bin_f.close()
 
     @staticmethod
-    def is_valid(filename: str) -> bool:
+    def is_valid(filename: str) -> Any:
         """
         Validate the structure of the file. This method does
         not test if data values match between streams.
@@ -80,27 +80,27 @@ class Project:
         with open(filename, 'r') as file:
             for line in file:
                 if line[-2:] not in ["\r\n", "\n\r"]:
-                    return False
+                    return 1
         with open(filename, 'r') as file:
             line = file.readline().strip()
             if not Project._valid_project_id_line(line):
-                return False
+                return 2
             line = file.readline().strip()
             while Project._project_item_line(line):
                 if not Project._valid_project_item_line(line):
-                    return False
+                    return 3
                 line = file.readline().strip()
             if Project._help_file_line(line):
                 if not Project._valid_help_file_line(line):
-                    return False
+                    return 4
             if Project._exe_line(line):
                 if not Project._valid_exe_line(line):
-                    return False
+                    return 5
             if not Project._valid_name_line(line):
-                return False
+                return 6
             line = file.readline().strip()
             if not Project._valid_help_id_line(line):
-                return False
+                return 7
         return True
 
     @staticmethod
