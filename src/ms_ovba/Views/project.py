@@ -84,7 +84,7 @@ class Project:
         with open(filename, 'r') as file:
             line = file.readline().strip()
             if not Project._valid_project_id_line(line):
-                return 2
+                return False
             line = file.readline().strip()
             while Project._project_item_line(line):
                 if not Project._valid_project_item_line(line):
