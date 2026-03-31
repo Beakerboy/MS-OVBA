@@ -75,6 +75,11 @@ def test_blank() -> None:
     assert project.to_bytes() == expected
 
 
+def test_guid_valid() -> None:
+    guid = "{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}"
+    assert Project._valid_guid(guid)
+
+
 def test_valid() -> None:
     path = 'tests/blank/PROJECT'
     assert Project.is_valid(path) == 0
