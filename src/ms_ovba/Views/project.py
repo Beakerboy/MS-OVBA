@@ -68,7 +68,7 @@ class Project:
     def is_valid(self: T, filename: str) -> bool:
         # get codepage
         # verify that characterset is mbcs with the codepage
-    
+
         with open(filename, 'r') as file:
             for line in file:
                 if line[-2:] not in ["\r\n", "\n\r"]:
@@ -91,7 +91,7 @@ class Project:
             if not self._valid_name_line(line):
                 return False
             line = file.readline().strip()
-            if not self._valid_help_id_line(lines[i]):
+            if not self._valid_help_id_line(line):
                 return False
         return True
         
