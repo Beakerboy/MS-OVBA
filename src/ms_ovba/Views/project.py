@@ -70,9 +70,12 @@ class Project:
         bin_f.write(self.to_bytes())
         bin_f.close()
 
-    def is_valid(self: T, filename: str) -> bool:
-        # get codepage
-        # verify that characterset is mbcs with the codepage
+    @staticmethod
+    def is_valid(filename: str) -> bool:
+        """
+        Validate the structure of the file. This method does
+        not test if data values match between streams.
+        """
 
         with open(filename, 'r') as file:
             for line in file:
@@ -80,34 +83,35 @@ class Project:
                     return False
         with open(filename, 'r') as file:
             line = file.readline().strip()
-            if not self._valid_project_id_line(line):
+            if not Project._valid_project_id_line(line):
                 return False
             line = file.readline().strip()
-            while self._project_item_line(line):
-                if not self._valid_project_item_line(line):
+            while Project._project_item_line(line):
+                if not Project._valid_project_item_line(line):
                     return False
                 line = file.readline().strip()
-            if self._help_file_line(line):
-                if not self._valid_help_file_line(line):
+            if Project._help_file_line(line):
+                if not Project._valid_help_file_line(line):
                     return False
-            if self._exe_line(line):
-                if not self._valid_exe_line(line):
+            if Project._exe_line(line):
+                if not Project._valid_exe_line(line):
                     return False
-            if not self._valid_name_line(line):
+            if not Project._valid_name_line(line):
                 return False
             line = file.readline().strip()
-            if not self._valid_help_id_line(line):
+            if not Project._valid_help_id_line(line):
                 return False
         return True
 
-    def _valid_project_id_line(self: T, line: str) -> bool:
+    @staticmethod
+    def _valid_project_id_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] != 'ID':
             return False
         value = pieces[1]
         if value[1] != '"' or value[-1] != '"':
             return False
-        return self._valid_guid(value[1:-1])
+        return Project._valid_guid(value[1:-1])
 
     @staticmethod
     def _project_item_line(line: str) -> bool:
@@ -122,18 +126,19 @@ class Project:
     def _exe_line(line: str) -> bool:
         return line[0:3] == 'Exe'
 
-    def _valid_project_item_line(self: T, line: str) -> bool:
+    @staticmethod
+    def _valid_project_item_line(line: str) -> bool:
         # Split at the equals.
         pieces = line.split('=')
         # Verify the name.
         if pieces[0] == 'Document':
-            return self._valid_guid(pieces[1])
+            return Project._valid_guid(pieces[1])
         elif pieces[0] == 'Package':
             pass
         elif pieces[0] in ['Module', 'Class', 'BaseClass']:
             # ToDo: append name to an array for validation
             # against dir-stream
-            return self._valid_modulename(pieces[1])
+            return Project._valid_modulename(pieces[1])
         return False
 
     @staticmethod
