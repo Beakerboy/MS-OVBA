@@ -80,6 +80,11 @@ def test_guid_valid() -> None:
     assert Project._valid_guid(guid)
 
 
+def test_guid_invalid() -> None:
+    guid = "{9E394C0Z-697E-4AEE-9FA6-446F51FB30DC}"
+    assert not Project._valid_guid(guid)
+
+
 def test_project_line_valid() -> None:
     line = 'ID="{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}"'
     assert Project._valid_project_id_line(line)
