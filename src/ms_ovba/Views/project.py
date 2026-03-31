@@ -154,6 +154,22 @@ class Project:
         return False
 
     @staticmethod
+    def _valid_help_id_line(line: str) -> bool:
+        pieces = line.split('=')
+        if pieces[0] == "HelpContextID":
+            string = pieces[1]
+            if string[1] != '"' and string[-1] != '"':
+            return False
+            candidate = string[1:-1]
+            try:
+                int(candidate)
+                return True
+            except ValueError:
+                return False
+        return False
+        
+    # Data Type Validators
+    @staticmethod
     def _valid_modulename(name: str) -> bool:
         return len(name) <= 31
 
