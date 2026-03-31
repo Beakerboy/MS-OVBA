@@ -108,10 +108,10 @@ class Project:
                 if not Project._valid_description_line(line):
                     return False
                 line = file.readline().strip()
-            # if Project._version_line(line):
-            #     if not Project._valid_version_line(line):
-            #         return False
-            #     line = file.readline().strip()
+            if Project._version_line(line):
+                if not Project._valid_version_line(line):
+                    return False
+                line = file.readline().strip()
             # if not Project._valid_protection_line(line):
             #     return False
             # line = file.readline().strip()
