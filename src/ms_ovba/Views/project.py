@@ -162,4 +162,4 @@ class Project:
         path.replace('""', " ")
         path.replace('\t', " ")
         path.replace('"', '\x19')
-        return all( 32 <= ord(char) <= 255 for char in path)
+        return all(32 <= ord(char) <= 255 for char in path)
