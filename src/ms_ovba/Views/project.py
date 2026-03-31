@@ -99,7 +99,7 @@ class Project:
         i += 1
         return valid
         
-    def _valid_project_id_line(self: T, line) -> bool:
+    def _valid_project_id_line(self: T, line: str) -> bool:
         if line[:3] != 'ID="':
             return False
         if line[26:] != '"':
