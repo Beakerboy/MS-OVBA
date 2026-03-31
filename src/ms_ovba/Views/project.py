@@ -77,7 +77,7 @@ class Project:
         not test if data values match between streams.
         """
 
-        with open(filename, 'r') as file:
+        with open(filename, 'r', newline='') as file:
             for line in file:
                 if line[-2:] not in ["\r\n", "\n\r"]:
                     return line[-2:].encode("utf-8")
