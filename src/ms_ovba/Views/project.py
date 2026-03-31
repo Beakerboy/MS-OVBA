@@ -104,13 +104,13 @@ class Project:
         return 0
 
     @staticmethod
-    def _valid_project_id_line(line: str) -> bool:
+    def _valid_project_id_line(line: str) -> Any:
         pieces = line.split('=')
         if pieces[0] != 'ID':
-            return False
+            return 1
         value = pieces[1]
         if value[1] != '"' or value[-1] != '"':
-            return False
+            return 2
         return Project._valid_guid(value[1:-1])
 
     @staticmethod
