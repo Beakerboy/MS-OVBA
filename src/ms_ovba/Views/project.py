@@ -132,7 +132,11 @@ class Project:
         pieces = line.split('=')
         # Verify the name.
         if pieces[0] == 'Document':
-            return Project._valid_guid(pieces[1])
+            doc_string = pieces[1].split('/')
+            return (
+                Project._valid_modulename(doc_string[0]) and
+                Project._valid_hex(doc_string[1])
+            )
         elif pieces[0] == 'Package':
             pass
         elif pieces[0] in ['Module', 'Class', 'BaseClass']:
@@ -178,6 +182,10 @@ class Project:
         return False
 
     # Data Type Validators
+    @staticmethod
+    def _valid_hex(hex: str) -> bool:
+        pass
+
     @staticmethod
     def _valid_modulename(name: str) -> bool:
         return len(name) <= 31
