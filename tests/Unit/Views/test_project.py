@@ -73,3 +73,8 @@ def test_blank() -> None:
     expected += file.read(0x0152)
 
     assert project.to_bytes() == expected
+
+
+def test_valid() -> None:
+    path = 'tests/blank/PROJECT'
+    assert Project.is_valid(path)
