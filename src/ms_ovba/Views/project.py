@@ -71,7 +71,7 @@ class Project:
         # verify EOL is eithe \r\n or \n\r
         valid = True
         lines = file.splitlines(True)
-        for line in lines
+        for line in lines:
             if line[-2:] not in ["\r\n", "\n\r"]:
                 return False
         i = 0
