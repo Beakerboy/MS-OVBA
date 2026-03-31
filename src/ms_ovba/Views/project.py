@@ -52,6 +52,7 @@ class Project:
         for module in modules:
             if module.workspace is not None:
                 if not workspace_started:
+                    workspace_started = True
                     result += ['']
                     result += ['[Workspace]']
                 separator = ", "
