@@ -94,7 +94,7 @@ class Project:
             if not self._valid_help_id_line(line):
                 return False
         return True
-        
+
     def _valid_project_id_line(self: T, line: str) -> bool:
         if line[:3] != 'ID="':
             return False
