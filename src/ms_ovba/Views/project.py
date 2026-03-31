@@ -104,10 +104,10 @@ class Project:
             if not Project._valid_help_id_line(line):
                 return False
             line = file.readline().strip()
-            # if Project._description_line(line):
-            #     if not Project._valid_description_line(line):
-            #         return False
-            #     line = file.readline().strip()
+            if Project._description_line(line):
+                if not Project._valid_description_line(line):
+                    return False
+                line = file.readline().strip()
             # if Project._version_line(line):
             #     if not Project._valid_version_line(line):
             #         return False
@@ -148,6 +148,10 @@ class Project:
     @staticmethod
     def _exe_line(line: str) -> bool:
         return line[0:3] == 'Exe'
+
+    @staticmethod
+    def _description_line(line: str) -> bool:
+        return line[0:3] == 'Des'
 
     @staticmethod
     def _valid_project_item_line(line: str) -> bool:
@@ -204,6 +208,13 @@ class Project:
                 return False
         return False
 
+    @staticmethod
+    def _valid_description_line(line: str) -> bool:
+        pieces = line.split('=')
+        if pieces[0] == "Description":
+            return Project._valid_quoted_string(pieces[1], 0, 2000)
+        return False
+        
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
