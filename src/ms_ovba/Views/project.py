@@ -101,7 +101,7 @@ class Project:
             line = file.readline().strip()
             if not Project._valid_help_id_line(line):
                 return 7
-        return True
+        return 0
 
     @staticmethod
     def _valid_project_id_line(line: str) -> bool:
