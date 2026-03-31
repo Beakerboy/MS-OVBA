@@ -48,7 +48,7 @@ class Project:
         result += ['[Host Extender Info]']
         result += [self.hostExtenderInfo]
         workspace_started = False
-        
+
         for module in modules:
             if module.workspace is not None:
                 if not workspace_started:
