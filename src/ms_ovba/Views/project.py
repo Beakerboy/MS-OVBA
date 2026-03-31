@@ -150,7 +150,7 @@ class Project:
     def _valid_name_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] == "Name":
-            return Project._valid_quoted_string(piece[1], 1, 128)
+            return Project._valid_quoted_string(pieces[1], 1, 128)
         return False
 
     @staticmethod
@@ -174,7 +174,7 @@ class Project:
 
     @staticmethod
     def _valid_quoted_string(string: str, min: int, max: int) -> bool:
-        if not (min + 2 <= len(path) <= max + 2):
+        if not (min + 2 <= len(string) <= max + 2):
             return False
         if string[1] != '"' and string[-1] != '"':
             return False
