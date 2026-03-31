@@ -103,13 +103,13 @@ class Project:
         if value[1] != '"' and value[-1] != '"':
             return False
         return self._valid_guid(value[1:-1])
-        
+
     @staticmethod
     def _project_item_line(line: str) -> bool:
         options = ['Doc', 'Mod', 'Cla', 'Bas', 'Pac']
         return line[:3] in options
 
-    def _valid_project_item_line(line: str) -> bool:
+    def _valid_project_item_line(self: T, line: str) -> bool:
         # split at the equalsS
         pieces = line.split('=')
         # Verify the name.
