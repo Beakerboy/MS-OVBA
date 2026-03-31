@@ -76,7 +76,8 @@ class ModuleBase():
         return self._file_path + ".bin"
 
     def add_workspace(self: T, val1: int, val2: int,
-                      val3: int, val4: int, val5: Literal['C', 'I', 'Z']) -> None:
+                      val3: int, val4: int, val5: Literal['C', 'I', 'Z']
+                     ) -> None:
         self.workspace = (val1, val2, val3, val4, val5)
 
     def pack(self: T, endien: str, cp_name: str) -> bytes:
