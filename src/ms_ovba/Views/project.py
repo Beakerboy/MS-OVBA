@@ -123,7 +123,7 @@ class Project:
             # line = file.readline().strip()
             # if line != "":
             #     return False
-    
+
         return True
 
     @staticmethod
@@ -218,7 +218,7 @@ class Project:
         if pieces[0] == "Description":
             return Project._valid_quoted_string(pieces[1], 0, 2000)
         return False
-        
+
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
