@@ -113,6 +113,10 @@ class Project:
     def _help_file_line(line: str) -> bool:
         return line[0:5] == 'HelpF'
 
+    @staticmethod
+    def _exe_line(line: str) -> bool:
+        return line[0:3] == 'Exe'
+
     def _valid_project_item_line(self: T, line: str) -> bool:
         # Split at the equals.
         pieces = line.split('=')
@@ -132,6 +136,13 @@ class Project:
     def _valid_help_file_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] == "HelpFile":
+            return Project._valid_path(pieces[1])
+        return False
+
+    @staticmethod
+    def _valid_exe_line(line: str) -> bool:
+        pieces = line.split('=')
+        if pieces[0] == "ExeName32":
             return Project._valid_path(pieces[1])
         return False
 
