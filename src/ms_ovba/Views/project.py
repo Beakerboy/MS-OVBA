@@ -96,11 +96,38 @@ class Project:
         return True
 
     def _valid_project_id_line(self: T, line: str) -> bool:
-        if line[:3] != 'ID="':
+        pieces = line.split('=')
+        if pieces[0] != 'ID':
             return False
-        if line[26:] != '"':
+        value = pieces[1]
+        if value[1] != '"' and value[-1] != '"':
             return False
-        guid = line[4:24]
+        return self._valid_guid(value[1:-1])
+        
+    @staticmethod
+    def _project_item_line(line: str) -> bool:
+        options = ['Doc', 'Mod', 'Cla', 'Bas', 'Pac']
+        return line[:3] in options
+
+    def _valid_project_item_line(line: str) -> bool:
+        # split at the equalsS
+        pieces = line.split('=')
+        # Verify the name.
+        if pieces[0] == 'Document':
+            rerurn self._valid_guid(pieces[1])
+        elif pieces[0] == 'Package':
+            pass
+        elif pieces[0] in ['Module', 'Class', 'BaseClass']
+            return self._valid_modulename(pieces[1])
+        else:
+            return False
+
+    @staticmethod
+    def _valid_modulename(name: str) -> bool:
+        return len(name) <= 31
+
+    @staticmethod
+    def _valid_guid(guid: str) -> bool:
         hd = '[0-9a-fA-F]'
         pattern = (
             r'^\{' + hd + '{8}-' +
@@ -109,7 +136,3 @@ class Project:
         )
         # Use re.fullmatch to ensure the entire string is evaluated
         return bool(re.fullmatch(pattern, guid))
-
-    @staticmethod
-    def _project_item_line(line) -> bool:
-        
