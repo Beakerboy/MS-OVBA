@@ -80,7 +80,7 @@ class Project:
         with open(filename, 'r', newline='') as file:
             for line in file:
                 if line[-2:] not in ["\r\n", "\n\r"]:
-                    return line[-2:].encode("utf-8")
+                    return False
         with open(filename, 'r') as file:
             line = file.readline().strip()
             if not Project._valid_project_id_line(line):
