@@ -82,7 +82,7 @@ def test_guid_valid() -> None:
 
 def test_project_line_valid() -> None:
     line = 'ID="{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}"'
-    assert Project._valid_project_id_line(line) == 0
+    assert Project._valid_project_id_line(line)
 
 
 def test_valid() -> None:
