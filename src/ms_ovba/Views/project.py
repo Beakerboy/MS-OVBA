@@ -100,7 +100,7 @@ class Project:
         if pieces[0] != 'ID':
             return False
         value = pieces[1]
-        if value[1] != '"' and value[-1] != '"':
+        if value[1] != '"' or value[-1] != '"':
             return False
         return self._valid_guid(value[1:-1])
 
@@ -158,8 +158,8 @@ class Project:
         pieces = line.split('=')
         if pieces[0] == "HelpContextID":
             string = pieces[1]
-            if string[1] != '"' and string[-1] != '"':
-            return False
+            if string[1] != '"' or string[-1] != '"':
+                return False
             candidate = string[1:-1]
             try:
                 int(candidate)
@@ -192,7 +192,7 @@ class Project:
     def _valid_quoted_string(string: str, min: int, max: int) -> bool:
         if not (min + 2 <= len(string) <= max + 2):
             return False
-        if string[1] != '"' and string[-1] != '"':
+        if string[1] != '"' or string[-1] != '"':
             return False
         string = string[1:-1]
         # Dquot must be paired
