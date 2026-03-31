@@ -87,4 +87,4 @@ def test_project_line_valid() -> None:
 
 def test_valid() -> None:
     path = 'tests/blank/PROJECT'
-    assert Project.is_valid(path) == 0
+    assert Project.is_valid(path)
