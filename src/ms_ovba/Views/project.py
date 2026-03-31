@@ -107,10 +107,10 @@ class Project:
     def _valid_project_id_line(line: str) -> Any:
         pieces = line.split('=')
         if pieces[0] != 'ID':
-            return 1
+            return False
         value = pieces[1]
-        if value[1] != '"' or value[-1] != '"':
-            return 2
+        if value[0] != '"' or value[-1] != '"':
+            return False
         return Project._valid_guid(value[1:-1])
 
     @staticmethod
@@ -167,7 +167,7 @@ class Project:
         pieces = line.split('=')
         if pieces[0] == "HelpContextID":
             string = pieces[1]
-            if string[1] != '"' or string[-1] != '"':
+            if string[0] != '"' or string[-1] != '"':
                 return False
             candidate = string[1:-1]
             try:
