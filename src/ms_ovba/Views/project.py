@@ -1,4 +1,5 @@
 import binascii
+import re
 from ms_ovba_crypto import MsOvbaCrypto
 from ms_ovba.vbaProject import VbaProject
 from typing import TypeVar
@@ -63,3 +64,51 @@ class Project:
         bin_f = open("project.bin", "wb")
         bin_f.write(self.to_bytes())
         bin_f.close()
+
+    def is_valid(self: T, file: str) -> bool:
+        # get codepage
+        # verify that characterset is mbcs with the codepage
+        # verify EOL is eithe \r\n or \n\r
+        valid = True
+        lines = file.splitlines(True)
+        for line in lines
+            if line[-2:] not in ["\r\n", "\n\r"]:
+                return False
+        i = 0
+        if not self._valid_project_id_line(lines[i]):
+            return False
+        i += 1
+        while self._project_item_line(line[i]):
+            if not self._valid_project_item_line(lines[i]):
+                return False
+            i += 1
+        if self._help_file_line(lines[i]):
+            i += 1
+            if not self._valid_help_file_line(lines[i]):
+                return False
+        if self._exe_line(lines[i]):
+            i += 1
+            if not self._valid_exe_line(lines[i]):
+                return False
+        if not self._valid_name_line(lines[i]):
+            return False
+        i += 1
+        if not self._valid_help_id_line(lines[i]):
+            return False
+        i += 1
+        return valid
+        
+    def _valid_project_id_line(self: T, line) -> bool:
+        if line[:3] != 'ID="':
+            return False
+        if line[26:] != '"'\r\n':
+            return False
+        guid = line[4:24]
+        hd = '[0-9a-fA-F]'
+        pattern = (
+            r'^\{' + hd + '{8}-' +
+            hd + '{4}-' + hd + '{4}-' +
+            hd + '{4}-' + hd + r'{12}\}$'
+        )
+        # Use re.fullmatch to ensure the entire string is evaluated
+        return bool(re.fullmatch(pattern, guid))
