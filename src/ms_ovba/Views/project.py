@@ -117,7 +117,7 @@ class Project:
             return self._valid_guid(pieces[1])
         elif pieces[0] == 'Package':
             pass
-        elif pieces[0] in ['Module', 'Class', 'BaseClass']
+        elif pieces[0] in ['Module', 'Class', 'BaseClass']:
             return self._valid_modulename(pieces[1])
         else:
             return False
