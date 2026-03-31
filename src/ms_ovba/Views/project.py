@@ -123,7 +123,7 @@ class Project:
             # line = file.readline().strip()
             # if line != "":
             #     return False
-            
+    
         return True
 
     @staticmethod
