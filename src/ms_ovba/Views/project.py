@@ -109,3 +109,7 @@ class Project:
         )
         # Use re.fullmatch to ensure the entire string is evaluated
         return bool(re.fullmatch(pattern, guid))
+
+    @staticmethod
+    def _project_item_line(line) -> bool:
+        
