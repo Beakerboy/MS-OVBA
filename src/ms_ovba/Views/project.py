@@ -102,7 +102,7 @@ class Project:
         value = pieces[1]
         if value[1] != '"' and value[-1] != '"':
             return False
-        return self._valid_guid(value[1:-1])
+        return Project._valid_guid(value[1:-1])
         
     @staticmethod
     def _project_item_line(line: str) -> bool:
@@ -114,7 +114,7 @@ class Project:
         pieces = line.split('=')
         # Verify the name.
         if pieces[0] == 'Document':
-            rerurn self._valid_guid(pieces[1])
+            rerurn Project._valid_guid(pieces[1])
         elif pieces[0] == 'Package':
             pass
         elif pieces[0] in ['Module', 'Class', 'BaseClass']
