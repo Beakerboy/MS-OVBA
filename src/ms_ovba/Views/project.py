@@ -154,6 +154,10 @@ class Project:
         return line[0:3] == 'Des'
 
     @staticmethod
+    def _version_line(line: str) -> bool:
+        return line[0:3] == 'Ver'
+
+    @staticmethod
     def _valid_project_item_line(line: str) -> bool:
         # Split at the equals.
         pieces = line.split('=')
