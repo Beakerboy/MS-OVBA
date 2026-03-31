@@ -132,9 +132,9 @@ class Project:
     def _valid_help_file_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] == "HelpFile":
-            return self._valid_path(pieces[1])
+            return Project._valid_path(pieces[1])
         return False
-    
+
     @staticmethod
     def _valid_modulename(name: str) -> bool:
         return len(name) <= 31
