@@ -167,7 +167,7 @@ class Project:
             except ValueError:
                 return False
         return False
-        
+
     # Data Type Validators
     @staticmethod
     def _valid_modulename(name: str) -> bool:
