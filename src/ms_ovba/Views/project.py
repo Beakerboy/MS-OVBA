@@ -146,10 +146,11 @@ class Project:
             return Project._valid_path(pieces[1])
         return False
 
+    @staticmethod
     def _valid_name_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] == "Name":
-            return Project._valid_quoted_string(path, 1, 128)
+            return Project._valid_quoted_string(piece[1], 1, 128)
         return False
     
     @staticmethod
