@@ -201,7 +201,7 @@ class Project:
     def _valid_quoted_string(string: str, min: int, max: int) -> bool:
         if not (min + 2 <= len(string) <= max + 2):
             return False
-        if string[1] != '"' or string[-1] != '"':
+        if string[0] != '"' or string[-1] != '"':
             return False
         string = string[1:-1]
         # Dquot must be paired
