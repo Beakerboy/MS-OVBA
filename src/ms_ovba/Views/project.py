@@ -78,9 +78,11 @@ class Project:
         """
 
         with open(filename, 'r') as file:
+            i = 1
             for line in file:
                 if line[-2:] not in ["\r\n", "\n\r"]:
-                    return 1
+                    return i
+                i += 1
         with open(filename, 'r') as file:
             line = file.readline().strip()
             if not Project._valid_project_id_line(line):
