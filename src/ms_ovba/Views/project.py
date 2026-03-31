@@ -184,7 +184,7 @@ class Project:
     # Data Type Validators
     @staticmethod
     def _valid_hex(hex: str) -> bool:
-        pass
+        return hex[:2] == "&H"
 
     @staticmethod
     def _valid_modulename(name: str) -> bool:
