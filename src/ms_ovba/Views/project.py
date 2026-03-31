@@ -135,7 +135,7 @@ class Project:
             doc_string = pieces[1].split('/')
             return (
                 Project._valid_modulename(doc_string[0]) and
-                Project._valid_hex(doc_string[1])
+                Project._valid_hex32(doc_string[1])
             )
         elif pieces[0] == 'Package':
             pass
