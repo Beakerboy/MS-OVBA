@@ -109,8 +109,12 @@ class Project:
         options = ['Doc', 'Mod', 'Cla', 'Bas', 'Pac']
         return line[:3] in options
 
+    @staticmethod
+    def _help_file_line(line: str) -> bool:
+        return line[0:5] == 'HelpF'
+
     def _valid_project_item_line(self: T, line: str) -> bool:
-        # split at the equalsS
+        # Split at the equals.
         pieces = line.split('=')
         # Verify the name.
         if pieces[0] == 'Document':
@@ -118,10 +122,19 @@ class Project:
         elif pieces[0] == 'Package':
             pass
         elif pieces[0] in ['Module', 'Class', 'BaseClass']:
+            # ToDo: append name to an array for validation
+            # against dir-stream
             return self._valid_modulename(pieces[1])
         else:
             return False
 
+    @staticmethod
+    def _valid_help_file_line(line: str) -> bool:
+        pieces = line.split('=')
+        if pieces[0] == "HelpFile":
+            return self._valid_path(pieces[1])
+        return False
+    
     @staticmethod
     def _valid_modulename(name: str) -> bool:
         return len(name) <= 31
@@ -136,3 +149,17 @@ class Project:
         )
         # Use re.fullmatch to ensure the entire string is evaluated
         return bool(re.fullmatch(pattern, guid))
+
+    @staticmethod
+    def _valid_path(path: str) -> bool:
+        # 259 is max plus two double quotes
+        if len(path) > 261:
+            return False
+        if path[1] != '"' and path[-1] != '"':
+            return False
+        path = path[1:-1]
+        # Dquot must be paired
+        path.replace('""', " ")
+        path.replace('\t', " ")
+        path.replace('"', '\x19')
+        return all( 32 <= ord(char) <= 255 for char in path)
