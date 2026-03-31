@@ -65,25 +65,24 @@ class Project:
         bin_f.write(self.to_bytes())
         bin_f.close()
 
-    def is_valid(self: T, file: str) -> bool:
+    def is_valid(self: T, filename: str) -> bool:
         # get codepage
         # verify that characterset is mbcs with the codepage
-        # verify EOL is eithe \r\n or \n\r
-        valid = True
-        lines = file.splitlines(True)
-        for line in lines:
-            if line[-2:] not in ["\r\n", "\n\r"]:
+    
+        with open(filename, 'r') as file:
+            for line in file:
+                if line[-2:] not in ["\r\n", "\n\r"]:
+                    return False
+        with open(filename, 'r') as file:
+            line = file.readline().strip()
+            if not self._valid_project_id_line(line):
                 return False
-        lines = file.splitlines(False)
-        i = 0
-        if not self._valid_project_id_line(lines[i]):
-            return False
-        i += 1
-        while self._project_item_line(line[i]):
-            if not self._valid_project_item_line(lines[i]):
-                return False
-            i += 1
-        if self._help_file_line(lines[i]):
+            line = file.readline().strip()
+            while self._project_item_line(line[i]):
+                if not self._valid_project_item_line(line):
+                    return False
+                line = file.readline().strip()
+            if self._help_file_line(line):
             i += 1
             if not self._valid_help_file_line(lines[i]):
                 return False
