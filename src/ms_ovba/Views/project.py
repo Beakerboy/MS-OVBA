@@ -146,6 +146,12 @@ class Project:
             return Project._valid_path(pieces[1])
         return False
 
+    def _valid_name_line(line: str) -> bool:
+        pieces = line.split('=')
+        if pieces[0] == "Name":
+            return Project._valid_quoted_string(path, 1, 128)
+        return False
+    
     @staticmethod
     def _valid_modulename(name: str) -> bool:
         return len(name) <= 31
@@ -163,14 +169,17 @@ class Project:
 
     @staticmethod
     def _valid_path(path: str) -> bool:
-        # 259 is max plus two double quotes
-        if len(path) > 261:
+        return Project._valid_quoted_string(path, 0, 259)
+
+    @staticmethod
+    def _valid_quoted_string(string: str, min: int, max: int) -> bool:
+        if not (min + 2 <= len(path) <= max + 2):
             return False
-        if path[1] != '"' and path[-1] != '"':
+        if string[1] != '"' and string[-1] != '"':
             return False
-        path = path[1:-1]
+        string = string[1:-1]
         # Dquot must be paired
-        path.replace('""', " ")
-        path.replace('\t', " ")
-        path.replace('"', '\x19')
-        return all(32 <= ord(char) <= 255 for char in path)
+        string.replace('""', " ")
+        string.replace('\t', " ")
+        string.replace('"', '\x19')
+        return all(32 <= ord(char) <= 255 for char in string)
