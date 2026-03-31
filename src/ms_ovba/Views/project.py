@@ -47,13 +47,17 @@ class Project:
         result += ['']
         result += ['[Host Extender Info]']
         result += [self.hostExtenderInfo]
-        result += ['']
-        result += ['[Workspace]']
+        workspace_started = False
+        
         for module in modules:
-            separator = ", "
-            joined = module.modName.value + '='
-            joined += separator.join(map(str, module.workspace))
-            result += [joined]
+            if module.workspace is not None:
+                if not workspace_started:
+                    result += ['']
+                    result += ['[Workspace]']
+                separator = ", "
+                joined = module.modName.value + '='
+                joined += separator.join(map(str, module.workspace))
+                result += [joined]
         return "\r\n".join(result) + "\r\n"
 
     def to_bytes(self: T) -> bytes:
