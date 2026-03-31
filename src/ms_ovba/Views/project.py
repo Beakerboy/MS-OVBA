@@ -88,20 +88,20 @@ class Project:
             line = file.readline().strip()
             while Project._project_item_line(line):
                 if not Project._valid_project_item_line(line):
-                    return 3
+                    return False
                 line = file.readline().strip()
             if Project._help_file_line(line):
                 if not Project._valid_help_file_line(line):
-                    return 4
+                    return False
             if Project._exe_line(line):
                 if not Project._valid_exe_line(line):
-                    return 5
+                    return False
             if not Project._valid_name_line(line):
-                return 6
+                return False
             line = file.readline().strip()
             if not Project._valid_help_id_line(line):
-                return 7
-        return 0
+                return False
+        return True
 
     @staticmethod
     def _valid_project_id_line(line: str) -> Any:
@@ -183,8 +183,12 @@ class Project:
 
     # Data Type Validators
     @staticmethod
-    def _valid_hex(hex: str) -> bool:
-        return hex[:2] == "&H"
+    def _valid_hex32(hex: str) -> bool:
+        prefix = hex[:2]
+        value = int(hex[2:], 16)
+        min = -2147483648
+        max = 2147483647
+        return prefix == "&H" and (min <= value <= max)
 
     @staticmethod
     def _valid_modulename(name: str) -> bool:
