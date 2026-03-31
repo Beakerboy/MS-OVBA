@@ -78,25 +78,22 @@ class Project:
             if not self._valid_project_id_line(line):
                 return False
             line = file.readline().strip()
-            while self._project_item_line(line[i]):
+            while self._project_item_line(line):
                 if not self._valid_project_item_line(line):
                     return False
                 line = file.readline().strip()
             if self._help_file_line(line):
-            i += 1
-            if not self._valid_help_file_line(lines[i]):
+                if not self._valid_help_file_line(line):
+                    return False
+            if self._exe_line(line):
+                if not self._valid_exe_line(line):
+                    return False
+            if not self._valid_name_line(line):
                 return False
-        if self._exe_line(lines[i]):
-            i += 1
-            if not self._valid_exe_line(lines[i]):
+            line = file.readline().strip()
+            if not self._valid_help_id_line(lines[i]):
                 return False
-        if not self._valid_name_line(lines[i]):
-            return False
-        i += 1
-        if not self._valid_help_id_line(lines[i]):
-            return False
-        i += 1
-        return valid
+        return True
         
     def _valid_project_id_line(self: T, line: str) -> bool:
         if line[:3] != 'ID="':
