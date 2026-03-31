@@ -129,8 +129,7 @@ class Project:
             # ToDo: append name to an array for validation
             # against dir-stream
             return self._valid_modulename(pieces[1])
-        else:
-            return False
+        return False
 
     @staticmethod
     def _valid_help_file_line(line: str) -> bool:
