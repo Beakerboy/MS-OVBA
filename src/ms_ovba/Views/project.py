@@ -152,7 +152,7 @@ class Project:
         if pieces[0] == "Name":
             return Project._valid_quoted_string(piece[1], 1, 128)
         return False
-    
+
     @staticmethod
     def _valid_modulename(name: str) -> bool:
         return len(name) <= 31
