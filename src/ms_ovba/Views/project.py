@@ -353,8 +353,8 @@ class Project:
     def valid_int32(string: str) -> bool:
         try:
             value = int(candidate)
-             min = -2147483648
-             max = 2147483647
-             return min <= value <= max
+            min = -2147483648
+            max = 2147483647
+            return min <= value <= max
         except ValueError:
             return False
