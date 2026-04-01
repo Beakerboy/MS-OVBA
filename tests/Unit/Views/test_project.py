@@ -100,6 +100,11 @@ def test_project_line_invalid() -> None:
     assert not Project._valid_project_id_line(line)
 
 
+def test_host_extender_line() -> None:
+    line = "&H00000001={3832D640-CF90-11CF-8E43-00A0C911005A};VBE;&H00000000"
+    assert Project._valid_host_extender_line(line)
+
+
 def test_valid() -> None:
     path = 'tests/blank/PROJECT'
     assert Project.is_valid(path)
