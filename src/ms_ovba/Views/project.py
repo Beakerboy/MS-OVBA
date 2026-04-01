@@ -263,8 +263,9 @@ class Project:
         ref = pieces[1].split(";")
         return (
             Project._valid_hex32(pieces[0]) and
+            len(ref) == 3 and
             Project._valid_guid(ref[0]) and
-            ref[0] == "VBE" and
+            (ref[0] == "VBE" or all(0x21 <= ord(char) <= 0xff for char in ref[0])) and
             Project._valid_hex32(ref[2])
         )
 
