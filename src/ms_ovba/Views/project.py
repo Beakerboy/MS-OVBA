@@ -234,7 +234,7 @@ class Project:
         return False
 
     @staticmethod
-    def _valid_password_line(line: str) -> bool
+    def _valid_password_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] == "DPB":
             return Project._valid_quoted_hex(pieces[1], 16, 16)
