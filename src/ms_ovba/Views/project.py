@@ -122,15 +122,15 @@ class Project:
                 return False
             line = file.readline().strip()
             if line != "":
-                return 1
+                return False
             line = file.readline().strip()
-            if line != "[Host Extender Info]":
-                return 2
+            if line != "[HostExtender Info]":
+                return False
             while Project._host_extender_line(line):
                 if not Project._valid_host_extender_line(line):
-                    return 3
+                    return False
                 line = file.readline().strip()
-        return 0
+        return True
 
     @staticmethod
     def _valid_project_id_line(line: str) -> Any:
