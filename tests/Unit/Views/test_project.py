@@ -113,3 +113,18 @@ def test_valid() -> None:
 def test_incorrect_line_endings() -> None:
     path = 'tests/test_files/PROJECT_bad'
     assert not Project.is_valid(path)
+
+
+file_numbers = [
+    ("1"),
+    ("2"),
+    ("3"),
+    ("4"),
+    ("5"),
+]
+
+
+@pytest.mark.parametrize("input, expected", file_numbers)
+def test_incorrect_lines(number: str) -> None:
+    path = 'tests/test_files/PROJECT_line' + number
+    assert not Project.is_valid(path)
