@@ -107,4 +107,4 @@ def test_host_extender_line() -> None:
 
 def test_valid() -> None:
     path = 'tests/blank/PROJECT'
-    assert Project.is_valid(path)
+    assert Project.is_valid(path) == 0
