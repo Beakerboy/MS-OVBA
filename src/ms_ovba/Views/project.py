@@ -123,7 +123,13 @@ class Project:
             line = file.readline().strip()
             if line != "":
                 return False
-
+            line = file.readline().strip()
+            if line != "[Host Extender Info]":
+                return False
+            while Project._host_extender_line(line):
+                if not Project._valid_host_extender_line(line):
+                    return False
+                line = file.readline().strip()
         return True
 
     @staticmethod
@@ -152,10 +158,14 @@ class Project:
     @staticmethod
     def _description_line(line: str) -> bool:
         return line[0:3] == 'Des'
-
+    
     @staticmethod
     def _version_line(line: str) -> bool:
         return line[0:3] == 'Ver'
+
+    @staticmethod
+    def _host_extender_line(line: str) -> bool:
+        return line[0:2] == '&H'
 
     @staticmethod
     def _valid_project_item_line(line: str) -> bool:
@@ -247,6 +257,10 @@ class Project:
             return Project._valid_quoted_hex(pieces[1], 16, 22)
         return False
 
+    @staticmethod
+    def _valid_host_extender_line(line: str) -> bool:
+        return True
+        
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
