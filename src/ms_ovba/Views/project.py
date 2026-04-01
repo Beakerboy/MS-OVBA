@@ -158,7 +158,7 @@ class Project:
     @staticmethod
     def _description_line(line: str) -> bool:
         return line[0:3] == 'Des'
-    
+
     @staticmethod
     def _version_line(line: str) -> bool:
         return line[0:3] == 'Ver'
@@ -260,7 +260,7 @@ class Project:
     @staticmethod
     def _valid_host_extender_line(line: str) -> bool:
         return True
-        
+
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
