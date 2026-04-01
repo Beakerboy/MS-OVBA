@@ -145,15 +145,6 @@ class Project:
                     line = file.readline().strip()
         return True
 
-    @staticmethod
-    def _valid_project_id_line(line: str) -> Any:
-        pieces = line.split('=')
-        if pieces[0] != 'ID':
-            return False
-        value = pieces[1]
-        if value[0] != '"' or value[-1] != '"':
-            return False
-        return Project._valid_guid(value[1:-1])
 
     @staticmethod
     def _project_item_line(line: str) -> bool:
@@ -180,9 +171,17 @@ class Project:
     def _host_extender_line(line: str) -> bool:
         return line[0:2] == '&H'
 
+     @staticmethod
+    def _valid_project_id_line(line: str) -> Any:
+        pieces = line.split('=')
+        return (
+            len(pieces) == 2 and pieces[0] == 'ID' and
+            pieces[1][0] == '"' and pieces[1][-1] == '"' and
+            Project._valid_guid(pieces[1][1:-1])
+        )
+
     @staticmethod
     def _valid_project_item_line(line: str) -> bool:
-        # Split at the equals.
         pieces = line.split('=')
         # Verify the name.
         if pieces[0] == 'Document':
@@ -202,9 +201,10 @@ class Project:
     @staticmethod
     def _valid_help_file_line(line: str) -> bool:
         pieces = line.split('=')
-        if pieces[0] == "HelpFile":
-            return Project._valid_path(pieces[1])
-        return False
+        return (
+            len(pieces) == 2 and pieces[0] == "HelpFile" and
+            Project._valid_path(pieces[1])
+        )
 
     @staticmethod
     def _valid_exe_line(line: str) -> bool:
