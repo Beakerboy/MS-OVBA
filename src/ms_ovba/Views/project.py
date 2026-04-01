@@ -115,9 +115,9 @@ class Project:
             if not Project._valid_protection_line(line):
                 return False
             line = file.readline().strip()
-            # if not Project._valid_password_line(line):
-            #     return False
-            # line = file.readline().strip()
+            if not Project._valid_password_line(line):
+                return False
+            line = file.readline().strip()
             # if not Project._valid_visibility_line(line):
             #     return False
             # line = file.readline().strip()
@@ -233,6 +233,14 @@ class Project:
             return Project._valid_quoted_hex(pieces[1], 22, 28)
         return False
 
+    @staticmethod
+    def _valid_password_line(line: str) -> bool
+        pieces = line.split('=')
+        if pieces[0] == "DPB":
+            return Project._valid_quoted_hex(pieces[1], 16, 16)
+        return False
+
+        
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
