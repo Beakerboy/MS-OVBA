@@ -286,7 +286,7 @@ class Project:
         )
 
     @staticmethod
-    def ._valid_workspace_line(line: str) -> bool:
+    def _valid_workspace_line(line: str) -> bool:
         pieces = line.split('=')
         data = pieces[1].split(", ")
         return (
