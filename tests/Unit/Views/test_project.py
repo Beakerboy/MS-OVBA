@@ -106,9 +106,9 @@ def test_host_extender_line() -> None:
     assert Project._valid_host_extender_line(line)
 
 
-def test_valid() -> None:
-    path = 'tests/blank/PROJECT'
-    assert Project.is_valid(path)
+def test_valid_file() -> None:
+    path = 'tests/test_files/PROJECT_good'
+    assert not Project.is_valid(path)
 
 
 def test_incorrect_line_endings() -> None:
@@ -122,6 +122,9 @@ file_numbers = [
     ("3"),
     ("4"),
     ("5"),
+    ("6"),
+    ("7"),
+    ("8"),
 ]
 
 
