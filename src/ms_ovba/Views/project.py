@@ -350,7 +350,7 @@ class Project:
         )
 
     @staticmethod
-    def valid_int32(string: str) -> bool:
+    def _valid_int32(string: str) -> bool:
         try:
             value = int(string)
             min = -2147483648
