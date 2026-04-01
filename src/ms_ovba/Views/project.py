@@ -126,10 +126,23 @@ class Project:
             line = file.readline().strip()
             if line != "[HostExtender Info]":
                 return False
+            line = file.readline().strip()
             while Project._host_extender_line(line):
                 if not Project._valid_host_extender_line(line):
                     return False
                 line = file.readline().strip()
+            if line != "":
+                return False
+            line = file.readline()
+            if line != '':
+                line = line.strip()
+                if line != "[Workspace]":
+                    return False
+                line = file.readline().strip()
+                while line != '':
+                    if not Project._valid_workspace_line(line):
+                        return False
+                    line = file.readline().strip()
         return True
 
     @staticmethod
@@ -272,6 +285,17 @@ class Project:
             Project._valid_hex32(ref[2])
         )
 
+    @staticmethod
+    def ._valid_workspace_line(line: str) -> bool:
+        pieces = line.split('=')
+        data = pieces[1].split(", ")
+        return (
+            Project._valid_modulename(pieces[0]) and
+            len(data) == 5 and
+            all(Project._valid_int32(num) for num in data[:4]) and
+            data[4] in ['C', 'I', 'Z']
+        )
+        
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
@@ -324,3 +348,13 @@ class Project:
             ((48 <= ord(char) <= 57) or (65 <= ord(char) <= 70))
             for char in string
         )
+
+    @staticmethod
+    def valid_int32(string: str) -> bool:
+        try:
+            value = int(candidate)
+             min = -2147483648
+             max = 2147483647
+             return min <= value <= max
+        except ValueError:
+            return False
