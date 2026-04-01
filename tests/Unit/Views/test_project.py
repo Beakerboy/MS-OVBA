@@ -90,7 +90,7 @@ def test_project_line_valid() -> None:
     assert Project._valid_project_id_line(line)
 
 
-def test_password_line_valid() -> None
+def test_password_line_valid() -> None:
     line = 'DPB="BCBEA7A2591C5A1C5A1C"'
     assert Project._valid_password_line(line)
 
