@@ -171,7 +171,7 @@ class Project:
     def _host_extender_line(line: str) -> bool:
         return line[0:2] == '&H'
 
-     @staticmethod
+    @staticmethod
     def _valid_project_id_line(line: str) -> Any:
         pieces = line.split('=')
         return (
