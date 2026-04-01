@@ -239,7 +239,6 @@ class Project:
         if pieces[0] == "DPB":
             return Project._valid_quoted_hex(pieces[1], 16, 16)
         return False
-
         
     # Data Type Validators
     @staticmethod
