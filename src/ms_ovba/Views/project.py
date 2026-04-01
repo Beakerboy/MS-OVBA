@@ -295,7 +295,7 @@ class Project:
             all(Project._valid_int32(num) for num in data[:4]) and
             data[4] in ['C', 'I', 'Z']
         )
-        
+
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
@@ -352,7 +352,7 @@ class Project:
     @staticmethod
     def valid_int32(string: str) -> bool:
         try:
-            value = int(candidate)
+            value = int(string)
             min = -2147483648
             max = 2147483647
             return min <= value <= max
