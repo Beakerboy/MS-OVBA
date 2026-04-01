@@ -145,7 +145,6 @@ class Project:
                     line = file.readline().strip()
         return True
 
-
     @staticmethod
     def _project_item_line(line: str) -> bool:
         options = ['Doc', 'Mod', 'Cla', 'Bas', 'Pac']
