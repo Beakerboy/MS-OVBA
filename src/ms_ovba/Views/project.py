@@ -226,6 +226,13 @@ class Project:
             return pieces[1] == '"393222000"'
         return False
 
+    @staticmethod
+    def _valid_protection_line(line: str) -> bool:
+        pieces = line.split('=')
+        if pieces[0] == "CMG":
+            return pieces[1] == Project._valid_quoted_hex(pieces[1], 22, 28)
+        return False
+
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
@@ -266,3 +273,12 @@ class Project:
         string.replace('\t', " ")
         string.replace('"', '\x19')
         return all(32 <= ord(char) <= 255 for char in string)
+
+    @staticmethod
+    def _valid_quoted_hex(string: str, min: int, max: int) -> bool:
+        if not (min + 2 <= len(string) <= max + 2):
+            return False
+        if string[0] != '"' or string[-1] != '"':
+            return False
+        string = string[1:-1]
+        return all(((48 <= ord(char) <= 57) or (65 <= ord(char) <= 70)) for char in string)
