@@ -281,4 +281,7 @@ class Project:
         if string[0] != '"' or string[-1] != '"':
             return False
         string = string[1:-1]
-        return all(((48 <= ord(char) <= 57) or (65 <= ord(char) <= 70)) for char in string)
+        return all(
+            ((48 <= ord(char) <= 57) or (65 <= ord(char) <= 70))
+            for char in string
+        )
