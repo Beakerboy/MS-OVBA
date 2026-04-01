@@ -220,12 +220,12 @@ class Project:
         return False
 
     @staticmethod
-    def _valid_version_line(line) -> bool:
+    def _valid_version_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] == "VersionCompatible32":
             return pieces[1] == '"393222000"'
         return False
-        
+
     # Data Type Validators
     @staticmethod
     def _valid_hex32(hex: str) -> bool:
