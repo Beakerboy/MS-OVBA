@@ -230,7 +230,7 @@ class Project:
     def _valid_protection_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] == "CMG":
-            return pieces[1] == Project._valid_quoted_hex(pieces[1], 22, 28)
+            return Project._valid_quoted_hex(pieces[1], 22, 28)
         return False
 
     # Data Type Validators
