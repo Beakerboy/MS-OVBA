@@ -109,6 +109,7 @@ def test_valid() -> None:
     path = 'tests/blank/PROJECT'
     assert Project.is_valid(path)
 
-def test_invalid() -> None:
+
+def test_incorrect_line_endings() -> None:
     path = 'test_files/PROJECT_bad'
     assert not Project.is_valid(path)
