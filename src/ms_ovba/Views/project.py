@@ -237,7 +237,7 @@ class Project:
     def _valid_password_line(line: str) -> bool:
         pieces = line.split('=')
         if pieces[0] == "DPB":
-            return Project._valid_quoted_hex(pieces[1], 16, 16)
+            return Project._valid_quoted_hex(pieces[1], 16, 2000)
         return False
 
     # Data Type Validators
