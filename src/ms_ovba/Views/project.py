@@ -214,8 +214,8 @@ class Project:
                 while line != '':
                     if not Project._valid_workspace_line(line):
                         warnings.warn(
-                        ("Invalid Data: " + filename + " line: " +
-                         str(i)), SyntaxWarning)
+                            ("Invalid Data: " + filename +
+                             " line: " + str(i)), SyntaxWarning)
                         return False
                     line = file.readline().strip()
                     i += 1
