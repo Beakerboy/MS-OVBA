@@ -114,7 +114,7 @@ invalid_quoted_string = [
 
 @pytest.mark.parametrize("string, min, max, msg", invalid_quoted_strings)
 def test_invalid_quoted_string(string: str, min: int, max: int, msg: str) -> None:
-    assert not Project_valid_quoted_string(string, min, max), msg
+    assert not Project._valid_quoted_string(string, min, max), msg
 
 
 def test_valid_file() -> None:
