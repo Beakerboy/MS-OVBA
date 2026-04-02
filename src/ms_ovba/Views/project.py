@@ -334,7 +334,7 @@ class Project:
         substring = substring.replace('""', " ")
         substring = substring.replace('\t', " ")
         substring = substring.replace('"', '\x19')
-        return(
+        return (
             (min <= len(substring) <= max) and
             string[0] == '"' and string[-1] == '"' and
             all(32 <= ord(char) <= 255 for char in string)
