@@ -143,7 +143,7 @@ class Project:
                     if not Project._valid_workspace_line(line):
                         return False
                     line = file.readline().strip()
-        return 0
+        return True
 
     @staticmethod
     def _project_item_line(line: str) -> bool:
