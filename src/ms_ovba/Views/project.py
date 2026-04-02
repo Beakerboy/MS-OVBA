@@ -80,37 +80,37 @@ class Project:
         with open(filename, 'r', newline='') as file:
             for line in file:
                 if line[-2:] not in ["\r\n", "\n\r"]:
-                    return 1
+                    return False
         with open(filename, 'r') as file:
             line = file.readline().strip()
             if not Project._valid_project_id_line(line):
-                return 2
+                return False
             line = file.readline().strip()
             while Project._project_item_line(line):
                 if not Project._valid_project_item_line(line):
-                    return 3
+                    return False
                 line = file.readline().strip()
             if Project._help_file_line(line):
                 if not Project._valid_help_file_line(line):
-                    return 4
+                    return False
                 line = file.readline().strip()
             if Project._exe_line(line):
                 if not Project._valid_exe_line(line):
-                    return 5
+                    return False
                 line = file.readline().strip()
             if not Project._valid_name_line(line):
-                return 6
+                return False
             line = file.readline().strip()
             if not Project._valid_help_id_line(line):
-                return 7
+                return False
             line = file.readline().strip()
             if Project._description_line(line):
                 if not Project._valid_description_line(line):
-                    return 8
+                    return False
                 line = file.readline().strip()
             if Project._version_line(line):
                 if not Project._valid_version_line(line):
-                    return 9
+                    return False
                 line = file.readline().strip()
             if not Project._valid_protection_line(line):
                 return False
