@@ -80,37 +80,37 @@ class Project:
         with open(filename, 'r', newline='') as file:
             for line in file:
                 if line[-2:] not in ["\r\n", "\n\r"]:
-                    return False
+                    return 1
         with open(filename, 'r') as file:
             line = file.readline().strip()
             if not Project._valid_project_id_line(line):
-                return False
+                return 2
             line = file.readline().strip()
             while Project._project_item_line(line):
                 if not Project._valid_project_item_line(line):
-                    return False
+                    return 3
                 line = file.readline().strip()
             if Project._help_file_line(line):
                 if not Project._valid_help_file_line(line):
-                    return False
+                    return 4
                 line = file.readline().strip()
             if Project._exe_line(line):
                 if not Project._valid_exe_line(line):
-                    return False
+                    return 5
                 line = file.readline().strip()
             if not Project._valid_name_line(line):
-                return False
+                return 6
             line = file.readline().strip()
             if not Project._valid_help_id_line(line):
-                return False
+                return 7
             line = file.readline().strip()
             if Project._description_line(line):
                 if not Project._valid_description_line(line):
-                    return False
+                    return 8
                 line = file.readline().strip()
             if Project._version_line(line):
                 if not Project._valid_version_line(line):
-                    return False
+                    return 9
                 line = file.readline().strip()
             if not Project._valid_protection_line(line):
                 return False
@@ -143,7 +143,7 @@ class Project:
                     if not Project._valid_workspace_line(line):
                         return False
                     line = file.readline().strip()
-        return True
+        return 0
 
     @staticmethod
     def _project_item_line(line: str) -> bool:
