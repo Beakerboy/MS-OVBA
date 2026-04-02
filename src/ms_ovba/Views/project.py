@@ -93,7 +93,7 @@ class Project:
             i = 1
             if not Project._valid_project_id_line(line):
                 warnings.warn(
-                        ("Invalid Data: " + filename + "line: " +
+                        ("Invalid Data: " + filename + " line: " +
                          str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
@@ -101,7 +101,7 @@ class Project:
             while Project._project_item_line(line):
                 if not Project._valid_project_item_line(line):
                     warnings.warn(
-                        ("Invalid Data: " + filename + "line: " +
+                        ("Invalid Data: " + filename + " line: " +
                          str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
@@ -109,7 +109,7 @@ class Project:
             if Project._help_file_line(line):
                 if not Project._valid_help_file_line(line):
                     warnings.warn(
-                        ("Invalid Data: " + filename + "line: " +
+                        ("Invalid Data: " + filename + " line: " +
                          str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
@@ -117,7 +117,7 @@ class Project:
             if Project._exe_line(line):
                 if not Project._valid_exe_line(line):
                     warnings.warn(
-                        ("Invalid Data: " + filename + "line: " +
+                        ("Invalid Data: " + filename + " line: " +
                          str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
