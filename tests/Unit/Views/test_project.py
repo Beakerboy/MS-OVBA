@@ -106,6 +106,13 @@ def test_host_extender_line() -> None:
     assert Project._valid_host_extender_line(line)
 
 
+def test_invalid_quoted_string() -> None:
+    string = "abcde"
+    min = 0
+    max = 2
+    assert not Project_valid_quoted_string(string, min, max)
+
+
 def test_valid_file() -> None:
     path = 'tests/test_files/PROJECT_good'
     assert Project.is_valid(path)
