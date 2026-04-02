@@ -248,7 +248,7 @@ class Project:
     def _valid_version_line(line: str) -> bool:
         pieces = line.split('=')
         return (
-            line == 'VersionCompatible32="393222000"
+            line == 'VersionCompatible32="393222000"'
         )
 
     @staticmethod
