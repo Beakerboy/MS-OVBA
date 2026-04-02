@@ -129,6 +129,18 @@ def test_invalid_quoted_string(string: str,
     assert not Project._valid_quoted_string(string, min, max), msg
 
 
+invalid_quoted_strings = [
+    ("abcde", 0, 20),
+    ("abcde", 5, 12),
+    ("a=b", 0, 20)
+]
+
+
+@pytest.mark.parametrize("string, min, max", valid_quoted_strings)
+def test_valid_quoted_string(string: str, min: int, max: int) -> None:
+    assert Project._valid_quoted_string(string, min, max)
+
+
 def test_valid_file() -> None:
     path = 'tests/test_files/PROJECT_good'
     assert Project.is_valid(path)
