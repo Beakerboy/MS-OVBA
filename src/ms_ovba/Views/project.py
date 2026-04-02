@@ -337,9 +337,9 @@ class Project:
             return False
         string = string[1:-1]
         # Dquot must be paired
-        string.replace('""', " ")
-        string.replace('\t', " ")
-        string.replace('"', '\x19')
+        string = string.replace('""', " ")
+        string = string.replace('\t', " ")
+        string = string.replace('"', '\x19')
         return all(32 <= ord(char) <= 255 for char in string)
 
     @staticmethod
