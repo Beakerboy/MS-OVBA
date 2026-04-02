@@ -145,7 +145,7 @@ def test_valid_quoted_string(string: str, min: int, max: int) -> None:
 
 
 def test_valid_file() -> None:
-    path = 'tests/test_files/PROJECT_good'
+    path = 'tests/blank/PROJECT'
     assert Project.is_valid(path)
 
 
