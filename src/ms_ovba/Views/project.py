@@ -208,16 +208,18 @@ class Project:
     @staticmethod
     def _valid_exe_line(line: str) -> bool:
         pieces = line.split('=')
-        if pieces[0] == "ExeName32":
-            return Project._valid_path(pieces[1])
-        return False
+        return (
+            pieces[0] == "ExeName32" and
+            Project._valid_path(pieces[1])
+        )
 
     @staticmethod
     def _valid_name_line(line: str) -> bool:
         pieces = line.split('=')
-        if pieces[0] == "Name":
-            return Project._valid_quoted_string(pieces[1], 1, 128)
-        return False
+        return (
+            pieces[0] == "Name" and
+            Project._valid_quoted_string(pieces[1], 1, 128)
+        )
 
     @staticmethod
     def _valid_help_id_line(line: str) -> bool:
@@ -237,37 +239,41 @@ class Project:
     @staticmethod
     def _valid_description_line(line: str) -> bool:
         pieces = line.split('=')
-        if pieces[0] == "Description":
-            return Project._valid_quoted_string(pieces[1], 0, 2000)
-        return False
+        return (
+            pieces[0] == "Description" and
+            Project._valid_quoted_string(pieces[1], 0, 2000)
+        )
 
     @staticmethod
     def _valid_version_line(line: str) -> bool:
         pieces = line.split('=')
-        if pieces[0] == "VersionCompatible32":
-            return pieces[1] == '"393222000"'
-        return False
+        return (
+            line == 'VersionCompatible32="393222000"
+        )
 
     @staticmethod
     def _valid_protection_line(line: str) -> bool:
         pieces = line.split('=')
-        if pieces[0] == "CMG":
-            return Project._valid_quoted_hex(pieces[1], 22, 28)
-        return False
+        return (
+            pieces[0] == "CMG" and
+            Project._valid_quoted_hex(pieces[1], 22, 28)
+        )
 
     @staticmethod
     def _valid_password_line(line: str) -> bool:
         pieces = line.split('=')
-        if pieces[0] == "DPB":
-            return Project._valid_quoted_hex(pieces[1], 16, 2000)
-        return False
+        return (
+            pieces[0] == "DPB" and 
+            Project._valid_quoted_hex(pieces[1], 16, 2000)
+        )
 
     @staticmethod
     def _valid_visibility_line(line: str) -> bool:
         pieces = line.split('=')
-        if pieces[0] == "GC":
-            return Project._valid_quoted_hex(pieces[1], 16, 22)
-        return False
+        return (
+            pieces[0] == "GC" and
+            Project._valid_quoted_hex(pieces[1], 16, 22)
+        )
 
     @staticmethod
     def _valid_host_extender_line(line: str) -> bool:
