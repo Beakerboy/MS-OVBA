@@ -84,7 +84,7 @@ class Project:
                 if line[-2:] not in ["\r\n", "\n\r"]:
                     warnings.warn(
                         ("Incorrect Line ending: " +
-                         filename + "line: " + str(i)),
+                         filename + " line: " + str(i)),
                         SyntaxWarning)
                     return False
                 i += 1
