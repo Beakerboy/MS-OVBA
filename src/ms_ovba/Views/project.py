@@ -90,22 +90,38 @@ class Project:
                 i += 1
         with open(filename, 'r') as file:
             line = file.readline().strip()
+            i = 1
             if not Project._valid_project_id_line(line):
+                warnings.warn(
+                        ("Ivalid Data: " + filename + "line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
+            i += 1
             while Project._project_item_line(line):
                 if not Project._valid_project_item_line(line):
+                    warnings.warn(
+                        ("Ivalid Data: " + filename + "line: " +
+                         str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
+                i += 1
             if Project._help_file_line(line):
                 if not Project._valid_help_file_line(line):
+                    warnings.warn(
+                        ("Ivalid Data: " + filename + "line: " +
+                         str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
+                i += 1
             if Project._exe_line(line):
                 if not Project._valid_exe_line(line):
-                    raise Exception("found bad exe")
+                    warnings.warn(
+                        ("Ivalid Data: " + filename + "line: " +
+                         str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
+                i += 1
             if not Project._valid_name_line(line):
                 return False
             line = file.readline().strip()
