@@ -95,7 +95,8 @@ class Project:
                     return False
                 line = file.readline().strip()
             if Project._exe_line(line):
-                if not Project._valid_exe_line(line):
+                if not Project._valid_exe_line(1"),
+                    raise Exception("found bad exe")
                     return False
                 line = file.readline().strip()
             if not Project._valid_name_line(line):
