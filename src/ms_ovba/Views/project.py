@@ -1,5 +1,6 @@
 import binascii
 import re
+import warnings
 from ms_ovba_crypto import MsOvbaCrypto
 from ms_ovba.vbaProject import VbaProject
 from typing import Any, TypeVar
@@ -78,9 +79,15 @@ class Project:
         """
 
         with open(filename, 'r', newline='') as file:
+            i = 1
             for line in file:
                 if line[-2:] not in ["\r\n", "\n\r"]:
+                    warnings.warn(
+                        ("Incorrect Line ending: " +
+                         filename + "line: " + i),
+                        SyntaxWarning)
                     return False
+                line += 1
         with open(filename, 'r') as file:
             line = file.readline().strip()
             if not Project._valid_project_id_line(line):
