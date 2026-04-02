@@ -123,50 +123,102 @@ class Project:
                 line = file.readline().strip()
                 i += 1
             if not Project._valid_name_line(line):
+                warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
+            i += 1
             if not Project._valid_help_id_line(line):
+                warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
+            i += 1
             if Project._description_line(line):
                 if not Project._valid_description_line(line):
+                    warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
+                i += 1
             if Project._version_line(line):
                 if not Project._valid_version_line(line):
+                    warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
+                i += 1
             if not Project._valid_protection_line(line):
+                warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
+            i += 1
             if not Project._valid_password_line(line):
+                warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
+            i += 1
             if not Project._valid_visibility_line(line):
+                warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
+            i += 1
             if line != "":
+                warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
+            i += 1
             if line != "[HostExtender Info]":
+                warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline().strip()
+            i += 1
             while Project._host_extender_line(line):
                 if not Project._valid_host_extender_line(line):
+                    warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
+                i += 1
             if line != "":
+                warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                 return False
             line = file.readline()
+            i += 1
             if line != '':
                 line = line.strip()
                 if line != "[Workspace]":
+                    warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                     return False
                 line = file.readline().strip()
+                i += 1
                 while line != '':
                     if not Project._valid_workspace_line(line):
+                        warnings.warn(
+                        ("Invalid Data: " + filename + " line: " +
+                         str(i)), SyntaxWarning)
                         return False
                     line = file.readline().strip()
+                    i += 1
         return True
 
     @staticmethod
