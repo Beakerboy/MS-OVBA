@@ -330,16 +330,15 @@ class Project:
 
     @staticmethod
     def _valid_quoted_string(string: str, min: int, max: int) -> bool:
-        if not (min + 2 <= len(string) <= max + 2):
-            return False
-        if string[0] != '"' or string[-1] != '"':
-            return False
-        string = string[1:-1]
-        # Dquot must be paired
-        string = string.replace('""', " ")
-        string = string.replace('\t', " ")
-        string = string.replace('"', '\x19')
-        return all(32 <= ord(char) <= 255 for char in string)
+        substring = string[1:-1]
+        substring = substring.replace('""', " ")
+        substring = substring.replace('\t', " ")
+        substring = substring.replace('"', '\x19')
+        return(
+            (min <= len(substring) <= max) and
+            string[0] == '"' and string[-1] == '"' and
+            all(32 <= ord(char) <= 255 for char in string)
+        )
 
     @staticmethod
     def _valid_quoted_hex(string: str, min: int, max: int) -> bool:
