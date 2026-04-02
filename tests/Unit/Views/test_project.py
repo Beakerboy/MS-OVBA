@@ -101,6 +101,17 @@ def test_project_line_invalid() -> None:
     assert not Project._valid_project_id_line(line)
 
 
+def test_invalid_exe_line() -> None:
+    line = (
+        'ExeName32="12345678910111213141516171819202122232425262728293031' +
+        '3233343536373839404142434445464748495051525354555657585960616263' +
+        '6465666768697071727374757677787980818283848586878889909192939495' +
+        '9697989910010110210310410510610710810911011111211311411511611711' +
+        '8119120121122"'
+    )
+    assert not Project._valid_exe_line(line)
+
+
 def test_host_extender_line() -> None:
     line = "&H00000001={3832D640-CF90-11CF-8E43-00A0C911005A};VBE;&H00000000"
     assert Project._valid_host_extender_line(line)
