@@ -151,7 +151,8 @@ def test_valid_file() -> None:
 
 def test_incorrect_line_endings() -> None:
     path = 'tests/test_files/PROJECT_bad'
-    assert not Project.is_valid(path)
+    with pytest.warns(SyntaxWarning, match="my message"):
+        assert not Project.is_valid(path)
 
 
 file_numbers = [
