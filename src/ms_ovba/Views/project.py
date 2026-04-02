@@ -87,7 +87,7 @@ class Project:
                          filename + "line: " + str(i)),
                         SyntaxWarning)
                     return False
-                line += 1
+                i += 1
         with open(filename, 'r') as file:
             line = file.readline().strip()
             if not Project._valid_project_id_line(line):
