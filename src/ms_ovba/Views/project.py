@@ -246,7 +246,6 @@ class Project:
 
     @staticmethod
     def _valid_version_line(line: str) -> bool:
-        pieces = line.split('=')
         return (
             line == 'VersionCompatible32="393222000"'
         )
@@ -263,7 +262,7 @@ class Project:
     def _valid_password_line(line: str) -> bool:
         pieces = line.split('=')
         return (
-            pieces[0] == "DPB" and 
+            pieces[0] == "DPB" and
             Project._valid_quoted_hex(pieces[1], 16, 2000)
         )
 
