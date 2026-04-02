@@ -106,14 +106,15 @@ def test_host_extender_line() -> None:
     assert Project._valid_host_extender_line(line)
 
 
-invalid_quoted_string = [
+invalid_quoted_strings = [
     ("abcde", 0, 2, "Too Long"),
     ("abcde", 10, 12, "Too Short"),
 ]
 
 
 @pytest.mark.parametrize("string, min, max, msg", invalid_quoted_strings)
-def test_invalid_quoted_string(string: str, min: int, max: int, msg: str) -> None:
+def test_invalid_quoted_string(string: str,
+                               min: int, max: int, msg: str) -> None:
     assert not Project._valid_quoted_string(string, min, max), msg
 
 
