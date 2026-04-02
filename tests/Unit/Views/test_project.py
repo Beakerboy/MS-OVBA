@@ -152,8 +152,10 @@ def test_valid_file() -> None:
 def test_incorrect_line_endings() -> None:
     path = 'tests/test_files/PROJECT_bad'
     msg = "Incorrect Line ending: " + path + "line: 1"
-    with pytest.warns(SyntaxWarning, match="my message"):
+    with pytest.warns() as record:
         assert not Project.is_valid(path)
+        assert len(record) == 1
+        assert record[0].message.args[0] == msg
 
 
 file_numbers = [
