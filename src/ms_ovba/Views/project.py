@@ -339,7 +339,7 @@ class Project:
         return (
             (min <= len(substring) <= max) and
             string[0] == '"' and string[-1] == '"' and
-            all((32 <= ord(char) <= 255) for char in string)
+            all(32 <= ord(char) <= 255 for char in substring)
         )
 
     @staticmethod
