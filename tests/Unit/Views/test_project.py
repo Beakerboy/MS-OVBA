@@ -179,4 +179,9 @@ file_numbers = [
 @pytest.mark.parametrize("number", file_numbers)
 def test_incorrect_lines(number: str) -> None:
     path = 'tests/test_files/PROJECT_line' + number
-    assert not Project.is_valid(path)
+    msg = f"Incorrect Line ending: {path} line: {number}"
+    with pytest.warns() as record:
+        assert not Project.is_valid(path)
+        assert len(record) == 1
+        assert record[0].message.args[0] == msg
+        
