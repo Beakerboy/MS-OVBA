@@ -166,7 +166,7 @@ file_numbers = [
 ]
 
 
-@pytest.mark.parametrize("number, result", file_numbers)
-def test_incorrect_lines(number: str, result: int) -> None:
+@pytest.mark.parametrize("number", file_numbers)
+def test_incorrect_lines(number: str) -> None:
     path = 'tests/test_files/PROJECT_line' + number
     assert not Project.is_valid(path)
