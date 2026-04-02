@@ -108,7 +108,7 @@ def test_host_extender_line() -> None:
 
 def test_valid_file() -> None:
     path = 'tests/test_files/PROJECT_good'
-    assert not Project.is_valid(path)
+    assert Project.is_valid(path)
 
 
 def test_incorrect_line_endings() -> None:
