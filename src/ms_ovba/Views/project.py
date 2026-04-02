@@ -330,7 +330,7 @@ class Project:
 
     @staticmethod
     def _valid_quoted_string(string: str, min: int, max: int) -> bool:
-        if len(str) < 2:
+        if len(string) < 2:
             return False
         substring = string[1:-1]
         substring = substring.replace('""', " ")
