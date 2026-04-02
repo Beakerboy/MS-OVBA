@@ -330,6 +330,8 @@ class Project:
 
     @staticmethod
     def _valid_quoted_string(string: str, min: int, max: int) -> bool:
+        if len(str) < 2:
+            return False
         substring = string[1:-1]
         substring = substring.replace('""', " ")
         substring = substring.replace('\t', " ")
@@ -337,7 +339,7 @@ class Project:
         return (
             (min <= len(substring) <= max) and
             string[0] == '"' and string[-1] == '"' and
-            all(32 <= ord(char) <= 255 for char in string)
+            all((32 <= ord(char) <= 255) for char in string)
         )
 
     @staticmethod
