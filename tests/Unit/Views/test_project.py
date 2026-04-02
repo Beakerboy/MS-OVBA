@@ -118,8 +118,9 @@ def test_host_extender_line() -> None:
 
 
 invalid_quoted_strings = [
-    ("abcde", 0, 2, "Too Long"),
-    ("abcde", 10, 12, "Too Short"),
+    ('"abcde"', 0, 2, "Too Long"),
+    ('"abcde"', 10, 12, "Too Short"),
+    ('abcde', 5, 12, "Not Quoted"),
 ]
 
 
@@ -130,9 +131,9 @@ def test_invalid_quoted_string(string: str,
 
 
 valid_quoted_strings = [
-    ("abcde", 0, 20),
-    ("abcde", 5, 12),
-    ("a=b", 0, 20)
+    ('"abcde"', 0, 20),
+    ('"abcde"', 5, 12),
+    ('"a=b"', 0, 20)
 ]
 
 
