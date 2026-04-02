@@ -129,7 +129,7 @@ def test_invalid_quoted_string(string: str,
     assert not Project._valid_quoted_string(string, min, max), msg
 
 
-invalid_quoted_strings = [
+valid_quoted_strings = [
     ("abcde", 0, 20),
     ("abcde", 5, 12),
     ("a=b", 0, 20)
