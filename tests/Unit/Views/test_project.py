@@ -121,6 +121,7 @@ invalid_quoted_strings = [
     ('"abcde"', 0, 2, "Too Long"),
     ('"abcde"', 10, 12, "Too Short"),
     ('abcde', 5, 12, "Not Quoted"),
+    ('"a"b"', 0, 20, "Unpaired DQUOT")
 ]
 
 
@@ -133,7 +134,8 @@ def test_invalid_quoted_string(string: str,
 valid_quoted_strings = [
     ('"abcde"', 0, 20),
     ('"abcde"', 5, 12),
-    ('"a=b"', 0, 20)
+    ('"a=b"', 0, 20),
+    ('"a""b"', 0, 20)
 ]
 
 
