@@ -184,4 +184,3 @@ def test_incorrect_lines(number: str) -> None:
         assert not Project.is_valid(path)
         assert len(record) == 1
         assert record[0].message.args[0] == msg
-        
