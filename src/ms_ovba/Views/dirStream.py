@@ -222,7 +222,8 @@ class DirStream():
         return project_data
 
     @staticmethod
-    def _parse_reference_group(data: bytes, offset: int, pack_symbol: str) -> tuple[bytes, int]:
+    def _parse_reference_group(data: bytes, offset: int,
+                               pack_symbol: str) -> tuple[bytes, int]:
         """Consumes records until the end of a single Reference definition."""
         # A Reference is a cluster of records (Name, Libid, etc.)
         # Logic: Consume the first record, then peek for optional sub-records
@@ -234,7 +235,8 @@ class DirStream():
         return record_content, offset + 6 + size
 
     @staticmethod
-    def _parse_module_group(data: bytes, offset: int, pack_symbol: str) -> tuple[bytes, int]:
+    def _parse_module_group(data: bytes, offset: int,
+                            pack_symbol: str) -> tuple[bytes, int]:
         """Consumes all records for one Module until the 0x002B terminator."""
         module_bytes = b''
         while offset < len(data):
