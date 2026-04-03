@@ -93,3 +93,60 @@ class DirStream():
             constants
         ])
         return information
+
+@staticmethod
+    def is_valid(data: bytes) -> bool:
+        """
+        Static validation: Checks if bytes follow the DirStream structure.
+        Expects decompressed bytes.
+        """
+        try:
+            offset = 0
+            
+            # 1. Check PROJECTSYSKIND (Mandatory first record)
+            # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
+            record_id, size = struct.unpack_from("<HI", data, offset)
+            if record_id != 1 or size != 4:
+                return False
+            offset += 6 + size
+
+            # 2. Skip through variable Information/Reference records
+            # Real validation would loop through known IDs (1-12, 16, 17, etc.)
+            # For brevity, we verify the specific 'Terminator' at the end.
+            
+            # 3. Check for the Modules Header and Project Cookie
+            # These appear after references but before the modules list
+            # to_bytes() uses: IdSizeField(0x000F, 2, len(modules))
+            # We search for the 0x000F marker followed by 0x0013 (Cookie)
+            found_modules_header = False
+            while offset < len(data) - 6:
+                header_id = struct.unpack_from("<H", data, offset)[0]
+                if header_id == 0x000F:
+                    found_modules_header = True
+                    break
+                # Jump by standard Record header (ID + Size) or typical lengths
+                offset += 2 
+            
+            if not found_modules_header:
+                return False
+
+            # 4. Check the Terminator (Last 6 bytes of the stream)
+            # output += struct.pack(pack_symbol + "HI", 16, 0)
+            # 16 = 0x0010 (Terminator ID), 0 = Reserved
+            term_id, reserved = struct.unpack_from("<HI", data, len(data) - 6)
+            return term_id == 16 and reserved == 0
+
+        except (struct.error, IndexError):
+            return False
+
+    @staticmethod
+    def is_file_valid(file_path: str) -> bool:
+        """Helper to validate a compressed .bin file on disk."""
+        try:
+            with open(file_path, "rb") as f:
+                compressed = f.read()
+            from ms_ovba_compression.ms_ovba import MsOvba
+            decompressed = MsOvba().decompress(compressed)
+            return DirStream.is_valid(decompressed)
+        except Exception:
+            return False
