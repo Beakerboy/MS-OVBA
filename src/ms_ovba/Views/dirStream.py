@@ -7,13 +7,21 @@ from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
 )
 from ms_ovba.Models.Fields.packed_data import PackedData
-from typing import List, TypeVar
+from typing import List, TypedDict, TypeVar
 
 
 T = TypeVar('T', bound='DirStream')
 
 
-PackableData = DoubleEncodedString | IdSizeField | PackedData
+ParackableData = DoubleEncodedString | IdSizeField | PackedData
+
+
+class Parameters(TypedDict):
+    references: list[],
+    modules: list,
+    help_context_id: int,
+    project_cookie: int,
+    codepage_name: str
 
 
 class DirStream():
@@ -157,7 +165,7 @@ class DirStream():
         offset = 0
         pack_symbol = '<' if endien == 'little' else '>'
 
-        project_data = {
+        project_data: Parameters = {
             "references": [],
             "modules": [],
             "help_context_id": 0,
