@@ -102,7 +102,7 @@ class DirStream():
         """
         try:
             offset = 0
-    
+
             # 1. Check PROJECTSYSKIND (Mandatory first record)
             # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
             record_id, size = struct.unpack_from("<HI", data, offset)
@@ -113,7 +113,7 @@ class DirStream():
             # 2. Skip through variable Information/Reference records
             # Real validation would loop through known IDs (1-12, 16, 17, etc.)
             # For brevity, we verify the specific 'Terminator' at the end.
-    
+
             # 3. Check for the Modules Header and Project Cookie
             # These appear after references but before the modules list
             # to_bytes() uses: IdSizeField(0x000F, 2, len(modules))
@@ -126,7 +126,7 @@ class DirStream():
                     break
                 # Jump by standard Record header (ID + Size) or typical lengths
                 offset += 2
-    
+
             if not found_modules_header:
                 return False
 
@@ -166,39 +166,39 @@ class DirStream():
             "modules": [],
             "help_context_id": 0,
             "project_cookie": 0,
-            "codepage_name": "cp1252" # Default
+            "codepage_name": "cp1252"  # Default
         }
 
         while offset < len(data):
             # 1. Read Record ID (2 bytes)
             record_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
-    
+
             # 2. Check for Terminator (ID 16)
             if record_id == 16:
                 break
-    
+
             # 3. Read Size (4 bytes)
             size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
             record_data = data[offset + 6 : offset + 6 + size]
-    
+
             # 4. Map IDs to VbaProject attributes
             # Reference MS-OVBA Section 2.3.4.2
             if record_id == 0x0003: # PROJECTCODEPAGE
                 # Map code page to name if necessary
                 cp_val = struct.unpack(pack_symbol + "H", record_data)[0]
                 project_data["codepage_name"] = f"cp{cp_val}"
-    
+
             elif record_id == 0x0007: # PROJECTHELPCONTEXT
                 project_data["help_context_id"] = struct.unpack(pack_symbol + "I", record_data)[0]
-    
+
             elif record_id == 0x0013: # PROJECTCOOKIE
                 project_data["project_cookie"] = struct.unpack(pack_symbol + "H", record_data)[0]
-    
+
             # Record parsing for References/Modules would go here
             # e.g., if record_id in [0x0016, 0x0033]: append to references
             # e.g., if record_id == 0x0019: append to modules
 
             # Move to next record
             offset += 6 + size
-    
+
         return project_data
