@@ -21,19 +21,19 @@ class DirStream():
     """
 
     def __init__(self: T, project: VbaProject) -> None:
-        self.project = project
+        self._project = project
         self._include_compat = project.compat
 
     def to_bytes(self: T) -> bytes:
         information = self._load_information()
-        endien = self.project.endien
-        cp_name = self.project.codepage_name
+        endien = self._project.endien
+        cp_name = self._project.codepage_name
         pack_symbol = '<' if endien == 'little' else '>'
         # should be 0xFFFF
-        cookie_value = self.project.project_cookie
+        cookie_value = self._project.project_cookie
         self.project_cookie = IdSizeField(19, 2, cookie_value)
-        references = self.project.references
-        modules = self.project.modules
+        references = self._project.references
+        modules = self._project.modules
         output = b''
         for record in information:
             output += record.pack(endien, cp_name)
@@ -70,7 +70,7 @@ class DirStream():
         project_name = IdSizeField(4, 10, "VBAProject")
         docstring = DoubleEncodedString([5, 0x0040], "")
         helpfile = DoubleEncodedString([6, 0x003D], "")
-        help_context = IdSizeField(7, 4, 0)
+        help_context = IdSizeField(7, 4, self._project.help_context_id)
         lib_flags = IdSizeField(8, 4, 0)
         version = IdSizeField(9, 4, 0x65BE0257)
         minor_version = PackedData("H", 17)

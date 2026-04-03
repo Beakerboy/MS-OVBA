@@ -1,3 +1,4 @@
+import pytest
 import unittest.mock
 from ms_ovba.Views.project import Project
 from typing import Type, TypeVar
@@ -52,6 +53,7 @@ class MockVbaProject:
         self.password = b'\x00'
         self.visibility_state = b'\xFF'
         self.attributes = {}
+        self.help_context_id = 0
 
 
 @unittest.mock.patch('random.randint', NotSoRandom.randint)
@@ -72,3 +74,113 @@ def test_blank() -> None:
     expected += file.read(0x0152)
 
     assert project.to_bytes() == expected
+
+
+def test_guid_valid() -> None:
+    guid = "{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}"
+    assert Project._valid_guid(guid)
+
+
+def test_guid_invalid() -> None:
+    guid = "{9E394C0Z-697E-4AEE-9FA6-446F51FB30DC}"
+    assert not Project._valid_guid(guid)
+
+
+def test_project_line_valid() -> None:
+    line = 'ID="{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}"'
+    assert Project._valid_project_id_line(line)
+
+
+def test_password_line_valid() -> None:
+    line = 'DPB="BCBEA7A2591C5A1C5A1C"'
+    assert Project._valid_password_line(line)
+
+
+def test_project_line_invalid() -> None:
+    line = 'ID={9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
+    assert not Project._valid_project_id_line(line)
+
+
+def test_invalid_exe_line() -> None:
+    line = (
+        'ExeName32="12345678910111213141516171819202122232425262728293031' +
+        '3233343536373839404142434445464748495051525354555657585960616263' +
+        '6465666768697071727374757677787980818283848586878889909192939495' +
+        '9697989910010110210310410510610710810911011111211311411511611711' +
+        '8119120121122123"'
+    )
+    assert not Project._valid_exe_line(line)
+
+
+def test_host_extender_line() -> None:
+    line = "&H00000001={3832D640-CF90-11CF-8E43-00A0C911005A};VBE;&H00000000"
+    assert Project._valid_host_extender_line(line)
+
+
+invalid_quoted_strings = [
+    ('"abc"', 0, 2, "Too Long"),
+    ('"abcde"', 6, 12, "Too Short"),
+    ('abcde', 5, 12, "Not Quoted"),
+    ('"a"b"', 0, 20, "Unpaired DQUOT")
+]
+
+
+@pytest.mark.parametrize("string, min, max, msg", invalid_quoted_strings)
+def test_invalid_quoted_string(string: str,
+                               min: int, max: int, msg: str) -> None:
+    assert not Project._valid_quoted_string(string, min, max), msg
+
+
+valid_quoted_strings = [
+    ('"abcde"', 0, 20),
+    ('"abcde"', 5, 12),
+    ('"a=b"', 0, 20),
+    ('"a""b"', 0, 20)
+]
+
+
+@pytest.mark.parametrize("string, min, max", valid_quoted_strings)
+def test_valid_quoted_string(string: str, min: int, max: int) -> None:
+    assert Project._valid_quoted_string(string, min, max)
+
+
+def test_valid_file() -> None:
+    path = 'tests/blank/PROJECT'
+    assert Project.is_valid(path)
+
+
+def test_incorrect_line_endings() -> None:
+    path = 'tests/test_files/PROJECT_bad'
+    msg = "Incorrect Line ending: " + path + " line: 1"
+    with pytest.warns() as record:
+        assert not Project.is_valid(path)
+        assert len(record) == 1
+        assert record[0].message.args[0] == msg
+
+
+file_numbers = [
+    ("1"),
+    ("2"),
+    ("3"),
+    ("4"),
+    ("5"),
+    ("6"),
+    ("7"),
+    ("8"),
+    ("9"),
+    ("10"),
+    ("11"),
+    ("12"),
+    ("13"),
+    ("14")
+]
+
+
+@pytest.mark.parametrize("number", file_numbers)
+def test_incorrect_lines(number: str) -> None:
+    path = 'tests/test_files/PROJECT_line' + number
+    msg = f"Invalid Data: {path} line: {number}"
+    with pytest.warns() as record:
+        assert not Project.is_valid(path)
+        assert len(record) == 1
+        assert record[0].message.args[0] == msg

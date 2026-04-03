@@ -4,7 +4,7 @@ from ms_ovba.Models.Fields.doubleEncodedString import (
 )
 from ms_ovba.Models.Fields.packed_data import PackedData
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
-from typing import TypeVar
+from typing import Literal, TypeVar
 
 
 T = TypeVar('T', bound='ModuleBase')
@@ -24,7 +24,7 @@ class ModuleBase():
         # self.readonly = SimpleRecord(0x001E, 4, helpContext)
         # self.private = SimpleRecord(0x001E, 4, helpContext)
         self._cache = b''
-        self.workspace = [0, 0, 0, 0, 'C']
+        self.workspace: tuple[int, int, int, int, Literal['C', 'I', 'Z']]
         self.type = ''
         self.created = 0
         self.modified = 0
@@ -76,8 +76,9 @@ class ModuleBase():
         return self._file_path + ".bin"
 
     def add_workspace(self: T, val1: int, val2: int,
-                      val3: int, val4: int, val5: int) -> None:
-        self.workspace = [val1, val2, val3, val4, val5]
+                      val3: int, val4: int,
+                      val5: Literal['C', 'I', 'Z']) -> None:
+        self.workspace = (val1, val2, val3, val4, val5)
 
     def pack(self: T, endien: str, cp_name: str) -> bytes:
         """
