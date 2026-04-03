@@ -231,7 +231,7 @@ class DirStream():
         start_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
         size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
         # In a real impl, you'd wrap this data into a Reference Model object
-        record_content = data[offset : offset + 6 + size] 
+        record_content = data[offset:offset + 6 + size]
         return record_content, offset + 6 + size
 
     @staticmethod
