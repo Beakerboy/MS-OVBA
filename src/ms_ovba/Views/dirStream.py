@@ -222,10 +222,10 @@ class DirStream():
         return project_data
 
     @staticmethod
-    def _parse_reference_group(data: bytes, offset: int, pack_symbol: str):
+    def _parse_reference_group(data: bytes, offset: int, pack_symbol: str) -> tuple[bytes, int]:
         """Consumes records until the end of a single Reference definition."""
         # A Reference is a cluster of records (Name, Libid, etc.)
-        # Logic: Consume the first record, then peek for optional sub-records 
+        # Logic: Consume the first record, then peek for optional sub-records
         # like REFERENCECONTROL (0x002F) or Ref-Original (0x0033)
         start_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
         size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
@@ -234,13 +234,13 @@ class DirStream():
         return record_content, offset + 6 + size
 
     @staticmethod
-    def _parse_module_group(data: bytes, offset: int, pack_symbol: str):
+    def _parse_module_group(data: bytes, offset: int, pack_symbol: str) -> tuple[bytes, int]:
         """Consumes all records for one Module until the 0x002B terminator."""
         module_bytes = b''
         while offset < len(data):
             r_id, size = struct.unpack_from(pack_symbol + "H I", data, offset)
             record_total_len = 6 + size
-            module_bytes += data[offset : offset + record_total_len]
+            module_bytes += data[offset:offset + record_total_len]
             offset += record_total_len
             if r_id == 0x002B:  # MODULE Terminator
                 break
