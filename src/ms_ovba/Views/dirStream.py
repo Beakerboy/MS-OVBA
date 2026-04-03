@@ -94,7 +94,7 @@ class DirStream():
         ])
         return information
 
-@staticmethod
+    @staticmethod
     def is_valid(data: bytes) -> bool:
         """
         Static validation: Checks if bytes follow the DirStream structure.
