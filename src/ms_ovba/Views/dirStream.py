@@ -17,10 +17,10 @@ ParackableData = DoubleEncodedString | IdSizeField | PackedData
 
 
 class Parameters(TypedDict):
-    references: list[ReferenceRecord],
-    modules: list,
-    help_context_id: int,
-    project_cookie: int,
+    references: list[ReferenceRecord]
+    modules: list
+    help_context_id: int
+    project_cookie: int
     codepage_name: str
 
 
