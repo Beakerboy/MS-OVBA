@@ -170,8 +170,11 @@ class DirStream():
             # --- REFERENCES SECTION ---
             # Using your factory for IDs: 0x000D, 0x000E, 0x002F, 0x0033
             if record_id in [0x000D, 0x000E, 0x002F, 0x0033]:
-                # We need to know how many bytes to send to ReferenceRecord.unpack
-                size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
+                # We need to know how many bytes to send to
+                # ReferenceRecord.unpack
+                size = (
+                    struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
+                )
                 total_len = 6 + size
 
                 # Extract specific slice for the factory
