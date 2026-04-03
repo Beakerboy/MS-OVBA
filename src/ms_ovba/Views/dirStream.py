@@ -150,3 +150,55 @@ class DirStream():
             return DirStream.is_valid(decompressed)
         except Exception:
             return False
+
+@staticmethod
+    def from_bytes(data: bytes, endien: str = 'little') -> dict:
+        """
+        Parses decompressed bytes and extracts project metadata.
+        Returns a dict of attributes for VbaProject.
+        """
+        offset = 0
+        pack_symbol = '<' if endien == 'little' else '>'
+        
+        # State to return
+        project_data = {
+            "references": [],
+            "modules": [],
+            "help_context_id": 0,
+            "project_cookie": 0,
+            "codepage_name": "cp1252" # Default
+        }
+
+        while offset < len(data):
+            # 1. Read Record ID (2 bytes)
+            record_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
+            
+            # 2. Check for Terminator (ID 16)
+            if record_id == 16:
+                break
+                
+            # 3. Read Size (4 bytes)
+            size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
+            record_data = data[offset + 6 : offset + 6 + size]
+            
+            # 4. Map IDs to VbaProject attributes
+            # Reference MS-OVBA Section 2.3.4.2
+            if record_id == 0x0003: # PROJECTCODEPAGE
+                # Map code page to name if necessary
+                cp_val = struct.unpack(pack_symbol + "H", record_data)[0]
+                project_data["codepage_name"] = f"cp{cp_val}"
+            
+            elif record_id == 0x0007: # PROJECTHELPCONTEXT
+                project_data["help_context_id"] = struct.unpack(pack_symbol + "I", record_data)[0]
+                
+            elif record_id == 0x0013: # PROJECTCOOKIE
+                project_data["project_cookie"] = struct.unpack(pack_symbol + "H", record_data)[0]
+            
+            # Record parsing for References/Modules would go here
+            # e.g., if record_id in [0x0016, 0x0033]: append to references
+            # e.g., if record_id == 0x0019: append to modules
+
+            # Move to next record
+            offset += 6 + size
+            
+        return project_data
