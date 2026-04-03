@@ -199,13 +199,16 @@ class DirStream():
 
             # --- MODULES SECTION (0x0019) ---
             if record_id == 0x0019:
-                module_obj, new_offset = DirStream._parse_module_group(data, offset, endien)
+                module_obj, new_offset = (
+                    DirStream._parse_module_group(data, offset, endien)
+                )
                 project_data["modules"].append(module_obj)
                 offset = new_offset
                 continue
 
             # --- INFORMATION RECORDS ---
-            if record_id == 0x0010: break # Terminator
+            if record_id == 0x0010:
+                break  # Terminator
 
             size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
             if record_id == 0x0007:  # HELPCONTEXT
@@ -216,3 +219,28 @@ class DirStream():
             offset += 6 + size
 
         return project_data
+
+    @staticmethod
+    def _parse_reference_group(data, offset, pack_symbol):
+        """Consumes records until the end of a single Reference definition."""
+        # A Reference is a cluster of records (Name, Libid, etc.)
+        # Logic: Consume the first record, then peek for optional sub-records 
+        # like REFERENCECONTROL (0x002F) or Ref-Original (0x0033)
+        start_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
+        size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
+        # In a real impl, you'd wrap this data into a Reference Model object
+        record_content = data[offset : offset + 6 + size] 
+        return record_content, offset + 6 + size
+
+    @staticmethod
+    def _parse_module_group(data, offset, pack_symbol):
+        """Consumes all records for one Module until the 0x002B terminator."""
+        module_bytes = b''
+        while offset < len(data):
+            r_id, size = struct.unpack_from(pack_symbol + "H I", data, offset)
+            record_total_len = 6 + size
+            module_bytes += data[offset : offset + record_total_len]
+            offset += record_total_len
+            if r_id == 0x002B: # MODULE Terminator
+                break
+        return module_bytes, offset
