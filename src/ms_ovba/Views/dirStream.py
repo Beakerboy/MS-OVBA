@@ -155,7 +155,7 @@ class DirStream():
     def from_bytes(data: bytes, endien: str = 'little') -> dict:
         offset = 0
         pack_symbol = '<' if endien == 'little' else '>'
-        
+
         project_data = {
             "references": [],
             "modules": [],
@@ -166,18 +166,18 @@ class DirStream():
 
         while offset < len(data):
             record_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
-            
+
             # --- REFERENCES SECTION ---
             # Using your factory for IDs: 0x000D, 0x000E, 0x002F, 0x0033
             if record_id in [0x000D, 0x000E, 0x002F, 0x0033]:
                 # We need to know how many bytes to send to ReferenceRecord.unpack
                 size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
                 total_len = 6 + size
-                
+
                 # Extract specific slice for the factory
                 ref_bytes = data[offset : offset + total_len]
                 project_data["references"].append(ReferenceRecord.unpack(ref_bytes, endien))
-                
+
                 offset += total_len
                 continue
 
@@ -199,11 +199,11 @@ class DirStream():
 
             # --- INFORMATION RECORDS ---
             if record_id == 0x0010: break # Terminator
-            
+
             size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
             if record_id == 0x0007: # HELPCONTEXT
                 project_data["help_context_id"] = struct.unpack_from(pack_symbol + "I", data, offset + 6)[0]
-            
+
             offset += 6 + size
-            
+
         return project_data
