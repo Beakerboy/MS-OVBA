@@ -22,5 +22,5 @@ def test_is_valid() -> None:
         # Use MsOvba to decompress the stream
         ms_ovba = MsOvba()
         decompressed_data = ms_ovba.decompress(compressed_data)
-        assert DirStream.is_valid(f)
+        assert DirStream.is_valid(decompressed_data)
     
