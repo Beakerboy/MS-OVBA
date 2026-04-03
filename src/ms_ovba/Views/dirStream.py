@@ -151,7 +151,7 @@ class DirStream():
         except Exception:
             return False
 
-@staticmethod
+    @staticmethod
     def from_bytes(data: bytes, endien: str = 'little') -> dict:
         """
         Parses decompressed bytes and extracts project metadata.
