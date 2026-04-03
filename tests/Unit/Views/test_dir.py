@@ -23,4 +23,3 @@ def test_is_valid() -> None:
         ms_ovba = MsOvba()
         decompressed_data = ms_ovba.decompress(compressed_data)
         assert DirStream.is_valid(decompressed_data)
-    
