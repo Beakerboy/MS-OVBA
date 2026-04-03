@@ -13,7 +13,7 @@ from typing import List, TypedDict, TypeVar
 T = TypeVar('T', bound='DirStream')
 
 
-ParackableData = DoubleEncodedString | IdSizeField | PackedData
+PackableData = DoubleEncodedString | IdSizeField | PackedData
 
 
 class Parameters(TypedDict):
