@@ -17,7 +17,6 @@ def my_fixture():
     osPath("tests/blank/dir.bin").unlink(missing_ok=True)
 
 
-
 def test_construct() -> None:
     dir = DirStream(mock_vbaproject)
     assert isinstance(dir, DirStream)
