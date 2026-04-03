@@ -16,7 +16,7 @@ def test_is_valid() -> None:
     file = "test/blank/vbaProject.bin"
     ole_file = OleFile.create_from_file(file)
     ole_file.extract_stream('dir', 'test/blank/')
-    with open('test/blank/dir.bin', 'rb' as f:
+    with open('test/blank/dir.bin', 'rb') as f:
         compressed_data = f.read()
 
         # Use MsOvba to decompress the stream
