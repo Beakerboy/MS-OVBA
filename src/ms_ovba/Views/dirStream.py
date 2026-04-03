@@ -189,10 +189,14 @@ class DirStream():
                 project_data["codepage_name"] = f"cp{cp_val}"
 
             elif record_id == 0x0007:  # PROJECTHELPCONTEXT
-                project_data["help_context_id"] = struct.unpack(pack_symbol + "I", record_data)[0]
+                project_data["help_context_id"] = (
+                    struct.unpack(pack_symbol + "I", record_data)[0]
+                )
 
             elif record_id == 0x0013:  # PROJECTCOOKIE
-                project_data["project_cookie"] = struct.unpack(pack_symbol + "H", record_data)[0]
+                project_data["project_cookie"] = (
+                    struct.unpack(pack_symbol + "H", record_data)[0]
+                )
 
             # Record parsing for References/Modules would go here
             # e.g., if record_id in [0x0016, 0x0033]: append to references
