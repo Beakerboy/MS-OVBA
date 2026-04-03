@@ -178,8 +178,10 @@ class DirStream():
                 total_len = 6 + size
 
                 # Extract specific slice for the factory
-                ref_bytes = data[offset : offset + total_len]
-                project_data["references"].append(ReferenceRecord.unpack(ref_bytes, endien))
+                ref_bytes = data[offset:offset + total_len]
+                project_data["references"].append(
+                    ReferenceRecord.unpack(ref_bytes, endien)
+                )
 
                 offset += total_len
                 continue
