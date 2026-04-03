@@ -1,3 +1,4 @@
+from pathlib import osPath
 from ms_cfb.ole_file import OleFile
 from ms_ovba.Views.dirStream import DirStream
 from ms_ovba_compression.ms_ovba import MsOvba
@@ -5,6 +6,16 @@ from unittest import mock
 
 
 mock_vbaproject = mock.Mock()
+
+
+@pytest.fixture
+def my_fixture():
+    # Setup: Runs BEFORE the test
+    # print("\nSetting up...")
+    yield
+    # Teardown: Runs AFTER the test
+    osPath("tests/blank/dir.bin").unlink(missing_ok=True)
+
 
 
 def test_construct() -> None:
