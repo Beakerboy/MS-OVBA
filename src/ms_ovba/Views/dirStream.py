@@ -161,7 +161,7 @@ class DirStream():
             return False
 
     @staticmethod
-    def from_bytes(data: bytes, endien: str = 'little') -> dict:
+    def from_bytes(data: bytes, endien: str = 'little') -> Parameters:
         offset = 0
         pack_symbol = '<' if endien == 'little' else '>'
 
