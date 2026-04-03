@@ -1,6 +1,7 @@
 import struct
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.vbaProject import VbaProject
+from ms_ovba.Models.Entities.reference_record import ReferenceRecord
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
