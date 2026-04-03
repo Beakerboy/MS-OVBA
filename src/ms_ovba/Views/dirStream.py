@@ -179,11 +179,11 @@ class DirStream():
 
             # 3. Read Size (4 bytes)
             size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
-            record_data = data[offset + 6 : offset + 6 + size]
+            record_data = data[offset + 6:offset + 6 + size]
 
             # 4. Map IDs to VbaProject attributes
             # Reference MS-OVBA Section 2.3.4.2
-            if record_id == 0x0003: # PROJECTCODEPAGE
+            if record_id == 0x0003:  # PROJECTCODEPAGE
                 # Map code page to name if necessary
                 cp_val = struct.unpack(pack_symbol + "H", record_data)[0]
                 project_data["codepage_name"] = f"cp{cp_val}"
