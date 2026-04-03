@@ -153,56 +153,57 @@ class DirStream():
 
     @staticmethod
     def from_bytes(data: bytes, endien: str = 'little') -> dict:
-        """
-        Parses decompressed bytes and extracts project metadata.
-        Returns a dict of attributes for VbaProject.
-        """
         offset = 0
         pack_symbol = '<' if endien == 'little' else '>'
-
-        # State to return
+        
         project_data = {
             "references": [],
             "modules": [],
             "help_context_id": 0,
             "project_cookie": 0,
-            "codepage_name": "cp1252"  # Default
+            "codepage_name": "cp1252"
         }
 
         while offset < len(data):
-            # 1. Read Record ID (2 bytes)
             record_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
+            
+            # --- REFERENCES SECTION ---
+            # Using your factory for IDs: 0x000D, 0x000E, 0x002F, 0x0033
+            if record_id in [0x000D, 0x000E, 0x002F, 0x0033]:
+                # We need to know how many bytes to send to ReferenceRecord.unpack
+                size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
+                total_len = 6 + size
+                
+                # Extract specific slice for the factory
+                ref_bytes = data[offset : offset + total_len]
+                project_data["references"].append(ReferenceRecord.unpack(ref_bytes, endien))
+                
+                offset += total_len
+                continue
 
-            # 2. Check for Terminator (ID 16)
-            if record_id == 16:
-                break
+            # --- MODULES HEADER & COOKIE ---
+            if record_id == 0x000F:
+                offset += 6 # Skip ID/Size of the 0x000F record
+                # Peek for the Cookie (0x0013) which follows immediately
+                cookie_id, c_size, cookie = struct.unpack_from(pack_symbol + "H I H", data, offset)
+                project_data["project_cookie"] = cookie
+                offset += 8 # Skip ID/Size/Value of 0x0013
+                continue
 
-            # 3. Read Size (4 bytes)
+            # --- MODULES SECTION (0x0019) ---
+            if record_id == 0x0019:
+                module_obj, new_offset = DirStream._parse_module_group(data, offset, endien)
+                project_data["modules"].append(module_obj)
+                offset = new_offset
+                continue
+
+            # --- INFORMATION RECORDS ---
+            if record_id == 0x0010: break # Terminator
+            
             size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
-            record_data = data[offset + 6:offset + 6 + size]
-
-            # 4. Map IDs to VbaProject attributes
-            # Reference MS-OVBA Section 2.3.4.2
-            if record_id == 0x0003:  # PROJECTCODEPAGE
-                # Map code page to name if necessary
-                cp_val = struct.unpack(pack_symbol + "H", record_data)[0]
-                project_data["codepage_name"] = f"cp{cp_val}"
-
-            elif record_id == 0x0007:  # PROJECTHELPCONTEXT
-                project_data["help_context_id"] = (
-                    struct.unpack(pack_symbol + "I", record_data)[0]
-                )
-
-            elif record_id == 0x0013:  # PROJECTCOOKIE
-                project_data["project_cookie"] = (
-                    struct.unpack(pack_symbol + "H", record_data)[0]
-                )
-
-            # Record parsing for References/Modules would go here
-            # e.g., if record_id in [0x0016, 0x0033]: append to references
-            # e.g., if record_id == 0x0019: append to modules
-
-            # Move to next record
+            if record_id == 0x0007: # HELPCONTEXT
+                project_data["help_context_id"] = struct.unpack_from(pack_symbol + "I", data, offset + 6)[0]
+            
             offset += 6 + size
-
+            
         return project_data
