@@ -228,7 +228,7 @@ class DirStream():
         # A Reference is a cluster of records (Name, Libid, etc.)
         # Logic: Consume the first record, then peek for optional sub-records
         # like REFERENCECONTROL (0x002F) or Ref-Original (0x0033)
-        start_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
+        # start_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
         size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
         # In a real impl, you'd wrap this data into a Reference Model object
         record_content = data[offset:offset + 6 + size]
