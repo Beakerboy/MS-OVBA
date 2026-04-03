@@ -188,11 +188,13 @@ class DirStream():
 
             # --- MODULES HEADER & COOKIE ---
             if record_id == 0x000F:
-                offset += 6 # Skip ID/Size of the 0x000F record
+                offset += 6  # Skip ID/Size of the 0x000F record
                 # Peek for the Cookie (0x0013) which follows immediately
-                cookie_id, c_size, cookie = struct.unpack_from(pack_symbol + "H I H", data, offset)
+                cookie_id, c_size, cookie = (
+                    struct.unpack_from(pack_symbol + "H I H", data, offset)
+                )
                 project_data["project_cookie"] = cookie
-                offset += 8 # Skip ID/Size/Value of 0x0013
+                offset += 8  # Skip ID/Size/Value of 0x0013
                 continue
 
             # --- MODULES SECTION (0x0019) ---
@@ -206,8 +208,10 @@ class DirStream():
             if record_id == 0x0010: break # Terminator
 
             size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
-            if record_id == 0x0007: # HELPCONTEXT
-                project_data["help_context_id"] = struct.unpack_from(pack_symbol + "I", data, offset + 6)[0]
+            if record_id == 0x0007:  # HELPCONTEXT
+                project_data["help_context_id"] = (
+                    struct.unpack_from(pack_symbol + "I", data, offset + 6)[0]
+                )
 
             offset += 6 + size
 
