@@ -264,7 +264,7 @@ class DirStream():
             record_size += 6
             value, record_id, size2, value = struct.unpack_from(
                 f"<{size}sHI{size*2}s", data, offset + record_size)
-            if record_id != 0x1a or size2 != size * 2
+            if record_id != 0x1a or size2 != size * 2:
                 raise ValueError(f"Incorrect MODULESTREAMNAME({record_id})")
             module_data["stream_name"] = value
             record_size += size * 3 + 6
