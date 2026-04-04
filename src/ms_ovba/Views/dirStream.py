@@ -158,7 +158,8 @@ class DirStream():
         record_id, size = struct.unpack_from("<HI", data, offset)
         value, = struct.unpack_from(f"{size}s", data, offset + 6)
         if record_id != 4 or not (1 <= size <= 128):
-            offset += 6 + size
+            raise ValueError("Incorrect PROJECTNAME")
+        offset += 6 + size
 
         record_id, size = struct.unpack_from("<HI", data, offset)
         value, r2, s2, v2 = struct.unpack_from(
