@@ -244,8 +244,32 @@ class DirStream():
             raise ValueError("Expected ModuleRecord")
         count, record_id, size, cookie = struct.unpack_from(
             "<HHIH", data, offset)
+        if record_id != 0x13 or size != 2:
+            raise ValueError("Incorrect PROJECTCOOKIE")
+        project_data["project_cookie"] = cookie
         for _ in range(count):
-            pass
+            module_data = {}
+            record_size = 0
+            record_id, size = struct.unpack_from("<HI", data, offset)
+            record_size += 6
+            value, r2, s2, v2 = struct.unpack_from(
+                f"<{size}sHI{size*2}s", data, offset + record_size)
+            record_size += size * 3 + 6
+            # validate sizes and that values match
+            module_data["name"] = value
+            record_id, size = struct.unpack_from(
+                f"<{size}sHI", data, offset + record_size)
+            record_size += 6
+            value, record_id, size = struct.unpack_from(
+                f"<{size}sHI", data, offset + record_size)
+            module_data["stream_name"] = value
+            record_size += size + 6
+            value, record_id, size = struct.unpack_from(
+                f"<{size}sHI", data, offset + record_size)
+            module_data["docstring"] = value
+            record_size += size + 6
+            project_data["modules"] += [module_data]
+            offset += record_size
         return project_data
 
     @staticmethod
