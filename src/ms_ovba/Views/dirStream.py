@@ -2,7 +2,7 @@ import struct
 import warnings
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.vbaProject import VbaProject
-from ms_ovba.Models.Entities.reference_record import ReferenceRecord
+from ms_ovba.Models.Entities.reference import Reference
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
@@ -18,7 +18,7 @@ PackableData = DoubleEncodedString | IdSizeField | PackedData
 
 
 class Parameters(TypedDict):
-    references: list[ReferenceRecord]
+    references: list[Reference]
     modules: list
     help_context_id: int
     project_cookie: int
@@ -234,7 +234,7 @@ class DirStream():
                     record_size += 6 + size
                 case _:
                     raise ValueError(f"Unknown Reference Type: {record_id}")
-            ref = ReferenceRecord.unpack(
+            ref = Reference.unpack(
                 data[offset:offset + record_size], "little")
             project_data["references"] += [ref]
             record_id, size = struct.unpack_from("<HI", data, offset)
