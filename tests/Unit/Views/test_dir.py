@@ -1,3 +1,4 @@
+import pytest
 from pathlib import osPath
 from ms_cfb.ole_file import OleFile
 from ms_ovba.Views.dirStream import DirStream
