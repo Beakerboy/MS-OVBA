@@ -274,6 +274,16 @@ class DirStream():
             if record_id != 0x31 or size != 4:
                 raise ValueError("Incorrect MODULEOFFSET")
             offset += 10
+            record_id, size, value = struct.unpack_from(
+                "<HII", data, offset + record_size)
+            if record_id != 0x1e or size != 4:
+                raise ValueError("Incorrect MODULEHELPCONTEXT")
+            offset += 10
+            record_id, size, value = struct.unpack_from(
+                "<HIH", data, offset + record_size)
+            if record_id != 0x1e or size != 2:
+                raise ValueError("Incorrect MODULEHELPCONTEXT")
+            offset += 8
             project_data["modules"] += [module_data]
             offset += record_size
         return project_data
