@@ -233,7 +233,7 @@ class DirStream():
                 case 0x0d | 0x0e:
                     record_size += 6 + size
                 case _:
-                    raise ValueError("Unknown Reference Type")
+                    raise ValueError(f"Unknown Reference Type: {record_id}")
             ref = ReferenceRecord.unpack(
                 data[offset:offset + record_size], "little")
             project_data["references"] += [ref]
