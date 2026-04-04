@@ -145,9 +145,64 @@ class DirStream():
                 return False
             offset += 10
             record_id, size, value = struct.unpack_from("<HIH", data, offset)
-            if record_id != 0x03 or size != 2:
+            if record_id != 3 or size != 2:
+                warnings.warn(
+                        "Incorrect PROJECTCODEPAGE", SyntaxWarning)
                 return False
             offset += 8
+            record_id, size = struct.unpack_from("<HI", data, offset)
+            value, = struct.unpack_from(f"{size}s", data, offset + 6)
+            if record_id != 4 or not (1 <= size <= 128):
+            offset += 6 + size
+
+            record_id, size = struct.unpack_from("<HI", data, offset)
+            value, r2, s2, v2 = struct.unpack_from(
+                f"{size}sHI{2*size}s", data, offset + 6)
+            if record_id != 5 or size > 2000 or s2 != 0x40 or s2 != 2 * size:
+                warnings.warn(
+                        "Incorrect PROJECTDOCSTRING", SyntaxWarning)
+                return False
+            offset += 12 + size * 3
+
+            record_id, size = struct.unpack_from("<HI", data, offset)
+            value, r2, s2, v2 = struct.unpack_from(
+                f"{size}sHI{size}s", data, offset + 6)
+            if record_id != 6 or size > 260 or s2 != size or value != v2:
+                warnings.warn(
+                        "Incorrect PROJECTHELPFILEPATH", SyntaxWarning)
+                return False
+            offset += 12 + size * 2
+
+            record_id, size, value = struct.unpack_from("<HII", data, offset)
+            if record_id != 7 or size != 4:
+                warnings.warn(
+                        "Incorrect PROJECTHELPCONTEXT", SyntaxWarning)
+                return False
+            offset += 10
+
+            record_id, size, value = struct.unpack_from("<HII", data, offset)
+            if record_id != 8 or size != 4 or value != 0:
+                warnings.warn(
+                        "Incorrect PROJECTLIBFLAGS", SyntaxWarning)
+                return False
+            offset += 10
+
+            record_id, size, value, v2 = struct.unpack_from("<HIIH", data, offset)
+            if record_id != 9:
+                warnings.warn(
+                        "Incorrect PROJECTVERSION", SyntaxWarning)
+                return False
+            offset += 12
+
+            record_id, size = struct.unpack_from("<HI", data, offset)
+            value, r2, s2, v2 = struct.unpack_from(
+                f"{size}sHI{size}s", data, offset + 6)
+            if record_id != 0x0c or size > 2015 or s2 != 2 * size:
+                warnings.warn(
+                        "Incorrect PROJECTCONSTANTS", SyntaxWarning)
+                return False
+            offset += 12 + size * 3
+
             # 2. Skip through variable Information/Reference records
             # Real validation would loop through known IDs (1-12, 16, 17, etc.)
             # For brevity, we verify the specific 'Terminator' at the end.
