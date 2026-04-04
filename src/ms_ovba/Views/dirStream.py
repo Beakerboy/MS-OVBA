@@ -229,7 +229,7 @@ class DirStream():
                         record_id, size = struct.unpack_from(
                             "<HI", data, offset + record_size)
                         record_size += 6 + size
-                case 0x0d or 0x0e:
+                case 0x0d | 0x0e:
                     record_size += 6 + size
                 case _:
                     raise ValueError("Unknown Reference Type")
