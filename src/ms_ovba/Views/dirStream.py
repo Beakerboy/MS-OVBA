@@ -167,115 +167,81 @@ class DirStream():
             raise ValueError("Incorrect PROJECTDOCSTRING")
         offset += 12 + size * 3
 
-            record_id, size = struct.unpack_from("<HI", data, offset)
-            value, r2, s2, v2 = struct.unpack_from(
-                f"{size}sHI{size}s", data, offset + 6)
-            if record_id != 6 or size > 260 or s2 != size or value != v2:
-                warnings.warn(
-                        "Incorrect PROJECTHELPFILEPATH", SyntaxWarning)
-                return False
-            offset += 12 + size * 2
-
-            record_id, size, value = struct.unpack_from("<HII", data, offset)
-            if record_id != 7 or size != 4:
-                warnings.warn(
-                        "Incorrect PROJECTHELPCONTEXT", SyntaxWarning)
-                return False
-            offset += 10
-
-            record_id, size, value = struct.unpack_from("<HII", data, offset)
-            if record_id != 8 or size != 4 or value != 0:
-                warnings.warn(
-                        "Incorrect PROJECTLIBFLAGS", SyntaxWarning)
-                return False
-            offset += 10
-
-            record_id, size, value, v2 = struct.unpack_from("<HIIH", data, offset)
-            if record_id != 9:
-                warnings.warn(
-                        "Incorrect PROJECTVERSION", SyntaxWarning)
-                return False
-            offset += 12
-
-            record_id, size = struct.unpack_from("<HI", data, offset)
-            value, r2, s2, v2 = struct.unpack_from(
-                f"{size}sHI{size}s", data, offset + 6)
-            if record_id != 0x0c or size > 2015 or s2 != 2 * size:
-                warnings.warn(
-                        "Incorrect PROJECTCONSTANTS", SyntaxWarning)
-                return False
-            offset += 12 + size * 3
-
-            record_id, size = struct.unpack_from("<HI", data, offset)
-            found_one_reference = False
-            while (record_id != 0x0f or not found_one_reference):
-                found_one_reference = True
-                record_size = 0
-                if record_id == 0x16:
-                    record_size = 12 + size * 3
-
-                record_id, size = struct.unpack_from("<HI", data, offset + record_size)
-                match record_id:
-                    case 0x2f:
-                        record_size += 6 + size
-                        record_id, size = struct.unpack_from(
-                            "<HI", data, offset + record_size)
-                        if record_id == 0x16:
-                            record_size = 12 + size * 3
-                        record_id, size = struct.unpack_from(
-                            "<HI", data, offset + record_size)
-                        record_size += 6 + size
-                    case 0x33:
-                        record_size += 6 + size
-                        record_id, size = struct.unpack_from(
-                            "<HI", data, offset + record_size)
-                        record_size += 6 + size
-                        record_id, size = struct.unpack_from(
-                            "<HI", data, offset + record_size)
-                        if record_id == 0x16:
-                            record_size = 12 + size * 3
-                        record_id, size = struct.unpack_from(
-                            "<HI", data, offset + record_size)
-                        record_size += 6 + size
-                    case 0x0d:
-                        record_size += 6 + size
-                    case 0x0e:
-                        record_size += 6 + size
-                    case _:
-                        return False
-                ref = ReferenceRecord.unpack(
-                    data[offset:offset + record_size], "little")
-                project_data["references"] += ref
-                record_id, size = struct.unpack_from("<HI", data, offset)
-            
-            if record_id != 0x0f or size != 2:
-                return False
-            count, record_id, size, cookie = struct.unpack_from(
-                "<HHIH", data, offset)
-            # 3. Check for the Modules Header and Project Cookie
-            # These appear after references but before the modules list
-            # to_bytes() uses: IdSizeField(0x000F, 2, len(modules))
-            # We search for the 0x000F marker followed by 0x0013 (Cookie)
-            found_modules_header = False
-            while offset < len(data) - 6:
-                header_id = struct.unpack_from("<H", data, offset)[0]
-                if header_id == 0x000F:
-                    found_modules_header = True
-                    break
-                # Jump by standard Record header (ID + Size) or typical lengths
-                offset += 2
-
-            if not found_modules_header:
-                return False
-
-            # 4. Check the Terminator (Last 6 bytes of the stream)
-            # output += struct.pack(pack_symbol + "HI", 16, 0)
-            # 16 = 0x0010 (Terminator ID), 0 = Reserved
-            term_id, reserved = struct.unpack_from("<HI", data, len(data) - 6)
-            return term_id == 16 and reserved == 0
-
-        except (struct.error, IndexError):
+        record_id, size = struct.unpack_from("<HI", data, offset)
+        value, r2, s2, v2 = struct.unpack_from(
+            f"{size}sHI{size}s", data, offset + 6)
+        if record_id != 6 or size > 260 or s2 != size or value != v2:
+            raise ValueError("Incorrect PROJECTHELPFILEPATH")
             return False
+        offset += 12 + size * 2
+
+        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        if record_id != 7 or size != 4:
+            raise ValueError("Incorrect PROJECTHELPCONTEXT")
+            return False
+        offset += 10
+
+        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        if record_id != 8 or size != 4 or value != 0:
+            raise ValueError("Incorrect PROJECTLIBFLAGS")
+        offset += 10
+
+        record_id, size, value, v2 = struct.unpack_from("<HIIH", data, offset)
+        if record_id != 9:
+            raise ValueError("Incorrect PROJECTVERSION")
+        offset += 12
+
+        record_id, size = struct.unpack_from("<HI", data, offset)
+        value, r2, s2, v2 = struct.unpack_from(
+            f"{size}sHI{size}s", data, offset + 6)
+        if record_id != 0x0c or size > 2015 or s2 != 2 * size:
+            raise ValueError("Incorrect PROJECTCONSTANTS")
+        offset += 12 + size * 3
+
+        record_id, size = struct.unpack_from("<HI", data, offset)
+        found_one_reference = False
+        while (record_id != 0x0f or not found_one_reference):
+            found_one_reference = True
+            record_size = 0
+            if record_id == 0x16:
+                record_size = 12 + size * 3
+
+            record_id, size = struct.unpack_from("<HI", data, offset + record_size)
+            match record_id:
+                case 0x2f:
+                    record_size += 6 + size
+                    record_id, size = struct.unpack_from(
+                        "<HI", data, offset + record_size)
+                    if record_id == 0x16:
+                        record_size = 12 + size * 3
+                    record_id, size = struct.unpack_from(
+                        "<HI", data, offset + record_size)
+                    record_size += 6 + size
+                case 0x33:
+                    record_size += 6 + size
+                    record_id, size = struct.unpack_from(
+                        "<HI", data, offset + record_size)
+                    record_size += 6 + size
+                    record_id, size = struct.unpack_from(
+                        "<HI", data, offset + record_size)
+                    if record_id == 0x16:
+                        record_size = 12 + size * 3
+                        record_id, size = struct.unpack_from(
+                            "<HI", data, offset + record_size)
+                        record_size += 6 + size
+                case 0x0d or 0x0e:
+                    record_size += 6 + size
+                case _:
+                    raise ValueError("Unknown Reference Type")
+            ref = ReferenceRecord.unpack(
+                data[offset:offset + record_size], "little")
+            project_data["references"] += ref
+            record_id, size = struct.unpack_from("<HI", data, offset)
+            
+        if record_id != 0x0f or size != 2:
+            raise ValueError("Expected ModuleRecord")
+        count, record_id, size, cookie = struct.unpack_from("<HHIH", data, offset)
+        return project_data
 
     @staticmethod
     def is_file_valid(file_path: str) -> bool:
@@ -288,99 +254,3 @@ class DirStream():
             return DirStream.is_valid(decompressed)
         except Exception:
             return False
-
-    @staticmethod
-    def from_bytes(data: bytes, endien: str = 'little') -> Parameters:
-        offset = 0
-        pack_symbol = '<' if endien == 'little' else '>'
-
-        project_data: Parameters = {
-            "references": [],
-            "modules": [],
-            "help_context_id": 0,
-            "project_cookie": 0,
-            "codepage_name": "cp1252"
-        }
-
-        while offset < len(data):
-            record_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
-
-            # --- REFERENCES SECTION ---
-            # Using your factory for IDs: 0x000D, 0x000E, 0x002F, 0x0033
-            if record_id in [0x000D, 0x000E, 0x002F, 0x0033]:
-                # We need to know how many bytes to send to
-                # ReferenceRecord.unpack
-                size = (
-                    struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
-                )
-                total_len = 6 + size
-
-                # Extract specific slice for the factory
-                ref_bytes = data[offset:offset + total_len]
-                project_data["references"].append(
-                    ReferenceRecord.unpack(ref_bytes, endien)
-                )
-
-                offset += total_len
-                continue
-
-            # --- MODULES HEADER & COOKIE ---
-            if record_id == 0x000F:
-                offset += 6  # Skip ID/Size of the 0x000F record
-                # Peek for the Cookie (0x0013) which follows immediately
-                cookie_id, c_size, cookie = (
-                    struct.unpack_from(pack_symbol + "H I H", data, offset)
-                )
-                project_data["project_cookie"] = cookie
-                offset += 8  # Skip ID/Size/Value of 0x0013
-                continue
-
-            # --- MODULES SECTION (0x0019) ---
-            if record_id == 0x0019:
-                module_obj, new_offset = (
-                    DirStream._parse_module_group(data, offset, endien)
-                )
-                project_data["modules"].append(module_obj)
-                offset = new_offset
-                continue
-
-            # --- INFORMATION RECORDS ---
-            if record_id == 0x0010:
-                break  # Terminator
-
-            size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
-            if record_id == 0x0007:  # HELPCONTEXT
-                project_data["help_context_id"] = (
-                    struct.unpack_from(pack_symbol + "I", data, offset + 6)[0]
-                )
-
-            offset += 6 + size
-
-        return project_data
-
-    @staticmethod
-    def _parse_reference_group(data: bytes, offset: int,
-                               pack_symbol: str) -> tuple[bytes, int]:
-        """Consumes records until the end of a single Reference definition."""
-        # A Reference is a cluster of records (Name, Libid, etc.)
-        # Logic: Consume the first record, then peek for optional sub-records
-        # like REFERENCECONTROL (0x002F) or Ref-Original (0x0033)
-        # start_id = struct.unpack_from(pack_symbol + "H", data, offset)[0]
-        size = struct.unpack_from(pack_symbol + "I", data, offset + 2)[0]
-        # In a real impl, you'd wrap this data into a Reference Model object
-        record_content = data[offset:offset + 6 + size]
-        return record_content, offset + 6 + size
-
-    @staticmethod
-    def _parse_module_group(data: bytes, offset: int,
-                            pack_symbol: str) -> tuple[bytes, int]:
-        """Consumes all records for one Module until the 0x002B terminator."""
-        module_bytes = b''
-        while offset < len(data):
-            r_id, size = struct.unpack_from(pack_symbol + "H I", data, offset)
-            record_total_len = 6 + size
-            module_bytes += data[offset:offset + record_total_len]
-            offset += record_total_len
-            if r_id == 0x002B:  # MODULE Terminator
-                break
-        return module_bytes, offset
