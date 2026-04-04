@@ -124,7 +124,9 @@ class DirStream():
                 if size != 4:
                     return False
                 offset += 10
-                record_id, size, value = struct.unpack_from("<HII", data, offset)
+                record_id, size, value = (
+                    struct.unpack_from("<HII", data, offset)
+                )
             if record_id != 2 or size != 4 or value != 0x409:
                 return False
             offset += 10
