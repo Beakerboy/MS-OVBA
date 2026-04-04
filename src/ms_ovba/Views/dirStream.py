@@ -162,9 +162,12 @@ class DirStream():
         offset += 6 + size
 
         record_id, size = struct.unpack_from("<HI", data, offset)
-        value, r2, s2, v2 = struct.unpack_from(
-            f"{size}sHI{2*size}s", data, offset + 6)
-        if record_id != 5 or size > 2000 or r2 != 0x40 or s2 != 2 * size:
+        if size == 0:
+            r2, s2 = struct.unpack_from("HI", data, offset + 6)
+        else:
+            value, r2, s2, v2 = struct.unpack_from(
+                f"{size}sHI{2*size}s", data, offset + 6)
+        if record_id != 5 or size > 2000 or s2 != 2 * size:
             raise ValueError(
                 f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
         offset += 12 + size * 3
