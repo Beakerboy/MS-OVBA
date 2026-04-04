@@ -23,6 +23,7 @@ def test_construct() -> None:
     assert isinstance(dir, DirStream)
 
 
+@pytest.mark.usefixtures("my_fixture")
 def test_is_valid(my_fixture) -> None:
     file = "tests/blank/vbaProject.bin"
     ole_file = OleFile.create_from_file(file)
@@ -36,6 +37,7 @@ def test_is_valid(my_fixture) -> None:
         assert DirStream.is_valid(decompressed_data)
 
 
+@pytest.mark.usefixtures("my_fixture")
 def test_from_bytes(my_fixture) -> None:
     expected = {}
     file = "tests/blank/vbaProject.bin"
