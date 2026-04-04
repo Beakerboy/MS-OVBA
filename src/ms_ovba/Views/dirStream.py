@@ -245,6 +245,7 @@ class DirStream():
         offset += 6
         count, record_id, size, cookie = struct.unpack_from(
             "<HHIH", data, offset)
+        offset += 10
         if record_id != 0x13 or size != 2:
             raise ValueError(f"Incorrect PROJECTCOOKIE({record_id}, {size})")
         project_data["project_cookie"] = cookie
