@@ -1,4 +1,5 @@
 import struct
+import warnings
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.vbaProject import VbaProject
 from ms_ovba.Models.Entities.reference_record import ReferenceRecord
