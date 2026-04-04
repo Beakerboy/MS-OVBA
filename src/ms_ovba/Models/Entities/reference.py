@@ -37,10 +37,10 @@ class Reference():
             offset += 2
             size1, = struct.unpack_from(endien_symbol + "I", data, offset)
             offset += 4
-            format = endien_symbol + size1 + "s"
+            format = f"{endien_symbol}{size1}s"
             name, = struct.unpack_from(format, data, offset)
             offset += size1
-            size2 = struct.unpack_from(endien_symbol + "I", data, offset)
+            size2, = struct.unpack_from(f"{endien_symbol}I", data, offset)
             offset += 4
             if size2 != size1 * 2:
                 # raise warning
