@@ -282,8 +282,8 @@ class DirStream():
             offset += 10
             record_id, size, value = struct.unpack_from(
                 "<HIH", data, offset + record_size)
-            if record_id != 0x1e or size != 2:
-                raise ValueError("Incorrect MODULEHELPCONTEXT")
+            if record_id != 0x2c or size != 2:
+                raise ValueError("Incorrect MODULECOOKIE")
             offset += 8
             project_data["modules"] += [module_data]
             offset += record_size
