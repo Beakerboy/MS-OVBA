@@ -203,6 +203,13 @@ class DirStream():
                 return False
             offset += 12 + size * 3
 
+            record_id, size = struct.unpack_from("<HI", data, offset)
+            namerecord_size = 0
+            if record_id == 0x16:
+                namerecord_size = 12 + size * 3
+
+            record_id, size = struct.unpack_from("<HI", data, offset + namerecord_size)
+            
             # 2. Skip through variable Information/Reference records
             # Real validation would loop through known IDs (1-12, 16, 17, etc.)
             # For brevity, we verify the specific 'Terminator' at the end.
