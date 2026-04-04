@@ -206,7 +206,8 @@ class DirStream():
             if record_id == 0x16:
                 record_size = 12 + size * 3
 
-            record_id, size = struct.unpack_from("<HI", data, offset + record_size)
+            record_id, size = struct.unpack_from(
+                "<HI", data, offset + record_size)
             match record_id:
                 case 0x2f:
                     record_size += 6 + size
@@ -240,7 +241,8 @@ class DirStream():
             
         if record_id != 0x0f or size != 2:
             raise ValueError("Expected ModuleRecord")
-        count, record_id, size, cookie = struct.unpack_from("<HHIH", data, offset)
+        count, record_id, size, cookie = struct.unpack_from(
+            "<HHIH", data, offset)
         for _ in range(count):
             pass
         return project_data
