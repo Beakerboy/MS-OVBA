@@ -194,7 +194,7 @@ class DirStream():
 
         record_id, size = struct.unpack_from("<HI", data, offset)
         value, r2, s2, v2 = struct.unpack_from(
-            f"{size}sHI{size}s", data, offset + 6)
+            f"<{size}sHI{size}s", data, offset + 6)
         if record_id != 0x0c or size > 2015 or s2 != 2 * size:
             raise ValueError("Incorrect PROJECTCONSTANTS")
         offset += 12 + size * 3
