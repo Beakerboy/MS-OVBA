@@ -1,5 +1,5 @@
 import pytest
-from pathlib import osPath
+from pathlib import Path
 from ms_cfb.ole_file import OleFile
 from ms_ovba.Views.dirStream import DirStream
 from ms_ovba_compression.ms_ovba import MsOvba
@@ -15,7 +15,7 @@ def my_fixture() -> None:
     # print("\nSetting up...")
     yield
     # Teardown: Runs AFTER the test
-    osPath("tests/blank/dir.bin").unlink(missing_ok=True)
+    Path("tests/blank/dir.bin").unlink(missing_ok=True)
 
 
 def test_construct() -> None:
