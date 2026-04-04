@@ -32,7 +32,7 @@ class Reference():
         endien_symbol = '<' if endien == 'little' else '>'
         name = ''
         offset = 0
-        id = struct.unpack_from(endien_symbol + "H", data, offset)
+        id, = struct.unpack_from(endien_symbol + "H", data, offset)
         if id == 0x0016:
             offset += 2
             size1, = struct.unpack_from(endien_symbol + "I", data, offset)
