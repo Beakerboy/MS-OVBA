@@ -132,10 +132,14 @@ class DirStream():
                     struct.unpack_from("<HII", data, offset)
                 )
             if record_id != 2 or size != 4 or value != 0x409:
+                warnings.warn(
+                        "Incorrect PROJECTLCID", SyntaxWarning)
                 return False
             offset += 10
             record_id, size, value = struct.unpack_from("<HII", data, offset)
             if record_id != 0x14 or size != 4 or value != 0x409:
+                warnings.warn(
+                        "Incorrect PROJECTLCIDINVOKE", SyntaxWarning)
                 return False
             offset += 10
             record_id, size, value = struct.unpack_from("<HIH", data, offset)
