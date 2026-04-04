@@ -114,11 +114,28 @@ class DirStream():
 
             # 1. Check PROJECTSYSKIND (Mandatory first record)
             # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
-            record_id, size = struct.unpack_from("<HI", data, offset)
-            if record_id != 1 or size != 4:
+            record_id, size, value = struct.unpack_from("<HII", data, offset)
+            if record_id != 1 or size != 4 or 0 <= value <= 3:
                 return False
-            offset += 6 + size
+            offset += 10
 
+            record_id, size, value = struct.unpack_from("<HII", data, offset)
+            if record_id == 0x4A:
+                if size != 4:
+                    return False
+                offset += 10
+                record_id, size, value = struct.unpack_from("<HII", data, offset)
+            if record_id != 2 or size != 4 or value != 0x409:
+                return False
+            offset += 10
+            record_id, size, value = struct.unpack_from("<HII", data, offset)
+            if record_id != 0x14 or size != 4 or value != 0x409:
+                return False
+            offset += 10
+            record_id, size, value = struct.unpack_from("<HIH", data, offset)
+            if record_id != 0x03 or size != 2:
+                return False
+            offset += 8
             # 2. Skip through variable Information/Reference records
             # Real validation would loop through known IDs (1-12, 16, 17, etc.)
             # For brevity, we verify the specific 'Terminator' at the end.
