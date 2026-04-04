@@ -118,7 +118,7 @@ class DirStream():
             record_id, size, value = struct.unpack_from("<HII", data, offset)
             if record_id != 1 or size != 4 or 0 <= value <= 3:
                 warnings.warn("Incorrect PROJECTSYSKIND", SyntaxWarning)
-                return False
+                return 1
             offset += 10
 
             record_id, size, value = struct.unpack_from("<HII", data, offset)
@@ -126,7 +126,7 @@ class DirStream():
                 if size != 4:
                     warnings.warn(
                         "Incorrect PROJECTCOMPATVERSION", SyntaxWarning)
-                    return False
+                    return 2
                 offset += 10
                 record_id, size, value = (
                     struct.unpack_from("<HII", data, offset)
@@ -134,17 +134,17 @@ class DirStream():
             if record_id != 2 or size != 4 or value != 0x409:
                 warnings.warn(
                         "Incorrect PROJECTLCID", SyntaxWarning)
-                return False
+                return 3
             offset += 10
             record_id, size, value = struct.unpack_from("<HII", data, offset)
             if record_id != 0x14 or size != 4 or value != 0x409:
                 warnings.warn(
                         "Incorrect PROJECTLCIDINVOKE", SyntaxWarning)
-                return False
+                return 4
             offset += 10
             record_id, size, value = struct.unpack_from("<HIH", data, offset)
             if record_id != 0x03 or size != 2:
-                return False
+                return 4
             offset += 8
             # 2. Skip through variable Information/Reference records
             # Real validation would loop through known IDs (1-12, 16, 17, etc.)
@@ -164,7 +164,7 @@ class DirStream():
                 offset += 2
 
             if not found_modules_header:
-                return False
+                return 6
 
             # 4. Check the Terminator (Last 6 bytes of the stream)
             # output += struct.pack(pack_symbol + "HI", 16, 0)
