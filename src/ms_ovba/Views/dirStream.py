@@ -206,9 +206,8 @@ class DirStream():
             record_size = 0
             if record_id == 0x16:
                 record_size = 12 + size * 3
-
-            record_id, size = struct.unpack_from(
-                "<HI", data, offset + record_size)
+                record_id, size = struct.unpack_from(
+                    "<HI", data, offset + record_size)
             match record_id:
                 case 0x2f:
                     record_size += 6 + size
