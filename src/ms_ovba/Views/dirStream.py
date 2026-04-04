@@ -110,6 +110,13 @@ class DirStream():
         Static validation: Checks if bytes follow the DirStream structure.
         Expects decompressed bytes.
         """
+        project_data: Parameters = {
+            "references": [],
+            "modules": [],
+            "help_context_id": 0,
+            "project_cookie": 0,
+            "codepage_name": "cp1252"
+        }
         try:
             offset = 0
 
@@ -204,16 +211,51 @@ class DirStream():
             offset += 12 + size * 3
 
             record_id, size = struct.unpack_from("<HI", data, offset)
-            namerecord_size = 0
-            if record_id == 0x16:
-                namerecord_size = 12 + size * 3
+            found_one_reference = False
+            while (record_id != 0x0f or not found_one_reference):
+                found_one_reference = True
+                record_size = 0
+                if record_id == 0x16:
+                    record_size = 12 + size * 3
 
-            record_id, size = struct.unpack_from("<HI", data, offset + namerecord_size)
+                record_id, size = struct.unpack_from("<HI", data, offset + record_size)
+                match record_id:
+                    case 0x2f:
+                        record_size += 6 + size
+                        record_id, size = struct.unpack_from(
+                            "<HI", data, offset + record_size)
+                        if record_id == 0x16:
+                            record_size = 12 + size * 3
+                        record_id, size = struct.unpack_from(
+                            "<HI", data, offset + record_size)
+                        record_size += 6 + size
+                    case 0x33:
+                        record_size += 6 + size
+                        record_id, size = struct.unpack_from(
+                            "<HI", data, offset + record_size)
+                        record_size += 6 + size
+                        record_id, size = struct.unpack_from(
+                            "<HI", data, offset + record_size)
+                        if record_id == 0x16:
+                            record_size = 12 + size * 3
+                        record_id, size = struct.unpack_from(
+                            "<HI", data, offset + record_size)
+                        record_size += 6 + size
+                    case 0x0d:
+                        record_size += 6 + size
+                    case 0x0e:
+                        record_size += 6 + size
+                    case _:
+                        return False
+                ref = ReferenceRecord.unpack(
+                    data[offset:offset + record_size], "little")
+                project_data["references"] += ref
+                record_id, size = struct.unpack_from("<HI", data, offset)
             
-            # 2. Skip through variable Information/Reference records
-            # Real validation would loop through known IDs (1-12, 16, 17, etc.)
-            # For brevity, we verify the specific 'Terminator' at the end.
-
+            if record_id != 0x0f or size != 2:
+                return False
+            count, record_id, size, cookie = struct.unpack_from(
+                "<HHIH", data, offset)
             # 3. Check for the Modules Header and Project Cookie
             # These appear after references but before the modules list
             # to_bytes() uses: IdSizeField(0x000F, 2, len(modules))
