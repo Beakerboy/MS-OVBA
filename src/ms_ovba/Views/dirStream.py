@@ -272,7 +272,8 @@ class DirStream():
                 "<HI", data, offset + record_size)
             record_size += 6
             if record_id != 0x1c:
-                raise ValueError(f"Incorrect MODULEDOCSTRING({record_id}, {size})")
+                raise ValueError(
+                    f"Incorrect MODULEDOCSTRING({record_id}, {size})")
             value, record_id, size, value2 = struct.unpack_from(
                 f"<{size}sHI{size*2}s", data, offset + record_size)
             module_data["docstring"] = value
