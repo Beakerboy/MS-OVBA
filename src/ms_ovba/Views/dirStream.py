@@ -242,6 +242,7 @@ class DirStream():
 
         if record_id != 0x0f or size != 2:
             raise ValueError("Expected ModuleRecord")
+        offset += 6
         count, record_id, size, cookie = struct.unpack_from(
             "<HHIH", data, offset)
         if record_id != 0x13 or size != 2:
