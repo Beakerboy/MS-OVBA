@@ -142,7 +142,7 @@ class DirStream():
             offset += 10
             record_id, size, value = (struct.unpack_from("<HII", data, offset))
         if record_id != 2 or size != 4 or value != 0x409:
-            raise ValueError("Incorrect PROJECTLCID)
+            raise ValueError("Incorrect PROJECTLCID")
         offset += 10
 
         record_id, size, value = struct.unpack_from("<HII", data, offset)
@@ -241,6 +241,8 @@ class DirStream():
         if record_id != 0x0f or size != 2:
             raise ValueError("Expected ModuleRecord")
         count, record_id, size, cookie = struct.unpack_from("<HHIH", data, offset)
+        for _ in range(count):
+            pass
         return project_data
 
     @staticmethod
