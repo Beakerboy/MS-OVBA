@@ -257,6 +257,8 @@ class DirStream():
             value, r2, s2, v2 = struct.unpack_from(
                 f"<{size}sHI{size*2}s", data, offset + record_size)
             record_size += size * 3 + 6
+            if record_id != 0x19 or r2 != 0x47 or s2 != size * 2:
+                f"Incorrect MODULENAME({record_id}, {size})")
             # validate sizes and that values match
             module_data["name"] = value
             record_id, size, = struct.unpack_from(
