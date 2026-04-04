@@ -176,14 +176,12 @@ class DirStream():
         value, r2, s2, v2 = struct.unpack_from(
             f"{size}sHI{size}s", data, offset + 6)
         if record_id != 6 or size > 260 or s2 != size or value != v2:
-            raise ValueError("Incorrect PROJECTHELPFILEPATH")
-            return False
+            raise ValueError(f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
         offset += 12 + size * 2
 
         record_id, size, value = struct.unpack_from("<HII", data, offset)
         if record_id != 7 or size != 4:
             raise ValueError("Incorrect PROJECTHELPCONTEXT")
-            return False
         offset += 10
 
         record_id, size, value = struct.unpack_from("<HII", data, offset)
