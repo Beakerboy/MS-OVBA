@@ -273,7 +273,7 @@ class DirStream():
             record_id, size, value = struct.unpack_from(
                 "<HII", data, offset + record_size)
             if record_id != 0x31 or size != 4:
-                raise ValueError("Incorrect MODULEOFFSET")
+                raise ValueError(f"Incorrect MODULEOFFSET({record_id}, {size})")
             offset += 10
             record_id, size, value = struct.unpack_from(
                 "<HII", data, offset + record_size)
