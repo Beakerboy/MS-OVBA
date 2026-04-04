@@ -260,7 +260,7 @@ class DirStream():
             # validate sizes and that values match
             module_data["name"] = value
             record_id, size, = struct.unpack_from(
-                f"<HI", data, offset + record_size)
+                "<HI", data, offset + record_size)
             record_size += 6
             value, record_id, size = struct.unpack_from(
                 f"<{size}sHI", data, offset + record_size)
