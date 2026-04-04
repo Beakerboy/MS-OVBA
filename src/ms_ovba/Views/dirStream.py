@@ -106,6 +106,15 @@ class DirStream():
 
     @staticmethod
     def is_valid(data: bytes) -> bool:
+        try:
+            DirStream.from_bytes(data)
+        except Exception as e:
+            warnings.warn(str(e), SyntaxWarning)
+            return False
+        return True
+
+    @staticmethod
+    def from_bytes(data: bytes) -> Parameters:
         """
         Static validation: Checks if bytes follow the DirStream structure.
         Expects decompressed bytes.
@@ -117,59 +126,46 @@ class DirStream():
             "project_cookie": 0,
             "codepage_name": "cp1252"
         }
-        try:
-            offset = 0
+        offset = 0
 
-            # 1. Check PROJECTSYSKIND (Mandatory first record)
-            # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
-            record_id, size, value = struct.unpack_from("<HII", data, offset)
-            if record_id != 1 or size != 4 or not (0 <= value <= 3):
-                warnings.warn(
-                    f"Incorrect PROJECTSYSKIND ({record_id}, {size}, {value}",
-                    SyntaxWarning)
-                return False
-            offset += 10
+        # 1. Check PROJECTSYSKIND (Mandatory first record)
+        # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
+        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        if record_id != 1 or size != 4 or not (0 <= value <= 3):
+            raise ValueError("Incorrect PROJECTSYSKIND")
+        offset += 10
 
-            record_id, size, value = struct.unpack_from("<HII", data, offset)
-            if record_id == 0x4A:
-                if size != 4:
-                    warnings.warn(
-                        "Incorrect PROJECTCOMPATVERSION", SyntaxWarning)
-                    return False
-                offset += 10
-                record_id, size, value = (
-                    struct.unpack_from("<HII", data, offset)
-                )
-            if record_id != 2 or size != 4 or value != 0x409:
-                warnings.warn(
-                        "Incorrect PROJECTLCID", SyntaxWarning)
-                return False
+        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        if record_id == 0x4A:
+            if size != 4:
+                raise ValueError("Incorrect PROJECTCOMPATVERSION")
             offset += 10
-            record_id, size, value = struct.unpack_from("<HII", data, offset)
-            if record_id != 0x14 or size != 4 or value != 0x409:
-                warnings.warn(
-                        "Incorrect PROJECTLCIDINVOKE", SyntaxWarning)
-                return False
-            offset += 10
-            record_id, size, value = struct.unpack_from("<HIH", data, offset)
-            if record_id != 3 or size != 2:
-                warnings.warn(
-                        "Incorrect PROJECTCODEPAGE", SyntaxWarning)
-                return False
-            offset += 8
-            record_id, size = struct.unpack_from("<HI", data, offset)
-            value, = struct.unpack_from(f"{size}s", data, offset + 6)
-            if record_id != 4 or not (1 <= size <= 128):
+            record_id, size, value = (struct.unpack_from("<HII", data, offset))
+        if record_id != 2 or size != 4 or value != 0x409:
+            raise ValueError("Incorrect PROJECTLCID)
+        offset += 10
+
+        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        if record_id != 0x14 or size != 4 or value != 0x409:
+            raise ValueError("Incorrect PROJECTLCIDINVOKE")
+        offset += 10
+
+        record_id, size, value = struct.unpack_from("<HIH", data, offset)
+        if record_id != 3 or size != 2:
+            raise ValueError("Incorrect PROJECTCODEPAGE")
+        offset += 8
+
+        record_id, size = struct.unpack_from("<HI", data, offset)
+        value, = struct.unpack_from(f"{size}s", data, offset + 6)
+        if record_id != 4 or not (1 <= size <= 128):
             offset += 6 + size
 
-            record_id, size = struct.unpack_from("<HI", data, offset)
-            value, r2, s2, v2 = struct.unpack_from(
-                f"{size}sHI{2*size}s", data, offset + 6)
-            if record_id != 5 or size > 2000 or s2 != 0x40 or s2 != 2 * size:
-                warnings.warn(
-                        "Incorrect PROJECTDOCSTRING", SyntaxWarning)
-                return False
-            offset += 12 + size * 3
+        record_id, size = struct.unpack_from("<HI", data, offset)
+        value, r2, s2, v2 = struct.unpack_from(
+            f"{size}sHI{2*size}s", data, offset + 6)
+        if record_id != 5 or size > 2000 or s2 != 0x40 or s2 != 2 * size:
+            raise ValueError("Incorrect PROJECTDOCSTRING")
+        offset += 12 + size * 3
 
             record_id, size = struct.unpack_from("<HI", data, offset)
             value, r2, s2, v2 = struct.unpack_from(
