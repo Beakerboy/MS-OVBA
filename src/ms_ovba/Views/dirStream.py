@@ -237,6 +237,7 @@ class DirStream():
             ref = Reference.unpack(
                 data[offset:offset + record_size], "little")
             project_data["references"] += [ref]
+            offset += record_size
             record_id, size = struct.unpack_from("<HI", data, offset)
 
         if record_id != 0x0f or size != 2:
