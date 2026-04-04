@@ -10,7 +10,7 @@ mock_vbaproject = mock.Mock()
 
 
 @pytest.fixture
-def my_fixture():
+def my_fixture() -> None:
     # Setup: Runs BEFORE the test
     # print("\nSetting up...")
     yield
