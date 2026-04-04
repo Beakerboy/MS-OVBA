@@ -23,7 +23,7 @@ def test_construct() -> None:
     assert isinstance(dir, DirStream)
 
 
-def test_is_valid() -> None:
+def test_is_valid(my_fixture) -> None:
     file = "tests/blank/vbaProject.bin"
     ole_file = OleFile.create_from_file(file)
     ole_file.extract_stream('dir', 'tests/blank')
@@ -36,7 +36,7 @@ def test_is_valid() -> None:
         assert DirStream.is_valid(decompressed_data)
 
 
-def test_from_bytes() -> None:
+def test_from_bytes(my_fixture) -> None:
     expected = {}
     file = "tests/blank/vbaProject.bin"
     ole_file = OleFile.create_from_file(file)
