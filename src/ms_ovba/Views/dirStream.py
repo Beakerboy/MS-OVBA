@@ -120,7 +120,7 @@ class DirStream():
                 warnings.warn(
                     f"Incorrect PROJECTSYSKIND ({record_id}, {size}, {value}",
                     SyntaxWarning)
-                return 1
+                return False
             offset += 10
 
             record_id, size, value = struct.unpack_from("<HII", data, offset)
@@ -128,7 +128,7 @@ class DirStream():
                 if size != 4:
                     warnings.warn(
                         "Incorrect PROJECTCOMPATVERSION", SyntaxWarning)
-                    return 2
+                    return False
                 offset += 10
                 record_id, size, value = (
                     struct.unpack_from("<HII", data, offset)
@@ -136,17 +136,17 @@ class DirStream():
             if record_id != 2 or size != 4 or value != 0x409:
                 warnings.warn(
                         "Incorrect PROJECTLCID", SyntaxWarning)
-                return 3
+                return False
             offset += 10
             record_id, size, value = struct.unpack_from("<HII", data, offset)
             if record_id != 0x14 or size != 4 or value != 0x409:
                 warnings.warn(
                         "Incorrect PROJECTLCIDINVOKE", SyntaxWarning)
-                return 4
+                return False
             offset += 10
             record_id, size, value = struct.unpack_from("<HIH", data, offset)
             if record_id != 0x03 or size != 2:
-                return 4
+                return False
             offset += 8
             # 2. Skip through variable Information/Reference records
             # Real validation would loop through known IDs (1-12, 16, 17, etc.)
@@ -166,7 +166,7 @@ class DirStream():
                 offset += 2
 
             if not found_modules_header:
-                return 6
+                return False
 
             # 4. Check the Terminator (Last 6 bytes of the stream)
             # output += struct.pack(pack_symbol + "HI", 16, 0)
