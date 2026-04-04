@@ -116,9 +116,9 @@ class DirStream():
             # 1. Check PROJECTSYSKIND (Mandatory first record)
             # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
             record_id, size, value = struct.unpack_from("<HII", data, offset)
-            if record_id != 1 or size != 4 or 0 <= value <= 3:
+            if record_id != 1 or size != 4 or not (0 <= value <= 3):
                 warnings.warn(
-                    f"Incorrect PROJECTSYSKIND ({record_id}{size}{value}",
+                    f"Incorrect PROJECTSYSKIND ({record_id}, {size}, {value}",
                     SyntaxWarning)
                 return 1
             offset += 10
