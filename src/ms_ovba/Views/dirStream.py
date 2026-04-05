@@ -4,6 +4,7 @@ from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.vbaProject import VbaProject
 from ms_ovba.struct_io import StructIO
 from ms_ovba.Models.Entities.reference import Reference
+from ms_ovba.Models.Entities.reference_project import ReferenceProject
 from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from ms_ovba.Models.Fields.doubleEncodedString import (
@@ -228,7 +229,7 @@ class DirStream():
                     lib = LibidReference.unpack(stream.read(size))
                     ref = Reference(ReferenceRegistered(lib), name)
                 case 0x0e:
-                    stream2 = StrictIO(value)
+                    stream2 = StructIO(value)
                     size = stream2.read_bigi()
                     lib1 = LibidReference.unpack(stream.read(size))
                     size = stream2.read_bigi()
@@ -238,7 +239,8 @@ class DirStream():
                     if (maj != project_data["major_version"] or
                             min != project_data["minor_version"]):
                         raise ValueError(
-                            "Mismatched Version between Project and ReferenceProject")
+                            "Mismatched Version between Project"
+                            "and ReferenceProject")
                     ref = ReferenceProject(lib)
                 case _:
                     raise ValueError(f"Unknown Reference Type: {record_id}")
