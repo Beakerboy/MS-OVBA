@@ -234,7 +234,7 @@ class DirStream():
                     maj = stream2.read_bigi()
                     min = stream2.read_bigi()
                     if (maj != project_data["major_version"] or
-                            min != project_data["minor_version"])
+                            min != project_data["minor_version"]):
                         raise ValueError(
                             "Mismatched Version between Project and ReferenceProject")
                     ref = ReferenceProject(lib)
