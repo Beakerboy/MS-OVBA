@@ -139,53 +139,43 @@ class DirStream():
         if record_id == 0x4A:
             if size != 4:
                 raise ValueError("Incorrect PROJECTCOMPATVERSION")
-            offset += 10
-            record_id, size, value = (struct.unpack_from("<HII", data, offset))
+            record_id, size, value = stream.id_size_value()
+
         if record_id != 2 or size != 4 or value != 0x409:
             raise ValueError("Incorrect PROJECTLCID")
-        offset += 10
 
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        record_id, size, value = stream.id_size_value()
         if record_id != 0x14 or size != 4 or value != 0x409:
             raise ValueError("Incorrect PROJECTLCIDINVOKE")
-        offset += 10
 
-        record_id, size, value = struct.unpack_from("<HIH", data, offset)
+        record_id, size, value = stream.id_size_value()
         if record_id != 3 or size != 2:
             raise ValueError("Incorrect PROJECTCODEPAGE")
-        offset += 8
 
-        record_id, size = struct.unpack_from("<HI", data, offset)
-        value, = struct.unpack_from(f"{size}s", data, offset + 6)
+        record_id, size, value = stream.id_size_value()
         if record_id != 4 or not (1 <= size <= 128):
             raise ValueError("Incorrect PROJECTNAME")
-        offset += 6 + size
 
-        record_id, size = struct.unpack_from("<HI", data, offset)
-        value, r2, s2, v2 = struct.unpack_from(
-            f"<{size}sHI{2*size}s", data, offset + 6)
+        record_id, size, value = stream.id_size_value()
+        r2, s2, v2 = stream.id_size_value()
         if record_id != 5 or size > 2000 or s2 != 2 * size:
             raise ValueError(
                 f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
-        offset += 12 + size * 3
 
-        record_id, size = struct.unpack_from("<HI", data, offset)
-        value, r2, s2, v2 = struct.unpack_from(
-            f"<{size}sHI{size}s", data, offset + 6)
+        record_id, size, value = stream.id_size_value()
+        r2, s2, v2 = stream.id_size_value()
         if record_id != 6 or size > 260 or s2 != size or value != v2:
             raise ValueError(
                 f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
-        offset += 12 + size * 2
 
         record_id, size, value = struct.unpack_from("<HII", data, offset)
         if record_id != 7 or size != 4:
             raise ValueError("Incorrect PROJECTHELPCONTEXT")
         offset += 10
 
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        record_id, size, value = stream.id_size_value()
         if record_id != 8 or size != 4 or value != 0:
             raise ValueError("Incorrect PROJECTLIBFLAGS")
-        offset += 10
 
         record_id, size, value, v2 = struct.unpack_from("<HIIH", data, offset)
         if record_id != 9:
