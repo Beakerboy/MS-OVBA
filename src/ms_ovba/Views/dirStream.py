@@ -135,7 +135,8 @@ class DirStream():
         # 1. Check PROJECTSYSKIND (Mandatory first record)
         # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
         record_id, size, value = stream.read_id_size_val()
-        if record_id != 1 or size != 4 or not (0 <= int(value) <= 3):
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id != 1 or size != 4 or not (0 <= int_value <= 3):
             raise ValueError("Incorrect PROJECTSYSKIND")
 
         record_id, size, value = stream.read_id_size_val()
