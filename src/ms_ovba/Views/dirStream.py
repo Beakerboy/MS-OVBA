@@ -8,6 +8,7 @@ from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
 )
+from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import List, TypedDict, TypeVar
 
@@ -221,7 +222,7 @@ class DirStream():
                             "<HI", data, offset + record_size)
                         record_size += 6 + size
                 case 0x0d:
-                    stream2 = StrictIO(value)
+                    stream2 = StructIO(value)
                     size = stream2.read_bigi()
                     lib = LibidReference.unpack(stream.read(size))
                     ref = Reference(ReferenceRegistered(lib), name)
