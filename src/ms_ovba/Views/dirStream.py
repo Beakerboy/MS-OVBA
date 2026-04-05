@@ -146,7 +146,7 @@ class DirStream():
             record_id, size, value = stream.read_id_size_val()
 
         if record_id != 2 or size != 4 or value != 0x409:
-            raise ValueError("Incorrect PROJECTLCID")
+            raise ValueError(f"Incorrect PROJECTLCID({record_id})")
 
         record_id, size, value = stream.read_id_size_val()
         if record_id != 0x14 or size != 4 or value != 0x409:
