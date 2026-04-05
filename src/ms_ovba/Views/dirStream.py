@@ -134,62 +134,62 @@ class DirStream():
         stream = StructIO(data)
         # 1. Check PROJECTSYSKIND (Mandatory first record)
         # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 1 or size != 4 or not (0 <= value <= 3):
             raise ValueError("Incorrect PROJECTSYSKIND")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         if record_id == 0x4A:
             if size != 4:
                 raise ValueError("Incorrect PROJECTCOMPATVERSION")
-            record_id, size, value = stream.id_size_value()
+            record_id, size, value = stream.read_id_size_val()
 
         if record_id != 2 or size != 4 or value != 0x409:
             raise ValueError("Incorrect PROJECTLCID")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 0x14 or size != 4 or value != 0x409:
             raise ValueError("Incorrect PROJECTLCIDINVOKE")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 3 or size != 2:
             raise ValueError("Incorrect PROJECTCODEPAGE")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 4 or not (1 <= size <= 128):
             raise ValueError("Incorrect PROJECTNAME")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.id_size_value()
         if record_id != 5 or size > 2000 or s2 != 2 * size:
             raise ValueError(
                 f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.id_size_value()
         if record_id != 6 or size > 260 or s2 != size or value != v2:
             raise ValueError(
                 f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 7 or size != 4:
             raise ValueError("Incorrect PROJECTHELPCONTEXT")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 8 or size != 4 or value != 0:
             raise ValueError("Incorrect PROJECTLIBFLAGS")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         v2 = stream.read_bigh()
         if record_id != 9:
             raise ValueError("Incorrect PROJECTVERSION")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.id_size_value()
         if record_id != 0x0c or size > 2015 or s2 != 2 * size:
             raise ValueError("Incorrect PROJECTCONSTANTS")
 
-        record_id, size, value = stream.id_size_value()
+        record_id, size, value = stream.read_id_size_val()
         found_one_reference = False
         while (record_id != 0x0f or not found_one_reference):
             found_one_reference = True
@@ -198,9 +198,9 @@ class DirStream():
             if record_id == 0x16:
                 name = value
                 # Get Unicode Name
-                record_id, size, value = stream.id_size_value()
+                record_id, size, value = stream.read_id_size_val()
                 # Get Reference
-                record_id, size, value = stream.id_size_value()
+                record_id, size, value = stream.read_id_size_val()
             match record_id:
                 case 0x2f:
                     record_size += 6 + size
