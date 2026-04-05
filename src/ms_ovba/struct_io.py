@@ -25,7 +25,7 @@ class StructIO:
         val = self._stream.read(size)
         return (id, size, val)
 
-    def _read_fmt(self, fmt: str, size: int) -> tuple:
+    def _read_fmt(self: T, fmt: str, size: int) -> tuple:
         """Helper to read exactly 'size' bytes and unpack them."""
         chunk = self._stream.read(size)
         if len(chunk) < size:
