@@ -168,26 +168,23 @@ class DirStream():
             raise ValueError(
                 f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
 
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        record_id, size, value = stream.id_size_value()
         if record_id != 7 or size != 4:
             raise ValueError("Incorrect PROJECTHELPCONTEXT")
-        offset += 10
 
         record_id, size, value = stream.id_size_value()
         if record_id != 8 or size != 4 or value != 0:
             raise ValueError("Incorrect PROJECTLIBFLAGS")
 
-        record_id, size, value, v2 = struct.unpack_from("<HIIH", data, offset)
+        record_id, size, value = stream.id_size_value()
+        v2 = stream.read_bigh()
         if record_id != 9:
             raise ValueError("Incorrect PROJECTVERSION")
-        offset += 12
 
-        record_id, size = struct.unpack_from("<HI", data, offset)
-        value, r2, s2, v2 = struct.unpack_from(
-            f"<{size}sHI{size}s", data, offset + 6)
+        record_id, size, value = stream.id_size_value()
+        r2, s2, v2 = stream.id_size_value()
         if record_id != 0x0c or size > 2015 or s2 != 2 * size:
             raise ValueError("Incorrect PROJECTCONSTANTS")
-        offset += 12 + size * 3
 
         record_id, size = struct.unpack_from("<HI", data, offset)
         found_one_reference = False
