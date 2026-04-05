@@ -270,7 +270,7 @@ class DirStream():
             record_size += size
             record_id, size, = struct.unpack_from(
                 "<HI", data, offset + record_size)
-            record_size += 6 
+            record_size += 6
             value, r2, s2, v2 = struct.unpack_from(
                 f"<{size}sHI{size*2}s", data, offset + record_size)
             if record_id != 0x1a or s2 != size * 2:
