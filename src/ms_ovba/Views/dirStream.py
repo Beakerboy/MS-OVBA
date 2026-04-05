@@ -2,6 +2,7 @@ import struct
 import warnings
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.vbaProject import VbaProject
+from ms_ovba.struct_io import StructIO
 from ms_ovba.Models.Entities.reference import Reference
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from ms_ovba.Models.Fields.doubleEncodedString import (
@@ -127,15 +128,14 @@ class DirStream():
             "codepage_name": "cp1252"
         }
         offset = 0
-
+        stream = StructIO(data)
         # 1. Check PROJECTSYSKIND (Mandatory first record)
         # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        record_id, size, value = stream.id_size_value()
         if record_id != 1 or size != 4 or not (0 <= value <= 3):
             raise ValueError("Incorrect PROJECTSYSKIND")
-        offset += 10
 
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        record_id, size, value = stream.id_size_value()
         if record_id == 0x4A:
             if size != 4:
                 raise ValueError("Incorrect PROJECTCOMPATVERSION")
