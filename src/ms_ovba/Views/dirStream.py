@@ -186,15 +186,18 @@ class DirStream():
         if record_id != 0x0c or size > 2015 or s2 != 2 * size:
             raise ValueError("Incorrect PROJECTCONSTANTS")
 
-        record_id, size = struct.unpack_from("<HI", data, offset)
+        record_id, size, value = stream.id_size_value()
         found_one_reference = False
         while (record_id != 0x0f or not found_one_reference):
             found_one_reference = True
             record_size = 0
+            name = ''
             if record_id == 0x16:
-                record_size = 12 + size * 3
-                record_id, size = struct.unpack_from(
-                    "<HI", data, offset + record_size)
+                name = value
+                # Get Unicode Name
+                record_id, size, value = stream.id_size_value()
+                # Get Reference
+                record_id, size, value = stream.id_size_value()
             match record_id:
                 case 0x2f:
                     record_size += 6 + size
@@ -217,8 +220,24 @@ class DirStream():
                         record_id, size = struct.unpack_from(
                             "<HI", data, offset + record_size)
                         record_size += 6 + size
-                case 0x0d | 0x0e:
-                    record_size += 6 + size
+                case 0x0d:
+                    stream2 = StrictIO(value)
+                    size = stream2.read_bigi()
+                    lib = LibidReference.unpack(stream.read(size))
+                    ref = Reference(ReferenceRegistered(lib), name)
+                case 0x0e:
+                    stream2 = StrictIO(value)
+                    size = stream2.read_bigi()
+                    lib1 = LibidReference.unpack(stream.read(size))
+                    size = stream2.read_bigi()
+                    lib2 = LibidReference.unpack(stream.read(size))
+                    maj = stream2.read_bigi()
+                    min = stream2.read_bigi()
+                    if (maj != project_data["major_version"] or
+                            min != project_data["minor_version"])
+                        raise ValueError(
+                            "Mismatched Version between Project and ReferenceProject")
+                    ref = ReferenceProject(lib)
                 case _:
                     raise ValueError(f"Unknown Reference Type: {record_id}")
             ref = Reference.unpack(
