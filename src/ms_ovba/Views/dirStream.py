@@ -183,7 +183,7 @@ class DirStream():
             raise ValueError("Incorrect PROJECTLIBFLAGS")
 
         record_id, size, value = stream.read_id_size_val()
-        v2 = stream.read_bigh()
+        v2 = stream.read_big_h()
         if record_id != 9:
             raise ValueError("Incorrect PROJECTVERSION")
 
