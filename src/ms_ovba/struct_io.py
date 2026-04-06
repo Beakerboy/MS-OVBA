@@ -13,7 +13,7 @@ class StructIO:
         self._sym = '<' if endian == 'little' else '>'
 
     def read(self: T, num: int) -> bytes:
-        return self._stream.read(size)
+        return self._stream.read(num)
 
     def read_big_h(self: T) -> int:
         val, = self._read_fmt('H', 2)
