@@ -313,12 +313,12 @@ class DirStream():
 
             record_id = stream.read_big_h()
             value = stream.read_big_i()
-            if value != 0x25:
+            if record_id != 0x25:
                 raise ValueError("Incorrect MODULEREADONLY")
 
             record_id = stream.read_big_h()
             value = stream.read_big_i()
-            if not 0x21 <= value <= 0x22:
+            if record_id != 0x28:
                 raise ValueError("Incorrect MODULEPRIVATE")    
         
             project_data["modules"] += [module_data]
