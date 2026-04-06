@@ -308,8 +308,7 @@ class DirStream():
 
             record_id = stream.read_big_h()
             value = stream.read_big_i()
-            int_value = int.from_bytes(record_id, byteorder='little')
-            if not 0x21 <= int_value <= 0x22:
+            if not 0x21 <= record_id <= 0x22:
                 raise ValueError("Incorrect MODULETYPE")
 
             record_id = stream.read_big_h()
