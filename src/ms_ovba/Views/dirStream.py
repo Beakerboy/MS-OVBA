@@ -178,7 +178,7 @@ class DirStream():
 
         record_id, size, value = stream.read_id_size_val()
         int_value = int.from_bytes(value, byteorder='little')
-        if record_id != 8 or size != 4 or int_val != 0:
+        if record_id != 8 or size != 4 or int_value != 0:
             raise ValueError("Incorrect PROJECTLIBFLAGS")
 
         record_id, size, value = stream.read_id_size_val()
