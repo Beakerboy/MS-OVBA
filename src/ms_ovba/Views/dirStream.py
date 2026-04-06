@@ -249,47 +249,37 @@ class DirStream():
                         raise ValueError(
                             "Mismatched Version between Project"
                             "and ReferenceProject")
-                    ref = ReferenceProject(lib)
+                    ref = Reference(ReferenceProject(lib), name)
                 case _:
                     raise ValueError(f"Unknown Reference Type: {record_id}")
-            ref = Reference.unpack(
-                data[offset:offset + record_size], "little")
             project_data["references"] += [ref]
-            offset += record_size
-            record_id, size = struct.unpack_from("<HI", data, offset)
+            record_id, size, value = stream.read_id_size_val()
 
         if record_id != 0x0f or size != 2:
             raise ValueError("Expected ModuleRecord")
-        offset += 6
-        count, record_id, size, cookie = struct.unpack_from(
-            "<HHIH", data, offset)
-        offset += 10
+        
+        count = stream.read_big_h()
+        record_id, size, value = stream.read_id_size_val()
+        cookie = int.from_bytes(value, byteorder='little')
         if record_id != 0x13 or size != 2:
             raise ValueError(f"Incorrect PROJECTCOOKIE({record_id}, {size})")
         project_data["project_cookie"] = cookie
         for _ in range(count):
             module_data = {}
-            record_size = 0
-            record_id, size = struct.unpack_from("<HI", data, offset)
-            record_size += 6
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x19:
                 raise ValueError(
                     f"Incorrect MODULENAME({record_id})")
-            value, record_id, size, = struct.unpack_from(
-                f"<{size}sHI", data, offset + record_size)
             module_data["name"] = value
-            record_size += size + 6
+    
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x47:
                 raise ValueError(
                     f"Incorrect MODULENAMEUNICODE({record_id})")
             # validate sizes and that values match
-            value, struct.unpack_from(
-                f"<{size}s", data, offset + record_size)
-            record_size += size
-            record_id, size, = struct.unpack_from(
-                "<HI", data, offset + record_size)
-            record_size += 6
-            value, r2, s2, v2 = struct.unpack_from(
+    
+            module_data["name"] = value
+            r2, s2, v2 = struct.unpack_from(
                 f"<{size}sHI{size*2}s", data, offset + record_size)
             if record_id != 0x1a or s2 != size * 2:
                 raise ValueError(
