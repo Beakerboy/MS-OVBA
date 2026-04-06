@@ -278,41 +278,35 @@ class DirStream():
             # validate sizes and that values match
     
             module_data["name"] = value
-            r2, s2, v2 = struct.unpack_from(
-                f"<{size}sHI{size*2}s", data, offset + record_size)
+            record_id, size, value = stream.read_id_size_val()
+            r2, s2, v2 = stream.read_id_size_val()
             if record_id != 0x1a or s2 != size * 2:
                 raise ValueError(
                     f"Incorrect MODULESTREAMNAME({record_id}, {size})")
             module_data["stream_name"] = value
-            record_size += size * 3 + 6
-            record_id, size, = struct.unpack_from(
-                "<HI", data, offset + record_size)
-            record_size += 6
+    
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1c:
                 raise ValueError(
                     f"Incorrect MODULEDOCSTRING({record_id}, {size})")
-            value, record_id, size, value2 = struct.unpack_from(
-                f"<{size}sHI{size*2}s", data, offset + record_size)
+            r2, s2, v2 = stream.read_id_size_val()
             module_data["docstring"] = value
-            record_size += size * 3 + 6
-            record_id, size, value = struct.unpack_from(
-                "<HII", data, offset + record_size)
+    
+    
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x31 or size != 4:
                 raise ValueError(
                     f"Incorrect MODULEOFFSET({record_id}, {size})")
-            offset += 10
-            record_id, size, value = struct.unpack_from(
-                "<HII", data, offset + record_size)
+    
+            recordrecord_id, size, value = stream.read_id_size_val()
             if record_id != 0x1e or size != 4:
                 raise ValueError("Incorrect MODULEHELPCONTEXT")
-            offset += 10
-            record_id, size, value = struct.unpack_from(
-                "<HIH", data, offset + record_size)
+
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x2c or size != 2:
                 raise ValueError("Incorrect MODULECOOKIE")
-            offset += 8
+    
             project_data["modules"] += [module_data]
-            offset += record_size
         return project_data
 
     @staticmethod
