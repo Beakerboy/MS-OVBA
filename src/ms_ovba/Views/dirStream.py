@@ -298,14 +298,29 @@ class DirStream():
                 raise ValueError(
                     f"Incorrect MODULEOFFSET({record_id}, {size})")
     
-            recordrecord_id, size, value = stream.read_id_size_val()
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1e or size != 4:
                 raise ValueError("Incorrect MODULEHELPCONTEXT")
 
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x2c or size != 2:
                 raise ValueError("Incorrect MODULECOOKIE")
-    
+
+            record_id = stream.read_big_h()
+            value = stream.read_big_i()
+            if not 0x21 <= value <= 0x22:
+                raise ValueError("Incorrect MODULETYPE")
+
+            record_id = stream.read_big_h()
+            value = stream.read_big_i()
+            if value != 0x25:
+                raise ValueError("Incorrect MODULEREADONLY")
+
+            record_id = stream.read_big_h()
+            value = stream.read_big_i()
+            if not 0x21 <= value <= 0x22:
+                raise ValueError("Incorrect MODULEPRIVATE")    
+        
             project_data["modules"] += [module_data]
         terminator = stream.read_big_h()
         if terminator != 16:
