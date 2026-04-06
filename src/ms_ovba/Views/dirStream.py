@@ -162,7 +162,7 @@ class DirStream():
             raise ValueError("Incorrect PROJECTNAME")
 
         record_id, size, value = stream.read_id_size_val()
-        r2, s2, v2 = stream.id_size_value()
+        r2, s2, v2 = stream.read_id_size_val()
         if record_id != 5 or size > 2000 or s2 != 2 * size:
             raise ValueError(
                 f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
