@@ -257,10 +257,9 @@ class DirStream():
 
         if record_id != 0x0f or size != 2:
             raise ValueError("Expected ModuleRecord")
-        
-        count = stream.read_big_h()
+        count = int.from_bytes(value, byteorder='little')
+
         record_id, size, value = stream.read_id_size_val()
-        cookie = int.from_bytes(value, byteorder='little')
         if record_id != 0x13 or size != 2:
             raise ValueError(f"Incorrect PROJECTCOOKIE({record_id}, {size})")
         project_data["project_cookie"] = cookie
