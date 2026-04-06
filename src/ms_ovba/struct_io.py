@@ -12,6 +12,9 @@ class StructIO:
         self._stream = io.BytesIO(data)
         self._sym = '<' if endian == 'little' else '>'
 
+    def read(aelf: T, num: int) -> bytes:
+        return self._stream.read(size)
+
     def read_big_h(self: T) -> int:
         val, = self._read_fmt('H', 2)
         return val
