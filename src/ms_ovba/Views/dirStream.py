@@ -131,8 +131,8 @@ class DirStream():
             "help_context_id": 0,
             "project_cookie": 0,
             "codepage_name": "cp1252",
-            "major_version": int,
-            "minor_version": int
+            "major_version": 0,
+            "minor_version": 0
         }
         offset = 0
         stream = StructIO(data)
