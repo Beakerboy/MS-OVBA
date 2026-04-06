@@ -305,19 +305,20 @@ class DirStream():
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x2c or size != 2:
                 raise ValueError("Incorrect MODULECOOKIE")
+            module_data["cookie"] = value
 
             record_id = stream.read_big_h()
-            value = stream.read_big_i()
+            reserved = stream.read_big_i()
             if not 0x21 <= record_id <= 0x22:
                 raise ValueError("Incorrect MODULETYPE")
 
             record_id = stream.read_big_h()
-            value = stream.read_big_i()
+            reserved = stream.read_big_i()
             if record_id != 0x25:
-                raise ValueError("Incorrect MODULEREADONLY")
+                raise ValueError(f"Incorrect MODULEREADONLY({record_id})")
 
             record_id = stream.read_big_h()
-            value = stream.read_big_i()
+            reserved = stream.read_big_i()
             if record_id != 0x28:
                 raise ValueError("Incorrect MODULEPRIVATE")    
         
