@@ -305,7 +305,7 @@ class DirStream():
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x2c or size != 2:
                 raise ValueError("Incorrect MODULECOOKIE")
-            module_data["cookie"] = value
+            module_data["cookie"] = int.from_bytes(value, byteorder='little')
 
             record_id = stream.read_big_h()
             reserved = stream.read_big_i()
