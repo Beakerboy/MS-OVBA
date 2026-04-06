@@ -27,6 +27,8 @@ class Parameters(TypedDict):
     help_context_id: int
     project_cookie: int
     codepage_name: str
+    major_version: int
+    minor_version: int
 
 
 class DirStream():
@@ -128,7 +130,9 @@ class DirStream():
             "modules": [],
             "help_context_id": 0,
             "project_cookie": 0,
-            "codepage_name": "cp1252"
+            "codepage_name": "cp1252",
+            "major_version": int,
+            "minor_version": int
         }
         offset = 0
         stream = StructIO(data)
@@ -186,7 +190,8 @@ class DirStream():
         v2 = stream.read_big_h()
         if record_id != 9:
             raise ValueError("Incorrect PROJECTVERSION")
-
+        project_data["major_version"] = value
+        project_data["minor_version"] = v2
         record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.read_id_size_val()
         if record_id != 0x0c or size > 2015 or s2 != 2 * size:
