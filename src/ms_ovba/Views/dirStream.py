@@ -145,11 +145,12 @@ class DirStream():
                 raise ValueError("Incorrect PROJECTCOMPATVERSION")
             record_id, size, value = stream.read_id_size_val()
         int_value = int.from_bytes(value, byteorder='little')
-        if record_id != 2 or size != 4 or int_val != 0x409:
+        if record_id != 2 or size != 4 or int_value != 0x409:
             raise ValueError(f"Incorrect PROJECTLCID({record_id}), {size}, {int_val}")
 
         record_id, size, value = stream.read_id_size_val()
-        if record_id != 0x14 or size != 4 or value != 0x409:
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id != 0x14 or size != 4 or int_value != 0x409:
             raise ValueError("Incorrect PROJECTLCIDINVOKE")
 
         record_id, size, value = stream.read_id_size_val()
