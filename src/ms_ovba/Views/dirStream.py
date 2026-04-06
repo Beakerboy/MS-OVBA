@@ -228,17 +228,17 @@ class DirStream():
                         record_size += 6 + size
                 case 0x0d:
                     stream2 = StructIO(value)
-                    size = stream2.read_bigi()
+                    size = stream2.read_big_i()
                     lib = LibidReference.unpack(stream.read(size))
                     ref = Reference(ReferenceRegistered(lib), name)
                 case 0x0e:
                     stream2 = StructIO(value)
-                    size = stream2.read_bigi()
+                    size = stream2.read_big_i()
                     lib1 = LibidReference.unpack(stream.read(size))
-                    size = stream2.read_bigi()
+                    size = stream2.read_big_i()
                     lib2 = LibidReference.unpack(stream.read(size))
-                    maj = stream2.read_bigi()
-                    min = stream2.read_bigi()
+                    maj = stream2.read_big_i()
+                    min = stream2.read_big_i()
                     if (maj != project_data["major_version"] or
                             min != project_data["minor_version"]):
                         raise ValueError(
