@@ -321,7 +321,11 @@ class DirStream():
             reserved = stream.read_big_i()
             if record_id != 0x28:
                 raise ValueError("Incorrect MODULEPRIVATE")    
-        
+
+            record_id = stream.read_big_h()
+            reserved = stream.read_big_i()
+            if record_id != 0x2B:
+                raise ValueError("Incorrect TERMINATOR")     
             project_data["modules"] += [module_data]
         terminator = stream.read_big_h()
         if terminator != 16:
