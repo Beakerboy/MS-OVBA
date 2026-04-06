@@ -307,6 +307,9 @@ class DirStream():
                 raise ValueError("Incorrect MODULECOOKIE")
     
             project_data["modules"] += [module_data]
+        terminator = stream.read_big_h()
+        if terminator != 16:
+            raise ValueError("Incorrect Terminator")
         return project_data
 
     @staticmethod
