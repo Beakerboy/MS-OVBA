@@ -168,7 +168,7 @@ class DirStream():
                 f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
 
         record_id, size, value = stream.read_id_size_val()
-        r2, s2, v2 = stream.id_size_value()
+        r2, s2, v2 = stream.read_id_size_val()
         if record_id != 6 or size > 260 or s2 != size or value != v2:
             raise ValueError(
                 f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
@@ -188,7 +188,7 @@ class DirStream():
             raise ValueError("Incorrect PROJECTVERSION")
 
         record_id, size, value = stream.read_id_size_val()
-        r2, s2, v2 = stream.id_size_value()
+        r2, s2, v2 = stream.read_id_size_val()
         if record_id != 0x0c or size > 2015 or s2 != 2 * size:
             raise ValueError("Incorrect PROJECTCONSTANTS")
 
