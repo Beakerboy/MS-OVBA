@@ -269,7 +269,7 @@ class DirStream():
             if record_id != 0x19:
                 raise ValueError(
                     f"Incorrect MODULENAME({record_id})")
-            module_data["name"] = value
+            module_data["name"] = value.decode()
     
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x47:
@@ -277,13 +277,12 @@ class DirStream():
                     f"Incorrect MODULENAMEUNICODE({record_id})")
             # validate sizes and that values match
     
-            module_data["name"] = value
             record_id, size, value = stream.read_id_size_val()
             r2, s2, v2 = stream.read_id_size_val()
             if record_id != 0x1a or s2 != size * 2:
                 raise ValueError(
                     f"Incorrect MODULESTREAMNAME({record_id}, {size})")
-            module_data["stream_name"] = value
+            module_data["stream_name"] = value.decode()
     
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1c:
