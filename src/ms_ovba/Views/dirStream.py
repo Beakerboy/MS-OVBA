@@ -314,16 +314,16 @@ class DirStream():
 
             record_id = stream.read_big_h()
             reserved = stream.read_big_i()
-            if record_id != 0x25:
-                raise ValueError(f"Incorrect MODULEREADONLY({record_id})")
+            if record_id == 0x25:
+                module_data["read_only"] = True
+                record_id = stream.read_big_h()
+                reserved = stream.read_big_i()
+        
+            if record_id == 0x28:
+                module_data["private"] = True
+                record_id = stream.read_big_h()
+                reserved = stream.read_big_i()
 
-            record_id = stream.read_big_h()
-            reserved = stream.read_big_i()
-            if record_id != 0x28:
-                raise ValueError("Incorrect MODULEPRIVATE")    
-
-            record_id = stream.read_big_h()
-            reserved = stream.read_big_i()
             if record_id != 0x2B:
                 raise ValueError("Incorrect TERMINATOR")     
             project_data["modules"] += [module_data]
