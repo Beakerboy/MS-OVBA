@@ -139,7 +139,7 @@ class DirStream():
             "help_context": 0,
             "name": '',
             "stream_name": '',
-            "doc_string": '',
+            "docstring": '',
             "offset": 0,
             "read_only": False,
             "private": False,
