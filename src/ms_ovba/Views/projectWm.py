@@ -15,7 +15,7 @@ class ProjectWm:
     def to_bytes(self: T) -> bytes:
         output = b''
         for module in self.project.modules:
-            output += (bytes(module.modName.value, project.codepage_name)
+            output += (bytes(module.modName.value, self.project.codepage_name)
                        + b'\x00'
                        + bytes(module.modName.value, 'utf_16_le')
                        + b'\x00\x00')
