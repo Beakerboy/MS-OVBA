@@ -44,7 +44,7 @@ def test_from_bytes() -> None:
         'help_context_id': 0,
         'major_version': 1706951255,
         'minor_version': 17,
-        'cookie': 2291
+        'cookie': 2291,
         'modules': [{'cookie': 47132,
                 'docstring': '',
                 'help_context': 0,
