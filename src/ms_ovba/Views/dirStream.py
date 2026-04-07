@@ -278,7 +278,7 @@ class DirStream():
             raise ValueError(f"Incorrect PROJECTCOOKIE({record_id}, {size})")
         project_data["project_cookie"] = int.from_bytes(value, byteorder='little')
         for _ in range(count):
-            module_data = blank_module_data
+            module_data = blank_module_data.copy()
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x19:
                 raise ValueError(
