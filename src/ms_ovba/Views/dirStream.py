@@ -2,11 +2,15 @@ import struct
 import warnings
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.vbaProject import VbaProject
+from ms_ovba.struct_io import StructIO
 from ms_ovba.Models.Entities.reference import Reference
+from ms_ovba.Models.Entities.reference_project import ReferenceProject
+from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
 )
+from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Models.Fields.packed_data import PackedData
 from typing import List, TypedDict, TypeVar
 
@@ -21,8 +25,10 @@ class Parameters(TypedDict):
     references: list[Reference]
     modules: list
     help_context_id: int
-    project_cookie: int
+    cookie: int
     codepage_name: str
+    major_version: int
+    minor_version: int
 
 
 class DirStream():
@@ -123,91 +129,108 @@ class DirStream():
             "references": [],
             "modules": [],
             "help_context_id": 0,
-            "project_cookie": 0,
-            "codepage_name": "cp1252"
+            "cookie": 0,
+            "codepage_name": "cp1252",
+            "major_version": 0,
+            "minor_version": 0,
+            "name": '',
+            "docstring": ''
+        }
+        blank_module_data = {
+            "type": 0,
+            "help_context": 0,
+            "name": '',
+            "stream_name": '',
+            "docstring": '',
+            "offset": 0,
+            "read_only": False,
+            "private": False,
+            "cookie": 0,
         }
         offset = 0
-
+        stream = StructIO(data)
         # 1. Check PROJECTSYSKIND (Mandatory first record)
         # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
-        if record_id != 1 or size != 4 or not (0 <= value <= 3):
+        record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id != 1 or size != 4 or not (0 <= int_value <= 3):
             raise ValueError("Incorrect PROJECTSYSKIND")
-        offset += 10
+        project_data["syskind"] = int_value
 
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
         if record_id == 0x4A:
             if size != 4:
                 raise ValueError("Incorrect PROJECTCOMPATVERSION")
-            offset += 10
-            record_id, size, value = (struct.unpack_from("<HII", data, offset))
-        if record_id != 2 or size != 4 or value != 0x409:
-            raise ValueError("Incorrect PROJECTLCID")
-        offset += 10
+            project_data["compatversion"] = int_value
+            record_id, size, value = stream.read_id_size_val()
+            int_value = int.from_bytes(value, byteorder='little')
+        
+        if record_id != 2 or size != 4 or int_value != 0x409:
+            raise ValueError(f"Incorrect PROJECTLCID({record_id}), {size}, {int_value}")
 
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
-        if record_id != 0x14 or size != 4 or value != 0x409:
+        record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id != 0x14 or size != 4 or int_value != 0x409:
             raise ValueError("Incorrect PROJECTLCIDINVOKE")
-        offset += 10
 
-        record_id, size, value = struct.unpack_from("<HIH", data, offset)
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 3 or size != 2:
             raise ValueError("Incorrect PROJECTCODEPAGE")
-        offset += 8
+        codepage = 'cp' + str(int.from_bytes(value, byteorder='little'))
+        project_data["codepage_name"] = codepage
 
-        record_id, size = struct.unpack_from("<HI", data, offset)
-        value, = struct.unpack_from(f"{size}s", data, offset + 6)
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 4 or not (1 <= size <= 128):
             raise ValueError("Incorrect PROJECTNAME")
-        offset += 6 + size
+        project_data["name"] = DirStream.decode(value, codepage)
 
-        record_id, size = struct.unpack_from("<HI", data, offset)
-        value, r2, s2, v2 = struct.unpack_from(
-            f"<{size}sHI{2*size}s", data, offset + 6)
+        record_id, size, value = stream.read_id_size_val()
+        r2, s2, v2 = stream.read_id_size_val()
         if record_id != 5 or size > 2000 or s2 != 2 * size:
             raise ValueError(
                 f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
-        offset += 12 + size * 3
-
-        record_id, size = struct.unpack_from("<HI", data, offset)
-        value, r2, s2, v2 = struct.unpack_from(
-            f"<{size}sHI{size}s", data, offset + 6)
+        project_data["docstring"] = DirStream.decode(value, codepage)
+        
+        record_id, size, value = stream.read_id_size_val()
+        r2, s2, v2 = stream.read_id_size_val()
         if record_id != 6 or size > 260 or s2 != size or value != v2:
             raise ValueError(
                 f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
-        offset += 12 + size * 2
 
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 7 or size != 4:
             raise ValueError("Incorrect PROJECTHELPCONTEXT")
-        offset += 10
 
-        record_id, size, value = struct.unpack_from("<HII", data, offset)
-        if record_id != 8 or size != 4 or value != 0:
+        record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id != 8 or size != 4 or int_value != 0:
             raise ValueError("Incorrect PROJECTLIBFLAGS")
-        offset += 10
 
-        record_id, size, value, v2 = struct.unpack_from("<HIIH", data, offset)
-        if record_id != 9:
+        record_id, size, value = stream.read_id_size_val()
+        v2 = stream.read_big_h()
+        if record_id != 9 or size != 4:
             raise ValueError("Incorrect PROJECTVERSION")
-        offset += 12
-
-        record_id, size = struct.unpack_from("<HI", data, offset)
-        value, r2, s2, v2 = struct.unpack_from(
-            f"<{size}sHI{size}s", data, offset + 6)
+        project_data["major_version"] = int.from_bytes(
+            value, byteorder='little')
+        project_data["minor_version"] = v2
+        record_id, size, value = stream.read_id_size_val()
+        r2, s2, v2 = stream.read_id_size_val()
         if record_id != 0x0c or size > 2015 or s2 != 2 * size:
             raise ValueError("Incorrect PROJECTCONSTANTS")
-        offset += 12 + size * 3
 
-        record_id, size = struct.unpack_from("<HI", data, offset)
+        record_id, size, value = stream.read_id_size_val()
         found_one_reference = False
         while (record_id != 0x0f or not found_one_reference):
             found_one_reference = True
             record_size = 0
+            name = ''
             if record_id == 0x16:
-                record_size = 12 + size * 3
-                record_id, size = struct.unpack_from(
-                    "<HI", data, offset + record_size)
+                name = value
+                # Get Unicode Name
+                record_id, size, value = stream.read_id_size_val()
+                # Get Reference
+                record_id, size, value = stream.read_id_size_val()
             match record_id:
                 case 0x2f:
                     record_size += 6 + size
@@ -230,82 +253,107 @@ class DirStream():
                         record_id, size = struct.unpack_from(
                             "<HI", data, offset + record_size)
                         record_size += 6 + size
-                case 0x0d | 0x0e:
-                    record_size += 6 + size
+                case 0x0d:
+                    stream2 = StructIO(value)
+                    size = stream2.read_big_i()
+                    lib = LibidReference.unpack(stream2.read(size))
+                    ref = Reference(ReferenceRegistered(lib), name)
+                case 0x0e:
+                    stream2 = StructIO(value)
+                    size = stream2.read_big_i()
+                    lib1 = LibidReference.unpack(stream2.read(size))
+                    size = stream2.read_big_i()
+                    lib2 = LibidReference.unpack(stream2.read(size))
+                    maj = stream2.read_big_i()
+                    min = stream2.read_big_i()
+                    if (maj != project_data["major_version"] or
+                            min != project_data["minor_version"]):
+                        raise ValueError(
+                            "Mismatched Version between Project"
+                            "and ReferenceProject")
+                    ref = Reference(ReferenceProject(lib), name)
                 case _:
                     raise ValueError(f"Unknown Reference Type: {record_id}")
-            ref = Reference.unpack(
-                data[offset:offset + record_size], "little")
             project_data["references"] += [ref]
-            offset += record_size
-            record_id, size = struct.unpack_from("<HI", data, offset)
+            record_id, size, value = stream.read_id_size_val()
 
         if record_id != 0x0f or size != 2:
             raise ValueError("Expected ModuleRecord")
-        offset += 6
-        count, record_id, size, cookie = struct.unpack_from(
-            "<HHIH", data, offset)
-        offset += 10
+        count = int.from_bytes(value, byteorder='little')
+
+        record_id, size, value = stream.read_id_size_val()
         if record_id != 0x13 or size != 2:
             raise ValueError(f"Incorrect PROJECTCOOKIE({record_id}, {size})")
-        project_data["project_cookie"] = cookie
+        project_data["cookie"] = int.from_bytes(value, byteorder='little')
         for _ in range(count):
-            module_data = {}
-            record_size = 0
-            record_id, size = struct.unpack_from("<HI", data, offset)
-            record_size += 6
+            module_data = blank_module_data.copy()
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x19:
                 raise ValueError(
                     f"Incorrect MODULENAME({record_id})")
-            value, record_id, size, = struct.unpack_from(
-                f"<{size}sHI", data, offset + record_size)
-            module_data["name"] = value
-            record_size += size + 6
+            module_data["name"] = value.decode(codepage)
+    
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x47:
                 raise ValueError(
                     f"Incorrect MODULENAMEUNICODE({record_id})")
             # validate sizes and that values match
-            value, struct.unpack_from(
-                f"<{size}s", data, offset + record_size)
-            record_size += size
-            record_id, size, = struct.unpack_from(
-                "<HI", data, offset + record_size)
-            record_size += 6
-            value, r2, s2, v2 = struct.unpack_from(
-                f"<{size}sHI{size*2}s", data, offset + record_size)
+    
+            record_id, size, value = stream.read_id_size_val()
+            r2, s2, v2 = stream.read_id_size_val()
             if record_id != 0x1a or s2 != size * 2:
                 raise ValueError(
                     f"Incorrect MODULESTREAMNAME({record_id}, {size})")
-            module_data["stream_name"] = value
-            record_size += size * 3 + 6
-            record_id, size, = struct.unpack_from(
-                "<HI", data, offset + record_size)
-            record_size += 6
+            module_data["stream_name"] = value.decode(codepage)
+    
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1c:
                 raise ValueError(
                     f"Incorrect MODULEDOCSTRING({record_id}, {size})")
-            value, record_id, size, value2 = struct.unpack_from(
-                f"<{size}sHI{size*2}s", data, offset + record_size)
-            module_data["docstring"] = value
-            record_size += size * 3 + 6
-            record_id, size, value = struct.unpack_from(
-                "<HII", data, offset + record_size)
+            r2, s2, v2 = stream.read_id_size_val()
+            module_data["docstring"] = value.decode(codepage)
+    
+    
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x31 or size != 4:
                 raise ValueError(
                     f"Incorrect MODULEOFFSET({record_id}, {size})")
-            offset += 10
-            record_id, size, value = struct.unpack_from(
-                "<HII", data, offset + record_size)
+            module_data["offset"] = int.from_bytes(value, byteorder='little')
+    
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1e or size != 4:
                 raise ValueError("Incorrect MODULEHELPCONTEXT")
-            offset += 10
-            record_id, size, value = struct.unpack_from(
-                "<HIH", data, offset + record_size)
+            module_data["help_context"] = int.from_bytes(value, byteorder='little')
+
+            record_id, size, value = stream.read_id_size_val()
             if record_id != 0x2c or size != 2:
                 raise ValueError("Incorrect MODULECOOKIE")
-            offset += 8
+            module_data["cookie"] = int.from_bytes(value, byteorder='little')
+
+            record_id = stream.read_big_h()
+            reserved = stream.read_big_i()
+            if not 0x21 <= record_id <= 0x22:
+                raise ValueError("Incorrect MODULETYPE")
+            module_data["type"] = record_id
+
+            record_id = stream.read_big_h()
+            reserved = stream.read_big_i()
+            if record_id == 0x25:
+                module_data["read_only"] = True
+                record_id = stream.read_big_h()
+                reserved = stream.read_big_i()
+        
+            if record_id == 0x28:
+                module_data["private"] = True
+                record_id = stream.read_big_h()
+                reserved = stream.read_big_i()
+
+            if record_id != 0x2B:
+                raise ValueError("Incorrect TERMINATOR")     
             project_data["modules"] += [module_data]
-            offset += record_size
+        terminator = stream.read_big_h()
+        if terminator != 16:
+            raise ValueError("Incorrect Terminator")
         return project_data
 
     @staticmethod
@@ -319,3 +367,9 @@ class DirStream():
             return DirStream.is_valid(decompressed)
         except Exception:
             return False
+
+    @staticmethod
+    def decode(data: bytes, cp: str) -> str:
+        if b'\x00' in data:
+            raise ValueError("Data Contains Null Byte")
+        decoded_text = data.decode(cp, errors='strict')

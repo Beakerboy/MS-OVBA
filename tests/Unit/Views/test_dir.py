@@ -39,7 +39,44 @@ def test_is_valid() -> None:
 
 @pytest.mark.usefixtures("my_fixture")
 def test_from_bytes() -> None:
-    expected = {}
+    expected = {
+        'codepage_name': 'cp1252',
+        'compatversion': 3,
+        'cookie': 2291,
+        'help_context_id': 0,
+        'major_version': 1706951255,
+        'minor_version': 17,
+        'modules': [{'cookie': 47132,
+                'docstring': '',
+                'help_context': 0,
+                'name': 'ThisWorkbook',
+                'offset': 819,
+                'private': False,
+                'read_only': False,
+                'stream_name': 'ThisWorkbook',
+                'type': 34},
+               {'cookie': 39834,
+                'docstring': '',
+                'help_context': 0,
+                'name': 'Sheet1',
+                'offset': 819,
+                'private': False,
+                'read_only': False,
+                'stream_name': 'Sheet1',
+                'type': 34},
+               {'cookie': 45633,
+                'docstring': '',
+                'help_context': 0,
+                'name': 'Module1',
+                'offset': 643,
+                'private': False,
+                'read_only': False,
+                'stream_name': 'Module1',
+                'type': 33}],
+        "name": '',
+        "references": [],
+        "syskind": 3
+    }
     file = "tests/blank/vbaProject.bin"
     ole_file = OleFile.create_from_file(file)
     ole_file.extract_stream('dir', 'tests/blank')
