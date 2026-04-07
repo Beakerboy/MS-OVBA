@@ -171,8 +171,8 @@ class DirStream():
         record_id, size, value = stream.read_id_size_val()
         if record_id != 3 or size != 2:
             raise ValueError("Incorrect PROJECTCODEPAGE")
-        codepage = value
-        project_data["codepage_name"] = value
+        codepage = 'cp' + str(int.from_bytes(value, byteorder='little'))
+        project_data["codepage_name"] = codepage
 
         record_id, size, value = stream.read_id_size_val()
         if record_id != 4 or not (1 <= size <= 128):
