@@ -25,7 +25,7 @@ class Parameters(TypedDict):
     references: list[Reference]
     modules: list
     help_context_id: int
-    project_cookie: int
+    cookie: int
     codepage_name: str
     major_version: int
     minor_version: int
@@ -129,10 +129,12 @@ class DirStream():
             "references": [],
             "modules": [],
             "help_context_id": 0,
-            "project_cookie": 0,
+            "cookie": 0,
             "codepage_name": "cp1252",
             "major_version": 0,
-            "minor_version": 0
+            "minor_version": 0,
+            "name": '',
+            "docstring": ''
         }
         blank_module_data = {
             "type": 0,
@@ -153,13 +155,16 @@ class DirStream():
         int_value = int.from_bytes(value, byteorder='little')
         if record_id != 1 or size != 4 or not (0 <= int_value <= 3):
             raise ValueError("Incorrect PROJECTSYSKIND")
+        project_data["syskind"] = int_value
 
         record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
         if record_id == 0x4A:
             if size != 4:
                 raise ValueError("Incorrect PROJECTCOMPATVERSION")
             record_id, size, value = stream.read_id_size_val()
-        int_value = int.from_bytes(value, byteorder='little')
+            project_data["compatversion"] = int_value
+        
         if record_id != 2 or size != 4 or int_value != 0x409:
             raise ValueError(f"Incorrect PROJECTLCID({record_id}), {size}, {int_value}")
 
@@ -177,13 +182,15 @@ class DirStream():
         record_id, size, value = stream.read_id_size_val()
         if record_id != 4 or not (1 <= size <= 128):
             raise ValueError("Incorrect PROJECTNAME")
+        project_data["name"] = DirStream.decode(value, codepage)
 
         record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.read_id_size_val()
         if record_id != 5 or size > 2000 or s2 != 2 * size:
             raise ValueError(
                 f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
-
+        project_data["docstring"] = DirStream.decode(value, codepage)
+        
         record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.read_id_size_val()
         if record_id != 6 or size > 260 or s2 != size or value != v2:
@@ -276,7 +283,7 @@ class DirStream():
         record_id, size, value = stream.read_id_size_val()
         if record_id != 0x13 or size != 2:
             raise ValueError(f"Incorrect PROJECTCOOKIE({record_id}, {size})")
-        project_data["project_cookie"] = int.from_bytes(value, byteorder='little')
+        project_data["cookie"] = int.from_bytes(value, byteorder='little')
         for _ in range(count):
             module_data = blank_module_data.copy()
             record_id, size, value = stream.read_id_size_val()
