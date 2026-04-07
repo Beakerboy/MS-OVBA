@@ -72,7 +72,10 @@ def test_from_bytes() -> None:
                 'private': False,
                 'read_only': False,
                 'stream_name': 'Module1',
-                'type': 33}]
+                'type': 33}],
+        "name": '',
+        "references: [],
+        "syskind": 0
     }
     file = "tests/blank/vbaProject.bin"
     ole_file = OleFile.create_from_file(file)
