@@ -30,7 +30,7 @@ jobs:
         pip install -e .[tests]
         wget https://github.com/Beakerboy/VBA-CI-CD-Test/releases/download/0.0.19/Addin.xlam
         mv Addin.xlam Addin.zip
-        unzip Addin.xlam
+        unzip Addin.zip
         rm tests/blank/vbaProject.bin
         mv Addin/xl/vbaProject.bin tests/blank/vbaProject.bin
     - name: Lint with flake8
