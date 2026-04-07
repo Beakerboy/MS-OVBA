@@ -74,7 +74,7 @@ def test_from_bytes() -> None:
                 'stream_name': 'Module1',
                 'type': 33}],
         "name": '',
-        "references: [],
+        "references": [],
         "syskind": 0
     }
     file = "tests/blank/vbaProject.bin"
