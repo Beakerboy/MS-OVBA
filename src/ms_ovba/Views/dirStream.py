@@ -310,10 +310,12 @@ class DirStream():
             if record_id != 0x31 or size != 4:
                 raise ValueError(
                     f"Incorrect MODULEOFFSET({record_id}, {size})")
+            module_data["offset"] = int.from_bytes(value, byteorder='little')
     
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1e or size != 4:
                 raise ValueError("Incorrect MODULEHELPCONTEXT")
+            module_data["help_context"] = int.from_bytes(value, byteorder='little')
 
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x2c or size != 2:
@@ -324,6 +326,7 @@ class DirStream():
             reserved = stream.read_big_i()
             if not 0x21 <= record_id <= 0x22:
                 raise ValueError("Incorrect MODULETYPE")
+            module_data["type"] = record_id
 
             record_id = stream.read_big_h()
             reserved = stream.read_big_i()
