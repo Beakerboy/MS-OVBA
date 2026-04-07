@@ -171,6 +171,8 @@ class DirStream():
         record_id, size, value = stream.read_id_size_val()
         if record_id != 3 or size != 2:
             raise ValueError("Incorrect PROJECTCODEPAGE")
+        codepage = value
+        project_data["codepage_name"] = value
 
         record_id, size, value = stream.read_id_size_val()
         if record_id != 4 or not (1 <= size <= 128):
@@ -281,7 +283,7 @@ class DirStream():
             if record_id != 0x19:
                 raise ValueError(
                     f"Incorrect MODULENAME({record_id})")
-            module_data["name"] = value.decode()
+            module_data["name"] = value.decode(codepage)
     
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x47:
@@ -294,14 +296,14 @@ class DirStream():
             if record_id != 0x1a or s2 != size * 2:
                 raise ValueError(
                     f"Incorrect MODULESTREAMNAME({record_id}, {size})")
-            module_data["stream_name"] = value.decode()
+            module_data["stream_name"] = value.decode(codepage)
     
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1c:
                 raise ValueError(
                     f"Incorrect MODULEDOCSTRING({record_id}, {size})")
             r2, s2, v2 = stream.read_id_size_val()
-            module_data["docstring"] = value
+            module_data["docstring"] = value.decode(codepage)
     
     
             record_id, size, value = stream.read_id_size_val()
