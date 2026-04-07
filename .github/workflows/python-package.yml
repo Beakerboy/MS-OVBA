@@ -32,7 +32,7 @@ jobs:
         mv Addin.xlam Addin.zip
         unzip Addin.zip
         rm tests/blank/vbaProject.bin
-        mv Addin/xl/vbaProject.bin tests/blank/vbaProject.bin
+        mv xl/vbaProject.bin tests/blank/vbaProject.bin
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
