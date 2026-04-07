@@ -135,15 +135,15 @@ class DirStream():
             "minor_version": 0
         }
         blank_module_data = {
-            "module_type" = 0,
-            "help_context" = 0,
-            "name" = '',
-            "stream_name" = '',
-            "doc_string" = '',
-            "offset" = 0,
-            "read_only" = False,
-            "private" = False,
-            "cookie" = 0,
+            "type": 0,
+            "help_context": 0,
+            "name": '',
+            "stream_name": '',
+            "doc_string": '',
+            "offset": 0,
+            "read_only": False,
+            "private": False,
+            "cookie": 0,
         }
         offset = 0
         stream = StructIO(data)
