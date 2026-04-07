@@ -75,7 +75,7 @@ def test_from_bytes() -> None:
                 'type': 33}],
         "name": '',
         "references": [],
-        "syskind": 0
+        "syskind": 3
     }
     file = "tests/blank/vbaProject.bin"
     ole_file = OleFile.create_from_file(file)
