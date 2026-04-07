@@ -41,10 +41,11 @@ def test_is_valid() -> None:
 def test_from_bytes() -> None:
     expected = {
         'codepage_name': 'cp1252',
+        'compatversion': 3,
+        'cookie': 2291,
         'help_context_id': 0,
         'major_version': 1706951255,
         'minor_version': 17,
-        'cookie': 2291,
         'modules': [{'cookie': 47132,
                 'docstring': '',
                 'help_context': 0,
