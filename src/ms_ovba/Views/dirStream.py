@@ -191,7 +191,7 @@ class DirStream():
         if record_id != 9 or size != 4:
             raise ValueError("Incorrect PROJECTVERSION")
         project_data["major_version"] = int.from_bytes(
-            value, byteorder"'little')
+            value, byteorder='little')
         project_data["minor_version"] = v2
         record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.read_id_size_val()
