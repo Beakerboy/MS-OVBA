@@ -197,10 +197,12 @@ class DirStream():
         if record_id != 6 or size > 260 or s2 != size or value != v2:
             raise ValueError(
                 f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
+        project_data["helpfile"] = DirStream.decode(value, codepage)
 
         record_id, size, value = stream.read_id_size_val()
         if record_id != 7 or size != 4:
             raise ValueError("Incorrect PROJECTHELPCONTEXT")
+       project_data["helpcontext"] = int.from_bytes(value, byteorder='little')
 
         record_id, size, value = stream.read_id_size_val()
         int_value = int.from_bytes(value, byteorder='little')
@@ -214,10 +216,12 @@ class DirStream():
         project_data["major_version"] = int.from_bytes(
             value, byteorder='little')
         project_data["minor_version"] = v2
+
         record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.read_id_size_val()
         if record_id != 0x0c or size > 2015 or s2 != 2 * size:
             raise ValueError("Incorrect PROJECTCONSTANTS")
+        project_data["constants"] = DirStream.decode(value, codepage)
 
         record_id, size, value = stream.read_id_size_val()
         found_one_reference = False
