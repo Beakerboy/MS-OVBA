@@ -135,7 +135,7 @@ class DirStream():
             "minor_version": 0
         }
         blank_module_data = {
-            "type" = 0,
+            "module_type" = 0,
             "help_context" = 0,
             "name" = '',
             "stream_name" = '',
