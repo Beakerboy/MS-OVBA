@@ -39,7 +39,12 @@ def test_is_valid() -> None:
 
 @pytest.mark.usefixtures("my_fixture")
 def test_from_bytes() -> None:
-    expected = {}
+    expected = {
+        'codepage_name': 'cp1252',
+  +     'help_context_id': 0,
+  +     'major_version': 1706951255,
+  +     'minor_version': 17
+    }
     file = "tests/blank/vbaProject.bin"
     ole_file = OleFile.create_from_file(file)
     ole_file.extract_stream('dir', 'tests/blank')
