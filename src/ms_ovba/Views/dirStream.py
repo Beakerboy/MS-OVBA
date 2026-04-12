@@ -328,7 +328,8 @@ class DirStream():
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1e or size != 4:
                 raise ValueError("Incorrect MODULEHELPCONTEXT")
-            module_data["help_context"] = int.from_bytes(value, byteorder='little')
+            module_data["help_context"] = int.from_bytes(value,
+                                                         byteorder='little')
 
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x2c or size != 2:
