@@ -15,7 +15,7 @@ def test_main(mocker: MockerFixture) -> None:
     main()
 
     olefile = OleFile.create_from_file("vbaProject.bin")
-    olefile.extract_stream("Sheet1")
+    olefile.extract_stream("Sheet1", ".")
     with open("Sheet1.bin", "rb") as file:
         contents = file.read()
     compressor = MsOvba()
