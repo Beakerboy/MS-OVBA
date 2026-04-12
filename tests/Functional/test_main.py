@@ -1,5 +1,6 @@
 from ms_cfb import OleFile
 from ms_ovba.__main__ import main
+from ms_ovba_compression.ms_ovba import MsOvba
 from pytest_mock import MockerFixture
 
 def test_main(mocker: MockerFixture) -> None:
@@ -9,6 +10,7 @@ def test_main(mocker: MockerFixture) -> None:
     olefile.extract_stream("Sheet1")
     with open("Sheet1.bin", "rb") as file
         contents = file.read()
+    compressor = MsOvba()
     uncompressed = compressor.uncompress(contents)
     expected = "Sheet1"
     assert uncompressed = expected
