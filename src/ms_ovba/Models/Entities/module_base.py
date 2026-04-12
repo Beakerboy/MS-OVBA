@@ -1,3 +1,4 @@
+import uuid
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
@@ -32,20 +33,20 @@ class ModuleBase():
         self._size = 0
 
         # GUIDs
-        self._guids: list[str] = []
+        self._guids: list[uuid.UUID] = []
 
     @property
-    def guids(self: T) -> list[str]:
+    def guids(self: T) -> list[uuid.UUID]:
         return self._guids
 
     @guids.setter
-    def guids(self: T, guid: str) -> None:
+    def guids(self: T, guid: uuid.UUID | list[uuid.UUID]) -> None:
         if isinstance(guid, list):
             self._guids = guid
         else:
             self._guids = [guid]
 
-    def add_guid(self: T, guid: str) -> None:
+    def add_guid(self: T, guid: uuid.UUID) -> None:
         """
         Append a guid to the list
         """
