@@ -343,16 +343,16 @@ class DirStream():
             module_data["type"] = record_id
 
             record_id = stream.read_big_h()
-            reserved = stream.read_big_i()
+            stream.read_big_i()  # Ignored
             if record_id == 0x25:
                 module_data["read_only"] = True
                 record_id = stream.read_big_h()
-                reserved = stream.read_big_i()
+                stream.read_big_i()  # Ignored
 
             if record_id == 0x28:
                 module_data["private"] = True
                 record_id = stream.read_big_h()
-                reserved = stream.read_big_i()
+                stream.read_big_i()  # Ignored
 
             if record_id != 0x2B:
                 raise ValueError("Incorrect TERMINATOR")
