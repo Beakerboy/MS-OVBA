@@ -41,8 +41,9 @@ def main() -> None:
 
     workbook = DocModule('ThisWorkbook')
     workbook.add_file(base_path + '/blank_files/ThisWorkbook.cls')
+    guid2 = uuid.UUID("0002081900000000C000000000000046")
+    workbook.add_guid(guid2)
     workbook.normalize_file()
-    workbook.add_guid("0002081900000000C000000000000046")
     project.add_module(workbook)
 
     # add the files
