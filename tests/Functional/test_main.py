@@ -9,7 +9,6 @@ def test_main(mocker: MockerFixture) -> None:
         "sys.argv",
         [
             "ms_ovba.py",
-            "-directory"
             ".",
         ],
     )
