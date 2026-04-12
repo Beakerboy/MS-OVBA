@@ -355,7 +355,7 @@ class DirStream():
                 reserved = stream.read_big_i()
 
             if record_id != 0x2B:
-                raise ValueError("Incorrect TERMINATOR")     
+                raise ValueError("Incorrect TERMINATOR")
             project_data["modules"] += [module_data]
         terminator = stream.read_big_h()
         if terminator != 16:
