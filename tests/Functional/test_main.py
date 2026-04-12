@@ -23,9 +23,10 @@ def test_main(mocker: MockerFixture) -> None:
     expected = ('Attribute VB_Name = "Sheet1"\r\n'
         'Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}\r\n'
         'Attribute VB_GlobalNameSpace = False\r\n'
-        'Attribute VB_Creat... = True\r\n'
+        'Attribute VB_Creatable = False\r\n'
+        'Attribute VB_ = True\r\n'
         'Attribute VB_Exposed = True\r\n'
         'Attribute VB_TemplateDerived = False\r\n'
         'Attribute VB_Customizable = True\r\n')
-    assert uncompressed[50:] == expected[50:]
+    assert uncompressed[70:] == expected[70:]
     
