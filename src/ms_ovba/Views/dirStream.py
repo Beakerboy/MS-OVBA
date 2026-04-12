@@ -269,15 +269,16 @@ class DirStream():
                     size = stream2.read_big_i()
                     lib1 = LibidReference.unpack(stream2.read(size))
                     size = stream2.read_big_i()
-                    lib2 = LibidReference.unpack(stream2.read(size))
+                    LibidReference.unpack(stream2.read(size))  # Lib2
                     maj = stream2.read_big_i()
                     min = stream2.read_big_i()
+                    # Assert lib2 is lib1 but relative
                     if (maj != project_data["major_version"] or
                             min != project_data["minor_version"]):
                         raise ValueError(
                             "Mismatched Version between Project"
                             "and ReferenceProject")
-                    ref = Reference(ReferenceProject(lib), name)
+                    ref = Reference(ReferenceProject(lib1), name)
                 case _:
                     raise ValueError(f"Unknown Reference Type: {record_id}")
             project_data["references"] += [ref]
