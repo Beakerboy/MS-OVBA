@@ -1,0 +1,19 @@
+@startuml
+digraph G {
+    "Root Entry" [fillcolor="red" style="filled" fontcolor="white"];
+    VBA [fillcolor="red" style="filled" fontcolor="white"];
+    PROJECTwm [fillcolor="red" style="filled" fontcolor="white"]
+    dir [fillcolor="red" style="filled" fontcolor="white"]
+    _VBA_PROJECT [fillcolor="red" style="filled" fontcolor="white"]
+    "Root Entry" -> PROJECT
+    PROJECT -> VBA
+    PROJECT -> PROJECTwm
+    VBA -> Module1
+    Module1 -> Sheet1
+    Module1 -> ThisWorkbook
+    Sheet1 -> dir
+    Sheet1 -> nil
+    ThisWorkbook -> _VBA_PROJECT
+    ThisWorkbook -> nil
+} 
+@enduml

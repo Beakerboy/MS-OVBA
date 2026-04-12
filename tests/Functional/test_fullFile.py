@@ -1,216 +1,355 @@
+import os
+import pytest
 import struct
 import unittest.mock
 import uuid
+from ms_dtyp.filetime import Filetime
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_pcode_assembler.module_cache import ModuleCache
-from vbaProjectCompiler.vbaProject import VbaProject
-from vbaProjectCompiler.Models.Entities.doc_module import DocModule
-from vbaProjectCompiler.Models.Entities.std_module import StdModule
-from vbaProjectCompiler.Models.Entities.referenceRecord import ReferenceRecord
-from vbaProjectCompiler.Models.Fields.libidReference import LibidReference
+from ms_pcode_assembler.project_cache import ProjectCache
+from ms_ovba.vbaProject import VbaProject
+from ms_ovba.Models.Entities.doc_module import DocModule
+from ms_ovba.Models.Entities.std_module import StdModule
+from ms_ovba.Models.Entities.reference import (
+    Reference
+)
+from ms_ovba.Models.Entities.reference_registered import (
+    ReferenceRegistered
+)
+from ms_ovba.Models.Fields.libid_reference import LibidReference
+from ms_ovba.Views.project_ole_file import ProjectOleFile
+from typing import Type, TypeVar
+
+
+T = TypeVar('T', bound='NotSoRandom')
 
 
 class NotSoRandom():
     _rand = []
 
     @classmethod
-    def set_seed(cls, seeds):
+    def set_seed(cls: Type[T], seeds: list) -> None:
         cls._rand = seeds
 
     @classmethod
-    def randint(cls, param1, param2):
+    def randint(cls: Type[T], param1: int, param2: int) -> int:
         return cls._rand.pop(0)
 
 
-def module_matches_bin(module_path,
-                       cache_size,
-                       bin_path,
-                       bin_offset,
-                       bin_length):
+@pytest.fixture(autouse=True)
+def run_around_tests() -> None:
+    # Code that will run before your test, for example:
+
+    # A test function will be run at this point
+    yield
+    # Code that will run after your test
+    root = "src/ms_ovba/blank_files/"
+    root2 = "tests/blank/"
+    names = [root + "ThisWorkbook.cls", root + "Sheet1.cls",
+             root2 + "Module1.bas"]
+    remove_module(names)
+    names = ["dir.bin", "projectwm.bin", "project.bin", "vba_project.bin"]
+    map(os.remove, names)
+
+
+def remove_module(names: str) -> None:
+    for name in names:
+        os.remove(name + ".new")
+        os.remove(name + ".bin")
+
+
+def assert_module_matches_bin(module_path: str,
+                              cache_size: int,
+                              bin_path: str,
+                              bin_offset: int,
+                              bin_length: int) -> bool:
     m = open(module_path, "rb")
     b = open(bin_path, "rb")
     b.seek(bin_offset)
-    if m.read(cache_size) != b.read(cache_size):
-        return False
+    assert m.read(cache_size) == b.read(cache_size)
     ms_ovba = MsOvba()
     m_uncompressed = ms_ovba.decompress(m.read())
-    b_uncompressed = ms_ovba.decompress(b.read(bin_length))
-    return m_uncompressed == b_uncompressed
+    b_uncompressed = ms_ovba.decompress(b.read(bin_length - cache_size))
+    assert m_uncompressed == b_uncompressed
 
 
-@unittest.mock.patch('random.randint', NotSoRandom.randint)
-def test_fullFile():
-    rand = [0x41, 0xBC, 0x7B, 0x7B, 0x37, 0x7B, 0x7B, 0x7B]
-    NotSoRandom.set_seed(rand)
-    project = VbaProject()
-    codePage = 0x04E4
-    codePageName = "cp" + str(codePage)
-    libidRef = LibidReference(
-        uuid.UUID("0002043000000000C000000000000046"),
+stdole_lib = LibidReference(
+        uuid.UUID("00020430-0000-0000-C000-000000000046"),
         "2.0",
         "0",
         "C:\\Windows\\System32\\stdole2.tlb",
         "OLE Automation"
     )
-    oleReference = ReferenceRecord(codePageName, "stdole", libidRef)
-    libidRef2 = LibidReference(
+
+
+@unittest.mock.patch('random.randint', NotSoRandom.randint)
+def test_full_file() -> None:
+    """
+    Create an exact reproduction of a complete "empty" vba excel addin.
+    """
+    rand = [0x41, 0xBC, 0x7B, 0x7B, 0x37, 0x7B, 0x7B, 0x7B]
+    NotSoRandom.set_seed(rand)
+    project = VbaProject()
+    project.default_date = Filetime.from_msfiletime(0x01D92433C2B823C0)
+    project.include_projectwm()
+    libid_ref = ReferenceRegistered(stdole_lib)
+    ole_reference = Reference(libid_ref, "stdole")
+    libid_ref2 = ReferenceRegistered(LibidReference(
         uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
         "2.0",
         "0",
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
-    )
-    officeReference = ReferenceRecord(codePageName, "Office", libidRef2)
-    project.addReference(oleReference)
-    project.addReference(officeReference)
-    project.setProjectCookie(0x08F3)
-    project.setProjectId('{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}')
-    project.setPerformanceCache(createCache())
-    project.setPerformanceCacheVersion(0x00B5)
+    ))
+    office_reference = Reference(libid_ref2, "Office")
+    project.add_reference(ole_reference)
+    project.add_reference(office_reference)
+    proj_cookie = 0x08F3
+    project.project_cookie = proj_cookie
+    project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
+    project.performance_cache_version = 0x00B5
 
-    module_cache = ModuleCache(0xB5, 0x08F3)
-    module_cache.misc = [0x0316, 0x0123, 0x88, 8, 0x18, "00000000", 1]
-    indirect_table = ("02 80 FE FF FF FF FF FF 20 00 00 00 FF FF FF FF",
-                      "30 00 00 00 02 01 FF FF 00 00 00 00 00 00 00 00",
-                      "FF FF FF FF FF FF FF FF 00 00 00 00 2E 00 43 00",
-                      "1D 00 00 00 25 00 00 00 FF FF FF FF 40 00 00 00")
-    module_cache.indirect_table = bytes.fromhex(" ".join(indirect_table))
-    object_table = ("02 00 53 4C FF FF FF FF 00 00 01 00 53 10 FF FF",
-                    "FF FF 00 00 01 00 53 94 FF FF FF FF 00 00 00 00",
-                    "02 3C FF FF FF FF 00 00")
-    module_cache.object_table = bytes.fromhex(" ".join(object_table))
-
+    base_path = "src/ms_ovba/blank_files/"
     # Add Modules
-    this_workbook = DocModule("ThisWorkbook")
-    this_workbook.cookie.value = 0xB81C
-    module_cache.module_cookie = 0xB81C
-    guid = uuid.UUID("0002081900000000C000000000000046")
-    module_cache.guid = bytes(("0{" + str(guid) + "}").upper(), "utf_16_le")
-    this_workbook.set_guid(guid)
-    module_path = "vbaProjectCompiler/blank_files/ThisWorkbook.cls"
-    this_workbook.add_file(module_path)
-    this_workbook.normalize_file()
-    this_workbook.set_cache(module_cache.to_bytes())
+    this_workbook = create_doc_module(project, "ThisWorkbook", 0xB81C,
+                                      "0002081900000000C000000000000046",
+                                      base_path + "ThisWorkbook.cls")
 
-    sheet1 = DocModule("Sheet1")
-    sheet1.cookie.value = 0x9B9A
-    module_cache.module_cookie = 0x9B9A
-    guid = uuid.UUID("0002082000000000C000000000000046")
-    module_cache.guid = bytes(("0{" + str(guid) + "}").upper(), "utf_16_le")
-    sheet1.set_guid(guid)
-    module_path = "vbaProjectCompiler/blank_files/Sheet1.cls"
-    sheet1.add_file(module_path)
-    sheet1.normalize_file()
-    sheet1.set_cache(module_cache.to_bytes())
+    sheet1 = create_doc_module(project, "Sheet1", 0x9B9A,
+                               "0002082000000000C000000000000046",
+                               base_path + "Sheet1.cls")
 
     module1 = StdModule("Module1")
-    module1.cookie.value = 0xB241
-    module_cache.clear_variables()
-    module_cache.misc = [0x0316, 3, 0, 2, 0xFFFF, "FFFFFFFF", 0]
+    cookie = 0xB241
+    module1.cookie = cookie
+    module_cache = ModuleCache(0xB5, proj_cookie, signature=3)
+    module_cache.misc = [[-1, 2], 0xFFFF, 0, [0, "FFFFFFFF"]]
+    module_cache.header.data2 = 0
+    module_cache.header.data3 = 3
+    module_cache.header.data4 = 0
     module_cache.indirect_table = struct.pack("<iI", -1, 0x78)
-    module_cache.module_cookie = 0xB241
-    module1.addWorkspace(26, 26, 1349, 522, 'Z')
+    module_cache.module_cookie = cookie
+    module1.add_workspace(26, 26, 1349, 522, 'Z')
     module_path = "tests/blank/Module1.bas"
     module1.add_file(module_path)
     module1.normalize_file()
-    module1.set_cache(module_cache.to_bytes())
+    module1.cache = module_cache.to_bytes()
 
-    project.addModule(this_workbook)
-    project.addModule(sheet1)
-    project.addModule(module1)
+    project.add_module(this_workbook)
+    project.add_module(sheet1)
+    project.add_module(module1)
 
-    project.write_file()
-    path = "vbaProjectCompiler/blank_files/ThisWorkbook.cls.bin"
-    assert module_matches_bin(path, 0x0333,
-                              "tests/blank/vbaProject.bin", 0x0800, 0xB5)
-    path = "vbaProjectCompiler/blank_files/Sheet1.cls.bin"
-    assert module_matches_bin(path, 0x0333, "tests/blank/vbaProject.bin",
-                              0x0C00, 0xAC)
+    project.performance_cache = create_cache(
+        proj_cookie,
+        [this_workbook, sheet1, module1]
+    )
 
-    # fileIO = OleFile(project)
-    # fileIO.build_file()
+    project.add_attribute("VersionCompatible32", "393222000")
+    project.include_compat()
+    project.include_projectwm()
 
-    # Alter red-black tree
-    # fileIO.streams[2].color = 1
-    # fileIO.streams[3].color = 1
-    # fileIO.streams[4].color = 1
-    # fileIO.streams[8].color = 1
+    ProjectOleFile.write_file(project)
 
-    # fileIO.write_file(".")
-    # assert size of ./vbaProject.bin == size of tests/blank.vbaProject.bin
-    # compare new file to blank file in 512 block chunks
-    # new = open("./vbaProject.bin", "rb")
-    # expected = open("tests/blank/vbaProject.bin", "rb")
-    # for chunk in iter(partial(new.read, 512), ''):
-    #   assert chunk == expected.read(512)
+    # Check _VBA_Project
+    g = open('vba_project.bin', 'rb')
+    given = g.read()
+    bin_offset = 0x14C0
+    bin_length = 0x09F0
+    bin_path = "tests/blank/vbaProject.bin"
+    b = open(bin_path, "rb")
+    b.seek(bin_offset)
+    expected = b.read(bin_length)
+    assert given == expected
+
+    # Check ProjectWm
+    f = open('tests/blank/vbaProject.bin', 'rb')
+    g = open('projectwm.bin', 'rb')
+    given = g.read()
+    # Read from file instead of pasting
+    expected = (b'ThisWorkbook\x00T\x00h' +
+                b'\x00i\x00s\x00W\x00o\x00r\x00k\x00b\x00o' +
+                b'\x00o\x00k\x00\x00\x00Sheet1\x00S\x00' +
+                b'h\x00e\x00e\x00t\x001\x00\x00\x00Modu' +
+                b'le1\x00M\x00o\x00d\x00u\x00l\x00e\x00' +
+                b'1\x00\x00\x00\x00\x00')
+    assert given == expected
+
+    # Check Modules
+    path = "src/ms_ovba/blank_files/Sheet1.cls.bin"
+    cache_size = 0x333
+    bin_path = "tests/blank/vbaProject.bin"
+    bin_offset = 0xC00
+    bin_length = 0x3df
+    assert_module_matches_bin(
+        path, cache_size, bin_path,
+        bin_offset, bin_length
+    )
+
+    path = "src/ms_ovba/blank_files/ThisWorkbook.cls.bin"
+    bin_offset = 0x800
+    bin_length = 0x3e7  # From vbaProject.bin OLE Directory
+    assert_module_matches_bin(
+        path, cache_size, bin_path,
+        bin_offset, bin_length
+    )
+
+    path = "tests/blank/Module1.bas.bin"
+    cache_size = 0x283
+    bin_path = "tests/blank/vbaProject.bin"
+    bin_offset = 0x1200
+    bin_length = 0x2a9  # From vbaProject.bin OLE Directory
+    assert_module_matches_bin(
+        path, cache_size, bin_path,
+        bin_offset, bin_length
+    )
+
+    # Check Project
+    length = 0x1d2
+    offset = 0x2180
+    f.seek(offset)
+    expected = f.read(0x80)
+    f.seek(0x2400)
+    expected += f.read(length - 0x80)
+    g = open('project.bin', 'rb')
+    assert g.read() == expected
+
+    # Check Dir
+    ms_ovba = MsOvba()
+    g = open('dir.bin', 'rb')
+    given = ms_ovba.decompress(g.read())
+    offset = 0x1EC0
+    length = 0x0232
+    f.seek(offset)
+    container = f.read(length)
+    expected = ms_ovba.decompress(container)
+    assert given == expected
 
 
-def createCache():
-    vbaProject = VbaProject()
-    vbaProject.setPerformanceCacheVersion(0x00B5)
-    thisWorkbook = DocModule("ThisWorkbook")
-    thisWorkbook.cookie.value = 0xB81C
-    sheet1 = DocModule("Sheet1")
-    sheet1.cookie.value = 0x9B9A
-    module1 = StdModule("Module1")
-    module1.cookie.value = 0xB241
+def create_cache(proj_cookie: int, modules: list) -> bytes:
+    cache = ProjectCache(0x04E4, proj_cookie, 0x65BE0257)
+    cache._hex = 0x65BE0257
+    module_array = []
+    i = 0
+    id = [0x227, 0x22B, 0x22C]
+    for module in modules:
+        hex = 0x65BE0263 if i == 2 else cache._hex
+        module_array.append(
+            (module.name, 50, 70 + i, hex, id[i],
+             module.cookie, len(module.cache), [], -1)
+        )
+        i += 1
 
-    libraries = []
-    delim = []
-    libraries.append(LibidReference(
-        "{000204EF-0000-0000-C000-000000000046}",
+    cache._modules = module_array
+
+    cache.add_library(str(LibidReference(
+        uuid.UUID("000204EF-0000-0000-C000-000000000046"),
         "4.2",
         "9",
         "C:\\Program Files\\Common Files\\Microsoft Shared\\VBA"
         "\\VBA7.1\\VBE7.DLL",
         "Visual Basic For Applications"
-    ))
-    delim.append(0x011A)
-    libraries.append(LibidReference(
-        "{00020813-0000-0000-C000-000000000046}",
+    )))
+    cache.add_library(str(LibidReference(
+        uuid.UUID("00020813-0000-0000-C000-000000000046"),
         "1.9",
         "0",
         "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE",
         "Microsoft Excel 16.0 Object Library"
-    ))
-    delim.append(0x00BC)
-    libraries.append(LibidReference(
-        "{00020430-0000-0000-C000-000000000046}",
-        "2.0",
-        "0",
-        "C:\\Windows\\System32\\stdole2.tlb",
-        "OLE Automation"
-    ))
-    delim.append(0x0128)
-    libraries.append(LibidReference(
-        "{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}",
+    )))
+    cache.add_library(str(stdole_lib))
+    cache.add_library(str(LibidReference(
+        uuid.UUID("2DF8D04C-5BFA-101B-BDE5-00AA0044DE52"),
         "2.8",
         "0",
         "C:\\Program Files\\Common Files\\Microsoft Shared\\OFFICE16\\MSO.DLL",
         "Microsoft Office 16.0 Object Library"
-    ))
-    delim.append(0x0003)
-    ca = (b''
-          + b'\xFF\x09\x04\x00\x00\x09\x04\x00\x00\xE4\x04\x03\x00\x00\x00\x00'
-          + b'\x00\x00\x00\x00\x00\x01\x00\x04\x00\x02\x00\x20\x01')
-    i = 0
-    for lib in libraries:
-        ca += bytearray(str(lib), "utf_16_le")
-        ca += struct.pack("<IIIH", 0, 0, 0, delim[i])
-        i += 1
-    ca += struct.pack("<17H", 2, 2, 1, 6, 0x0212, 0, 0x0214, 1, 0x0216, 1,
-                      0x0218, 0, 0x021a, 1, 0x021c, 1, 0x0222)
-    ca += b'\xFF' * 6 + b'\x00' * 4 + b'\xFF' * 36
-    prefix = [0x0018, 0x000C, 0x000E]
-    # index = 0x0046
-    i = 0
+    )))
 
-    for module in vbaProject.modules:
-        name = module.modName.value.encode("utf_16_le")
-        ca += struct.pack("<H", prefix[i]) + name
-        ca += struct.pack("<HH", 0x0014, 0x0032) + chr(69 + i)
-        ca += "65be0257".encode("utf_16_le")
-        ca += struct.pack("<HHH", 0xFFFF, 0x0227, prefix[i])
-        ca += name + struct.pack("<HHHI", 0xFFFF, module.cookie.value, 0, 0)
-        i += 1
-    return ca
+    # User Class
+    cache._user = [2, 2, 1]
+
+    # Compile Time Data
+    cache._compile = [0x0212, 0x010214, 0x010216,
+                      0x0218, 0x01021a, 0x01021c]
+
+    # Data
+    cache._data = [0x222, 0xffff, 17, -1, -1, -1, -1, 1, -1, -1, -1, -1,
+                   -1, -1, -1, -1, -1, -1, -1, -1, 2, -1, -1, -1, -1, -1]
+
+    # Footer?
+    cache._post_f_data = [(13, 0x230), (14, 0x218), (43, 0x200)]
+    cache._post_data = [
+        b'\xf1q\x9a\xee\xc0\xe0\xc4F\xa2\xf8l|\xf9{s\x06',
+        b'vS\x9e\xe1B\x85\xfeF\xa1\x8b0E\x08tCU',
+        b'"\x93\xba>\xc3\x82\xfcD\x88\xcav\x96\xe5\x061"'
+    ]
+    cache._post_footer = 0x30
+    cache._w0 = 0x117
+    cache._w2 = 0x2ba0
+    cache._identifiers = [
+        (b"Excel", 4, 0x2b80), (b"VBA", 4, 0xe2f7), (b"Win16", 4, 0x7ec1),
+        (b"Win32", 4, 0x7f07), (b"Win64", 4, 0x7f78), (b"Mac", 4, 0xb2b3),
+        (b"VBA6", 4, 0x23ad), (b"VBA7", 4, 0x23ae),
+        (b"Project1", 4, 0x170a),
+        (b"stdole", 4, 0x6093), (b"VBAProject", 4, 0xbfbe),
+        (b"Office", 4, 0x7515), (b"ThisWorkbook", 4, 0xe37c),
+        (b"_Evaluate", 128, 0xd918, 0, 0x103, -1),
+        (b"Sheet1", 4, 0x1ae8), (b"Module1", 4, 0x1162),
+        (b"Workbook", 4, 0x186b)
+    ]
+
+    hex = ("20 02 02 00 FF FF 22 02 FF FF FF FF 24 02 03 00",
+           "FF FF 27 02 00 00 03 00 FF FF FF FF FF FF 2B 02",
+           "01 00 03 00 2D 02 02 00 05 00 0E 02 01 00 FF FF",
+           "10 02 00 00 FF FF FF FF FF FF FF FF FF FF FF FF",
+           "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF",
+           "FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF")
+
+    hex2 = ("06 00 10 00 00 00 01 00 36 00 00 00 00 00 00 00",
+            "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+            "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+            "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+            "00 00")
+
+    cache._footer = [
+        bytes.fromhex(" ".join(hex)),
+        bytes.fromhex(" ".join(hex2))
+    ]
+    return cache.to_bytes()
+
+
+def create_doc_module(project: VbaProject, name: str,
+                      cookie: int, guid_s: str, path: str) -> DocModule:
+    mod = DocModule(name)
+    mod.add_workspace(0, 0, 0, 0, 'C')
+    mod.cookie = cookie
+    guid = uuid.UUID(guid_s)
+    mod.add_guid(guid)
+    module_path = path
+    mod.add_file(module_path)
+    mod.normalize_file()
+
+    cache_ver = project.performance_cache_version
+    proj_cookie = project.project_cookie
+    module_cache = ModuleCache(cache_ver, proj_cookie, signature=3)
+    module_cache.header.data2 = 0
+    module_cache.header.data3 = 0x123
+    module_cache.header.data4 = 0x88
+    module_cache.misc = [[-1, 8], 0x18, 0, [1, "00000000"]]
+    indirect_table = ("02 80 FE FF FF FF FF FF 20 00 00 00 FF FF FF FF",
+                      "30 00 00 00 02 01 FF FF 00 00 00 00 00 00 00 00",
+                      "FF FF FF FF FF FF FF FF 00 00 00 00 2E 00 43 00",
+                      "1D 00 00 00 25 00 00 00 FF FF FF FF 40 00 00 00")
+    module_cache.indirect_table = bytes.fromhex(" ".join(indirect_table))
+
+    object_table = [[2, 0x4C53], [1, 0x1053], [1, 0x9453], [0, 0x3C02]]
+    object_table_bytes = b''
+    for entry in object_table:
+        object_table_bytes += struct.pack("<HHiH", *entry, -1, 0)
+    module_cache.object_table = object_table_bytes
+
+    module_cache.guid = [guid]
+    module_cache.module_cookie = cookie
+
+    mod.cache = module_cache.to_bytes()
+    return mod

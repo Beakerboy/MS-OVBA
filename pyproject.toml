@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "vba_project_compiler"
+name = "vbaproject_compiler"
 version = "0.0.1"
 authors = [
   { name="Kevin Nowaczyk", email="beakerboy99@yahoo.com" },
@@ -16,7 +16,21 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-
+dependencies = [
+    'ms_cfb',
+    'ms_ovba_compression',
+    'ms_ovba_crypto'
+]
+[project.optional-dependencies]
+tests = [
+  'mypy',
+  'pytest',
+  'pytest-cov',
+  'pytest-mock',
+  'coveralls',
+  'pep8-naming',
+  'flake8-annotations'
+]
 [project.urls]
 "Homepage" = "https://github.com/Beakerboy/vbaProject-Compiler"
 "Bug Tracker" = "https://github.com/Beakerboy/vbaProject-Compiler/issues"
@@ -26,3 +40,5 @@ pythonpath = "src"
 testpaths = [
     "tests",
 ]
+[tool.setuptools.package-data]
+"*" = ["*.cls"]

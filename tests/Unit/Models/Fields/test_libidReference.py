@@ -1,25 +1,37 @@
 import uuid
-from vbaProjectCompiler.Models.Fields.libidReference import LibidReference
+import pytest
+from ms_ovba.Models.Fields.libid_reference import LibidReference
 
 
-def test_str():
+@pytest.mark.parametrize(
+    "guid, ver, lib, path, name, expected", [
+        ('0002043000000000C000000000000046',
+         "2.0", "0", r"C:\Windows\System32\stdole2.tlb",
+         "OLE Automation",
+         r"*\G{00020430-0000-0000-C000-000000000046}"
+         r"#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation"),
+        ('00000000000000000000000000000000', "2.0", "0", "C:\\", "",
+         r"*\G{00000000-0000-0000-0000-000000000000}#2.0#0#C:\#"),
+        ('00000000000000000000000000000000', "2.0", "0", "", "",
+         r"*\G{00000000-0000-0000-0000-000000000000}#2.0#0##")
+    ])
+def test_str(guid: str, ver: str, lib: str,
+             path: str, name: str, expected: str) -> None:
+    guid = uuid.UUID(guid)
+    libid_ref = LibidReference(guid, ver, lib, path, name)
+    assert str(libid_ref) == expected
+
+
+def test_str_posix() -> None:
+    guid = uuid.UUID('00000000000000000000000000000000')
+    libid_ref = LibidReference(guid, "2.0", "0", "", "", False)
+    expected = r"*\H{00000000-0000-0000-0000-000000000000}#2.0#0##"
+    assert str(libid_ref) == expected
+
+
+def test_posix() -> None:
     guid = uuid.UUID('0002043000000000C000000000000046')
-    libidRef = LibidReference(
-        guid,
-        "2.0",
-        "0",
-        "C:\\Windows\\System32\\stdole2.tlb",
-        "OLE Automation"
-    )
-    expected = ("*\\G{00020430-0000-0000-C000-000000000046}"
-                "#2.0#0#C:\\Windows\\System32\\stdole2.tlb#OLE Automation")
-    assert str(libidRef) == expected
-    assert len(libidRef) == 94
-
-
-def test_posix():
-    guid = uuid.UUID('0002043000000000C000000000000046')
-    libidRef = LibidReference(
+    libid_ref = LibidReference(
         guid,
         "2.0",
         "0",
@@ -28,4 +40,33 @@ def test_posix():
     )
     expected = ("*\\H{00020430-0000-0000-C000-000000000046}"
                 "#2.0#0#//usr/bin/stdole2.tlb#OLE Automation")
-    assert str(libidRef) == expected
+    assert str(libid_ref) == expected
+
+
+@pytest.mark.parametrize(
+    "data", [
+        (br'*\G{00020430-0000-0000-C000-000000000046}'
+         br'#2.0#0#C:\Windows\System32\stdole2.tlb#OLE Automation'),
+        (br"*\G{00000000-0000-0000-0000-000000000000}#0.0#0##"),
+        (br"*\G{00000000-0000-0000-0000-000000000000}#0.0#0#C:\#"),
+        (br"*\G{00000000-0000-0000-0000-000000000000}#0.0#0##Foo"),
+        (br"*\H{00000000-0000-0000-0000-000000000000}#2.0#0##")
+    ])
+def test_unpack(data: bytes) -> None:
+    lib = LibidReference.unpack(data)
+    assert str(lib).encode("ascii") == data
+
+
+@pytest.mark.parametrize("data", [
+    (br'*\A{00000000-0000-0000-0000-000000000000}#2.0#0#C:\#Test'),
+    (br'+\G{00000000-0000-0000-0000-000000000000}#2.0#0#C:\#Test'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}#12345.0#0#C:\#Test'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}#1#0#C:\#Test'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}#2.0#M#C:\#Test'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}#1#0#C:\#Test#Foo'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}#1#0#'),
+    (br'*\G{00000000-0000-0000-0000-000000000000}##0.0#1#Test'),
+])
+def test_unpack_exception(data: bytes) -> None:
+    with pytest.raises(Exception):
+        LibidReference.unpack(data)

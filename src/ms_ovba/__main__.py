@@ -1,0 +1,80 @@
+import argparse
+import glob
+import os
+import uuid
+from ms_ovba.vbaProject import VbaProject
+from ms_ovba.Models.Entities.doc_module import DocModule
+from ms_ovba.Models.Entities.std_module import StdModule
+from ms_ovba.Views.project_ole_file import ProjectOleFile
+from ms_ovba.Models.Entities.reference import Reference
+from ms_ovba.Models.Entities.reference_registered import (
+    ReferenceRegistered
+)
+from ms_ovba.Models.Fields.libid_reference import LibidReference
+
+
+def main() -> None:
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("directory",
+                        help="The directory that contains your files.")
+    args = parser.parse_args()
+    # cd args.output
+    # build a list of all bas, cls, frm, and frx files
+    bas_files = glob.glob(args.directory + '/**/*.bas', recursive=True)
+    # cls_files = glob.glob('*.cls')
+    # frm_files = glob.glob('*.frm')
+    # frx_files = glob.glob('*.frx')
+
+    # create a new project object
+    project = VbaProject()
+    project.project_id = '{9E394C0B-697E-4AEE-9FA6-446F51FB30DC}'
+
+    # add default modules
+    sheet1 = DocModule('Sheet1')
+    base_path = os.path.dirname(__file__)
+    sheet1.add_file(base_path + '/blank_files/Sheet1.cls')
+    guid1 = uuid.UUID("0002082000000000C000000000000046")
+    sheet1.add_guid(guid1)
+    sheet1.normalize_file()
+    project.add_module(sheet1)
+
+    workbook = DocModule('ThisWorkbook')
+    workbook.add_file(base_path + '/blank_files/ThisWorkbook.cls')
+    guid2 = uuid.UUID("0002081900000000C000000000000046")
+    workbook.add_guid(guid2)
+    workbook.normalize_file()
+    project.add_module(workbook)
+
+    # add the files
+    for file_path in bas_files:
+        file_name = os.path.basename(file_path)
+        file = os.path.splitext(file_name)
+        code = StdModule(file[0])
+        code.add_file(file_path)
+        code.normalize_file()
+        project.add_module(code)
+
+    libid_ref = LibidReference(
+        uuid.UUID("0002043000000000C000000000000046"),
+        "2.0",
+        "0",
+        "C:\\Windows\\System32\\stdole2.tlb",
+        "OLE Automation"
+    )
+    ole_reference = ReferenceRegistered(libid_ref)
+    libid_ref2 = LibidReference(
+        uuid.UUID("2DF8D04C5BFA101BBDE500AA0044DE52"),
+        "2.0",
+        "0",
+        r"C:\Program Files\Common Files\Microsoft Shared\OFFICE16\MSO.DLL",
+        "Microsoft Office 16.0 Object Library"
+    )
+    office_reference = ReferenceRegistered(libid_ref2)
+    project.add_reference(Reference(ole_reference, "stdole"))
+    project.add_reference(Reference(office_reference, "Office"))
+    ProjectOleFile.write_file(project)
+
+
+if __name__ == '__main__':
+    main()

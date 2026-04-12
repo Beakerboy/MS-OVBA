@@ -1,0 +1,65 @@
+from __future__ import annotations
+import struct
+from ms_ovba.Models.Entities.reference_record import ReferenceRecord
+from ms_ovba.Models.Fields.libid_reference import LibidReference
+from typing import TypeVar
+
+
+T = TypeVar('T', bound='ReferenceRegistered')
+
+
+class ReferenceRegistered(ReferenceRecord):
+    """
+    2.3.4.2.2.5
+    Specifies a reference to an Automation type library.
+    """
+    def __init__(self: T, libid_ref: LibidReference) -> None:
+        self._libid_ref = libid_ref
+
+    @property
+    def libid(self: T) -> LibidReference:
+        return self._libid_ref
+
+    def pack(self: T, endien: str, cp_name: str) -> bytes:
+        endien_symbol = '<' if endien == 'little' else '>'
+        strlen = len(self._libid_ref)
+        format = endien_symbol + "HII" + str(strlen) + "sIH"
+        lib_str = str(self._libid_ref).encode(cp_name)
+        return struct.pack(format, 0x000D, strlen + 10,
+                           strlen, lib_str, 0, 0)
+
+    @staticmethod
+    def unpack(data: bytes, endien: str) -> ReferenceRecord:
+        endien_symbol = '<' if endien == 'little' else '>'
+        offset = 0
+        id, = struct.unpack_from(endien_symbol + "H", data, offset)
+        offset += 2
+        if id != 0x000D:
+            msg = "Incorrect id in data. Received " + id + ", expected 0x000D"
+            raise ValueError(msg)
+
+        format = endien_symbol + "II"
+        recordsize, libidsize = struct.unpack_from(format, data, offset)
+        if len(data) != recordsize + 6:
+            # raise a warning
+            pass
+
+        offset += 8
+
+        libid_ref_bytes = data[offset:offset + libidsize]
+        offset += libidsize
+
+        format = endien_symbol + "IH"
+        reserved1, reserved2 = struct.unpack_from(format, data, offset)
+        offset += 6
+
+        if reserved1 != 0:
+            # raise a warning
+            pass
+
+        if reserved2 != 0:
+            # raise a warning
+            pass
+
+        libid_ref = LibidReference.unpack(libid_ref_bytes)
+        return ReferenceRegistered(libid_ref)

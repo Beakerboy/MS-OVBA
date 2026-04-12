@@ -1,0 +1,20 @@
+import struct
+from typing import Any, TypeVar
+
+
+T = TypeVar('T', bound='PackedData')
+
+
+class PackedData():
+    """
+    Multivalue field with a packing format.
+    This class allows a user to define a data format,
+    and render it at a later time.
+    """
+    def __init__(self: T, format: str, *values: Any) -> None:
+        self.values = values
+        self.format = format
+
+    def pack(self: T, endien: str, cp_name: str | None = None) -> bytes:
+        endien_symbol = '<' if endien == 'little' else '>'
+        return struct.pack(endien_symbol + self.format, *self.values)
