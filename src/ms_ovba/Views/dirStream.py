@@ -193,7 +193,7 @@ class DirStream():
             raise ValueError(
                 f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
         project_data["docstring"] = DirStream.decode(value, codepage)
-        
+
         record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.read_id_size_val()
         if record_id != 6 or size > 260 or s2 != size or value != v2:
@@ -298,34 +298,33 @@ class DirStream():
                 raise ValueError(
                     f"Incorrect MODULENAME({record_id})")
             module_data["name"] = value.decode(codepage)
-    
+
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x47:
                 raise ValueError(
                     f"Incorrect MODULENAMEUNICODE({record_id})")
             # validate sizes and that values match
-    
+
             record_id, size, value = stream.read_id_size_val()
             r2, s2, v2 = stream.read_id_size_val()
             if record_id != 0x1a or s2 != size * 2:
                 raise ValueError(
                     f"Incorrect MODULESTREAMNAME({record_id}, {size})")
             module_data["stream_name"] = value.decode(codepage)
-    
+
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1c:
                 raise ValueError(
                     f"Incorrect MODULEDOCSTRING({record_id}, {size})")
             r2, s2, v2 = stream.read_id_size_val()
             module_data["docstring"] = value.decode(codepage)
-    
-    
+
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x31 or size != 4:
                 raise ValueError(
                     f"Incorrect MODULEOFFSET({record_id}, {size})")
             module_data["offset"] = int.from_bytes(value, byteorder='little')
-    
+
             record_id, size, value = stream.read_id_size_val()
             if record_id != 0x1e or size != 4:
                 raise ValueError("Incorrect MODULEHELPCONTEXT")
@@ -348,7 +347,7 @@ class DirStream():
                 module_data["read_only"] = True
                 record_id = stream.read_big_h()
                 reserved = stream.read_big_i()
-        
+
             if record_id == 0x28:
                 module_data["private"] = True
                 record_id = stream.read_big_h()
