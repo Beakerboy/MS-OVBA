@@ -165,7 +165,7 @@ class DirStream():
             project_data["compatversion"] = int_value
             record_id, size, value = stream.read_id_size_val()
             int_value = int.from_bytes(value, byteorder='little')
-        
+
         if record_id != 2 or size != 4 or int_value != 0x409:
             raise ValueError(f"Incorrect PROJECTLCID({record_id}), {size}, {int_value}")
 
