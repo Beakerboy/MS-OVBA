@@ -337,7 +337,7 @@ class DirStream():
             module_data["cookie"] = int.from_bytes(value, byteorder='little')
 
             record_id = stream.read_big_h()
-            reserved = stream.read_big_i()
+            stream.read_big_i()  # Ignored
             if not 0x21 <= record_id <= 0x22:
                 raise ValueError("Incorrect MODULETYPE")
             module_data["type"] = record_id
