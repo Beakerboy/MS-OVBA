@@ -25,7 +25,7 @@ class ModuleBase():
         # self.readonly = SimpleRecord(0x001E, 4, helpContext)
         # self.private = SimpleRecord(0x001E, 4, helpContext)
         self._cache = b''
-        self.workspace: tuple[int, int, int, int, Literal['C', 'I', 'Z']] | No e = None
+        self.workspace: tuple[int, int, int, int, Literal['C', 'I', 'Z']] | None = None
         self.type = ''
         self.created = 0
         self.modified = 0
