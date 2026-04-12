@@ -1,4 +1,4 @@
-from ms_cfb import OleFile
+from ms_cfb.ole_file import OleFile
 from ms_ovba.__main__ import main
 from ms_ovba_compression.ms_ovba import MsOvba
 from pytest_mock import MockerFixture
