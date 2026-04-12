@@ -8,7 +8,7 @@ def test_main(mocker: MockerFixture) -> None:
     mocker.patch(
         "sys.argv",
         [
-            "ole.py",
+            "ms_ovba.py",
             "-directory"
             ".",
         ],
