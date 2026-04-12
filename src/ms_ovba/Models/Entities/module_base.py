@@ -5,10 +5,16 @@ from ms_ovba.Models.Fields.doubleEncodedString import (
 )
 from ms_ovba.Models.Fields.packed_data import PackedData
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
-from typing import Literal, TypeVar
+from typing import Literal, TypeAlias, TypeVar
 
 
 T = TypeVar('T', bound='ModuleBase')
+
+
+WorkspaceType: TypeAlias = (
+    tuple[int, int, int, int, Literal['C', 'I', 'Z']] |
+    None
+)
 
 
 class ModuleBase():
@@ -25,7 +31,7 @@ class ModuleBase():
         # self.readonly = SimpleRecord(0x001E, 4, helpContext)
         # self.private = SimpleRecord(0x001E, 4, helpContext)
         self._cache = b''
-        self.workspace: tuple[int, int, int, int, Literal['C', 'I', 'Z']] = None
+        self.workspace: WorkspaceType = None
         self.type = ''
         self.created = 0
         self.modified = 0
