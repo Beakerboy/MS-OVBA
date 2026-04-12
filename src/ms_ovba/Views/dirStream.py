@@ -379,4 +379,3 @@ class DirStream():
         if b'\x00' in data:
             raise ValueError("Data Contains Null Byte")
         return data.decode(cp, errors='strict')
-        
