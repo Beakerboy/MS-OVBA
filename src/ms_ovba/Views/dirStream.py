@@ -378,4 +378,5 @@ class DirStream():
     def decode(data: bytes, cp: str) -> str:
         if b'\x00' in data:
             raise ValueError("Data Contains Null Byte")
-        decoded_text = data.decode(cp, errors='strict')
+        return data.decode(cp, errors='strict')
+        
