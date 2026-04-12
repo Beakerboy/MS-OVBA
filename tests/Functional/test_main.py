@@ -31,4 +31,3 @@ def test_main(mocker: MockerFixture) -> None:
         b'Attribute VB_Customizable = True\r\n'
     )
     assert uncompressed == expected
-    
