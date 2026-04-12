@@ -4,17 +4,16 @@ from ms_ovba.Models.Fields.doubleEncodedString import (
 )
 from ms_ovba.Models.Fields.packed_data import PackedData
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
-from typing import Literal, TypeAlias, TypeVar, Union
+from typing import Literal, TypeAlias, TypeVar
 import uuid
 
 
 T = TypeVar('T', bound='ModuleBase')
 
 
-WorkspaceType: TypeAlias = Union(
-    tuple[int, int, int, int, Literal['C', 'I', 'Z']],
+WorkspaceType: TypeAlias =
+    tuple[int, int, int, int, Literal['C', 'I', 'Z']] |
     None
-)
 
 
 class ModuleBase():
