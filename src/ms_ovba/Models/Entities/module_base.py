@@ -12,7 +12,7 @@ T = TypeVar('T', bound='ModuleBase')
 
 
 WorkspaceType: TypeAlias = Union(
-    tuple[int, int, int, int, Literal['C', 'I', 'Z']], 
+    tuple[int, int, int, int, Literal['C', 'I', 'Z']],
     None
 )
 
