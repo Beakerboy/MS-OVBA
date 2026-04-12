@@ -5,6 +5,7 @@ from ms_ovba.Models.Fields.doubleEncodedString import (
 from ms_ovba.Models.Fields.packed_data import PackedData
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from typing import Literal, TypeVar
+import uuid
 
 
 T = TypeVar('T', bound='ModuleBase')
@@ -32,20 +33,20 @@ class ModuleBase():
         self._size = 0
 
         # GUIDs
-        self._guids: list[str] = []
+        self._guids: list[uuid.UUID] = []
 
     @property
     def guids(self: T) -> list[str]:
         return self._guids
 
     @guids.setter
-    def guids(self: T, guid: str) -> None:
+    def guids(self: T, guid: list[uuid.UUID] | uuid.UUID) -> None:
         if isinstance(guid, list):
             self._guids = guid
         else:
             self._guids = [guid]
 
-    def add_guid(self: T, guid: str) -> None:
+    def add_guid(self: T, guid: uuid.UUID) -> None:
         """
         Append a guid to the list
         """
