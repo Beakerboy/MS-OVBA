@@ -11,7 +11,7 @@ def test_main(mocker: MockerFixture) -> None:
     with open("Sheet1.bin", "rb") as file
         contents = file.read()
     compressor = MsOvba()
-    uncompressed = compressor.uncompress(contents)
+    uncompressed = compressor.decompress(contents)
     expected = "Sheet1"
     assert uncompressed = expected
     
