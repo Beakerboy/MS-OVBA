@@ -11,9 +11,10 @@ import uuid
 T = TypeVar('T', bound='ModuleBase')
 
 
-WorkspaceType: TypeAlias =
+WorkspaceType: TypeAlias = (
     tuple[int, int, int, int, Literal['C', 'I', 'Z']] |
     None
+)
 
 
 class ModuleBase():
