@@ -52,13 +52,13 @@ def test_from_bytes() -> None:
             'offset': 819, 'private': False,
             'read_only': False, 'stream_name': 'ThisWorkbook',
             'type': 34
-        },{
+        }, {
             'cookie': 39834, 'docstring': '',
             'help_context': 0, 'name': 'Sheet1',
             'offset': 819, 'private': False,
             'read_only': False, 'stream_name': 'Sheet1',
             'type': 34
-        },{
+        }, {
             'cookie': 45633, 'docstring': '',
             'help_context': 0, 'name': 'Module1',
             'offset': 643, 'private': False,
