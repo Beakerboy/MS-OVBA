@@ -34,9 +34,9 @@ def main() -> None:
     sheet1 = DocModule('Sheet1')
     base_path = os.path.dirname(__file__)
     sheet1.add_file(base_path + '/blank_files/Sheet1.cls')
-    sheet1.normalize_file()
     guid1 = uuid.UUID("0002082000000000C000000000000046")
     sheet1.add_guid(guid1)
+    sheet1.normalize_file()
     project.add_module(sheet1)
 
     workbook = DocModule('ThisWorkbook')
