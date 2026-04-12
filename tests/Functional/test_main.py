@@ -20,13 +20,13 @@ def test_main(mocker: MockerFixture) -> None:
         contents = file.read()
     compressor = MsOvba()
     uncompressed = compressor.decompress(contents)
-    expected = ('Attribute VB_Name = "Sheet1"\r\n'
-        'Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}\r\n'
-        'Attribute VB_GlobalNameSpace = False\r\n'
-        'Attribute VB_Creatable = False\r\n'
-        'Attribute VB_PredeclaredId = True\r\n'
-        'Attribute VB_Exposed = True\r\n'
-        'Attribute VB_TemplateDerived = False\r\n'
-        'Attribute VB_Customizable = True\r\n')
-    assert uncompressed[20:-20] == expected[20:-20]
+    expected = (b'Attribute VB_Name = "Sheet1"\r\n'
+        b'Attribute VB_Base = "0{00020820-0000-0000-C000-000000000046}\r\n'
+        b'Attribute VB_GlobalNameSpace = False\r\n'
+        b'Attribute VB_Creatable = False\r\n'
+        b'Attribute VB_PredeclaredId = True\r\n'
+        b'Attribute VB_Exposed = True\r\n'
+        b'Attribute VB_TemplateDerived = False\r\n'
+        b'Attribute VB_Customizable = True\r\n')
+    assert uncompressed == expected
     
