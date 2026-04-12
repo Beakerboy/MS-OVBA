@@ -1,3 +1,4 @@
+import uuid
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
@@ -5,7 +6,6 @@ from ms_ovba.Models.Fields.doubleEncodedString import (
 from ms_ovba.Models.Fields.packed_data import PackedData
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from typing import Literal, TypeAlias, TypeVar
-import uuid
 
 
 T = TypeVar('T', bound='ModuleBase')
@@ -42,11 +42,11 @@ class ModuleBase():
         self._guids: list[uuid.UUID] = []
 
     @property
-    def guids(self: T) -> list[str]:
+    def guids(self: T) -> list[uuid.UUID]:
         return self._guids
 
     @guids.setter
-    def guids(self: T, guid: list[uuid.UUID] | uuid.UUID) -> None:
+    def guids(self: T, guid: uuid.UUID | list[uuid.UUID]) -> None:
         if isinstance(guid, list):
             self._guids = guid
         else:
