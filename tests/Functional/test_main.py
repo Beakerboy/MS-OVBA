@@ -3,7 +3,16 @@ from ms_ovba.__main__ import main
 from ms_ovba_compression.ms_ovba import MsOvba
 from pytest_mock import MockerFixture
 
+
 def test_main(mocker: MockerFixture) -> None:
+    mocker.patch(
+        "sys.argv",
+        [
+            "ole.py",
+            "-directory"
+            ".",
+        ],
+    )
     main()
 
     olefile = OleFile.create_from_file("vbaProject.bin")
