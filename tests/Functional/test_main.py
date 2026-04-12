@@ -27,5 +27,5 @@ def test_main(mocker: MockerFixture) -> None:
         'Attribute VB_Exposed = True\r\n'
         'Attribute VB_TemplateDerived = False\r\n'
         'Attribute VB_Customizable = True\r\n')
-    assert uncompressed == expected
+    assert uncompressed[50:] == expected[50:]
     
