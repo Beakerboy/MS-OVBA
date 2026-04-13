@@ -47,3 +47,12 @@ class ProjectReference():
 
     def _is_windows_path(self: T, path: str) -> bool:
         return path[0] != '/'
+
+    @staticmethod
+    def unpack(byte_data: bytes, codepage: str) -> ProjectReference:
+        if byte_data[:2] != b'*\\':
+            raise ValueError("Incorrect ProjectReference Header")
+        embedded =  byte_data[3] == b'A' or byte_data[3] == b'B'
+        project_path = byte_data[3:].decode(codepage)
+        # Inspect path to verify that it matched the project_kind character
+        return ProjectReference(project_path, embedded)
