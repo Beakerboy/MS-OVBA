@@ -42,11 +42,11 @@ def test_from_bytes() -> None:
     expected = {
         'codepage_name': 'cp1252',
         'compatversion': 3,
-        'constants': ''
+        'constants': '',
         'cookie': 2291,
-        'docstring': ''
+        'docstring': '',
         'help_context_id': 0,
-        'help_file': ''
+        'help_file': '',
         'major_version': 1706951255,
         'minor_version': 17,
         'modules': [{
