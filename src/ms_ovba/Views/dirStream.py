@@ -282,7 +282,8 @@ class DirStream():
                     lib1 = ProjectReference.unpack(
                         stream2.read(size), codepage)
                     size = stream2.read_big_i()
-                    ProjectReference.unpack(stream2.read(size), codepage)  # Lib2
+                    # ToDo: compare this with lib one to verify paths
+                    ProjectReference.unpack(stream2.read(size), codepage)
                     maj = stream2.read_big_i()
                     min = stream2.read_big_i()
                     # Assert lib2 is lib1 but relative
