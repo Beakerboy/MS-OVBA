@@ -28,6 +28,7 @@ class Parameters(TypedDict):
     cookie: int
     codepage_name: str
     compatversion: int
+    constants: str
     docstring: str
     help_file: str
     major_version: int
@@ -134,8 +135,10 @@ class DirStream():
             "references": [],
             "modules": [],
             "help_context_id": 0,
-            "cookie": 0,
             "codepage_name": "cp1252",
+            "Constants": "",
+            "cookie": 0,
+            "help_file": "",
             "major_version": 0,
             "minor_version": 0,
             "name": '',
@@ -206,7 +209,7 @@ class DirStream():
         if record_id != 6 or size > 260 or s2 != size or value != v2:
             raise ValueError(
                 f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
-        project_data["helpfile"] = DirStream.decode(value, codepage)
+        project_data["help_file"] = DirStream.decode(value, codepage)
 
         record_id, size, value = stream.read_id_size_val()
         if record_id != 7 or size != 4:
@@ -220,12 +223,12 @@ class DirStream():
             raise ValueError("Incorrect PROJECTLIBFLAGS")
 
         record_id, size, value = stream.read_id_size_val()
-        v2 = stream.read_big_h()
+        minor_ver = stream.read_big_h()
         if record_id != 9 or size != 4:
             raise ValueError("Incorrect PROJECTVERSION")
         project_data["major_version"] = int.from_bytes(
             value, byteorder='little')
-        project_data["minor_version"] = v2
+        project_data["minor_version"] = minor_ver
 
         record_id, size, value = stream.read_id_size_val()
         r2, s2, v2 = stream.read_id_size_val()
