@@ -282,7 +282,7 @@ class DirStream():
                     lib1 = ProjectReference.unpack(
                         stream2.read(size), codepage)
                     size = stream2.read_big_i()
-                    ProjectReference.unpack(stream2.read(size))  # Lib2
+                    ProjectReference.unpack(stream2.read(size), codepage)  # Lib2
                     maj = stream2.read_big_i()
                     min = stream2.read_big_i()
                     # Assert lib2 is lib1 but relative
