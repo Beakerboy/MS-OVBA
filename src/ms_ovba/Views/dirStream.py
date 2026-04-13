@@ -27,8 +27,13 @@ class Parameters(TypedDict):
     help_context_id: int
     cookie: int
     codepage_name: str
+    compatversion: int
+    docstring: str
+    help_file: str
     major_version: int
     minor_version: int
+    name: str
+    syskind: int
 
 
 class DirStream():
@@ -134,7 +139,9 @@ class DirStream():
             "major_version": 0,
             "minor_version": 0,
             "name": '',
-            "docstring": ''
+            "compatversion": 0,
+            "docstring": '',
+            "syskind": int
         }
         blank_module_data = {
             "type": 0,
@@ -204,7 +211,7 @@ class DirStream():
         record_id, size, value = stream.read_id_size_val()
         if record_id != 7 or size != 4:
             raise ValueError("Incorrect PROJECTHELPCONTEXT")
-        project_data["helpcontext"] = int.from_bytes(value, byteorder='little')
+        project_data["help_context_id"] = int.from_bytes(value, byteorder='little')
 
         record_id, size, value = stream.read_id_size_val()
         int_value = int.from_bytes(value, byteorder='little')
