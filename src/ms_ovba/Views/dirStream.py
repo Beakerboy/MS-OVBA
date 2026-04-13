@@ -243,7 +243,7 @@ class DirStream():
             record_size = 0
             name = ''
             if record_id == 0x16:
-                name = DirStream.decode(value)
+                name = DirStream.decode(value, codepage)
                 # Get Unicode Name
                 record_id, size, value = stream.read_id_size_val()
                 # Get Reference
