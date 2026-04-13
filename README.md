@@ -1,3 +1,4 @@
+[![Python package](https://github.com/Beakerboy/MS-OVBA/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/Beakerboy/MS-OVBA/actions/workflows/python-package.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Beakerboy/MS-OVBA/badge.svg?branch=main)](https://coveralls.io/github/Beakerboy/MS-OVBA?branch=main)
 # MS-OVBA
 Construct and deconstruct the vbaProject.bin that houses VBA code in Microsoft Excel.
