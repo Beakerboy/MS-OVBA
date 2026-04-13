@@ -81,6 +81,7 @@ def test_from_bytes() -> None:
     ms_ovba = MsOvba()
     decompressed_data = ms_ovba.decompress(compressed_data)
     file_data = DirStream.from_bytes(decompressed_data)
-    refs = file_data.pop("references")
+    # refs = file_data.pop("references")
+    file_data.del("references")
     assert file_data == expected
     # ToDo: Check the refs
