@@ -12,6 +12,7 @@ from ms_ovba.Models.Fields.doubleEncodedString import (
 )
 from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Models.Fields.packed_data import PackedData
+from ms_ovba.Models.Fields.project_reference import ProjectReference
 from typing import List, TypedDict, TypeVar
 
 
