@@ -279,7 +279,8 @@ class DirStream():
                 case 0x0e:
                     stream2 = StructIO(value)
                     size = stream2.read_big_i()
-                    lib1 = ProjectReference.unpack(stream2.read(size), codepage)
+                    lib1 = ProjectReference.unpack(
+                        stream2.read(size), codepage)
                     size = stream2.read_big_i()
                     ProjectReference.unpack(stream2.read(size))  # Lib2
                     maj = stream2.read_big_i()
