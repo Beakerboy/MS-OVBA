@@ -136,7 +136,7 @@ class DirStream():
             "modules": [],
             "help_context_id": 0,
             "codepage_name": "cp1252",
-            "Constants": "",
+            "constants": "",
             "cookie": 0,
             "help_file": "",
             "major_version": 0,
@@ -144,7 +144,7 @@ class DirStream():
             "name": '',
             "compatversion": 0,
             "docstring": '',
-            "syskind": int
+            "syskind": 0
         }
         blank_module_data = {
             "type": 0,
@@ -243,7 +243,7 @@ class DirStream():
             record_size = 0
             name = ''
             if record_id == 0x16:
-                name = value
+                name = dirStream.decode(value)
                 # Get Unicode Name
                 record_id, size, value = stream.read_id_size_val()
                 # Get Reference
