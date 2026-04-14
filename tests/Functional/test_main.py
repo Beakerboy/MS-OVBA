@@ -1,7 +1,14 @@
+import os
+import pytest
 from ms_cfb.ole_file import OleFile
 from ms_ovba.__main__ import main
 from ms_ovba_compression.ms_ovba import MsOvba
 from pytest_mock import MockerFixture
+
+@pytest.fixture(autouse=True)
+def run_around_tests() -> None:
+    os.mkdir("./project")
+    yield
 
 
 def test_main(mocker: MockerFixture) -> None:
@@ -9,7 +16,7 @@ def test_main(mocker: MockerFixture) -> None:
         "sys.argv",
         [
             "ms_ovba.py",
-            ".",
+            "./project",
         ],
     )
     main()
