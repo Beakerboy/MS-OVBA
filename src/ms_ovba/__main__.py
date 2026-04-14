@@ -22,7 +22,7 @@ def main() -> None:
     # cd args.output
     # build a list of all bas, cls, frm, and frx files
     bas_files = glob.glob(args.directory + '/**/*.bas', recursive=True)
-    # cls_files = glob.glob('*.cls')
+    cls_files = glob.glob(args.directory + '/**/*.cls', recursive=True)
     # frm_files = glob.glob('*.frm')
     # frx_files = glob.glob('*.frx')
 
@@ -48,6 +48,15 @@ def main() -> None:
 
     # add the files
     for file_path in bas_files:
+        file_name = os.path.basename(file_path)
+        file = os.path.splitext(file_name)
+        code = StdModule(file[0])
+        code.add_file(file_path)
+        code.normalize_file()
+        project.add_module(code)
+
+    # add the files
+    for file_path in cls_files:
         file_name = os.path.basename(file_path)
         file = os.path.splitext(file_name)
         code = StdModule(file[0])

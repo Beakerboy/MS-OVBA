@@ -9,6 +9,7 @@ mock_obj2.modName.value = "Sheet1"
 mock_obj3 = mock.Mock()
 mock_obj3.modName.value = "Module1"
 mock_vbaproject = mock.Mock()
+mock_vbaproject.codepage_name = 'cp1252'
 mock_vbaproject.modules = [mock_obj1, mock_obj2, mock_obj3]
 
 

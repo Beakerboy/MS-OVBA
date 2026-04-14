@@ -1,18 +1,41 @@
 import struct
+import warnings
 from ms_ovba_compression.ms_ovba import MsOvba
 from ms_ovba.vbaProject import VbaProject
+from ms_ovba.struct_io import StructIO
+from ms_ovba.Models.Entities.reference import Reference
+from ms_ovba.Models.Entities.reference_project import ReferenceProject
+from ms_ovba.Models.Entities.reference_registered import ReferenceRegistered
 from ms_ovba.Models.Fields.idSizeField import IdSizeField
 from ms_ovba.Models.Fields.doubleEncodedString import (
     DoubleEncodedString
 )
+from ms_ovba.Models.Fields.libid_reference import LibidReference
 from ms_ovba.Models.Fields.packed_data import PackedData
-from typing import List, TypeVar
+from ms_ovba.Models.Fields.project_reference import ProjectReference
+from typing import List, TypedDict, TypeVar
 
 
 T = TypeVar('T', bound='DirStream')
 
 
 PackableData = DoubleEncodedString | IdSizeField | PackedData
+
+
+class Parameters(TypedDict):
+    references: list[Reference]
+    modules: list
+    help_context_id: int
+    cookie: int
+    codepage_name: str
+    compatversion: int
+    constants: str
+    docstring: str
+    help_file: str
+    major_version: int
+    minor_version: int
+    name: str
+    syskind: int
 
 
 class DirStream():
@@ -93,3 +116,281 @@ class DirStream():
             constants
         ])
         return information
+
+    @staticmethod
+    def is_valid(data: bytes) -> bool:
+        try:
+            DirStream.from_bytes(data)
+        except Exception as e:
+            warnings.warn(str(e), SyntaxWarning)
+            return False
+        return True
+
+    @staticmethod
+    def from_bytes(data: bytes) -> Parameters:
+        """
+        Static validation: Checks if bytes follow the DirStream structure.
+        Expects decompressed bytes.
+        """
+        project_data: Parameters = {
+            "references": [],
+            "modules": [],
+            "help_context_id": 0,
+            "codepage_name": "cp1252",
+            "constants": "",
+            "cookie": 0,
+            "help_file": "",
+            "major_version": 0,
+            "minor_version": 0,
+            "name": '',
+            "compatversion": 0,
+            "docstring": '',
+            "syskind": 0
+        }
+        blank_module_data = {
+            "type": 0,
+            "help_context": 0,
+            "name": '',
+            "stream_name": '',
+            "docstring": '',
+            "offset": 0,
+            "read_only": False,
+            "private": False,
+            "cookie": 0,
+        }
+        offset = 0
+        stream = StructIO(data)
+        # 1. Check PROJECTSYSKIND (Mandatory first record)
+        # IdSizeField(1, 4, 3) -> ID=1 (2 bytes), Size=4 (4 bytes)
+        record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id != 1 or size != 4 or not (0 <= int_value <= 3):
+            raise ValueError("Incorrect PROJECTSYSKIND")
+        project_data["syskind"] = int_value
+
+        record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id == 0x4A:
+            if size != 4:
+                raise ValueError("Incorrect PROJECTCOMPATVERSION")
+            project_data["compatversion"] = int_value
+            record_id, size, value = stream.read_id_size_val()
+            int_value = int.from_bytes(value, byteorder='little')
+
+        if record_id != 2 or size != 4 or int_value != 0x409:
+            raise ValueError(
+                f"Incorrect PROJECTLCID({record_id}), {size}, {int_value}"
+            )
+
+        record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id != 0x14 or size != 4 or int_value != 0x409:
+            raise ValueError("Incorrect PROJECTLCIDINVOKE")
+
+        record_id, size, value = stream.read_id_size_val()
+        if record_id != 3 or size != 2:
+            raise ValueError("Incorrect PROJECTCODEPAGE")
+        codepage = 'cp' + str(int.from_bytes(value, byteorder='little'))
+        project_data["codepage_name"] = codepage
+
+        record_id, size, value = stream.read_id_size_val()
+        if record_id != 4 or not (1 <= size <= 128):
+            raise ValueError("Incorrect PROJECTNAME")
+        project_data["name"] = DirStream.decode(value, codepage)
+
+        record_id, size, value = stream.read_id_size_val()
+        r2, s2, v2 = stream.read_id_size_val()
+        if record_id != 5 or size > 2000 or s2 != 2 * size:
+            raise ValueError(
+                f"Incorrect PROJECTDOCSTRING({record_id}, {size}, {r2}, {s2})")
+        project_data["docstring"] = DirStream.decode(value, codepage)
+
+        record_id, size, value = stream.read_id_size_val()
+        r2, s2, v2 = stream.read_id_size_val()
+        if record_id != 6 or size > 260 or s2 != size or value != v2:
+            raise ValueError(
+                f"Incorrect PROJECTHELPFILEPATH({record_id}, {size}, {s2})")
+        project_data["help_file"] = DirStream.decode(value, codepage)
+
+        record_id, size, value = stream.read_id_size_val()
+        if record_id != 7 or size != 4:
+            raise ValueError("Incorrect PROJECTHELPCONTEXT")
+        project_data["help_context_id"] = int.from_bytes(
+            value, byteorder='little')
+
+        record_id, size, value = stream.read_id_size_val()
+        int_value = int.from_bytes(value, byteorder='little')
+        if record_id != 8 or size != 4 or int_value != 0:
+            raise ValueError("Incorrect PROJECTLIBFLAGS")
+
+        record_id, size, value = stream.read_id_size_val()
+        minor_ver = stream.read_big_h()
+        if record_id != 9 or size != 4:
+            raise ValueError("Incorrect PROJECTVERSION")
+        project_data["major_version"] = int.from_bytes(
+            value, byteorder='little')
+        project_data["minor_version"] = minor_ver
+
+        record_id, size, value = stream.read_id_size_val()
+        r2, s2, v2 = stream.read_id_size_val()
+        if record_id != 0x0c or size > 2015 or s2 != 2 * size:
+            raise ValueError("Incorrect PROJECTCONSTANTS")
+        project_data["constants"] = DirStream.decode(value, codepage)
+
+        record_id, size, value = stream.read_id_size_val()
+        found_one_reference = False
+        while (record_id != 0x0f or not found_one_reference):
+            found_one_reference = True
+            record_size = 0
+            name = ''
+            if record_id == 0x16:
+                name = DirStream.decode(value, codepage)
+                # Get Unicode Name
+                record_id, size, value = stream.read_id_size_val()
+                # Get Reference
+                record_id, size, value = stream.read_id_size_val()
+            match record_id:
+                case 0x2f:
+                    record_size += 6 + size
+                    record_id, size = struct.unpack_from(
+                        "<HI", data, offset + record_size)
+                    if record_id == 0x16:
+                        record_size = 12 + size * 3
+                    record_id, size = struct.unpack_from(
+                        "<HI", data, offset + record_size)
+                    record_size += 6 + size
+                case 0x33:
+                    record_size += 6 + size
+                    record_id, size = struct.unpack_from(
+                        "<HI", data, offset + record_size)
+                    record_size += 6 + size
+                    record_id, size = struct.unpack_from(
+                        "<HI", data, offset + record_size)
+                    if record_id == 0x16:
+                        record_size = 12 + size * 3
+                        record_id, size = struct.unpack_from(
+                            "<HI", data, offset + record_size)
+                        record_size += 6 + size
+                case 0x0d:
+                    stream2 = StructIO(value)
+                    size = stream2.read_big_i()
+                    lib = LibidReference.unpack(stream2.read(size))
+                    ref = Reference(ReferenceRegistered(lib), name)
+                case 0x0e:
+                    stream2 = StructIO(value)
+                    size = stream2.read_big_i()
+                    lib1 = ProjectReference.unpack(
+                        stream2.read(size), codepage)
+                    size = stream2.read_big_i()
+                    # ToDo: compare this with lib one to verify paths
+                    ProjectReference.unpack(stream2.read(size), codepage)
+                    maj = stream2.read_big_i()
+                    min = stream2.read_big_i()
+                    # Assert lib2 is lib1 but relative
+                    if (maj != project_data["major_version"] or
+                            min != project_data["minor_version"]):
+                        raise ValueError(
+                            "Mismatched Version between Project"
+                            "and ReferenceProject")
+                    ref = Reference(ReferenceProject(lib1), name)
+                case _:
+                    raise ValueError(f"Unknown Reference Type: {record_id}")
+            project_data["references"] += [ref]
+            record_id, size, value = stream.read_id_size_val()
+
+        if record_id != 0x0f or size != 2:
+            raise ValueError("Expected ModuleRecord")
+        count = int.from_bytes(value, byteorder='little')
+
+        record_id, size, value = stream.read_id_size_val()
+        if record_id != 0x13 or size != 2:
+            raise ValueError(f"Incorrect PROJECTCOOKIE({record_id}, {size})")
+        project_data["cookie"] = int.from_bytes(value, byteorder='little')
+        for _ in range(count):
+            module_data = blank_module_data.copy()
+            record_id, size, value = stream.read_id_size_val()
+            if record_id != 0x19:
+                raise ValueError(
+                    f"Incorrect MODULENAME({record_id})")
+            module_data["name"] = value.decode(codepage)
+
+            record_id, size, value = stream.read_id_size_val()
+            if record_id != 0x47:
+                raise ValueError(
+                    f"Incorrect MODULENAMEUNICODE({record_id})")
+            # validate sizes and that values match
+
+            record_id, size, value = stream.read_id_size_val()
+            r2, s2, v2 = stream.read_id_size_val()
+            if record_id != 0x1a or s2 != size * 2:
+                raise ValueError(
+                    f"Incorrect MODULESTREAMNAME({record_id}, {size})")
+            module_data["stream_name"] = value.decode(codepage)
+
+            record_id, size, value = stream.read_id_size_val()
+            if record_id != 0x1c:
+                raise ValueError(
+                    f"Incorrect MODULEDOCSTRING({record_id}, {size})")
+            r2, s2, v2 = stream.read_id_size_val()
+            module_data["docstring"] = value.decode(codepage)
+
+            record_id, size, value = stream.read_id_size_val()
+            if record_id != 0x31 or size != 4:
+                raise ValueError(
+                    f"Incorrect MODULEOFFSET({record_id}, {size})")
+            module_data["offset"] = int.from_bytes(value, byteorder='little')
+
+            record_id, size, value = stream.read_id_size_val()
+            if record_id != 0x1e or size != 4:
+                raise ValueError("Incorrect MODULEHELPCONTEXT")
+            module_data["help_context"] = int.from_bytes(value,
+                                                         byteorder='little')
+
+            record_id, size, value = stream.read_id_size_val()
+            if record_id != 0x2c or size != 2:
+                raise ValueError("Incorrect MODULECOOKIE")
+            module_data["cookie"] = int.from_bytes(value, byteorder='little')
+
+            record_id = stream.read_big_h()
+            stream.read_big_i()  # Ignored
+            if not 0x21 <= record_id <= 0x22:
+                raise ValueError("Incorrect MODULETYPE")
+            module_data["type"] = record_id
+
+            record_id = stream.read_big_h()
+            stream.read_big_i()  # Ignored
+            if record_id == 0x25:
+                module_data["read_only"] = True
+                record_id = stream.read_big_h()
+                stream.read_big_i()  # Ignored
+
+            if record_id == 0x28:
+                module_data["private"] = True
+                record_id = stream.read_big_h()
+                stream.read_big_i()  # Ignored
+
+            if record_id != 0x2B:
+                raise ValueError("Incorrect TERMINATOR")
+            project_data["modules"] += [module_data]
+        terminator = stream.read_big_h()
+        if terminator != 16:
+            raise ValueError("Incorrect Terminator")
+        return project_data
+
+    @staticmethod
+    def is_file_valid(file_path: str) -> bool:
+        """Helper to validate a compressed .bin file on disk."""
+        try:
+            with open(file_path, "rb") as f:
+                compressed = f.read()
+            from ms_ovba_compression.ms_ovba import MsOvba
+            decompressed = MsOvba().decompress(compressed)
+            return DirStream.is_valid(decompressed)
+        except Exception:
+            return False
+
+    @staticmethod
+    def decode(data: bytes, cp: str) -> str:
+        if b'\x00' in data:
+            raise ValueError("Data Contains Null Byte")
+        return data.decode(cp, errors='strict')

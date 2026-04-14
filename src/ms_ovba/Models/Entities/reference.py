@@ -32,16 +32,12 @@ class Reference():
         endien_symbol = '<' if endien == 'little' else '>'
         name = ''
         offset = 0
-        id = struct.unpack_from(endien_symbol + "H", data, offset)
+        id, size1 = struct.unpack_from(f"{endien_symbol}HI", data, offset)
         if id == 0x0016:
-            offset += 2
-            size1, = struct.unpack_from(endien_symbol + "I", data, offset)
-            offset += 4
-            format = endien_symbol + size1 + "s"
-            name, = struct.unpack_from(format, data, offset)
-            offset += size1
-            size2 = struct.unpack_from(endien_symbol + "I", data, offset)
-            offset += 4
+            offset += 6
+            format = f"{endien_symbol}{size1}sHI"
+            name, id, size2 = struct.unpack_from(format, data, offset)
+            offset += size1 + 6
             if size2 != size1 * 2:
                 # raise warning
                 pass
