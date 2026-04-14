@@ -5,6 +5,7 @@ from ms_ovba.__main__ import main
 from ms_ovba_compression.ms_ovba import MsOvba
 from pytest_mock import MockerFixture
 
+
 @pytest.fixture(autouse=True)
 def run_around_tests() -> None:
     os.mkdir("./project")
