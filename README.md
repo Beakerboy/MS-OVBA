@@ -1,10 +1,12 @@
+[![Python package](https://github.com/Beakerboy/MS-OVBA/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/Beakerboy/MS-OVBA/actions/workflows/python-package.yml)
 [![Coverage Status](https://coveralls.io/repos/github/Beakerboy/MS-OVBA/badge.svg?branch=main)](https://coveralls.io/github/Beakerboy/MS-OVBA?branch=main)
-# vbaProject-Compiler
-Create a vbaProject.bin file from VBA source files.
-
+# MS-OVBA
+Construct and deconstruct the vbaProject.bin that houses VBA code in Microsoft Excel.
 
 ## Command Line Interface
-Eventually it will be possible to use the CLI to create a vbaProject.bin file from source files and an optional configuration file.
+```bash
+ms_ovba [source directory]
+```
 
 ## VBAProject Class
 The vbaProject class contains all the data and metadata that is used to create the OLE container. It can use this data to create several files, then compress and combine them into an OLE container

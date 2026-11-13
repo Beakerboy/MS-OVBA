@@ -13,7 +13,7 @@ class DocModule(ModuleBase):
     """
     def __init__(self: T, name: str) -> None:
         self.doc_tlib_ver = 0
-        super(DocModule, self).__init__(name)
+        super().__init__(name)
         self.type = "Document"
 
     def to_project_module_string(self: T) -> str:

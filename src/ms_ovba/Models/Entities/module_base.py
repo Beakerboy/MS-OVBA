@@ -54,7 +54,7 @@ class ModuleBase():
 
     def add_guid(self: T, guid: uuid.UUID) -> None:
         """
-        Append a guid to the list
+        Extend the list with the new guid
         """
         self._guids += [guid]
 

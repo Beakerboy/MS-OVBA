@@ -22,7 +22,7 @@ class ReferenceRecord:
             ReferenceOriginal
         )
         endien_symbol = '<' if endien == 'little' else '>'
-        id = struct.unpack(endien_symbol + "H", bytestring)
+        id, = struct.unpack_from(f"{endien_symbol}H", bytestring, 0)
         ref: ReferenceRecord
         if id == 0x000D:
             ref = ReferenceRegistered.unpack(bytestring, endien)
@@ -33,5 +33,5 @@ class ReferenceRecord:
         elif id == 0x0033:
             ref = ReferenceOriginal.unpack(bytestring, endien)
         else:
-            raise Exception("Unknown Reference Type")
+            raise Exception(f"Unknown Reference Type: {id}")
         return ref
