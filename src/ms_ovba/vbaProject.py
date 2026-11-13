@@ -16,7 +16,7 @@ class VbaProject:
 
         # Protected Instance Attributes
         self._codepage_name = 'cp1252'
-        self._project_id = '{}'
+        self._project_id = '{00000000-0000-0000-0000-000000000000}'
         # The first byte of the protection byte string
         self._protection_state = 0
         self._password = ""
